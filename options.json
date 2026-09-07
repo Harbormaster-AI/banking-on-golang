@@ -1,0 +1,68 @@
+{
+    "name": "go",
+    "options": [
+      {
+        "name": "appPort",
+        "value": "8080",
+        "required": "true",
+        "description": "port for Go app to listen on",
+        "type": "input"
+      },
+      {
+        "name": "dbType",
+        "value": "mysql",
+        "selections": "mysql,postgres,sqlite,sqlserver",
+        "required": "true",
+        "description": "supported database types",
+        "type": "select"
+      },
+      {
+        "name": "dbUserName",
+        "value": "",
+        "required": "true",
+        "description": "database user name",
+        "type": "input"
+      },
+      {
+        "name": "dbPassword",
+        "value": "",
+        "required": "true",
+        "description": "database password",
+        "type": "input"
+      },
+      {
+        "name": "dbName",
+        "value": "appdb",
+        "required": "true",
+        "description": "database name",
+        "type": "input"
+      },
+      {
+        "name": "dbHost",
+        "value": "127.0.0.1",
+        "required": "true",
+        "description": "database host",
+        "type": "input"
+      },
+      {
+        "name": "dbPort",
+        "value": "3306",
+        "required": "true",
+        "description": "database port",
+        "type": "input"
+      },
+      {
+        "name": "dbArgs",
+        "value": "charset=utf8&parseTime=True&loc=Local",
+        "required": "true",
+        "description": "database args to append to connection statement",
+        "type": "input"
+      },
+      {
+        "name": "dbDisableForeignKeyConstraintWhenMigrating",
+        "value": "true",
+        "description": "keep to true if model involves associations",
+        "type": "checkbox"
+      }
+    ]
+}

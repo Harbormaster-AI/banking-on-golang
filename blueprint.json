@@ -1,0 +1,55 @@
+{
+
+    "name": "Golang",
+    "shortName": "Go",
+    "summary": "A fundamental blueprint to generate the core capabilities of a Golang system from any domain model.",
+    "description": "Golang is most commonly used to build high-performance microservices, APIs, event-processing systems, cloud-native platforms, and distributed backend services that require scalability, concurrency, and operational simplicity.",
+    "iconUrl": "blueprints/go-blueprint-header-image.png",
+    "infoPageUrl": "http://www.harbormaster.net/go.blueprint",
+    "version": "1.0",
+    "type": "FirstClass",
+    "appType": "webapp",
+    "releaseStatus": "production",
+    "techSourceType": "opensource",
+    "derivedFrom": "go-core",
+    "majorTechnology" : "Golang",
+    "published": "true",
+    "category": "language_runtime",
+    "primaryVendor": "Golang",
+    "designPattern": "Repository",
+    "architectureStyle": "Microservices",
+    "useCases": "REST API Platform,Microservice Template,Event Processor,Kafka Consumer Service,API Gateway,Real-Time Notification Service,Marketplace Backend,Financial Transaction Service,Streaming Analytics Service,Cloud-Native SaaS Backend",
+    "architecturePreviewUrl": "blueprints/architecture.diagrams/golang-blueprint-system-diagram.png",
+    "metadata": "golang,microservices,cloud native,kafka,postgresql,redis,rest api,grpc,docker,kubernetes,event-driven,cqrs,high throughput,low latency",
+      "languages": {
+        "language": [
+        {
+          "name": "go",
+          "version": "1.22"
+        },
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    "techStack": {
+      "techStackComponents": [
+        {
+          "tech": "Golang",
+          "description": "full featured backend platform",
+          "appLayerType": "backend"
+        },
+        {
+          "tech": "RDBMS",
+          "description": "mysql,postgres,sqlite,sqlserver",
+          "appLayerType": "data"
+        },
+        {
+          "tech": "MongoDB",
+          "description": "Document based persistence",
+          "appLayerType": "data"
+        }
+      ]
+    }
+
+}
