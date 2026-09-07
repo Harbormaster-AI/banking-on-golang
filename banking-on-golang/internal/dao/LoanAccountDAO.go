@@ -1,8 +1,8 @@
 package dao
 
 import (
-    "bankingongolang/internal/model"
-    "bankingongolang/internal/utils"
+    "banking-on-golang/internal/model"
+    "banking-on-golang/internal/utils"
     "fmt"
     "strings"
 )

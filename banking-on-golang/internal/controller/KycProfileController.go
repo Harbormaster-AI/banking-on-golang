@@ -1,9 +1,9 @@
 package controller
 
 import (
-    KycProfileDAO "bankingongolang/internal/dao"
-    "bankingongolang/internal/model"
-    "bankingongolang/internal/utils"
+    KycProfileDAO "banking-on-golang/internal/dao"
+    "banking-on-golang/internal/model"
+    "banking-on-golang/internal/utils"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"

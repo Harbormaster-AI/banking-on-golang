@@ -1,9 +1,9 @@
 package controller
 
 import (
-    AccountDAO "bankingongolang/internal/dao"
-    "bankingongolang/internal/model"
-    "bankingongolang/internal/utils"
+    AccountDAO "banking-on-golang/internal/dao"
+    "banking-on-golang/internal/model"
+    "banking-on-golang/internal/utils"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
