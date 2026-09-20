@@ -1,68 +1,49 @@
-{
-    "name": "go",
+  {
+    "name": "application",
     "options": [
       {
-        "name": "appPort",
-        "value": "8080",
+        "name": "name",
+        "value": "demo",
         "required": "true",
-        "description": "port for Go app to listen on",
+        "description": "app display name",
         "type": "input"
       },
       {
-        "name": "dbType",
-        "value": "mysql",
-        "selections": "mysql,postgres,sqlite,sqlserver",
-        "required": "true",
-        "description": "supported database types",
-        "type": "select"
-      },
-      {
-        "name": "dbUserName",
-        "value": "",
-        "required": "true",
-        "description": "database user name",
+        "name": "description",
+        "value": "a demonstration app",
+        "required": "false",
+        "description": "app description",
         "type": "input"
       },
       {
-        "name": "dbPassword",
-        "value": "",
-        "required": "true",
-        "description": "database password",
+        "name": "author",
+        "value": "your_name_here",
+        "required": "false",
+        "description": "app's author",
         "type": "input"
       },
       {
-        "name": "dbName",
-        "value": "appdb",
+        "name": "company name",
+        "value": "Global Bank",
         "required": "true",
-        "description": "database name",
+        "modifiable": "false",
+        "description": "your company name",
         "type": "input"
       },
       {
-        "name": "dbHost",
-        "value": "127.0.0.1",
+        "name": "version",
+        "value": "1.0.0",
         "required": "true",
-        "description": "database host",
+        "description": "app version",
         "type": "input"
       },
       {
-        "name": "dbPort",
-        "value": "3306",
+        "name": "package name",
+        "value": "com.globalbank",
+        "modifiable": "false",
         "required": "true",
-        "description": "database port",
+        "description": "package prefix to apply(com.xyz format)",
         "type": "input"
-      },
-      {
-        "name": "dbArgs",
-        "value": "charset=utf8&parseTime=True&loc=Local",
-        "required": "true",
-        "description": "database args to append to connection statement",
-        "type": "input"
-      },
-      {
-        "name": "dbDisableForeignKeyConstraintWhenMigrating",
-        "value": "true",
-        "description": "keep to true if model involves associations",
-        "type": "checkbox"
       }
     ]
-}
+  }
