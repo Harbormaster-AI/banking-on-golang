@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // KycProfile Declaration
 //==============================================================
 type KycProfile struct {
-    gorm.Model
+    BaseModel
      ProfileId            string
     LastReviewedOn            time.Time
     CustomerId         *uint

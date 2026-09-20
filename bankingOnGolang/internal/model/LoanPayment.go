@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // LoanPayment Declaration
 //==============================================================
 type LoanPayment struct {
-    gorm.Model
+    BaseModel
      PaymentReference            string
     Amount            Money
     PaymentDate            time.Time

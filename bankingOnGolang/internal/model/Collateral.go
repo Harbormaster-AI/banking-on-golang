@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Collateral Declaration
 //==============================================================
 type Collateral struct {
-    gorm.Model
+    BaseModel
      CollateralIdentifier            string
     AppraisedValue            Money
     Description            string

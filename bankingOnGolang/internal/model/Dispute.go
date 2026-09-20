@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Dispute Declaration
 //==============================================================
 type Dispute struct {
-    gorm.Model
+    BaseModel
      DisputeReference            string
     RaisedOn            time.Time
     Reason            string

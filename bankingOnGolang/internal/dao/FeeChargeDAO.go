@@ -45,7 +45,7 @@ func CreateFeeCharge(obj model.FeeCharge)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetFeeCharge - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetFeeCharge(id uint64)(utils.RequestResult){
+func GetFeeCharge(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateFeeCharge(obj model.FeeCharge)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteFeeCharge - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteFeeCharge(id uint64)(requestResult utils.RequestResult){
+func DeleteFeeCharge(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteFeeCharge(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Account on a FeeCharge
 //----------------------------------------------------------------------------
-func AssignAccountToFeeCharge( feeChargeId uint64, accountId uint64 )(utils.RequestResult){
+func AssignAccountToFeeCharge( feeChargeId UUID, accountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FeeCharge with the matching identifier
@@ -225,7 +225,7 @@ func AssignAccountToFeeCharge( feeChargeId uint64, accountId uint64 )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a Account on a FeeCharge
 //----------------------------------------------------------------------------
-func UnassignAccountFromFeeCharge(feeChargeId uint64)(utils.RequestResult) {
+func UnassignAccountFromFeeCharge(feeChargeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FeeCharge with the matching identifier
@@ -263,7 +263,7 @@ func UnassignAccountFromFeeCharge(feeChargeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a LoanAccount on a FeeCharge
 //----------------------------------------------------------------------------
-func AssignLoanAccountToFeeCharge( feeChargeId uint64, loanAccountId uint64 )(utils.RequestResult){
+func AssignLoanAccountToFeeCharge( feeChargeId UUID, loanAccountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FeeCharge with the matching identifier
@@ -310,7 +310,7 @@ func AssignLoanAccountToFeeCharge( feeChargeId uint64, loanAccountId uint64 )(ut
 //----------------------------------------------------------------------------
 // unassigns a LoanAccount on a FeeCharge
 //----------------------------------------------------------------------------
-func UnassignLoanAccountFromFeeCharge(feeChargeId uint64)(utils.RequestResult) {
+func UnassignLoanAccountFromFeeCharge(feeChargeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FeeCharge with the matching identifier

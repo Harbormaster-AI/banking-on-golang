@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // IdentityDocument Declaration
 //==============================================================
 type IdentityDocument struct {
-    gorm.Model
+    BaseModel
      DocumentNumber            string
     IssuingCountry            string
     ExpirationDate            time.Time

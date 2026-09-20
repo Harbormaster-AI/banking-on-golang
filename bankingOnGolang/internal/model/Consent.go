@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Consent Declaration
 //==============================================================
 type Consent struct {
-    gorm.Model
+    BaseModel
      GrantedOn            time.Time
     ExpiresOn            time.Time
     CustomerId         *uint

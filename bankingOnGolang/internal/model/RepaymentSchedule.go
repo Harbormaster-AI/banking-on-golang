@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // RepaymentSchedule Declaration
 //==============================================================
 type RepaymentSchedule struct {
-    gorm.Model
+    BaseModel
      InstallmentNumber            int32
     DueDate            time.Time
     PrincipalDue            Money

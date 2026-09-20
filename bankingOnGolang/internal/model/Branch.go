@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Branch Declaration
 //==============================================================
 type Branch struct {
-    gorm.Model
+    BaseModel
      Name            string
     BranchCode            string
     Address            Address

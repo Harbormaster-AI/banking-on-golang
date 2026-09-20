@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // FeeCharge Declaration
 //==============================================================
 type FeeCharge struct {
-    gorm.Model
+    BaseModel
      FeeCode            string
     Amount            Money
     AppliedOn            time.Time

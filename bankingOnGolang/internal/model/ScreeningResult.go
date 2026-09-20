@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // ScreeningResult Declaration
 //==============================================================
 type ScreeningResult struct {
-    gorm.Model
+    BaseModel
      ScreeningDate            time.Time
     Provider            string
     KycProfileId         *uint

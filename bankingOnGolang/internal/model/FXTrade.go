@@ -4,14 +4,13 @@ package model
 import (
     "time"
     "github.com/shopspring/decimal"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // FXTrade Declaration
 //==============================================================
 type FXTrade struct {
-    gorm.Model
+    BaseModel
      TradeReference            string
     TradeDate            time.Time
     SettlementDate            time.Time

@@ -45,7 +45,7 @@ func CreateStandingInstruction(obj model.StandingInstruction)(utils.RequestResul
 //----------------------------------------------------------------------------
 // GetStandingInstruction - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetStandingInstruction(id uint64)(utils.RequestResult){
+func GetStandingInstruction(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateStandingInstruction(obj model.StandingInstruction)(requestResult util
 //----------------------------------------------------------------------------
 // DeleteStandingInstruction - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteStandingInstruction(id uint64)(requestResult utils.RequestResult){
+func DeleteStandingInstruction(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteStandingInstruction(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Account on a StandingInstruction
 //----------------------------------------------------------------------------
-func AssignAccountToStandingInstruction( standingInstructionId uint64, accountId uint64 )(utils.RequestResult){
+func AssignAccountToStandingInstruction( standingInstructionId UUID, accountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the StandingInstruction with the matching identifier
@@ -225,7 +225,7 @@ func AssignAccountToStandingInstruction( standingInstructionId uint64, accountId
 //----------------------------------------------------------------------------
 // unassigns a Account on a StandingInstruction
 //----------------------------------------------------------------------------
-func UnassignAccountFromStandingInstruction(standingInstructionId uint64)(utils.RequestResult) {
+func UnassignAccountFromStandingInstruction(standingInstructionId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the StandingInstruction with the matching identifier
@@ -263,7 +263,7 @@ func UnassignAccountFromStandingInstruction(standingInstructionId uint64)(utils.
 //----------------------------------------------------------------------------
 // assigns a Beneficiary on a StandingInstruction
 //----------------------------------------------------------------------------
-func AssignBeneficiaryToStandingInstruction( standingInstructionId uint64, beneficiaryId uint64 )(utils.RequestResult){
+func AssignBeneficiaryToStandingInstruction( standingInstructionId UUID, beneficiaryId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the StandingInstruction with the matching identifier
@@ -310,7 +310,7 @@ func AssignBeneficiaryToStandingInstruction( standingInstructionId uint64, benef
 //----------------------------------------------------------------------------
 // unassigns a Beneficiary on a StandingInstruction
 //----------------------------------------------------------------------------
-func UnassignBeneficiaryFromStandingInstruction(standingInstructionId uint64)(utils.RequestResult) {
+func UnassignBeneficiaryFromStandingInstruction(standingInstructionId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the StandingInstruction with the matching identifier

@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Account Declaration
 //==============================================================
 type Account struct {
-    gorm.Model
+    BaseModel
      AccountNumber            AccountNumber
     Iban            IBAN
     AccountName            string

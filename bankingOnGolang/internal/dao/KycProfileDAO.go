@@ -45,7 +45,7 @@ func CreateKycProfile(obj model.KycProfile)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetKycProfile - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetKycProfile(id uint64)(utils.RequestResult){
+func GetKycProfile(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateKycProfile(obj model.KycProfile)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteKycProfile - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteKycProfile(id uint64)(requestResult utils.RequestResult){
+func DeleteKycProfile(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteKycProfile(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Customer on a KycProfile
 //----------------------------------------------------------------------------
-func AssignCustomerToKycProfile( kycProfileId uint64, customerId uint64 )(utils.RequestResult){
+func AssignCustomerToKycProfile( kycProfileId UUID, customerId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
@@ -225,7 +225,7 @@ func AssignCustomerToKycProfile( kycProfileId uint64, customerId uint64 )(utils.
 //----------------------------------------------------------------------------
 // unassigns a Customer on a KycProfile
 //----------------------------------------------------------------------------
-func UnassignCustomerFromKycProfile(kycProfileId uint64)(utils.RequestResult) {
+func UnassignCustomerFromKycProfile(kycProfileId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
@@ -264,7 +264,7 @@ func UnassignCustomerFromKycProfile(kycProfileId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more identityDocumentsIds as a IdentityDocuments to a KycProfile
 //----------------------------------------------------------------------------
-func AddIdentityDocumentsToKycProfile ( kycProfileId uint64, identityDocumentsIds string )(utils.RequestResult) {
+func AddIdentityDocumentsToKycProfile ( kycProfileId UUID, identityDocumentsIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
@@ -318,7 +318,7 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uint64, identityDocumentsId
 //----------------------------------------------------------------------------
 // removes one or more identityDocumentsIds as a IdentityDocuments from a KycProfile
 //----------------------------------------------------------------------------
-func RemoveIdentityDocumentsFromKycProfile( kycProfileId uint64, identityDocumentsIds string )(utils.RequestResult) {
+func RemoveIdentityDocumentsFromKycProfile( kycProfileId UUID, identityDocumentsIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
 	//----------------------------------------------------------------------------
@@ -371,7 +371,7 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uint64, identityDocumen
 //----------------------------------------------------------------------------
 // adds one or more riskAssessmentsIds as a RiskAssessments to a KycProfile
 //----------------------------------------------------------------------------
-func AddRiskAssessmentsToKycProfile ( kycProfileId uint64, riskAssessmentsIds string )(utils.RequestResult) {
+func AddRiskAssessmentsToKycProfile ( kycProfileId UUID, riskAssessmentsIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
@@ -425,7 +425,7 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uint64, riskAssessmentsIds st
 //----------------------------------------------------------------------------
 // removes one or more riskAssessmentsIds as a RiskAssessments from a KycProfile
 //----------------------------------------------------------------------------
-func RemoveRiskAssessmentsFromKycProfile( kycProfileId uint64, riskAssessmentsIds string )(utils.RequestResult) {
+func RemoveRiskAssessmentsFromKycProfile( kycProfileId UUID, riskAssessmentsIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
 	//----------------------------------------------------------------------------
@@ -478,7 +478,7 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uint64, riskAssessmentsId
 //----------------------------------------------------------------------------
 // adds one or more screeningsIds as a Screenings to a KycProfile
 //----------------------------------------------------------------------------
-func AddScreeningsToKycProfile ( kycProfileId uint64, screeningsIds string )(utils.RequestResult) {
+func AddScreeningsToKycProfile ( kycProfileId UUID, screeningsIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
@@ -532,7 +532,7 @@ func AddScreeningsToKycProfile ( kycProfileId uint64, screeningsIds string )(uti
 //----------------------------------------------------------------------------
 // removes one or more screeningsIds as a Screenings from a KycProfile
 //----------------------------------------------------------------------------
-func RemoveScreeningsFromKycProfile( kycProfileId uint64, screeningsIds string )(utils.RequestResult) {
+func RemoveScreeningsFromKycProfile( kycProfileId UUID, screeningsIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the KycProfile with the matching identifier
 	//----------------------------------------------------------------------------

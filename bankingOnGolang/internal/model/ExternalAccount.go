@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // ExternalAccount Declaration
 //==============================================================
 type ExternalAccount struct {
-    gorm.Model
+    BaseModel
      Name            string
     Iban            IBAN
     AccountNumber            AccountNumber

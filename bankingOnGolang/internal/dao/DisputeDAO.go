@@ -45,7 +45,7 @@ func CreateDispute(obj model.Dispute)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetDispute - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetDispute(id uint64)(utils.RequestResult){
+func GetDispute(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateDispute(obj model.Dispute)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteDispute - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteDispute(id uint64)(requestResult utils.RequestResult){
+func DeleteDispute(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteDispute(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Transaction on a Dispute
 //----------------------------------------------------------------------------
-func AssignTransactionToDispute( disputeId uint64, transactionId uint64 )(utils.RequestResult){
+func AssignTransactionToDispute( disputeId UUID, transactionId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -225,7 +225,7 @@ func AssignTransactionToDispute( disputeId uint64, transactionId uint64 )(utils.
 //----------------------------------------------------------------------------
 // unassigns a Transaction on a Dispute
 //----------------------------------------------------------------------------
-func UnassignTransactionFromDispute(disputeId uint64)(utils.RequestResult) {
+func UnassignTransactionFromDispute(disputeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -263,7 +263,7 @@ func UnassignTransactionFromDispute(disputeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Customer on a Dispute
 //----------------------------------------------------------------------------
-func AssignCustomerToDispute( disputeId uint64, customerId uint64 )(utils.RequestResult){
+func AssignCustomerToDispute( disputeId UUID, customerId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -310,7 +310,7 @@ func AssignCustomerToDispute( disputeId uint64, customerId uint64 )(utils.Reques
 //----------------------------------------------------------------------------
 // unassigns a Customer on a Dispute
 //----------------------------------------------------------------------------
-func UnassignCustomerFromDispute(disputeId uint64)(utils.RequestResult) {
+func UnassignCustomerFromDispute(disputeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -348,7 +348,7 @@ func UnassignCustomerFromDispute(disputeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Account on a Dispute
 //----------------------------------------------------------------------------
-func AssignAccountToDispute( disputeId uint64, accountId uint64 )(utils.RequestResult){
+func AssignAccountToDispute( disputeId UUID, accountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -395,7 +395,7 @@ func AssignAccountToDispute( disputeId uint64, accountId uint64 )(utils.RequestR
 //----------------------------------------------------------------------------
 // unassigns a Account on a Dispute
 //----------------------------------------------------------------------------
-func UnassignAccountFromDispute(disputeId uint64)(utils.RequestResult) {
+func UnassignAccountFromDispute(disputeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -433,7 +433,7 @@ func UnassignAccountFromDispute(disputeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a PaymentCard on a Dispute
 //----------------------------------------------------------------------------
-func AssignPaymentCardToDispute( disputeId uint64, paymentCardId uint64 )(utils.RequestResult){
+func AssignPaymentCardToDispute( disputeId UUID, paymentCardId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier
@@ -480,7 +480,7 @@ func AssignPaymentCardToDispute( disputeId uint64, paymentCardId uint64 )(utils.
 //----------------------------------------------------------------------------
 // unassigns a PaymentCard on a Dispute
 //----------------------------------------------------------------------------
-func UnassignPaymentCardFromDispute(disputeId uint64)(utils.RequestResult) {
+func UnassignPaymentCardFromDispute(disputeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Dispute with the matching identifier

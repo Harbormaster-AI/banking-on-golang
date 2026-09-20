@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // PaymentCard Declaration
 //==============================================================
 type PaymentCard struct {
-    gorm.Model
+    BaseModel
      CardNumber            CardPAN
     EmbossedName            string
     ExpiryMonth            int32

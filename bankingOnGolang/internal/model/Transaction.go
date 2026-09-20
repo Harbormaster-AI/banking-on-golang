@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Transaction Declaration
 //==============================================================
 type Transaction struct {
-    gorm.Model
+    BaseModel
      BookingDate            time.Time
     ValueDate            time.Time
     Amount            Money

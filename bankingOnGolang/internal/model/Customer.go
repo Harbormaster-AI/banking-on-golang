@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Customer Declaration
 //==============================================================
 type Customer struct {
-    gorm.Model
+    BaseModel
      FirstName            string
     LastName            string
     LegalName            string

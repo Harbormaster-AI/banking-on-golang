@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // RiskAssessment Declaration
 //==============================================================
 type RiskAssessment struct {
-    gorm.Model
+    BaseModel
      Score            int32
     AssessedOn            time.Time
     KycProfileId         *uint

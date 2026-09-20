@@ -45,7 +45,7 @@ func CreateATM(obj model.ATM)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetATM - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetATM(id uint64)(utils.RequestResult){
+func GetATM(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateATM(obj model.ATM)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteATM - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteATM(id uint64)(requestResult utils.RequestResult){
+func DeleteATM(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteATM(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Branch on a ATM
 //----------------------------------------------------------------------------
-func AssignBranchToATM( aTMId uint64, branchId uint64 )(utils.RequestResult){
+func AssignBranchToATM( aTMId UUID, branchId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the ATM with the matching identifier
@@ -225,7 +225,7 @@ func AssignBranchToATM( aTMId uint64, branchId uint64 )(utils.RequestResult){
 //----------------------------------------------------------------------------
 // unassigns a Branch on a ATM
 //----------------------------------------------------------------------------
-func UnassignBranchFromATM(aTMId uint64)(utils.RequestResult) {
+func UnassignBranchFromATM(aTMId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ATM with the matching identifier

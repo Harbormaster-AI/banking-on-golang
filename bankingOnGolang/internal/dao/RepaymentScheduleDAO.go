@@ -45,7 +45,7 @@ func CreateRepaymentSchedule(obj model.RepaymentSchedule)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetRepaymentSchedule - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetRepaymentSchedule(id uint64)(utils.RequestResult){
+func GetRepaymentSchedule(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateRepaymentSchedule(obj model.RepaymentSchedule)(requestResult utils.Re
 //----------------------------------------------------------------------------
 // DeleteRepaymentSchedule - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteRepaymentSchedule(id uint64)(requestResult utils.RequestResult){
+func DeleteRepaymentSchedule(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteRepaymentSchedule(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a LoanAccount on a RepaymentSchedule
 //----------------------------------------------------------------------------
-func AssignLoanAccountToRepaymentSchedule( repaymentScheduleId uint64, loanAccountId uint64 )(utils.RequestResult){
+func AssignLoanAccountToRepaymentSchedule( repaymentScheduleId UUID, loanAccountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the RepaymentSchedule with the matching identifier
@@ -225,7 +225,7 @@ func AssignLoanAccountToRepaymentSchedule( repaymentScheduleId uint64, loanAccou
 //----------------------------------------------------------------------------
 // unassigns a LoanAccount on a RepaymentSchedule
 //----------------------------------------------------------------------------
-func UnassignLoanAccountFromRepaymentSchedule(repaymentScheduleId uint64)(utils.RequestResult) {
+func UnassignLoanAccountFromRepaymentSchedule(repaymentScheduleId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the RepaymentSchedule with the matching identifier
@@ -263,7 +263,7 @@ func UnassignLoanAccountFromRepaymentSchedule(repaymentScheduleId uint64)(utils.
 //----------------------------------------------------------------------------
 // assigns a Payment on a RepaymentSchedule
 //----------------------------------------------------------------------------
-func AssignPaymentToRepaymentSchedule( repaymentScheduleId uint64, paymentId uint64 )(utils.RequestResult){
+func AssignPaymentToRepaymentSchedule( repaymentScheduleId UUID, paymentId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the RepaymentSchedule with the matching identifier
@@ -310,7 +310,7 @@ func AssignPaymentToRepaymentSchedule( repaymentScheduleId uint64, paymentId uin
 //----------------------------------------------------------------------------
 // unassigns a Payment on a RepaymentSchedule
 //----------------------------------------------------------------------------
-func UnassignPaymentFromRepaymentSchedule(repaymentScheduleId uint64)(utils.RequestResult) {
+func UnassignPaymentFromRepaymentSchedule(repaymentScheduleId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the RepaymentSchedule with the matching identifier

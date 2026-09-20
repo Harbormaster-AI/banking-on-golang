@@ -45,7 +45,7 @@ func CreateLoanPayment(obj model.LoanPayment)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetLoanPayment - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetLoanPayment(id uint64)(utils.RequestResult){
+func GetLoanPayment(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateLoanPayment(obj model.LoanPayment)(requestResult utils.RequestResult)
 //----------------------------------------------------------------------------
 // DeleteLoanPayment - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteLoanPayment(id uint64)(requestResult utils.RequestResult){
+func DeleteLoanPayment(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteLoanPayment(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a LoanAccount on a LoanPayment
 //----------------------------------------------------------------------------
-func AssignLoanAccountToLoanPayment( loanPaymentId uint64, loanAccountId uint64 )(utils.RequestResult){
+func AssignLoanAccountToLoanPayment( loanPaymentId UUID, loanAccountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanPayment with the matching identifier
@@ -225,7 +225,7 @@ func AssignLoanAccountToLoanPayment( loanPaymentId uint64, loanAccountId uint64 
 //----------------------------------------------------------------------------
 // unassigns a LoanAccount on a LoanPayment
 //----------------------------------------------------------------------------
-func UnassignLoanAccountFromLoanPayment(loanPaymentId uint64)(utils.RequestResult) {
+func UnassignLoanAccountFromLoanPayment(loanPaymentId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanPayment with the matching identifier
@@ -263,7 +263,7 @@ func UnassignLoanAccountFromLoanPayment(loanPaymentId uint64)(utils.RequestResul
 //----------------------------------------------------------------------------
 // assigns a Transaction on a LoanPayment
 //----------------------------------------------------------------------------
-func AssignTransactionToLoanPayment( loanPaymentId uint64, transactionId uint64 )(utils.RequestResult){
+func AssignTransactionToLoanPayment( loanPaymentId UUID, transactionId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanPayment with the matching identifier
@@ -310,7 +310,7 @@ func AssignTransactionToLoanPayment( loanPaymentId uint64, transactionId uint64 
 //----------------------------------------------------------------------------
 // unassigns a Transaction on a LoanPayment
 //----------------------------------------------------------------------------
-func UnassignTransactionFromLoanPayment(loanPaymentId uint64)(utils.RequestResult) {
+func UnassignTransactionFromLoanPayment(loanPaymentId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanPayment with the matching identifier

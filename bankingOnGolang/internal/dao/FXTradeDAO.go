@@ -45,7 +45,7 @@ func CreateFXTrade(obj model.FXTrade)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetFXTrade - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetFXTrade(id uint64)(utils.RequestResult){
+func GetFXTrade(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateFXTrade(obj model.FXTrade)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteFXTrade - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteFXTrade(id uint64)(requestResult utils.RequestResult){
+func DeleteFXTrade(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteFXTrade(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Customer on a FXTrade
 //----------------------------------------------------------------------------
-func AssignCustomerToFXTrade( fXTradeId uint64, customerId uint64 )(utils.RequestResult){
+func AssignCustomerToFXTrade( fXTradeId UUID, customerId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -225,7 +225,7 @@ func AssignCustomerToFXTrade( fXTradeId uint64, customerId uint64 )(utils.Reques
 //----------------------------------------------------------------------------
 // unassigns a Customer on a FXTrade
 //----------------------------------------------------------------------------
-func UnassignCustomerFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
+func UnassignCustomerFromFXTrade(fXTradeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -263,7 +263,7 @@ func UnassignCustomerFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Bank on a FXTrade
 //----------------------------------------------------------------------------
-func AssignBankToFXTrade( fXTradeId uint64, bankId uint64 )(utils.RequestResult){
+func AssignBankToFXTrade( fXTradeId UUID, bankId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -310,7 +310,7 @@ func AssignBankToFXTrade( fXTradeId uint64, bankId uint64 )(utils.RequestResult)
 //----------------------------------------------------------------------------
 // unassigns a Bank on a FXTrade
 //----------------------------------------------------------------------------
-func UnassignBankFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
+func UnassignBankFromFXTrade(fXTradeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -348,7 +348,7 @@ func UnassignBankFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a ExchangeRate on a FXTrade
 //----------------------------------------------------------------------------
-func AssignExchangeRateToFXTrade( fXTradeId uint64, exchangeRateId uint64 )(utils.RequestResult){
+func AssignExchangeRateToFXTrade( fXTradeId UUID, exchangeRateId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -395,7 +395,7 @@ func AssignExchangeRateToFXTrade( fXTradeId uint64, exchangeRateId uint64 )(util
 //----------------------------------------------------------------------------
 // unassigns a ExchangeRate on a FXTrade
 //----------------------------------------------------------------------------
-func UnassignExchangeRateFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
+func UnassignExchangeRateFromFXTrade(fXTradeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -433,7 +433,7 @@ func UnassignExchangeRateFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a SourceAccount on a FXTrade
 //----------------------------------------------------------------------------
-func AssignSourceAccountToFXTrade( fXTradeId uint64, sourceAccountId uint64 )(utils.RequestResult){
+func AssignSourceAccountToFXTrade( fXTradeId UUID, sourceAccountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -480,7 +480,7 @@ func AssignSourceAccountToFXTrade( fXTradeId uint64, sourceAccountId uint64 )(ut
 //----------------------------------------------------------------------------
 // unassigns a SourceAccount on a FXTrade
 //----------------------------------------------------------------------------
-func UnassignSourceAccountFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
+func UnassignSourceAccountFromFXTrade(fXTradeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -518,7 +518,7 @@ func UnassignSourceAccountFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a DestinationAccount on a FXTrade
 //----------------------------------------------------------------------------
-func AssignDestinationAccountToFXTrade( fXTradeId uint64, destinationAccountId uint64 )(utils.RequestResult){
+func AssignDestinationAccountToFXTrade( fXTradeId UUID, destinationAccountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -565,7 +565,7 @@ func AssignDestinationAccountToFXTrade( fXTradeId uint64, destinationAccountId u
 //----------------------------------------------------------------------------
 // unassigns a DestinationAccount on a FXTrade
 //----------------------------------------------------------------------------
-func UnassignDestinationAccountFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
+func UnassignDestinationAccountFromFXTrade(fXTradeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -603,7 +603,7 @@ func UnassignDestinationAccountFromFXTrade(fXTradeId uint64)(utils.RequestResult
 //----------------------------------------------------------------------------
 // assigns a Transaction on a FXTrade
 //----------------------------------------------------------------------------
-func AssignTransactionToFXTrade( fXTradeId uint64, transactionId uint64 )(utils.RequestResult){
+func AssignTransactionToFXTrade( fXTradeId UUID, transactionId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier
@@ -650,7 +650,7 @@ func AssignTransactionToFXTrade( fXTradeId uint64, transactionId uint64 )(utils.
 //----------------------------------------------------------------------------
 // unassigns a Transaction on a FXTrade
 //----------------------------------------------------------------------------
-func UnassignTransactionFromFXTrade(fXTradeId uint64)(utils.RequestResult) {
+func UnassignTransactionFromFXTrade(fXTradeId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FXTrade with the matching identifier

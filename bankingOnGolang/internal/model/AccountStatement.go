@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // AccountStatement Declaration
 //==============================================================
 type AccountStatement struct {
-    gorm.Model
+    BaseModel
      StatementNumber            string
     PeriodStart            time.Time
     PeriodEnd            time.Time

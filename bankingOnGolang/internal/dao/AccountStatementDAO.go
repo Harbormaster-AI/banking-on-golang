@@ -45,7 +45,7 @@ func CreateAccountStatement(obj model.AccountStatement)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetAccountStatement - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetAccountStatement(id uint64)(utils.RequestResult){
+func GetAccountStatement(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateAccountStatement(obj model.AccountStatement)(requestResult utils.Requ
 //----------------------------------------------------------------------------
 // DeleteAccountStatement - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteAccountStatement(id uint64)(requestResult utils.RequestResult){
+func DeleteAccountStatement(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteAccountStatement(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Account on a AccountStatement
 //----------------------------------------------------------------------------
-func AssignAccountToAccountStatement( accountStatementId uint64, accountId uint64 )(utils.RequestResult){
+func AssignAccountToAccountStatement( accountStatementId UUID, accountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the AccountStatement with the matching identifier
@@ -225,7 +225,7 @@ func AssignAccountToAccountStatement( accountStatementId uint64, accountId uint6
 //----------------------------------------------------------------------------
 // unassigns a Account on a AccountStatement
 //----------------------------------------------------------------------------
-func UnassignAccountFromAccountStatement(accountStatementId uint64)(utils.RequestResult) {
+func UnassignAccountFromAccountStatement(accountStatementId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the AccountStatement with the matching identifier

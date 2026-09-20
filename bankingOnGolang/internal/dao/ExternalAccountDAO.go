@@ -45,7 +45,7 @@ func CreateExternalAccount(obj model.ExternalAccount)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetExternalAccount - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetExternalAccount(id uint64)(utils.RequestResult){
+func GetExternalAccount(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateExternalAccount(obj model.ExternalAccount)(requestResult utils.Reques
 //----------------------------------------------------------------------------
 // DeleteExternalAccount - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteExternalAccount(id uint64)(requestResult utils.RequestResult){
+func DeleteExternalAccount(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteExternalAccount(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Customer on a ExternalAccount
 //----------------------------------------------------------------------------
-func AssignCustomerToExternalAccount( externalAccountId uint64, customerId uint64 )(utils.RequestResult){
+func AssignCustomerToExternalAccount( externalAccountId UUID, customerId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -225,7 +225,7 @@ func AssignCustomerToExternalAccount( externalAccountId uint64, customerId uint6
 //----------------------------------------------------------------------------
 // unassigns a Customer on a ExternalAccount
 //----------------------------------------------------------------------------
-func UnassignCustomerFromExternalAccount(externalAccountId uint64)(utils.RequestResult) {
+func UnassignCustomerFromExternalAccount(externalAccountId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -264,7 +264,7 @@ func UnassignCustomerFromExternalAccount(externalAccountId uint64)(utils.Request
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a ExternalAccount
 //----------------------------------------------------------------------------
-func AddTransactionsToExternalAccount ( externalAccountId uint64, transactionsIds string )(utils.RequestResult) {
+func AddTransactionsToExternalAccount ( externalAccountId UUID, transactionsIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -318,7 +318,7 @@ func AddTransactionsToExternalAccount ( externalAccountId uint64, transactionsId
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a ExternalAccount
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromExternalAccount( externalAccountId uint64, transactionsIds string )(utils.RequestResult) {
+func RemoveTransactionsFromExternalAccount( externalAccountId UUID, transactionsIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
 	//----------------------------------------------------------------------------

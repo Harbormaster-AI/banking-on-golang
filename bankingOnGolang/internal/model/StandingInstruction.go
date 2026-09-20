@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // StandingInstruction Declaration
 //==============================================================
 type StandingInstruction struct {
-    gorm.Model
+    BaseModel
      InstructionId            string
     Amount            Money
     NextExecutionDate            time.Time

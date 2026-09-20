@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // ThirdPartyProvider Declaration
 //==============================================================
 type ThirdPartyProvider struct {
-    gorm.Model
+    BaseModel
      Name            string
     RegistrationId            string
     Website            string

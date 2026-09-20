@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // ATM Declaration
 //==============================================================
 type ATM struct {
-    gorm.Model
+    BaseModel
      TerminalId            string
     Location            Address
     BranchId         *uint

@@ -4,14 +4,13 @@ package model
 import (
     "time"
     "github.com/shopspring/decimal"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // ExchangeRate Declaration
 //==============================================================
 type ExchangeRate struct {
-    gorm.Model
+    BaseModel
      BaseCurrency            string
     CounterCurrency            string
     Rate            decimal.Decimal

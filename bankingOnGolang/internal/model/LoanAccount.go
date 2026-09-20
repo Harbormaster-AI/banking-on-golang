@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // LoanAccount Declaration
 //==============================================================
 type LoanAccount struct {
-    gorm.Model
+    BaseModel
      LoanNumber            string
     PrincipalAmount            Money
     OutstandingPrincipal            Money

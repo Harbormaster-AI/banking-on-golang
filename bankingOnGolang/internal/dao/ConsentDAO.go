@@ -45,7 +45,7 @@ func CreateConsent(obj model.Consent)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetConsent - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetConsent(id uint64)(utils.RequestResult){
+func GetConsent(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateConsent(obj model.Consent)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteConsent - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteConsent(id uint64)(requestResult utils.RequestResult){
+func DeleteConsent(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteConsent(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Customer on a Consent
 //----------------------------------------------------------------------------
-func AssignCustomerToConsent( consentId uint64, customerId uint64 )(utils.RequestResult){
+func AssignCustomerToConsent( consentId UUID, customerId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -225,7 +225,7 @@ func AssignCustomerToConsent( consentId uint64, customerId uint64 )(utils.Reques
 //----------------------------------------------------------------------------
 // unassigns a Customer on a Consent
 //----------------------------------------------------------------------------
-func UnassignCustomerFromConsent(consentId uint64)(utils.RequestResult) {
+func UnassignCustomerFromConsent(consentId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -263,7 +263,7 @@ func UnassignCustomerFromConsent(consentId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Bank on a Consent
 //----------------------------------------------------------------------------
-func AssignBankToConsent( consentId uint64, bankId uint64 )(utils.RequestResult){
+func AssignBankToConsent( consentId UUID, bankId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -310,7 +310,7 @@ func AssignBankToConsent( consentId uint64, bankId uint64 )(utils.RequestResult)
 //----------------------------------------------------------------------------
 // unassigns a Bank on a Consent
 //----------------------------------------------------------------------------
-func UnassignBankFromConsent(consentId uint64)(utils.RequestResult) {
+func UnassignBankFromConsent(consentId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -348,7 +348,7 @@ func UnassignBankFromConsent(consentId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a ThirdPartyProvider on a Consent
 //----------------------------------------------------------------------------
-func AssignThirdPartyProviderToConsent( consentId uint64, thirdPartyProviderId uint64 )(utils.RequestResult){
+func AssignThirdPartyProviderToConsent( consentId UUID, thirdPartyProviderId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -395,7 +395,7 @@ func AssignThirdPartyProviderToConsent( consentId uint64, thirdPartyProviderId u
 //----------------------------------------------------------------------------
 // unassigns a ThirdPartyProvider on a Consent
 //----------------------------------------------------------------------------
-func UnassignThirdPartyProviderFromConsent(consentId uint64)(utils.RequestResult) {
+func UnassignThirdPartyProviderFromConsent(consentId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -434,7 +434,7 @@ func UnassignThirdPartyProviderFromConsent(consentId uint64)(utils.RequestResult
 //----------------------------------------------------------------------------
 // adds one or more authorizedAccountsIds as a AuthorizedAccounts to a Consent
 //----------------------------------------------------------------------------
-func AddAuthorizedAccountsToConsent ( consentId uint64, authorizedAccountsIds string )(utils.RequestResult) {
+func AddAuthorizedAccountsToConsent ( consentId UUID, authorizedAccountsIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -488,7 +488,7 @@ func AddAuthorizedAccountsToConsent ( consentId uint64, authorizedAccountsIds st
 //----------------------------------------------------------------------------
 // removes one or more authorizedAccountsIds as a AuthorizedAccounts from a Consent
 //----------------------------------------------------------------------------
-func RemoveAuthorizedAccountsFromConsent( consentId uint64, authorizedAccountsIds string )(utils.RequestResult) {
+func RemoveAuthorizedAccountsFromConsent( consentId UUID, authorizedAccountsIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
 	//----------------------------------------------------------------------------

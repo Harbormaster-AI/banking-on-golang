@@ -45,7 +45,7 @@ func CreateExchangeRate(obj model.ExchangeRate)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetExchangeRate - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetExchangeRate(id uint64)(utils.RequestResult){
+func GetExchangeRate(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateExchangeRate(obj model.ExchangeRate)(requestResult utils.RequestResul
 //----------------------------------------------------------------------------
 // DeleteExchangeRate - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteExchangeRate(id uint64)(requestResult utils.RequestResult){
+func DeleteExchangeRate(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteExchangeRate(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a ExchangeRate
 //----------------------------------------------------------------------------
-func AssignBankToExchangeRate( exchangeRateId uint64, bankId uint64 )(utils.RequestResult){
+func AssignBankToExchangeRate( exchangeRateId UUID, bankId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExchangeRate with the matching identifier
@@ -225,7 +225,7 @@ func AssignBankToExchangeRate( exchangeRateId uint64, bankId uint64 )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a Bank on a ExchangeRate
 //----------------------------------------------------------------------------
-func UnassignBankFromExchangeRate(exchangeRateId uint64)(utils.RequestResult) {
+func UnassignBankFromExchangeRate(exchangeRateId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExchangeRate with the matching identifier
@@ -264,7 +264,7 @@ func UnassignBankFromExchangeRate(exchangeRateId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more fxTradesIds as a FxTrades to a ExchangeRate
 //----------------------------------------------------------------------------
-func AddFxTradesToExchangeRate ( exchangeRateId uint64, fxTradesIds string )(utils.RequestResult) {
+func AddFxTradesToExchangeRate ( exchangeRateId UUID, fxTradesIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExchangeRate with the matching identifier
@@ -318,7 +318,7 @@ func AddFxTradesToExchangeRate ( exchangeRateId uint64, fxTradesIds string )(uti
 //----------------------------------------------------------------------------
 // removes one or more fxTradesIds as a FxTrades from a ExchangeRate
 //----------------------------------------------------------------------------
-func RemoveFxTradesFromExchangeRate( exchangeRateId uint64, fxTradesIds string )(utils.RequestResult) {
+func RemoveFxTradesFromExchangeRate( exchangeRateId UUID, fxTradesIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ExchangeRate with the matching identifier
 	//----------------------------------------------------------------------------

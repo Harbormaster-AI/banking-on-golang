@@ -45,7 +45,7 @@ func CreateScreeningResult(obj model.ScreeningResult)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetScreeningResult - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetScreeningResult(id uint64)(utils.RequestResult){
+func GetScreeningResult(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateScreeningResult(obj model.ScreeningResult)(requestResult utils.Reques
 //----------------------------------------------------------------------------
 // DeleteScreeningResult - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteScreeningResult(id uint64)(requestResult utils.RequestResult){
+func DeleteScreeningResult(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteScreeningResult(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a KycProfile on a ScreeningResult
 //----------------------------------------------------------------------------
-func AssignKycProfileToScreeningResult( screeningResultId uint64, kycProfileId uint64 )(utils.RequestResult){
+func AssignKycProfileToScreeningResult( screeningResultId UUID, kycProfileId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the ScreeningResult with the matching identifier
@@ -225,7 +225,7 @@ func AssignKycProfileToScreeningResult( screeningResultId uint64, kycProfileId u
 //----------------------------------------------------------------------------
 // unassigns a KycProfile on a ScreeningResult
 //----------------------------------------------------------------------------
-func UnassignKycProfileFromScreeningResult(screeningResultId uint64)(utils.RequestResult) {
+func UnassignKycProfileFromScreeningResult(screeningResultId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ScreeningResult with the matching identifier

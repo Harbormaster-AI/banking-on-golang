@@ -3,14 +3,13 @@ package model
 
 import (
     "time"
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // FundsTransfer Declaration
 //==============================================================
 type FundsTransfer struct {
-    gorm.Model
+    BaseModel
      TransferReference            string
     Amount            Money
     RequestedDate            time.Time

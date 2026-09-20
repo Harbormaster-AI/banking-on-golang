@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // Bank Declaration
 //==============================================================
 type Bank struct {
-    gorm.Model
+    BaseModel
      Name            string
     LegalName            string
     SwiftBic            BIC

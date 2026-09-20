@@ -45,7 +45,7 @@ func CreateIdentityDocument(obj model.IdentityDocument)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetIdentityDocument - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetIdentityDocument(id uint64)(utils.RequestResult){
+func GetIdentityDocument(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdateIdentityDocument(obj model.IdentityDocument)(requestResult utils.Requ
 //----------------------------------------------------------------------------
 // DeleteIdentityDocument - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteIdentityDocument(id uint64)(requestResult utils.RequestResult){
+func DeleteIdentityDocument(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeleteIdentityDocument(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a KycProfile on a IdentityDocument
 //----------------------------------------------------------------------------
-func AssignKycProfileToIdentityDocument( identityDocumentId uint64, kycProfileId uint64 )(utils.RequestResult){
+func AssignKycProfileToIdentityDocument( identityDocumentId UUID, kycProfileId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the IdentityDocument with the matching identifier
@@ -225,7 +225,7 @@ func AssignKycProfileToIdentityDocument( identityDocumentId uint64, kycProfileId
 //----------------------------------------------------------------------------
 // unassigns a KycProfile on a IdentityDocument
 //----------------------------------------------------------------------------
-func UnassignKycProfileFromIdentityDocument(identityDocumentId uint64)(utils.RequestResult) {
+func UnassignKycProfileFromIdentityDocument(identityDocumentId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the IdentityDocument with the matching identifier

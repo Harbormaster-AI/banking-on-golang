@@ -2,14 +2,13 @@
 package model
 
 import (
-    "gorm.io/gorm"
 )
 
 //==============================================================
 // BankingProduct Declaration
 //==============================================================
 type BankingProduct struct {
-    gorm.Model
+    BaseModel
      ProductCode            string
     Name            string
     Description            string

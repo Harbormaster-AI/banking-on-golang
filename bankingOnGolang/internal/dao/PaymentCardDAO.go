@@ -45,7 +45,7 @@ func CreatePaymentCard(obj model.PaymentCard)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetPaymentCard - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetPaymentCard(id uint64)(utils.RequestResult){
+func GetPaymentCard(id UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ func UpdatePaymentCard(obj model.PaymentCard)(requestResult utils.RequestResult)
 //----------------------------------------------------------------------------
 // DeletePaymentCard - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeletePaymentCard(id uint64)(requestResult utils.RequestResult){
+func DeletePaymentCard(id UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ func DeletePaymentCard(id uint64)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a PaymentCard
 //----------------------------------------------------------------------------
-func AssignBankToPaymentCard( paymentCardId uint64, bankId uint64 )(utils.RequestResult){
+func AssignBankToPaymentCard( paymentCardId UUID, bankId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -225,7 +225,7 @@ func AssignBankToPaymentCard( paymentCardId uint64, bankId uint64 )(utils.Reques
 //----------------------------------------------------------------------------
 // unassigns a Bank on a PaymentCard
 //----------------------------------------------------------------------------
-func UnassignBankFromPaymentCard(paymentCardId uint64)(utils.RequestResult) {
+func UnassignBankFromPaymentCard(paymentCardId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -263,7 +263,7 @@ func UnassignBankFromPaymentCard(paymentCardId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Account on a PaymentCard
 //----------------------------------------------------------------------------
-func AssignAccountToPaymentCard( paymentCardId uint64, accountId uint64 )(utils.RequestResult){
+func AssignAccountToPaymentCard( paymentCardId UUID, accountId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -310,7 +310,7 @@ func AssignAccountToPaymentCard( paymentCardId uint64, accountId uint64 )(utils.
 //----------------------------------------------------------------------------
 // unassigns a Account on a PaymentCard
 //----------------------------------------------------------------------------
-func UnassignAccountFromPaymentCard(paymentCardId uint64)(utils.RequestResult) {
+func UnassignAccountFromPaymentCard(paymentCardId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -348,7 +348,7 @@ func UnassignAccountFromPaymentCard(paymentCardId uint64)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Customer on a PaymentCard
 //----------------------------------------------------------------------------
-func AssignCustomerToPaymentCard( paymentCardId uint64, customerId uint64 )(utils.RequestResult){
+func AssignCustomerToPaymentCard( paymentCardId UUID, customerId UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -395,7 +395,7 @@ func AssignCustomerToPaymentCard( paymentCardId uint64, customerId uint64 )(util
 //----------------------------------------------------------------------------
 // unassigns a Customer on a PaymentCard
 //----------------------------------------------------------------------------
-func UnassignCustomerFromPaymentCard(paymentCardId uint64)(utils.RequestResult) {
+func UnassignCustomerFromPaymentCard(paymentCardId UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -434,7 +434,7 @@ func UnassignCustomerFromPaymentCard(paymentCardId uint64)(utils.RequestResult) 
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a PaymentCard
 //----------------------------------------------------------------------------
-func AddTransactionsToPaymentCard ( paymentCardId uint64, transactionsIds string )(utils.RequestResult) {
+func AddTransactionsToPaymentCard ( paymentCardId UUID, transactionsIds UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -488,7 +488,7 @@ func AddTransactionsToPaymentCard ( paymentCardId uint64, transactionsIds string
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a PaymentCard
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromPaymentCard( paymentCardId uint64, transactionsIds string )(utils.RequestResult) {
+func RemoveTransactionsFromPaymentCard( paymentCardId UUID, transactionsIds UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
 	//----------------------------------------------------------------------------
