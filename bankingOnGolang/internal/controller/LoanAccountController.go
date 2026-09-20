@@ -5,7 +5,6 @@ import (
     LoanAccountDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"github.com/gorilla/mux"
 	"net/http"
 	 "encoding/json"
 )
