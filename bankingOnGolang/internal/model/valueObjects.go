@@ -1,6 +1,24 @@
 
 package model
 
+
+import "github.com/shopspring/decimal"
+
+import (
+)
+import (
+)
+import (
+)
+import (
+)
+import (
+)
+import (
+)
+import (
+)
+
 type Money struct {
      Amount            decimal.Decimal
     Currency            string
