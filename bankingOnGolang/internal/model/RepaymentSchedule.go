@@ -2,8 +2,27 @@
 package model
 
 import (
-#declareImports(${classObject})
+    "time"
     "gorm.io/gorm"
 )
 
-#declareStruct($classObject)
+//==============================================================
+// RepaymentSchedule Declaration
+//==============================================================
+type RepaymentSchedule struct {
+    gorm.Model
+     InstallmentNumber            int32
+    DueDate            time.Time
+    PrincipalDue            Money
+    InterestDue            Money
+    TotalDue            Money
+    LoanAccountId         *uint
+    LoanAccount           *LoanAccount `gorm:"foreignKey:LoanAccountId"`
+    PaymentId         *uint
+    Payment           *LoanPayment `gorm:"foreignKey:PaymentId"`
+    Status            InstallmentStatus
+
+// parent associations as their child
+
+}
+

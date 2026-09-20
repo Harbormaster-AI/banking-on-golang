@@ -1,8 +1,18 @@
 version: "3.9"
 
 services:
-#DockerComposeDBService()
+  db:
+    image:    ports:
+      - #DockerComposeDBPorts()
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
 
   platform:
-#DockerComposePlatformService()  
+    image: theharbormaster/banking-on-golang:latest    ports:
+      - "8080:8080
+"
+    depends_on:
+      - db
+    links:
+      - db
 

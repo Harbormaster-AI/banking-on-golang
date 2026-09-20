@@ -66,7 +66,8 @@ terraform validate
 echo "Creating Terraform plan..."
 terraform plan \
     -input=false \
-    #providerEnvVarsForTerraform() \
+    
+-var aws-access-key= -var aws-secret-key= -var region=us-east-2 \
     -out=terraform.plan
 
 

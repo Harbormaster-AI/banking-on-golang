@@ -2,8 +2,23 @@
 package model
 
 import (
-#declareImports(${classObject})
+    "time"
     "gorm.io/gorm"
 )
 
-#declareStruct($classObject)
+//==============================================================
+// IdentityDocument Declaration
+//==============================================================
+type IdentityDocument struct {
+    gorm.Model
+     DocumentNumber            string
+    IssuingCountry            string
+    ExpirationDate            time.Time
+    KycProfileId         *uint
+    KycProfile           *KycProfile `gorm:"foreignKey:KycProfileId"`
+    DocumentType            IdentityDocumentType
+
+// parent associations as their child
+
+}
+

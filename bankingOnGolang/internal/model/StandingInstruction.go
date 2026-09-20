@@ -2,8 +2,26 @@
 package model
 
 import (
-#declareImports(${classObject})
+    "time"
     "gorm.io/gorm"
 )
 
-#declareStruct($classObject)
+//==============================================================
+// StandingInstruction Declaration
+//==============================================================
+type StandingInstruction struct {
+    gorm.Model
+     InstructionId            string
+    Amount            Money
+    NextExecutionDate            time.Time
+    AccountId         *uint
+    Account           *Account `gorm:"foreignKey:AccountId"`
+    BeneficiaryId         *uint
+    Beneficiary           *ExternalAccount `gorm:"foreignKey:BeneficiaryId"`
+    Frequency            StandingInstructionFrequency
+    Status            StandingInstructionStatus
+
+// parent associations as their child
+
+}
+
