@@ -1,0 +1,267 @@
+
+package controller
+
+import (
+    FeeChargeDAO "bankingOnGolang/internal/dao"
+    "bankingOnGolang/internal/model"
+    "bankingOnGolang/internal/utils"
+	"encoding/json"
+	"fmt"
+	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
+)
+
+//----------------------------------------------------------------------------
+// Create controller, delegates to FeeChargeDAO for database creation
+//----------------------------------------------------------------------------
+func create(w http.ResponseWriter, r *http.Request) {
+	//----------------------------------------------------------------------------
+	// Initialize an empty FeeCharge model
+	//----------------------------------------------------------------------------
+	data := model.FeeCharge{}
+	
+	//----------------------------------------------------------------------------
+	// Parse the body into a FeeCharge model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge data access object to create
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.CreateFeeCharge( data )
+	
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res,_ := json.Marshal(requestResult)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+//----------------------------------------------------------------------------
+// Get controller, delegates to FeeChargeDAO to find the relevant FeeCharge
+//----------------------------------------------------------------------------
+func get(w http.ResponseWriter, r *http.Request) {
+
+	//----------------------------------------------------------------------------
+	// Initialize an empty GetRequest model
+	//----------------------------------------------------------------------------
+	data := model.GetRequest{}
+
+	//----------------------------------------------------------------------------
+	// Parse the body into a GetRequest model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge data access object
+	// find the one with the matching identifier
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.GetFeeCharge(data.Id)
+	
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res,_ := json.Marshal(requestResult)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+
+//----------------------------------------------------------------------------
+// GetAll controller, delegates to FeeChargeDAO for database read of all FeeCharges
+//----------------------------------------------------------------------------
+func getAll(w http.ResponseWriter, r *http.Request) {
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge data access object to get all
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.GetAllFeeCharge()
+	
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res,_ := json.Marshal(requestResult)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+//----------------------------------------------------------------------------
+// Update controller, delegates to FeeChargeDAO for database save
+//----------------------------------------------------------------------------
+func update(w http.ResponseWriter, r *http.Request) {
+	//----------------------------------------------------------------------------
+	// Initialize an empty FeeCharge model
+	//----------------------------------------------------------------------------
+	var data = model.FeeCharge{}
+	
+	//----------------------------------------------------------------------------
+	// Parse the body into a FeeCharge model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge data access object
+	// update the one with the matching identifier
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.UpdateFeeCharge(data)
+
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res, _ := json.Marshal(requestResult)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+//----------------------------------------------------------------------------
+// Delete controller, delegates to FeeChargeDAO for database deletion
+//----------------------------------------------------------------------------
+func delete(w http.ResponseWriter, r *http.Request) {
+	//----------------------------------------------------------------------------
+	// Initialize an empty DeleteRequest model
+	//----------------------------------------------------------------------------
+	data := model.DeleteRequest{}
+
+	//----------------------------------------------------------------------------
+	// Parse the body into a DeleteRequest model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge data access object
+	// delete the one with the matching identifier
+	//----------------------------------------------------------------------------	
+	requestResult := FeeChargeDAO.DeleteFeeCharge(data.Id)
+
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res, _ := json.Marshal(requestResult)
+	
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+	//----------------------------------------------------------------------------
+	// assigns a Account on a FeeCharge
+	// delegates to an ORM handler
+	///----------------------------------------------------------------------------
+func assignAccount(w http.ResponseWriter, r *http.Request) {
+
+	//----------------------------------------------------------------------------
+	// Initialize an empty AssignRequest model
+	//----------------------------------------------------------------------------
+	data := model.AssignRequest{}
+
+	//----------------------------------------------------------------------------
+	// Parse the body into a AssignRequest model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge DAO
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.AssignAccountToFeeCharge(data.ParentId, data.ChildId)
+
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res, _ := json.Marshal(requestResult)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+	//----------------------------------------------------------------------------
+	// unassigns a Account on a FeeCharge
+	// delegates to the ORM handler
+	//----------------------------------------------------------------------------
+func unassignAccount( w http.ResponseWriter, r *http.Request ) {
+
+	//----------------------------------------------------------------------------
+	// Initialize an empty UnassignRequest model
+	//----------------------------------------------------------------------------
+	data := model.UnassignRequest{}
+
+	//----------------------------------------------------------------------------
+	// Parse the body into a UnassignRequest model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge DAO
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.UnassignAccountFromFeeCharge(data.Id)
+
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res, _ := json.Marshal(requestResult)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+
+}
+
+	//----------------------------------------------------------------------------
+	// assigns a LoanAccount on a FeeCharge
+	// delegates to an ORM handler
+	///----------------------------------------------------------------------------
+func assignLoanAccount(w http.ResponseWriter, r *http.Request) {
+
+	//----------------------------------------------------------------------------
+	// Initialize an empty AssignRequest model
+	//----------------------------------------------------------------------------
+	data := model.AssignRequest{}
+
+	//----------------------------------------------------------------------------
+	// Parse the body into a AssignRequest model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge DAO
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.AssignLoanAccountToFeeCharge(data.ParentId, data.ChildId)
+
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res, _ := json.Marshal(requestResult)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+	//----------------------------------------------------------------------------
+	// unassigns a LoanAccount on a FeeCharge
+	// delegates to the ORM handler
+	//----------------------------------------------------------------------------
+func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
+
+	//----------------------------------------------------------------------------
+	// Initialize an empty UnassignRequest model
+	//----------------------------------------------------------------------------
+	data := model.UnassignRequest{}
+
+	//----------------------------------------------------------------------------
+	// Parse the body into a UnassignRequest model structure
+	//----------------------------------------------------------------------------
+	utils.ParseBody(r, data)
+
+	//----------------------------------------------------------------------------
+	// Delegate to the FeeCharge DAO
+	//----------------------------------------------------------------------------
+	requestResult := FeeChargeDAO.UnassignLoanAccountFromFeeCharge(data.Id)
+
+	//----------------------------------------------------------------------------
+	// Marshal the model into a JSON object
+	//----------------------------------------------------------------------------
+	res, _ := json.Marshal(requestResult)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+
+}
+
+

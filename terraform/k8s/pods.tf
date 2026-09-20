@@ -7,28 +7,28 @@ resource "kubernetes_replication_controller" "app-master" {
         replicas = 1
 
         selector = {
-            app  = "banking-on-golang"
+            app  = "bankingOnGolang"
         }
 
         template {
 
             metadata {
                 labels = {
-                    app  = "bankingbackend"
+                    app  = "bankingOnGolang"
                 }
             }
 
             spec {
                 container {
-                    image = ":latest"
+                    image = "mysql:latest"
                     name  = "db-container"
 
                     port {
-                        container_port = unset-value
+                        container_port = 3306
                     }
 
                     resources {
-                        requests {
+                        requests = {
                             cpu    = "100m"
                             memory = "100Mi"
                         }
@@ -38,13 +38,26 @@ resource "kubernetes_replication_controller" "app-master" {
                     image = "theharbormaster/banking-on-golang:latest"
                     name  = "app-container"
 
-                port {
-                    container_port = 4000
-                }
-                resources {
-                    requests {
-                        cpu    = "100m"
-                        memory = "100Mi"
+                    port {
+                        container_port = 8088
+                    }
+                    env {
+                        name  = "DATABASE_DIALECT"
+                        value = "com.mysql.cj.jdbc.Driver"
+                    }
+                    env {
+                        name  = "DATABASE_URL"
+                        value = "jdbc:mysql://db:3306/developmentdb?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true"
+                    }
+                    env {
+                        name  = "DATABASE_PASSWORD"
+                        value = "letmein2"
+                    }
+                    resources {
+                        requests = {
+                            cpu    = "100m"
+                            memory = "100Mi"
+                        }
                     }
                 }
             }

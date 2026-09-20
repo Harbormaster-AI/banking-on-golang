@@ -5,27 +5,27 @@ resource "kubernetes_service" "app-master" {
 
     spec {
         selector = {
-          app  = "banking-on-golang"
+          app  = "bankingOnGolang"
         }
         port {
             name        = "http"
             port        = 80
-            target_port = 4000
+            target_port = ${}appPort}
         }
 
         port {
             name        = "db-port"
-            port        = 
-            target_port = 
+            port        = 3306
+            target_port = 3306
         }
 
         port {
-            port        = 4000
-            target_port = 4000
+            port        = 8088
+            target_port = 8088
             name        = "app-port"
         }
 
-        type = ""
+        type = "LoadBalancer"
     }
   
 }

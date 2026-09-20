@@ -2,16 +2,16 @@
 variable "aws_access_key" {
   type      = string
   sensitive = true
-  default   = ""
+  default   = "null"
 }
 
 variable "aws_secret_key" {
   type      = string
   sensitive = true
-  default   = ""
+  default   = "null"
 }
 
 variable "region" {
   type    = string
-  default = ""
+  default = "us-east-2"
 }

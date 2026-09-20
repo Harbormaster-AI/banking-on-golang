@@ -7,7 +7,7 @@ Harbormaster
 
 
 ## Application
-- Name: banking-on-golang
+- Name: bankingOnGolang
 - Description: Banking Restful Backend
 - Company Name: 
 
@@ -110,6 +110,14 @@ CollateralType
 - Repository: banking-on-golang
 - Tag: latest
 
+## AWS
+- accessKey: xxxxxxxxxxxxxxxx
+- secretKey: xxxxxxxxxxxxxxxx
+- region: us-east-2
+- ec2InstanceType: 
+- dbInstanceType: 
+- vpc: xxxxxxxxxxxxxxx
+- AMI Image Id: 
 
 
 ## Golang v1.22 Details
