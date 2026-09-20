@@ -222,7 +222,7 @@ func AddAccountsToBranch(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Branch DAO
 	//----------------------------------------------------------------------------
-	requestResult := BranchDAO.AddAccountsToBranch(data.ParentId, data.childIds)
+	requestResult := BranchDAO.AddAccountsToBranch(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -279,7 +279,7 @@ func AddLoanAccountsToBranch(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Branch DAO
 	//----------------------------------------------------------------------------
-	requestResult := BranchDAO.AddLoanAccountsToBranch(data.ParentId, data.childIds)
+	requestResult := BranchDAO.AddLoanAccountsToBranch(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -336,7 +336,7 @@ func AddAtmsToBranch(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Branch DAO
 	//----------------------------------------------------------------------------
-	requestResult := BranchDAO.AddAtmsToBranch(data.ParentId, data.childIds)
+	requestResult := BranchDAO.AddAtmsToBranch(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

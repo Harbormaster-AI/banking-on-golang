@@ -222,7 +222,7 @@ func AddFxTradesToExchangeRate(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the ExchangeRate DAO
 	//----------------------------------------------------------------------------
-	requestResult := ExchangeRateDAO.AddFxTradesToExchangeRate(data.ParentId, data.childIds)
+	requestResult := ExchangeRateDAO.AddFxTradesToExchangeRate(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

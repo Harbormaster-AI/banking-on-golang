@@ -222,7 +222,7 @@ func AddAccountsToBankingProduct(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankingProductDAO.AddAccountsToBankingProduct(data.ParentId, data.childIds)
+	requestResult := BankingProductDAO.AddAccountsToBankingProduct(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -279,7 +279,7 @@ func AddLoanAccountsToBankingProduct(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankingProductDAO.AddLoanAccountsToBankingProduct(data.ParentId, data.childIds)
+	requestResult := BankingProductDAO.AddLoanAccountsToBankingProduct(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -336,7 +336,7 @@ func AddPaymentCardsToBankingProduct(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankingProductDAO.AddPaymentCardsToBankingProduct(data.ParentId, data.childIds)
+	requestResult := BankingProductDAO.AddPaymentCardsToBankingProduct(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

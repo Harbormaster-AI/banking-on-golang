@@ -340,7 +340,7 @@ func AddTransactionsToPaymentCard(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
 	//----------------------------------------------------------------------------
-	requestResult := PaymentCardDAO.AddTransactionsToPaymentCard(data.ParentId, data.childIds)
+	requestResult := PaymentCardDAO.AddTransactionsToPaymentCard(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

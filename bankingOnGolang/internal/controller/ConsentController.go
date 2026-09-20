@@ -340,7 +340,7 @@ func AddAuthorizedAccountsToConsent(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Consent DAO
 	//----------------------------------------------------------------------------
-	requestResult := ConsentDAO.AddAuthorizedAccountsToConsent(data.ParentId, data.childIds)
+	requestResult := ConsentDAO.AddAuthorizedAccountsToConsent(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

@@ -163,7 +163,7 @@ func AddBranchesToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddBranchesToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddBranchesToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -220,7 +220,7 @@ func AddProductsToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddProductsToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddProductsToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -277,7 +277,7 @@ func AddCustomersToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddCustomersToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddCustomersToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -334,7 +334,7 @@ func AddAccountsToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddAccountsToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddAccountsToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -391,7 +391,7 @@ func AddPaymentCardsToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddPaymentCardsToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddPaymentCardsToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -448,7 +448,7 @@ func AddLoanAccountsToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddLoanAccountsToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddLoanAccountsToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -505,7 +505,7 @@ func AddExchangeRatesToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddExchangeRatesToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddExchangeRatesToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -562,7 +562,7 @@ func AddConsentsToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddConsentsToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddConsentsToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -619,7 +619,7 @@ func AddThirdPartyProvidersToBank(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Bank DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankDAO.AddThirdPartyProvidersToBank(data.ParentId, data.childIds)
+	requestResult := BankDAO.AddThirdPartyProvidersToBank(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

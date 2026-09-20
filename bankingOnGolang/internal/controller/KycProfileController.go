@@ -222,7 +222,7 @@ func AddIdentityDocumentsToKycProfile(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
 	//----------------------------------------------------------------------------
-	requestResult := KycProfileDAO.AddIdentityDocumentsToKycProfile(data.ParentId, data.childIds)
+	requestResult := KycProfileDAO.AddIdentityDocumentsToKycProfile(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -279,7 +279,7 @@ func AddRiskAssessmentsToKycProfile(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
 	//----------------------------------------------------------------------------
-	requestResult := KycProfileDAO.AddRiskAssessmentsToKycProfile(data.ParentId, data.childIds)
+	requestResult := KycProfileDAO.AddRiskAssessmentsToKycProfile(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -336,7 +336,7 @@ func AddScreeningsToKycProfile(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
 	//----------------------------------------------------------------------------
-	requestResult := KycProfileDAO.AddScreeningsToKycProfile(data.ParentId, data.childIds)
+	requestResult := KycProfileDAO.AddScreeningsToKycProfile(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

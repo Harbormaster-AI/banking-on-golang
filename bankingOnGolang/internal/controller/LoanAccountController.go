@@ -340,7 +340,7 @@ func AddBorrowersToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanAccountDAO.AddBorrowersToLoanAccount(data.ParentId, data.childIds)
+	requestResult := LoanAccountDAO.AddBorrowersToLoanAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -397,7 +397,7 @@ func AddRepaymentScheduleToLoanAccount(w http.ResponseWriter, r *http.Request)  
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanAccountDAO.AddRepaymentScheduleToLoanAccount(data.ParentId, data.childIds)
+	requestResult := LoanAccountDAO.AddRepaymentScheduleToLoanAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -454,7 +454,7 @@ func AddPaymentsToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanAccountDAO.AddPaymentsToLoanAccount(data.ParentId, data.childIds)
+	requestResult := LoanAccountDAO.AddPaymentsToLoanAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -511,7 +511,7 @@ func AddCollateralToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanAccountDAO.AddCollateralToLoanAccount(data.ParentId, data.childIds)
+	requestResult := LoanAccountDAO.AddCollateralToLoanAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -568,7 +568,7 @@ func AddFeeChargesToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanAccountDAO.AddFeeChargesToLoanAccount(data.ParentId, data.childIds)
+	requestResult := LoanAccountDAO.AddFeeChargesToLoanAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

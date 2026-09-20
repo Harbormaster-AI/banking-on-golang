@@ -222,7 +222,7 @@ func AddTransactionsToExternalAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := ExternalAccountDAO.AddTransactionsToExternalAccount(data.ParentId, data.childIds)
+	requestResult := ExternalAccountDAO.AddTransactionsToExternalAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

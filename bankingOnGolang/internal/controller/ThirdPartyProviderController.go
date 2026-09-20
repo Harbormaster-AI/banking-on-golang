@@ -222,7 +222,7 @@ func AddConsentsToThirdPartyProvider(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the ThirdPartyProvider DAO
 	//----------------------------------------------------------------------------
-	requestResult := ThirdPartyProviderDAO.AddConsentsToThirdPartyProvider(data.ParentId, data.childIds)
+	requestResult := ThirdPartyProviderDAO.AddConsentsToThirdPartyProvider(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

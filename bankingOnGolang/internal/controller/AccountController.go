@@ -340,7 +340,7 @@ func AddOwnersToAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.AddOwnersToAccount(data.ParentId, data.childIds)
+	requestResult := AccountDAO.AddOwnersToAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -397,7 +397,7 @@ func AddTransactionsToAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.AddTransactionsToAccount(data.ParentId, data.childIds)
+	requestResult := AccountDAO.AddTransactionsToAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -454,7 +454,7 @@ func AddStatementsToAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.AddStatementsToAccount(data.ParentId, data.childIds)
+	requestResult := AccountDAO.AddStatementsToAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -511,7 +511,7 @@ func AddStandingInstructionsToAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.AddStandingInstructionsToAccount(data.ParentId, data.childIds)
+	requestResult := AccountDAO.AddStandingInstructionsToAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -568,7 +568,7 @@ func AddFeeChargesToAccount(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.AddFeeChargesToAccount(data.ParentId, data.childIds)
+	requestResult := AccountDAO.AddFeeChargesToAccount(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

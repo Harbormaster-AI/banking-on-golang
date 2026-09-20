@@ -222,7 +222,7 @@ func AddAccountsToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddAccountsToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddAccountsToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -279,7 +279,7 @@ func AddLoanAccountsToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddLoanAccountsToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddLoanAccountsToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -336,7 +336,7 @@ func AddPaymentCardsToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddPaymentCardsToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddPaymentCardsToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -393,7 +393,7 @@ func AddExternalAccountsToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddExternalAccountsToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddExternalAccountsToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -450,7 +450,7 @@ func AddFundsTransfersToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddFundsTransfersToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddFundsTransfersToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -507,7 +507,7 @@ func AddDisputesToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddDisputesToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddDisputesToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -564,7 +564,7 @@ func AddKycProfilesToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddKycProfilesToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddKycProfilesToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -621,7 +621,7 @@ func AddConsentsToCustomer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
 	//----------------------------------------------------------------------------
-	requestResult := CustomerDAO.AddConsentsToCustomer(data.ParentId, data.childIds)
+	requestResult := CustomerDAO.AddConsentsToCustomer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

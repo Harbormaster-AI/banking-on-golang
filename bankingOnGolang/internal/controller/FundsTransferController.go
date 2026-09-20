@@ -399,7 +399,7 @@ func AddTransactionsToFundsTransfer(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
 	//----------------------------------------------------------------------------
-	requestResult := FundsTransferDAO.AddTransactionsToFundsTransfer(data.ParentId, data.childIds)
+	requestResult := FundsTransferDAO.AddTransactionsToFundsTransfer(data.ParentId, data.ChildIds)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
