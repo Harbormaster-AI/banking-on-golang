@@ -279,10 +279,7 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.ThirdPartyProvider)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( consentsIds, ",")
-
-		for _, consentsId:= range ids {
+		for _, consentsId:= range consentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -332,10 +329,7 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.ThirdPartyProvider)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( consentsIds, ",")
-
-		for _, consentsId:= range ids {
+		for _, consentsId:= range consentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

@@ -449,10 +449,7 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds uui
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.PaymentCard)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( transactionsIds, ",")
-
-		for _, transactionsId:= range ids {
+		for _, transactionsId:= range transactionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -502,10 +499,7 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.PaymentCard)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( transactionsIds, ",")
-
-		for _, transactionsId:= range ids {
+		for _, transactionsId:= range transactionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

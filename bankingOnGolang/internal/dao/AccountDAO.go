@@ -449,10 +449,7 @@ func AddOwnersToAccount ( accountId uuid.UUID, ownersIds uuid.UUID )(utils.Reque
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( ownersIds, ",")
-
-		for _, ownersId:= range ids {
+		for _, ownersId:= range ownersIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -502,10 +499,7 @@ func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds uuid.UUID )(utils.R
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( ownersIds, ",")
-
-		for _, ownersId:= range ids {
+		for _, ownersId:= range ownersIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -556,10 +550,7 @@ func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds uuid.UUID )
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( transactionsIds, ",")
-
-		for _, transactionsId:= range ids {
+		for _, transactionsId:= range transactionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -609,10 +600,7 @@ func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds uuid.UU
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( transactionsIds, ",")
-
-		for _, transactionsId:= range ids {
+		for _, transactionsId:= range transactionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -663,10 +651,7 @@ func AddStatementsToAccount ( accountId uuid.UUID, statementsIds uuid.UUID )(uti
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( statementsIds, ",")
-
-		for _, statementsId:= range ids {
+		for _, statementsId:= range statementsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -716,10 +701,7 @@ func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds uuid.UUID )
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( statementsIds, ",")
-
-		for _, statementsId:= range ids {
+		for _, statementsId:= range statementsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -770,10 +752,7 @@ func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstruction
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( standingInstructionsIds, ",")
-
-		for _, standingInstructionsId:= range ids {
+		for _, standingInstructionsId:= range standingInstructionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -823,10 +802,7 @@ func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstruc
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( standingInstructionsIds, ",")
-
-		for _, standingInstructionsId:= range ids {
+		for _, standingInstructionsId:= range standingInstructionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -877,10 +853,7 @@ func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds uuid.UUID )(uti
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( feeChargesIds, ",")
-
-		for _, feeChargesId:= range ids {
+		for _, feeChargesId:= range feeChargesIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -930,10 +903,7 @@ func RemoveFeeChargesFromAccount( accountId uuid.UUID, feeChargesIds uuid.UUID )
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Account)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( feeChargesIds, ",")
-
-		for _, feeChargesId:= range ids {
+		for _, feeChargesId:= range feeChargesIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

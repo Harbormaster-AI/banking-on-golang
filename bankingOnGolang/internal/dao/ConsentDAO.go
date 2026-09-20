@@ -449,10 +449,7 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Consent)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( authorizedAccountsIds, ",")
-
-		for _, authorizedAccountsId:= range ids {
+		for _, authorizedAccountsId:= range authorizedAccountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -502,10 +499,7 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Consent)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( authorizedAccountsIds, ",")
-
-		for _, authorizedAccountsId:= range ids {
+		for _, authorizedAccountsId:= range authorizedAccountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

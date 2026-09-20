@@ -279,10 +279,7 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds uuid.UUID )(utils.Req
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Branch)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( accountsIds, ",")
-
-		for _, accountsId:= range ids {
+		for _, accountsId:= range accountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -332,10 +329,7 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds uuid.UUID )(utils
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Branch)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( accountsIds, ",")
-
-		for _, accountsId:= range ids {
+		for _, accountsId:= range accountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -386,10 +380,7 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds uuid.UUID )(u
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Branch)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( loanAccountsIds, ",")
-
-		for _, loanAccountsId:= range ids {
+		for _, loanAccountsId:= range loanAccountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -439,10 +430,7 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds uuid.UUID
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Branch)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( loanAccountsIds, ",")
-
-		for _, loanAccountsId:= range ids {
+		for _, loanAccountsId:= range loanAccountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -493,10 +481,7 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds uuid.UUID )(utils.RequestResu
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Branch)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( atmsIds, ",")
-
-		for _, atmsId:= range ids {
+		for _, atmsId:= range atmsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -546,10 +531,7 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds uuid.UUID )(utils.Request
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.Branch)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( atmsIds, ",")
-
-		for _, atmsId:= range ids {
+		for _, atmsId:= range atmsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

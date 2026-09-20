@@ -279,10 +279,7 @@ func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds uuid.
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.BankingProduct)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( accountsIds, ",")
-
-		for _, accountsId:= range ids {
+		for _, accountsId:= range accountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -332,10 +329,7 @@ func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds u
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.BankingProduct)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( accountsIds, ",")
-
-		for _, accountsId:= range ids {
+		for _, accountsId:= range accountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -386,10 +380,7 @@ func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsI
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.BankingProduct)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( loanAccountsIds, ",")
-
-		for _, loanAccountsId:= range ids {
+		for _, loanAccountsId:= range loanAccountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -439,10 +430,7 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccou
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.BankingProduct)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( loanAccountsIds, ",")
-
-		for _, loanAccountsId:= range ids {
+		for _, loanAccountsId:= range loanAccountsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -493,10 +481,7 @@ func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsI
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.BankingProduct)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( paymentCardsIds, ",")
-
-		for _, paymentCardsId:= range ids {
+		for _, paymentCardsId:= range paymentCardsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -546,10 +531,7 @@ func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCa
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.BankingProduct)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( paymentCardsIds, ",")
-
-		for _, paymentCardsId:= range ids {
+		for _, paymentCardsId:= range paymentCardsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

@@ -12,7 +12,7 @@ provider "aws" {
       CreatedBy = "Harbormaster"
       Blueprint = "Golang"
       DomainModel = "Banking Industry Domain Model"
-      CertificationId = "70aea6ce-4fe6-441c-9fa4-2c6ac35f8281"
+      CertificationId = "60330502-67dd-474e-bd0a-e0a416af4174"
     }
   }
 }
@@ -39,7 +39,7 @@ resource "local_file" "private_key_pem" {
 }
 
 resource "aws_key_pair" "generated" {
-  key_name   = "pjsk-sshtest-0.827737397268797"
+  key_name   = "pjsk-sshtest-0.8090876868309476"
   public_key = tls_private_key.generated.public_key_openssh
 
   lifecycle {

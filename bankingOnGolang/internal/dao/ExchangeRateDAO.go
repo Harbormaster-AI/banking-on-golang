@@ -279,10 +279,7 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds uuid.UUID
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.ExchangeRate)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( fxTradesIds, ",")
-
-		for _, fxTradesId:= range ids {
+		for _, fxTradesId:= range fxTradesIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -332,10 +329,7 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds uuid.
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.ExchangeRate)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( fxTradesIds, ",")
-
-		for _, fxTradesId:= range ids {
+		for _, fxTradesId:= range fxTradesIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

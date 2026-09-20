@@ -449,10 +449,7 @@ func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds uuid.UUID
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( borrowersIds, ",")
-
-		for _, borrowersId:= range ids {
+		for _, borrowersId:= range borrowersIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -502,10 +499,7 @@ func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds uuid.
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( borrowersIds, ",")
-
-		for _, borrowersId:= range ids {
+		for _, borrowersId:= range borrowersIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -556,10 +550,7 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentSched
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( repaymentScheduleIds, ",")
-
-		for _, repaymentScheduleId:= range ids {
+		for _, repaymentScheduleId:= range repaymentScheduleIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -609,10 +600,7 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentS
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( repaymentScheduleIds, ",")
-
-		for _, repaymentScheduleId:= range ids {
+		for _, repaymentScheduleId:= range repaymentScheduleIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -663,10 +651,7 @@ func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds uuid.UUID )
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( paymentsIds, ",")
-
-		for _, paymentsId:= range ids {
+		for _, paymentsId:= range paymentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -716,10 +701,7 @@ func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds uuid.UU
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( paymentsIds, ",")
-
-		for _, paymentsId:= range ids {
+		for _, paymentsId:= range paymentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -770,10 +752,7 @@ func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds uuid.UU
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( collateralIds, ",")
-
-		for _, collateralId:= range ids {
+		for _, collateralId:= range collateralIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -823,10 +802,7 @@ func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds uui
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( collateralIds, ",")
-
-		for _, collateralId:= range ids {
+		for _, collateralId:= range collateralIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -877,10 +853,7 @@ func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds uuid.UU
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( feeChargesIds, ",")
-
-		for _, feeChargesId:= range ids {
+		for _, feeChargesId:= range feeChargesIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -930,10 +903,7 @@ func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds uui
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.LoanAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( feeChargesIds, ",")
-
-		for _, feeChargesId:= range ids {
+		for _, feeChargesId:= range feeChargesIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

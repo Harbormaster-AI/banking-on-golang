@@ -279,10 +279,7 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.ExternalAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( transactionsIds, ",")
-
-		for _, transactionsId:= range ids {
+		for _, transactionsId:= range transactionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -332,10 +329,7 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.ExternalAccount)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( transactionsIds, ",")
-
-		for _, transactionsId:= range ids {
+		for _, transactionsId:= range transactionsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------

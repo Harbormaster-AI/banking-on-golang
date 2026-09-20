@@ -279,10 +279,7 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.KycProfile)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( identityDocumentsIds, ",")
-
-		for _, identityDocumentsId:= range ids {
+		for _, identityDocumentsId:= range identityDocumentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -332,10 +329,7 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.KycProfile)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( identityDocumentsIds, ",")
-
-		for _, identityDocumentsId:= range ids {
+		for _, identityDocumentsId:= range identityDocumentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -386,10 +380,7 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.KycProfile)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( riskAssessmentsIds, ",")
-
-		for _, riskAssessmentsId:= range ids {
+		for _, riskAssessmentsId:= range riskAssessmentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -439,10 +430,7 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.KycProfile)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( riskAssessmentsIds, ",")
-
-		for _, riskAssessmentsId:= range ids {
+		for _, riskAssessmentsId:= range riskAssessmentsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -493,10 +481,7 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds uuid.UUID
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.KycProfile)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( screeningsIds, ",")
-
-		for _, screeningsId:= range ids {
+		for _, screeningsId:= range screeningsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
@@ -546,10 +531,7 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds uuid.
 		//----------------------------------------------------------------------------
 		parentObj,_ := parentRequestResult.Data. (model.KycProfile)
 
-		// slice the ids on comma with no spaces
-		ids := strings.Split( screeningsIds, ",")
-
-		for _, screeningsId:= range ids {
+		for _, screeningsId:= range screeningsIds {
 			//----------------------------------------------------------------------------
 			// Pass the reference to the ORM to get
 			//----------------------------------------------------------------------------
