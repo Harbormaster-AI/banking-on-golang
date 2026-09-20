@@ -46,7 +46,7 @@ func CreateThirdPartyProvider(obj model.ThirdPartyProvider)(utils.RequestResult)
 //----------------------------------------------------------------------------
 // GetThirdPartyProvider - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetThirdPartyProvider(id UUID)(utils.RequestResult){
+func GetThirdPartyProvider(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateThirdPartyProvider(obj model.ThirdPartyProvider)(requestResult utils.
 //----------------------------------------------------------------------------
 // DeleteThirdPartyProvider - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteThirdPartyProvider(id UUID)(requestResult utils.RequestResult){
+func DeleteThirdPartyProvider(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteThirdPartyProvider(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a ThirdPartyProvider
 //----------------------------------------------------------------------------
-func AssignBankToThirdPartyProvider( thirdPartyProviderId UUID, bankId UUID )(utils.RequestResult){
+func AssignBankToThirdPartyProvider( thirdPartyProviderId uuid.UUID, bankId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the ThirdPartyProvider with the matching identifier
@@ -226,7 +226,7 @@ func AssignBankToThirdPartyProvider( thirdPartyProviderId UUID, bankId UUID )(ut
 //----------------------------------------------------------------------------
 // unassigns a Bank on a ThirdPartyProvider
 //----------------------------------------------------------------------------
-func UnassignBankFromThirdPartyProvider(thirdPartyProviderId UUID)(utils.RequestResult) {
+func UnassignBankFromThirdPartyProvider(thirdPartyProviderId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ThirdPartyProvider with the matching identifier
@@ -265,7 +265,7 @@ func UnassignBankFromThirdPartyProvider(thirdPartyProviderId UUID)(utils.Request
 //----------------------------------------------------------------------------
 // adds one or more consentsIds as a Consents to a ThirdPartyProvider
 //----------------------------------------------------------------------------
-func AddConsentsToThirdPartyProvider ( thirdPartyProviderId UUID, consentsIds UUID )(utils.RequestResult) {
+func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ThirdPartyProvider with the matching identifier
@@ -319,7 +319,7 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId UUID, consentsIds UU
 //----------------------------------------------------------------------------
 // removes one or more consentsIds as a Consents from a ThirdPartyProvider
 //----------------------------------------------------------------------------
-func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId UUID, consentsIds UUID )(utils.RequestResult) {
+func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ThirdPartyProvider with the matching identifier
 	//----------------------------------------------------------------------------

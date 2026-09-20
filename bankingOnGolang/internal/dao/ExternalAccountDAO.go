@@ -46,7 +46,7 @@ func CreateExternalAccount(obj model.ExternalAccount)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetExternalAccount - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetExternalAccount(id UUID)(utils.RequestResult){
+func GetExternalAccount(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateExternalAccount(obj model.ExternalAccount)(requestResult utils.Reques
 //----------------------------------------------------------------------------
 // DeleteExternalAccount - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteExternalAccount(id UUID)(requestResult utils.RequestResult){
+func DeleteExternalAccount(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteExternalAccount(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Customer on a ExternalAccount
 //----------------------------------------------------------------------------
-func AssignCustomerToExternalAccount( externalAccountId UUID, customerId UUID )(utils.RequestResult){
+func AssignCustomerToExternalAccount( externalAccountId uuid.UUID, customerId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -226,7 +226,7 @@ func AssignCustomerToExternalAccount( externalAccountId UUID, customerId UUID )(
 //----------------------------------------------------------------------------
 // unassigns a Customer on a ExternalAccount
 //----------------------------------------------------------------------------
-func UnassignCustomerFromExternalAccount(externalAccountId UUID)(utils.RequestResult) {
+func UnassignCustomerFromExternalAccount(externalAccountId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -265,7 +265,7 @@ func UnassignCustomerFromExternalAccount(externalAccountId UUID)(utils.RequestRe
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a ExternalAccount
 //----------------------------------------------------------------------------
-func AddTransactionsToExternalAccount ( externalAccountId UUID, transactionsIds UUID )(utils.RequestResult) {
+func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -319,7 +319,7 @@ func AddTransactionsToExternalAccount ( externalAccountId UUID, transactionsIds 
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a ExternalAccount
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromExternalAccount( externalAccountId UUID, transactionsIds UUID )(utils.RequestResult) {
+func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
 	//----------------------------------------------------------------------------

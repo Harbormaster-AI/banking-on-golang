@@ -46,7 +46,7 @@ func CreateBankingProduct(obj model.BankingProduct)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetBankingProduct - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetBankingProduct(id UUID)(utils.RequestResult){
+func GetBankingProduct(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateBankingProduct(obj model.BankingProduct)(requestResult utils.RequestR
 //----------------------------------------------------------------------------
 // DeleteBankingProduct - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteBankingProduct(id UUID)(requestResult utils.RequestResult){
+func DeleteBankingProduct(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteBankingProduct(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a BankingProduct
 //----------------------------------------------------------------------------
-func AssignBankToBankingProduct( bankingProductId UUID, bankId UUID )(utils.RequestResult){
+func AssignBankToBankingProduct( bankingProductId uuid.UUID, bankId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
@@ -226,7 +226,7 @@ func AssignBankToBankingProduct( bankingProductId UUID, bankId UUID )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a Bank on a BankingProduct
 //----------------------------------------------------------------------------
-func UnassignBankFromBankingProduct(bankingProductId UUID)(utils.RequestResult) {
+func UnassignBankFromBankingProduct(bankingProductId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
@@ -265,7 +265,7 @@ func UnassignBankFromBankingProduct(bankingProductId UUID)(utils.RequestResult) 
 //----------------------------------------------------------------------------
 // adds one or more accountsIds as a Accounts to a BankingProduct
 //----------------------------------------------------------------------------
-func AddAccountsToBankingProduct ( bankingProductId UUID, accountsIds UUID )(utils.RequestResult) {
+func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
@@ -319,7 +319,7 @@ func AddAccountsToBankingProduct ( bankingProductId UUID, accountsIds UUID )(uti
 //----------------------------------------------------------------------------
 // removes one or more accountsIds as a Accounts from a BankingProduct
 //----------------------------------------------------------------------------
-func RemoveAccountsFromBankingProduct( bankingProductId UUID, accountsIds UUID )(utils.RequestResult) {
+func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
 	//----------------------------------------------------------------------------
@@ -372,7 +372,7 @@ func RemoveAccountsFromBankingProduct( bankingProductId UUID, accountsIds UUID )
 //----------------------------------------------------------------------------
 // adds one or more loanAccountsIds as a LoanAccounts to a BankingProduct
 //----------------------------------------------------------------------------
-func AddLoanAccountsToBankingProduct ( bankingProductId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
@@ -426,7 +426,7 @@ func AddLoanAccountsToBankingProduct ( bankingProductId UUID, loanAccountsIds UU
 //----------------------------------------------------------------------------
 // removes one or more loanAccountsIds as a LoanAccounts from a BankingProduct
 //----------------------------------------------------------------------------
-func RemoveLoanAccountsFromBankingProduct( bankingProductId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
 	//----------------------------------------------------------------------------
@@ -479,7 +479,7 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId UUID, loanAccountsId
 //----------------------------------------------------------------------------
 // adds one or more paymentCardsIds as a PaymentCards to a BankingProduct
 //----------------------------------------------------------------------------
-func AddPaymentCardsToBankingProduct ( bankingProductId UUID, paymentCardsIds UUID )(utils.RequestResult) {
+func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
@@ -533,7 +533,7 @@ func AddPaymentCardsToBankingProduct ( bankingProductId UUID, paymentCardsIds UU
 //----------------------------------------------------------------------------
 // removes one or more paymentCardsIds as a PaymentCards from a BankingProduct
 //----------------------------------------------------------------------------
-func RemovePaymentCardsFromBankingProduct( bankingProductId UUID, paymentCardsIds UUID )(utils.RequestResult) {
+func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCardsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the BankingProduct with the matching identifier
 	//----------------------------------------------------------------------------

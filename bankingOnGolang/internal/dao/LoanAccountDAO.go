@@ -46,7 +46,7 @@ func CreateLoanAccount(obj model.LoanAccount)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetLoanAccount - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetLoanAccount(id UUID)(utils.RequestResult){
+func GetLoanAccount(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateLoanAccount(obj model.LoanAccount)(requestResult utils.RequestResult)
 //----------------------------------------------------------------------------
 // DeleteLoanAccount - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteLoanAccount(id UUID)(requestResult utils.RequestResult){
+func DeleteLoanAccount(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteLoanAccount(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a LoanAccount
 //----------------------------------------------------------------------------
-func AssignBankToLoanAccount( loanAccountId UUID, bankId UUID )(utils.RequestResult){
+func AssignBankToLoanAccount( loanAccountId uuid.UUID, bankId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -226,7 +226,7 @@ func AssignBankToLoanAccount( loanAccountId UUID, bankId UUID )(utils.RequestRes
 //----------------------------------------------------------------------------
 // unassigns a Bank on a LoanAccount
 //----------------------------------------------------------------------------
-func UnassignBankFromLoanAccount(loanAccountId UUID)(utils.RequestResult) {
+func UnassignBankFromLoanAccount(loanAccountId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -264,7 +264,7 @@ func UnassignBankFromLoanAccount(loanAccountId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Branch on a LoanAccount
 //----------------------------------------------------------------------------
-func AssignBranchToLoanAccount( loanAccountId UUID, branchId UUID )(utils.RequestResult){
+func AssignBranchToLoanAccount( loanAccountId uuid.UUID, branchId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -311,7 +311,7 @@ func AssignBranchToLoanAccount( loanAccountId UUID, branchId UUID )(utils.Reques
 //----------------------------------------------------------------------------
 // unassigns a Branch on a LoanAccount
 //----------------------------------------------------------------------------
-func UnassignBranchFromLoanAccount(loanAccountId UUID)(utils.RequestResult) {
+func UnassignBranchFromLoanAccount(loanAccountId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -349,7 +349,7 @@ func UnassignBranchFromLoanAccount(loanAccountId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Product on a LoanAccount
 //----------------------------------------------------------------------------
-func AssignProductToLoanAccount( loanAccountId UUID, productId UUID )(utils.RequestResult){
+func AssignProductToLoanAccount( loanAccountId uuid.UUID, productId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -396,7 +396,7 @@ func AssignProductToLoanAccount( loanAccountId UUID, productId UUID )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a Product on a LoanAccount
 //----------------------------------------------------------------------------
-func UnassignProductFromLoanAccount(loanAccountId UUID)(utils.RequestResult) {
+func UnassignProductFromLoanAccount(loanAccountId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -435,7 +435,7 @@ func UnassignProductFromLoanAccount(loanAccountId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more borrowersIds as a Borrowers to a LoanAccount
 //----------------------------------------------------------------------------
-func AddBorrowersToLoanAccount ( loanAccountId UUID, borrowersIds UUID )(utils.RequestResult) {
+func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -489,7 +489,7 @@ func AddBorrowersToLoanAccount ( loanAccountId UUID, borrowersIds UUID )(utils.R
 //----------------------------------------------------------------------------
 // removes one or more borrowersIds as a Borrowers from a LoanAccount
 //----------------------------------------------------------------------------
-func RemoveBorrowersFromLoanAccount( loanAccountId UUID, borrowersIds UUID )(utils.RequestResult) {
+func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
 	//----------------------------------------------------------------------------
@@ -542,7 +542,7 @@ func RemoveBorrowersFromLoanAccount( loanAccountId UUID, borrowersIds UUID )(uti
 //----------------------------------------------------------------------------
 // adds one or more repaymentScheduleIds as a RepaymentSchedule to a LoanAccount
 //----------------------------------------------------------------------------
-func AddRepaymentScheduleToLoanAccount ( loanAccountId UUID, repaymentScheduleIds UUID )(utils.RequestResult) {
+func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentScheduleIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -596,7 +596,7 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId UUID, repaymentScheduleId
 //----------------------------------------------------------------------------
 // removes one or more repaymentScheduleIds as a RepaymentSchedule from a LoanAccount
 //----------------------------------------------------------------------------
-func RemoveRepaymentScheduleFromLoanAccount( loanAccountId UUID, repaymentScheduleIds UUID )(utils.RequestResult) {
+func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentScheduleIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
 	//----------------------------------------------------------------------------
@@ -649,7 +649,7 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId UUID, repaymentSchedu
 //----------------------------------------------------------------------------
 // adds one or more paymentsIds as a Payments to a LoanAccount
 //----------------------------------------------------------------------------
-func AddPaymentsToLoanAccount ( loanAccountId UUID, paymentsIds UUID )(utils.RequestResult) {
+func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -703,7 +703,7 @@ func AddPaymentsToLoanAccount ( loanAccountId UUID, paymentsIds UUID )(utils.Req
 //----------------------------------------------------------------------------
 // removes one or more paymentsIds as a Payments from a LoanAccount
 //----------------------------------------------------------------------------
-func RemovePaymentsFromLoanAccount( loanAccountId UUID, paymentsIds UUID )(utils.RequestResult) {
+func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
 	//----------------------------------------------------------------------------
@@ -756,7 +756,7 @@ func RemovePaymentsFromLoanAccount( loanAccountId UUID, paymentsIds UUID )(utils
 //----------------------------------------------------------------------------
 // adds one or more collateralIds as a Collateral to a LoanAccount
 //----------------------------------------------------------------------------
-func AddCollateralToLoanAccount ( loanAccountId UUID, collateralIds UUID )(utils.RequestResult) {
+func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -810,7 +810,7 @@ func AddCollateralToLoanAccount ( loanAccountId UUID, collateralIds UUID )(utils
 //----------------------------------------------------------------------------
 // removes one or more collateralIds as a Collateral from a LoanAccount
 //----------------------------------------------------------------------------
-func RemoveCollateralFromLoanAccount( loanAccountId UUID, collateralIds UUID )(utils.RequestResult) {
+func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
 	//----------------------------------------------------------------------------
@@ -863,7 +863,7 @@ func RemoveCollateralFromLoanAccount( loanAccountId UUID, collateralIds UUID )(u
 //----------------------------------------------------------------------------
 // adds one or more feeChargesIds as a FeeCharges to a LoanAccount
 //----------------------------------------------------------------------------
-func AddFeeChargesToLoanAccount ( loanAccountId UUID, feeChargesIds UUID )(utils.RequestResult) {
+func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
@@ -917,7 +917,7 @@ func AddFeeChargesToLoanAccount ( loanAccountId UUID, feeChargesIds UUID )(utils
 //----------------------------------------------------------------------------
 // removes one or more feeChargesIds as a FeeCharges from a LoanAccount
 //----------------------------------------------------------------------------
-func RemoveFeeChargesFromLoanAccount( loanAccountId UUID, feeChargesIds UUID )(utils.RequestResult) {
+func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the LoanAccount with the matching identifier
 	//----------------------------------------------------------------------------

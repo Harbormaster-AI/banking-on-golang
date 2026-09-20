@@ -46,7 +46,7 @@ func CreateBranch(obj model.Branch)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetBranch - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetBranch(id UUID)(utils.RequestResult){
+func GetBranch(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateBranch(obj model.Branch)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteBranch - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteBranch(id UUID)(requestResult utils.RequestResult){
+func DeleteBranch(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteBranch(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a Branch
 //----------------------------------------------------------------------------
-func AssignBankToBranch( branchId UUID, bankId UUID )(utils.RequestResult){
+func AssignBankToBranch( branchId uuid.UUID, bankId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -226,7 +226,7 @@ func AssignBankToBranch( branchId UUID, bankId UUID )(utils.RequestResult){
 //----------------------------------------------------------------------------
 // unassigns a Bank on a Branch
 //----------------------------------------------------------------------------
-func UnassignBankFromBranch(branchId UUID)(utils.RequestResult) {
+func UnassignBankFromBranch(branchId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -265,7 +265,7 @@ func UnassignBankFromBranch(branchId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more accountsIds as a Accounts to a Branch
 //----------------------------------------------------------------------------
-func AddAccountsToBranch ( branchId UUID, accountsIds UUID )(utils.RequestResult) {
+func AddAccountsToBranch ( branchId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -319,7 +319,7 @@ func AddAccountsToBranch ( branchId UUID, accountsIds UUID )(utils.RequestResult
 //----------------------------------------------------------------------------
 // removes one or more accountsIds as a Accounts from a Branch
 //----------------------------------------------------------------------------
-func RemoveAccountsFromBranch( branchId UUID, accountsIds UUID )(utils.RequestResult) {
+func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
 	//----------------------------------------------------------------------------
@@ -372,7 +372,7 @@ func RemoveAccountsFromBranch( branchId UUID, accountsIds UUID )(utils.RequestRe
 //----------------------------------------------------------------------------
 // adds one or more loanAccountsIds as a LoanAccounts to a Branch
 //----------------------------------------------------------------------------
-func AddLoanAccountsToBranch ( branchId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -426,7 +426,7 @@ func AddLoanAccountsToBranch ( branchId UUID, loanAccountsIds UUID )(utils.Reque
 //----------------------------------------------------------------------------
 // removes one or more loanAccountsIds as a LoanAccounts from a Branch
 //----------------------------------------------------------------------------
-func RemoveLoanAccountsFromBranch( branchId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
 	//----------------------------------------------------------------------------
@@ -479,7 +479,7 @@ func RemoveLoanAccountsFromBranch( branchId UUID, loanAccountsIds UUID )(utils.R
 //----------------------------------------------------------------------------
 // adds one or more atmsIds as a Atms to a Branch
 //----------------------------------------------------------------------------
-func AddAtmsToBranch ( branchId UUID, atmsIds UUID )(utils.RequestResult) {
+func AddAtmsToBranch ( branchId uuid.UUID, atmsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -533,7 +533,7 @@ func AddAtmsToBranch ( branchId UUID, atmsIds UUID )(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // removes one or more atmsIds as a Atms from a Branch
 //----------------------------------------------------------------------------
-func RemoveAtmsFromBranch( branchId UUID, atmsIds UUID )(utils.RequestResult) {
+func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
 	//----------------------------------------------------------------------------

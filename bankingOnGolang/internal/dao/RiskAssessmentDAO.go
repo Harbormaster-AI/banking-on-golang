@@ -46,7 +46,7 @@ func CreateRiskAssessment(obj model.RiskAssessment)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetRiskAssessment - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetRiskAssessment(id UUID)(utils.RequestResult){
+func GetRiskAssessment(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateRiskAssessment(obj model.RiskAssessment)(requestResult utils.RequestR
 //----------------------------------------------------------------------------
 // DeleteRiskAssessment - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteRiskAssessment(id UUID)(requestResult utils.RequestResult){
+func DeleteRiskAssessment(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteRiskAssessment(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a KycProfile on a RiskAssessment
 //----------------------------------------------------------------------------
-func AssignKycProfileToRiskAssessment( riskAssessmentId UUID, kycProfileId UUID )(utils.RequestResult){
+func AssignKycProfileToRiskAssessment( riskAssessmentId uuid.UUID, kycProfileId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the RiskAssessment with the matching identifier
@@ -226,7 +226,7 @@ func AssignKycProfileToRiskAssessment( riskAssessmentId UUID, kycProfileId UUID 
 //----------------------------------------------------------------------------
 // unassigns a KycProfile on a RiskAssessment
 //----------------------------------------------------------------------------
-func UnassignKycProfileFromRiskAssessment(riskAssessmentId UUID)(utils.RequestResult) {
+func UnassignKycProfileFromRiskAssessment(riskAssessmentId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the RiskAssessment with the matching identifier

@@ -46,7 +46,7 @@ func CreateTransaction(obj model.Transaction)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetTransaction - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetTransaction(id UUID)(utils.RequestResult){
+func GetTransaction(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateTransaction(obj model.Transaction)(requestResult utils.RequestResult)
 //----------------------------------------------------------------------------
 // DeleteTransaction - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteTransaction(id UUID)(requestResult utils.RequestResult){
+func DeleteTransaction(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteTransaction(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Account on a Transaction
 //----------------------------------------------------------------------------
-func AssignAccountToTransaction( transactionId UUID, accountId UUID )(utils.RequestResult){
+func AssignAccountToTransaction( transactionId uuid.UUID, accountId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -226,7 +226,7 @@ func AssignAccountToTransaction( transactionId UUID, accountId UUID )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a Account on a Transaction
 //----------------------------------------------------------------------------
-func UnassignAccountFromTransaction(transactionId UUID)(utils.RequestResult) {
+func UnassignAccountFromTransaction(transactionId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -264,7 +264,7 @@ func UnassignAccountFromTransaction(transactionId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a ExternalCounterparty on a Transaction
 //----------------------------------------------------------------------------
-func AssignExternalCounterpartyToTransaction( transactionId UUID, externalCounterpartyId UUID )(utils.RequestResult){
+func AssignExternalCounterpartyToTransaction( transactionId uuid.UUID, externalCounterpartyId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -311,7 +311,7 @@ func AssignExternalCounterpartyToTransaction( transactionId UUID, externalCounte
 //----------------------------------------------------------------------------
 // unassigns a ExternalCounterparty on a Transaction
 //----------------------------------------------------------------------------
-func UnassignExternalCounterpartyFromTransaction(transactionId UUID)(utils.RequestResult) {
+func UnassignExternalCounterpartyFromTransaction(transactionId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -349,7 +349,7 @@ func UnassignExternalCounterpartyFromTransaction(transactionId UUID)(utils.Reque
 //----------------------------------------------------------------------------
 // assigns a PaymentCard on a Transaction
 //----------------------------------------------------------------------------
-func AssignPaymentCardToTransaction( transactionId UUID, paymentCardId UUID )(utils.RequestResult){
+func AssignPaymentCardToTransaction( transactionId uuid.UUID, paymentCardId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -396,7 +396,7 @@ func AssignPaymentCardToTransaction( transactionId UUID, paymentCardId UUID )(ut
 //----------------------------------------------------------------------------
 // unassigns a PaymentCard on a Transaction
 //----------------------------------------------------------------------------
-func UnassignPaymentCardFromTransaction(transactionId UUID)(utils.RequestResult) {
+func UnassignPaymentCardFromTransaction(transactionId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -434,7 +434,7 @@ func UnassignPaymentCardFromTransaction(transactionId UUID)(utils.RequestResult)
 //----------------------------------------------------------------------------
 // assigns a FundsTransfer on a Transaction
 //----------------------------------------------------------------------------
-func AssignFundsTransferToTransaction( transactionId UUID, fundsTransferId UUID )(utils.RequestResult){
+func AssignFundsTransferToTransaction( transactionId uuid.UUID, fundsTransferId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -481,7 +481,7 @@ func AssignFundsTransferToTransaction( transactionId UUID, fundsTransferId UUID 
 //----------------------------------------------------------------------------
 // unassigns a FundsTransfer on a Transaction
 //----------------------------------------------------------------------------
-func UnassignFundsTransferFromTransaction(transactionId UUID)(utils.RequestResult) {
+func UnassignFundsTransferFromTransaction(transactionId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -519,7 +519,7 @@ func UnassignFundsTransferFromTransaction(transactionId UUID)(utils.RequestResul
 //----------------------------------------------------------------------------
 // assigns a FxTrade on a Transaction
 //----------------------------------------------------------------------------
-func AssignFxTradeToTransaction( transactionId UUID, fxTradeId UUID )(utils.RequestResult){
+func AssignFxTradeToTransaction( transactionId uuid.UUID, fxTradeId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -566,7 +566,7 @@ func AssignFxTradeToTransaction( transactionId UUID, fxTradeId UUID )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a FxTrade on a Transaction
 //----------------------------------------------------------------------------
-func UnassignFxTradeFromTransaction(transactionId UUID)(utils.RequestResult) {
+func UnassignFxTradeFromTransaction(transactionId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -604,7 +604,7 @@ func UnassignFxTradeFromTransaction(transactionId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // assigns a Dispute on a Transaction
 //----------------------------------------------------------------------------
-func AssignDisputeToTransaction( transactionId UUID, disputeId UUID )(utils.RequestResult){
+func AssignDisputeToTransaction( transactionId uuid.UUID, disputeId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier
@@ -651,7 +651,7 @@ func AssignDisputeToTransaction( transactionId UUID, disputeId UUID )(utils.Requ
 //----------------------------------------------------------------------------
 // unassigns a Dispute on a Transaction
 //----------------------------------------------------------------------------
-func UnassignDisputeFromTransaction(transactionId UUID)(utils.RequestResult) {
+func UnassignDisputeFromTransaction(transactionId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Transaction with the matching identifier

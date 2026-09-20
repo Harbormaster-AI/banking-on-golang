@@ -46,7 +46,7 @@ func CreateBank(obj model.Bank)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetBank - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetBank(id UUID)(utils.RequestResult){
+func GetBank(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateBank(obj model.Bank)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteBank - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteBank(id UUID)(requestResult utils.RequestResult){
+func DeleteBank(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -180,7 +180,7 @@ func DeleteBank(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // adds one or more branchesIds as a Branches to a Bank
 //----------------------------------------------------------------------------
-func AddBranchesToBank ( bankId UUID, branchesIds UUID )(utils.RequestResult) {
+func AddBranchesToBank ( bankId uuid.UUID, branchesIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -234,7 +234,7 @@ func AddBranchesToBank ( bankId UUID, branchesIds UUID )(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // removes one or more branchesIds as a Branches from a Bank
 //----------------------------------------------------------------------------
-func RemoveBranchesFromBank( bankId UUID, branchesIds UUID )(utils.RequestResult) {
+func RemoveBranchesFromBank( bankId uuid.UUID, branchesIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -287,7 +287,7 @@ func RemoveBranchesFromBank( bankId UUID, branchesIds UUID )(utils.RequestResult
 //----------------------------------------------------------------------------
 // adds one or more productsIds as a Products to a Bank
 //----------------------------------------------------------------------------
-func AddProductsToBank ( bankId UUID, productsIds UUID )(utils.RequestResult) {
+func AddProductsToBank ( bankId uuid.UUID, productsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -341,7 +341,7 @@ func AddProductsToBank ( bankId UUID, productsIds UUID )(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // removes one or more productsIds as a Products from a Bank
 //----------------------------------------------------------------------------
-func RemoveProductsFromBank( bankId UUID, productsIds UUID )(utils.RequestResult) {
+func RemoveProductsFromBank( bankId uuid.UUID, productsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -394,7 +394,7 @@ func RemoveProductsFromBank( bankId UUID, productsIds UUID )(utils.RequestResult
 //----------------------------------------------------------------------------
 // adds one or more customersIds as a Customers to a Bank
 //----------------------------------------------------------------------------
-func AddCustomersToBank ( bankId UUID, customersIds UUID )(utils.RequestResult) {
+func AddCustomersToBank ( bankId uuid.UUID, customersIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -448,7 +448,7 @@ func AddCustomersToBank ( bankId UUID, customersIds UUID )(utils.RequestResult) 
 //----------------------------------------------------------------------------
 // removes one or more customersIds as a Customers from a Bank
 //----------------------------------------------------------------------------
-func RemoveCustomersFromBank( bankId UUID, customersIds UUID )(utils.RequestResult) {
+func RemoveCustomersFromBank( bankId uuid.UUID, customersIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -501,7 +501,7 @@ func RemoveCustomersFromBank( bankId UUID, customersIds UUID )(utils.RequestResu
 //----------------------------------------------------------------------------
 // adds one or more accountsIds as a Accounts to a Bank
 //----------------------------------------------------------------------------
-func AddAccountsToBank ( bankId UUID, accountsIds UUID )(utils.RequestResult) {
+func AddAccountsToBank ( bankId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -555,7 +555,7 @@ func AddAccountsToBank ( bankId UUID, accountsIds UUID )(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // removes one or more accountsIds as a Accounts from a Bank
 //----------------------------------------------------------------------------
-func RemoveAccountsFromBank( bankId UUID, accountsIds UUID )(utils.RequestResult) {
+func RemoveAccountsFromBank( bankId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -608,7 +608,7 @@ func RemoveAccountsFromBank( bankId UUID, accountsIds UUID )(utils.RequestResult
 //----------------------------------------------------------------------------
 // adds one or more paymentCardsIds as a PaymentCards to a Bank
 //----------------------------------------------------------------------------
-func AddPaymentCardsToBank ( bankId UUID, paymentCardsIds UUID )(utils.RequestResult) {
+func AddPaymentCardsToBank ( bankId uuid.UUID, paymentCardsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -662,7 +662,7 @@ func AddPaymentCardsToBank ( bankId UUID, paymentCardsIds UUID )(utils.RequestRe
 //----------------------------------------------------------------------------
 // removes one or more paymentCardsIds as a PaymentCards from a Bank
 //----------------------------------------------------------------------------
-func RemovePaymentCardsFromBank( bankId UUID, paymentCardsIds UUID )(utils.RequestResult) {
+func RemovePaymentCardsFromBank( bankId uuid.UUID, paymentCardsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -715,7 +715,7 @@ func RemovePaymentCardsFromBank( bankId UUID, paymentCardsIds UUID )(utils.Reque
 //----------------------------------------------------------------------------
 // adds one or more loanAccountsIds as a LoanAccounts to a Bank
 //----------------------------------------------------------------------------
-func AddLoanAccountsToBank ( bankId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func AddLoanAccountsToBank ( bankId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -769,7 +769,7 @@ func AddLoanAccountsToBank ( bankId UUID, loanAccountsIds UUID )(utils.RequestRe
 //----------------------------------------------------------------------------
 // removes one or more loanAccountsIds as a LoanAccounts from a Bank
 //----------------------------------------------------------------------------
-func RemoveLoanAccountsFromBank( bankId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func RemoveLoanAccountsFromBank( bankId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -822,7 +822,7 @@ func RemoveLoanAccountsFromBank( bankId UUID, loanAccountsIds UUID )(utils.Reque
 //----------------------------------------------------------------------------
 // adds one or more exchangeRatesIds as a ExchangeRates to a Bank
 //----------------------------------------------------------------------------
-func AddExchangeRatesToBank ( bankId UUID, exchangeRatesIds UUID )(utils.RequestResult) {
+func AddExchangeRatesToBank ( bankId uuid.UUID, exchangeRatesIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -876,7 +876,7 @@ func AddExchangeRatesToBank ( bankId UUID, exchangeRatesIds UUID )(utils.Request
 //----------------------------------------------------------------------------
 // removes one or more exchangeRatesIds as a ExchangeRates from a Bank
 //----------------------------------------------------------------------------
-func RemoveExchangeRatesFromBank( bankId UUID, exchangeRatesIds UUID )(utils.RequestResult) {
+func RemoveExchangeRatesFromBank( bankId uuid.UUID, exchangeRatesIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -929,7 +929,7 @@ func RemoveExchangeRatesFromBank( bankId UUID, exchangeRatesIds UUID )(utils.Req
 //----------------------------------------------------------------------------
 // adds one or more consentsIds as a Consents to a Bank
 //----------------------------------------------------------------------------
-func AddConsentsToBank ( bankId UUID, consentsIds UUID )(utils.RequestResult) {
+func AddConsentsToBank ( bankId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -983,7 +983,7 @@ func AddConsentsToBank ( bankId UUID, consentsIds UUID )(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // removes one or more consentsIds as a Consents from a Bank
 //----------------------------------------------------------------------------
-func RemoveConsentsFromBank( bankId UUID, consentsIds UUID )(utils.RequestResult) {
+func RemoveConsentsFromBank( bankId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------
@@ -1036,7 +1036,7 @@ func RemoveConsentsFromBank( bankId UUID, consentsIds UUID )(utils.RequestResult
 //----------------------------------------------------------------------------
 // adds one or more thirdPartyProvidersIds as a ThirdPartyProviders to a Bank
 //----------------------------------------------------------------------------
-func AddThirdPartyProvidersToBank ( bankId UUID, thirdPartyProvidersIds UUID )(utils.RequestResult) {
+func AddThirdPartyProvidersToBank ( bankId uuid.UUID, thirdPartyProvidersIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
@@ -1090,7 +1090,7 @@ func AddThirdPartyProvidersToBank ( bankId UUID, thirdPartyProvidersIds UUID )(u
 //----------------------------------------------------------------------------
 // removes one or more thirdPartyProvidersIds as a ThirdPartyProviders from a Bank
 //----------------------------------------------------------------------------
-func RemoveThirdPartyProvidersFromBank( bankId UUID, thirdPartyProvidersIds UUID )(utils.RequestResult) {
+func RemoveThirdPartyProvidersFromBank( bankId uuid.UUID, thirdPartyProvidersIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Bank with the matching identifier
 	//----------------------------------------------------------------------------

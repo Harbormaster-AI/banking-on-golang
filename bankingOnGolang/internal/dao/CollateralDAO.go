@@ -46,7 +46,7 @@ func CreateCollateral(obj model.Collateral)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetCollateral - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetCollateral(id UUID)(utils.RequestResult){
+func GetCollateral(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateCollateral(obj model.Collateral)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteCollateral - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteCollateral(id UUID)(requestResult utils.RequestResult){
+func DeleteCollateral(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteCollateral(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a LoanAccount on a Collateral
 //----------------------------------------------------------------------------
-func AssignLoanAccountToCollateral( collateralId UUID, loanAccountId UUID )(utils.RequestResult){
+func AssignLoanAccountToCollateral( collateralId uuid.UUID, loanAccountId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Collateral with the matching identifier
@@ -226,7 +226,7 @@ func AssignLoanAccountToCollateral( collateralId UUID, loanAccountId UUID )(util
 //----------------------------------------------------------------------------
 // unassigns a LoanAccount on a Collateral
 //----------------------------------------------------------------------------
-func UnassignLoanAccountFromCollateral(collateralId UUID)(utils.RequestResult) {
+func UnassignLoanAccountFromCollateral(collateralId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Collateral with the matching identifier

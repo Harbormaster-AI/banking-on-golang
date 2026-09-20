@@ -46,7 +46,7 @@ func CreateCustomer(obj model.Customer)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetCustomer - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetCustomer(id UUID)(utils.RequestResult){
+func GetCustomer(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateCustomer(obj model.Customer)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // DeleteCustomer - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteCustomer(id UUID)(requestResult utils.RequestResult){
+func DeleteCustomer(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteCustomer(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a Bank on a Customer
 //----------------------------------------------------------------------------
-func AssignBankToCustomer( customerId UUID, bankId UUID )(utils.RequestResult){
+func AssignBankToCustomer( customerId uuid.UUID, bankId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -226,7 +226,7 @@ func AssignBankToCustomer( customerId UUID, bankId UUID )(utils.RequestResult){
 //----------------------------------------------------------------------------
 // unassigns a Bank on a Customer
 //----------------------------------------------------------------------------
-func UnassignBankFromCustomer(customerId UUID)(utils.RequestResult) {
+func UnassignBankFromCustomer(customerId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -265,7 +265,7 @@ func UnassignBankFromCustomer(customerId UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more accountsIds as a Accounts to a Customer
 //----------------------------------------------------------------------------
-func AddAccountsToCustomer ( customerId UUID, accountsIds UUID )(utils.RequestResult) {
+func AddAccountsToCustomer ( customerId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -319,7 +319,7 @@ func AddAccountsToCustomer ( customerId UUID, accountsIds UUID )(utils.RequestRe
 //----------------------------------------------------------------------------
 // removes one or more accountsIds as a Accounts from a Customer
 //----------------------------------------------------------------------------
-func RemoveAccountsFromCustomer( customerId UUID, accountsIds UUID )(utils.RequestResult) {
+func RemoveAccountsFromCustomer( customerId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -372,7 +372,7 @@ func RemoveAccountsFromCustomer( customerId UUID, accountsIds UUID )(utils.Reque
 //----------------------------------------------------------------------------
 // adds one or more loanAccountsIds as a LoanAccounts to a Customer
 //----------------------------------------------------------------------------
-func AddLoanAccountsToCustomer ( customerId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func AddLoanAccountsToCustomer ( customerId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -426,7 +426,7 @@ func AddLoanAccountsToCustomer ( customerId UUID, loanAccountsIds UUID )(utils.R
 //----------------------------------------------------------------------------
 // removes one or more loanAccountsIds as a LoanAccounts from a Customer
 //----------------------------------------------------------------------------
-func RemoveLoanAccountsFromCustomer( customerId UUID, loanAccountsIds UUID )(utils.RequestResult) {
+func RemoveLoanAccountsFromCustomer( customerId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -479,7 +479,7 @@ func RemoveLoanAccountsFromCustomer( customerId UUID, loanAccountsIds UUID )(uti
 //----------------------------------------------------------------------------
 // adds one or more paymentCardsIds as a PaymentCards to a Customer
 //----------------------------------------------------------------------------
-func AddPaymentCardsToCustomer ( customerId UUID, paymentCardsIds UUID )(utils.RequestResult) {
+func AddPaymentCardsToCustomer ( customerId uuid.UUID, paymentCardsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -533,7 +533,7 @@ func AddPaymentCardsToCustomer ( customerId UUID, paymentCardsIds UUID )(utils.R
 //----------------------------------------------------------------------------
 // removes one or more paymentCardsIds as a PaymentCards from a Customer
 //----------------------------------------------------------------------------
-func RemovePaymentCardsFromCustomer( customerId UUID, paymentCardsIds UUID )(utils.RequestResult) {
+func RemovePaymentCardsFromCustomer( customerId uuid.UUID, paymentCardsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -586,7 +586,7 @@ func RemovePaymentCardsFromCustomer( customerId UUID, paymentCardsIds UUID )(uti
 //----------------------------------------------------------------------------
 // adds one or more externalAccountsIds as a ExternalAccounts to a Customer
 //----------------------------------------------------------------------------
-func AddExternalAccountsToCustomer ( customerId UUID, externalAccountsIds UUID )(utils.RequestResult) {
+func AddExternalAccountsToCustomer ( customerId uuid.UUID, externalAccountsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -640,7 +640,7 @@ func AddExternalAccountsToCustomer ( customerId UUID, externalAccountsIds UUID )
 //----------------------------------------------------------------------------
 // removes one or more externalAccountsIds as a ExternalAccounts from a Customer
 //----------------------------------------------------------------------------
-func RemoveExternalAccountsFromCustomer( customerId UUID, externalAccountsIds UUID )(utils.RequestResult) {
+func RemoveExternalAccountsFromCustomer( customerId uuid.UUID, externalAccountsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -693,7 +693,7 @@ func RemoveExternalAccountsFromCustomer( customerId UUID, externalAccountsIds UU
 //----------------------------------------------------------------------------
 // adds one or more fundsTransfersIds as a FundsTransfers to a Customer
 //----------------------------------------------------------------------------
-func AddFundsTransfersToCustomer ( customerId UUID, fundsTransfersIds UUID )(utils.RequestResult) {
+func AddFundsTransfersToCustomer ( customerId uuid.UUID, fundsTransfersIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -747,7 +747,7 @@ func AddFundsTransfersToCustomer ( customerId UUID, fundsTransfersIds UUID )(uti
 //----------------------------------------------------------------------------
 // removes one or more fundsTransfersIds as a FundsTransfers from a Customer
 //----------------------------------------------------------------------------
-func RemoveFundsTransfersFromCustomer( customerId UUID, fundsTransfersIds UUID )(utils.RequestResult) {
+func RemoveFundsTransfersFromCustomer( customerId uuid.UUID, fundsTransfersIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -800,7 +800,7 @@ func RemoveFundsTransfersFromCustomer( customerId UUID, fundsTransfersIds UUID )
 //----------------------------------------------------------------------------
 // adds one or more disputesIds as a Disputes to a Customer
 //----------------------------------------------------------------------------
-func AddDisputesToCustomer ( customerId UUID, disputesIds UUID )(utils.RequestResult) {
+func AddDisputesToCustomer ( customerId uuid.UUID, disputesIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -854,7 +854,7 @@ func AddDisputesToCustomer ( customerId UUID, disputesIds UUID )(utils.RequestRe
 //----------------------------------------------------------------------------
 // removes one or more disputesIds as a Disputes from a Customer
 //----------------------------------------------------------------------------
-func RemoveDisputesFromCustomer( customerId UUID, disputesIds UUID )(utils.RequestResult) {
+func RemoveDisputesFromCustomer( customerId uuid.UUID, disputesIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -907,7 +907,7 @@ func RemoveDisputesFromCustomer( customerId UUID, disputesIds UUID )(utils.Reque
 //----------------------------------------------------------------------------
 // adds one or more kycProfilesIds as a KycProfiles to a Customer
 //----------------------------------------------------------------------------
-func AddKycProfilesToCustomer ( customerId UUID, kycProfilesIds UUID )(utils.RequestResult) {
+func AddKycProfilesToCustomer ( customerId uuid.UUID, kycProfilesIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -961,7 +961,7 @@ func AddKycProfilesToCustomer ( customerId UUID, kycProfilesIds UUID )(utils.Req
 //----------------------------------------------------------------------------
 // removes one or more kycProfilesIds as a KycProfiles from a Customer
 //----------------------------------------------------------------------------
-func RemoveKycProfilesFromCustomer( customerId UUID, kycProfilesIds UUID )(utils.RequestResult) {
+func RemoveKycProfilesFromCustomer( customerId uuid.UUID, kycProfilesIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------
@@ -1014,7 +1014,7 @@ func RemoveKycProfilesFromCustomer( customerId UUID, kycProfilesIds UUID )(utils
 //----------------------------------------------------------------------------
 // adds one or more consentsIds as a Consents to a Customer
 //----------------------------------------------------------------------------
-func AddConsentsToCustomer ( customerId UUID, consentsIds UUID )(utils.RequestResult) {
+func AddConsentsToCustomer ( customerId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
@@ -1068,7 +1068,7 @@ func AddConsentsToCustomer ( customerId UUID, consentsIds UUID )(utils.RequestRe
 //----------------------------------------------------------------------------
 // removes one or more consentsIds as a Consents from a Customer
 //----------------------------------------------------------------------------
-func RemoveConsentsFromCustomer( customerId UUID, consentsIds UUID )(utils.RequestResult) {
+func RemoveConsentsFromCustomer( customerId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Customer with the matching identifier
 	//----------------------------------------------------------------------------

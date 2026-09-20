@@ -46,7 +46,7 @@ func CreateFundsTransfer(obj model.FundsTransfer)(utils.RequestResult){
 //----------------------------------------------------------------------------
 // GetFundsTransfer - returns the matching the provided identifier
 //----------------------------------------------------------------------------
-func GetFundsTransfer(id UUID)(utils.RequestResult){
+func GetFundsTransfer(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func UpdateFundsTransfer(obj model.FundsTransfer)(requestResult utils.RequestRes
 //----------------------------------------------------------------------------
 // DeleteFundsTransfer - deletes matching the provided identifier
 //----------------------------------------------------------------------------
-func DeleteFundsTransfer(id UUID)(requestResult utils.RequestResult){
+func DeleteFundsTransfer(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ func DeleteFundsTransfer(id UUID)(requestResult utils.RequestResult){
 //----------------------------------------------------------------------------
 // assigns a SourceAccount on a FundsTransfer
 //----------------------------------------------------------------------------
-func AssignSourceAccountToFundsTransfer( fundsTransferId UUID, sourceAccountId UUID )(utils.RequestResult){
+func AssignSourceAccountToFundsTransfer( fundsTransferId uuid.UUID, sourceAccountId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -226,7 +226,7 @@ func AssignSourceAccountToFundsTransfer( fundsTransferId UUID, sourceAccountId U
 //----------------------------------------------------------------------------
 // unassigns a SourceAccount on a FundsTransfer
 //----------------------------------------------------------------------------
-func UnassignSourceAccountFromFundsTransfer(fundsTransferId UUID)(utils.RequestResult) {
+func UnassignSourceAccountFromFundsTransfer(fundsTransferId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -264,7 +264,7 @@ func UnassignSourceAccountFromFundsTransfer(fundsTransferId UUID)(utils.RequestR
 //----------------------------------------------------------------------------
 // assigns a DestinationAccount on a FundsTransfer
 //----------------------------------------------------------------------------
-func AssignDestinationAccountToFundsTransfer( fundsTransferId UUID, destinationAccountId UUID )(utils.RequestResult){
+func AssignDestinationAccountToFundsTransfer( fundsTransferId uuid.UUID, destinationAccountId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -311,7 +311,7 @@ func AssignDestinationAccountToFundsTransfer( fundsTransferId UUID, destinationA
 //----------------------------------------------------------------------------
 // unassigns a DestinationAccount on a FundsTransfer
 //----------------------------------------------------------------------------
-func UnassignDestinationAccountFromFundsTransfer(fundsTransferId UUID)(utils.RequestResult) {
+func UnassignDestinationAccountFromFundsTransfer(fundsTransferId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -349,7 +349,7 @@ func UnassignDestinationAccountFromFundsTransfer(fundsTransferId UUID)(utils.Req
 //----------------------------------------------------------------------------
 // assigns a ExternalBeneficiary on a FundsTransfer
 //----------------------------------------------------------------------------
-func AssignExternalBeneficiaryToFundsTransfer( fundsTransferId UUID, externalBeneficiaryId UUID )(utils.RequestResult){
+func AssignExternalBeneficiaryToFundsTransfer( fundsTransferId uuid.UUID, externalBeneficiaryId uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -396,7 +396,7 @@ func AssignExternalBeneficiaryToFundsTransfer( fundsTransferId UUID, externalBen
 //----------------------------------------------------------------------------
 // unassigns a ExternalBeneficiary on a FundsTransfer
 //----------------------------------------------------------------------------
-func UnassignExternalBeneficiaryFromFundsTransfer(fundsTransferId UUID)(utils.RequestResult) {
+func UnassignExternalBeneficiaryFromFundsTransfer(fundsTransferId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -434,7 +434,7 @@ func UnassignExternalBeneficiaryFromFundsTransfer(fundsTransferId UUID)(utils.Re
 //----------------------------------------------------------------------------
 // assigns a InitiatedBy on a FundsTransfer
 //----------------------------------------------------------------------------
-func AssignInitiatedByToFundsTransfer( fundsTransferId UUID, initiatedById UUID )(utils.RequestResult){
+func AssignInitiatedByToFundsTransfer( fundsTransferId uuid.UUID, initiatedById uuid.UUID )(utils.RequestResult){
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -481,7 +481,7 @@ func AssignInitiatedByToFundsTransfer( fundsTransferId UUID, initiatedById UUID 
 //----------------------------------------------------------------------------
 // unassigns a InitiatedBy on a FundsTransfer
 //----------------------------------------------------------------------------
-func UnassignInitiatedByFromFundsTransfer(fundsTransferId UUID)(utils.RequestResult) {
+func UnassignInitiatedByFromFundsTransfer(fundsTransferId uuid.UUID)(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -520,7 +520,7 @@ func UnassignInitiatedByFromFundsTransfer(fundsTransferId UUID)(utils.RequestRes
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a FundsTransfer
 //----------------------------------------------------------------------------
-func AddTransactionsToFundsTransfer ( fundsTransferId UUID, transactionsIds UUID )(utils.RequestResult) {
+func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -574,7 +574,7 @@ func AddTransactionsToFundsTransfer ( fundsTransferId UUID, transactionsIds UUID
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a FundsTransfer
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromFundsTransfer( fundsTransferId UUID, transactionsIds UUID )(utils.RequestResult) {
+func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
 	//----------------------------------------------------------------------------
