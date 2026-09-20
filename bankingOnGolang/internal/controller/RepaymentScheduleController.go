@@ -5,17 +5,14 @@ import (
     RepaymentScheduleDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to RepaymentScheduleDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty RepaymentSchedule model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RepaymentSchedule model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to RepaymentScheduleDAO to find the relevant RepaymentSchedule
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to RepaymentScheduleDAO for database read of all RepaymentSchedules
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to RepaymentScheduleDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty RepaymentSchedule model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RepaymentSchedule model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to RepaymentScheduleDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a LoanAccount on a RepaymentSchedule
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignLoanAccount(w http.ResponseWriter, r *http.Request) {
+func AssignLoanAccountToRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignLoanAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule DAO
@@ -179,7 +176,7 @@ func assignLoanAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a LoanAccount on a RepaymentSchedule
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignLoanAccountFromRepaymentSchedule( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule DAO
@@ -209,7 +206,7 @@ func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Payment on a RepaymentSchedule
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignPayment(w http.ResponseWriter, r *http.Request) {
+func AssignPaymentToRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -219,7 +216,7 @@ func assignPayment(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule DAO
@@ -238,7 +235,7 @@ func assignPayment(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Payment on a RepaymentSchedule
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignPayment( w http.ResponseWriter, r *http.Request ) {
+func UnassignPaymentFromRepaymentSchedule( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -248,7 +245,7 @@ func unassignPayment( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the RepaymentSchedule DAO

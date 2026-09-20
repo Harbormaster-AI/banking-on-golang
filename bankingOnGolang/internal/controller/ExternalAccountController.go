@@ -5,17 +5,14 @@ import (
     ExternalAccountDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to ExternalAccountDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateExternalAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty ExternalAccount model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a ExternalAccount model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to ExternalAccountDAO to find the relevant ExternalAccount
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetExternalAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to ExternalAccountDAO for database read of all ExternalAccounts
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllExternalAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to ExternalAccountDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateExternalAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty ExternalAccount model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a ExternalAccount model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to ExternalAccountDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteExternalAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Customer on a ExternalAccount
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignCustomer(w http.ResponseWriter, r *http.Request) {
+func AssignCustomerToExternalAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount DAO
@@ -179,7 +176,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Customer on a ExternalAccount
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
+func UnassignCustomerFromExternalAccount( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount DAO
@@ -209,7 +206,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more transactionsIds as a Transactions to a ExternalAccount
 	//----------------------------------------------------------------------------
-func addToTransactions(w http.ResponseWriter, r *http.Request)  {
+func AddTransactionsToExternalAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -219,7 +216,7 @@ func addToTransactions(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount DAO
@@ -238,7 +235,7 @@ func addToTransactions(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more transactionsIds as a Transactions from a ExternalAccount
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromTransactions(w http.ResponseWriter, r *http.Request)  {
+func RemoveTransactionsFromExternalAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -248,7 +245,7 @@ func removeFromTransactions(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount DAO

@@ -5,17 +5,14 @@ import (
     PaymentCardDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to PaymentCardDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreatePaymentCard(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty PaymentCard model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a PaymentCard model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to PaymentCardDAO to find the relevant PaymentCard
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to PaymentCardDAO for database read of all PaymentCards
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllPaymentCard(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to PaymentCardDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdatePaymentCard(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty PaymentCard model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a PaymentCard model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to PaymentCardDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeletePaymentCard(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Bank on a PaymentCard
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignBank(w http.ResponseWriter, r *http.Request) {
+func AssignBankToPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -179,7 +176,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Bank on a PaymentCard
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignBank( w http.ResponseWriter, r *http.Request ) {
+func UnassignBankFromPaymentCard( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -209,7 +206,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Account on a PaymentCard
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignAccount(w http.ResponseWriter, r *http.Request) {
+func AssignAccountToPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -219,7 +216,7 @@ func assignAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -238,7 +235,7 @@ func assignAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Account on a PaymentCard
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignAccountFromPaymentCard( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -248,7 +245,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -268,7 +265,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Customer on a PaymentCard
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignCustomer(w http.ResponseWriter, r *http.Request) {
+func AssignCustomerToPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -278,7 +275,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -297,7 +294,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Customer on a PaymentCard
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
+func UnassignCustomerFromPaymentCard( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -307,7 +304,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -327,7 +324,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more transactionsIds as a Transactions to a PaymentCard
 	//----------------------------------------------------------------------------
-func addToTransactions(w http.ResponseWriter, r *http.Request)  {
+func AddTransactionsToPaymentCard(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -337,7 +334,7 @@ func addToTransactions(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
@@ -356,7 +353,7 @@ func addToTransactions(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more transactionsIds as a Transactions from a PaymentCard
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromTransactions(w http.ResponseWriter, r *http.Request)  {
+func RemoveTransactionsFromPaymentCard(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -366,7 +363,7 @@ func removeFromTransactions(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO

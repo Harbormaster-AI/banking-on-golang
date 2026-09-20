@@ -5,17 +5,14 @@ import (
     BankingProductDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to BankingProductDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateBankingProduct(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty BankingProduct model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a BankingProduct model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to BankingProductDAO to find the relevant BankingProduct
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetBankingProduct(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to BankingProductDAO for database read of all BankingProducts
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllBankingProduct(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to BankingProductDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateBankingProduct(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty BankingProduct model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a BankingProduct model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to BankingProductDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteBankingProduct(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Bank on a BankingProduct
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignBank(w http.ResponseWriter, r *http.Request) {
+func AssignBankToBankingProduct(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -179,7 +176,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Bank on a BankingProduct
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignBank( w http.ResponseWriter, r *http.Request ) {
+func UnassignBankFromBankingProduct( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -209,7 +206,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more accountsIds as a Accounts to a BankingProduct
 	//----------------------------------------------------------------------------
-func addToAccounts(w http.ResponseWriter, r *http.Request)  {
+func AddAccountsToBankingProduct(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -219,7 +216,7 @@ func addToAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -238,7 +235,7 @@ func addToAccounts(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more accountsIds as a Accounts from a BankingProduct
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromAccounts(w http.ResponseWriter, r *http.Request)  {
+func RemoveAccountsFromBankingProduct(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -248,7 +245,7 @@ func removeFromAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -266,7 +263,7 @@ func removeFromAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more loanAccountsIds as a LoanAccounts to a BankingProduct
 	//----------------------------------------------------------------------------
-func addToLoanAccounts(w http.ResponseWriter, r *http.Request)  {
+func AddLoanAccountsToBankingProduct(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -276,7 +273,7 @@ func addToLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -295,7 +292,7 @@ func addToLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more loanAccountsIds as a LoanAccounts from a BankingProduct
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromLoanAccounts(w http.ResponseWriter, r *http.Request)  {
+func RemoveLoanAccountsFromBankingProduct(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -305,7 +302,7 @@ func removeFromLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -323,7 +320,7 @@ func removeFromLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more paymentCardsIds as a PaymentCards to a BankingProduct
 	//----------------------------------------------------------------------------
-func addToPaymentCards(w http.ResponseWriter, r *http.Request)  {
+func AddPaymentCardsToBankingProduct(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -333,7 +330,7 @@ func addToPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
@@ -352,7 +349,7 @@ func addToPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more paymentCardsIds as a PaymentCards from a BankingProduct
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromPaymentCards(w http.ResponseWriter, r *http.Request)  {
+func RemovePaymentCardsFromBankingProduct(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -362,7 +359,7 @@ func removeFromPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO

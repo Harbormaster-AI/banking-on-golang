@@ -5,17 +5,14 @@ import (
     LoanAccountDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to LoanAccountDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateLoanAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty LoanAccount model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a LoanAccount model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to LoanAccountDAO to find the relevant LoanAccount
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetLoanAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to LoanAccountDAO for database read of all LoanAccounts
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllLoanAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to LoanAccountDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateLoanAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty LoanAccount model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a LoanAccount model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to LoanAccountDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteLoanAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Bank on a LoanAccount
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignBank(w http.ResponseWriter, r *http.Request) {
+func AssignBankToLoanAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -179,7 +176,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Bank on a LoanAccount
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignBank( w http.ResponseWriter, r *http.Request ) {
+func UnassignBankFromLoanAccount( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -209,7 +206,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Branch on a LoanAccount
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignBranch(w http.ResponseWriter, r *http.Request) {
+func AssignBranchToLoanAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -219,7 +216,7 @@ func assignBranch(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -238,7 +235,7 @@ func assignBranch(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Branch on a LoanAccount
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignBranch( w http.ResponseWriter, r *http.Request ) {
+func UnassignBranchFromLoanAccount( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -248,7 +245,7 @@ func unassignBranch( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -268,7 +265,7 @@ func unassignBranch( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Product on a LoanAccount
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignProduct(w http.ResponseWriter, r *http.Request) {
+func AssignProductToLoanAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -278,7 +275,7 @@ func assignProduct(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -297,7 +294,7 @@ func assignProduct(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Product on a LoanAccount
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignProduct( w http.ResponseWriter, r *http.Request ) {
+func UnassignProductFromLoanAccount( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -307,7 +304,7 @@ func unassignProduct( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -327,7 +324,7 @@ func unassignProduct( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more borrowersIds as a Borrowers to a LoanAccount
 	//----------------------------------------------------------------------------
-func addToBorrowers(w http.ResponseWriter, r *http.Request)  {
+func AddBorrowersToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -337,7 +334,7 @@ func addToBorrowers(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -356,7 +353,7 @@ func addToBorrowers(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more borrowersIds as a Borrowers from a LoanAccount
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromBorrowers(w http.ResponseWriter, r *http.Request)  {
+func RemoveBorrowersFromLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -366,7 +363,7 @@ func removeFromBorrowers(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -384,7 +381,7 @@ func removeFromBorrowers(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more repaymentScheduleIds as a RepaymentSchedule to a LoanAccount
 	//----------------------------------------------------------------------------
-func addToRepaymentSchedule(w http.ResponseWriter, r *http.Request)  {
+func AddRepaymentScheduleToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -394,7 +391,7 @@ func addToRepaymentSchedule(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -413,7 +410,7 @@ func addToRepaymentSchedule(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more repaymentScheduleIds as a RepaymentSchedule from a LoanAccount
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromRepaymentSchedule(w http.ResponseWriter, r *http.Request)  {
+func RemoveRepaymentScheduleFromLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -423,7 +420,7 @@ func removeFromRepaymentSchedule(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -441,7 +438,7 @@ func removeFromRepaymentSchedule(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more paymentsIds as a Payments to a LoanAccount
 	//----------------------------------------------------------------------------
-func addToPayments(w http.ResponseWriter, r *http.Request)  {
+func AddPaymentsToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -451,7 +448,7 @@ func addToPayments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -470,7 +467,7 @@ func addToPayments(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more paymentsIds as a Payments from a LoanAccount
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromPayments(w http.ResponseWriter, r *http.Request)  {
+func RemovePaymentsFromLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -480,7 +477,7 @@ func removeFromPayments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -498,7 +495,7 @@ func removeFromPayments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more collateralIds as a Collateral to a LoanAccount
 	//----------------------------------------------------------------------------
-func addToCollateral(w http.ResponseWriter, r *http.Request)  {
+func AddCollateralToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -508,7 +505,7 @@ func addToCollateral(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -527,7 +524,7 @@ func addToCollateral(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more collateralIds as a Collateral from a LoanAccount
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromCollateral(w http.ResponseWriter, r *http.Request)  {
+func RemoveCollateralFromLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -537,7 +534,7 @@ func removeFromCollateral(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -555,7 +552,7 @@ func removeFromCollateral(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more feeChargesIds as a FeeCharges to a LoanAccount
 	//----------------------------------------------------------------------------
-func addToFeeCharges(w http.ResponseWriter, r *http.Request)  {
+func AddFeeChargesToLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -565,7 +562,7 @@ func addToFeeCharges(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO
@@ -584,7 +581,7 @@ func addToFeeCharges(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more feeChargesIds as a FeeCharges from a LoanAccount
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromFeeCharges(w http.ResponseWriter, r *http.Request)  {
+func RemoveFeeChargesFromLoanAccount(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -594,7 +591,7 @@ func removeFromFeeCharges(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanAccount DAO

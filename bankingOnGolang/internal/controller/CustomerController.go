@@ -5,17 +5,14 @@ import (
     CustomerDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to CustomerDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty Customer model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a Customer model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to CustomerDAO to find the relevant Customer
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetCustomer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to CustomerDAO for database read of all Customers
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to CustomerDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty Customer model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a Customer model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to CustomerDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Bank on a Customer
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignBank(w http.ResponseWriter, r *http.Request) {
+func AssignBankToCustomer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -179,7 +176,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Bank on a Customer
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignBank( w http.ResponseWriter, r *http.Request ) {
+func UnassignBankFromCustomer( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -209,7 +206,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more accountsIds as a Accounts to a Customer
 	//----------------------------------------------------------------------------
-func addToAccounts(w http.ResponseWriter, r *http.Request)  {
+func AddAccountsToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -219,7 +216,7 @@ func addToAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -238,7 +235,7 @@ func addToAccounts(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more accountsIds as a Accounts from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromAccounts(w http.ResponseWriter, r *http.Request)  {
+func RemoveAccountsFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -248,7 +245,7 @@ func removeFromAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -266,7 +263,7 @@ func removeFromAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more loanAccountsIds as a LoanAccounts to a Customer
 	//----------------------------------------------------------------------------
-func addToLoanAccounts(w http.ResponseWriter, r *http.Request)  {
+func AddLoanAccountsToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -276,7 +273,7 @@ func addToLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -295,7 +292,7 @@ func addToLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more loanAccountsIds as a LoanAccounts from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromLoanAccounts(w http.ResponseWriter, r *http.Request)  {
+func RemoveLoanAccountsFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -305,7 +302,7 @@ func removeFromLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -323,7 +320,7 @@ func removeFromLoanAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more paymentCardsIds as a PaymentCards to a Customer
 	//----------------------------------------------------------------------------
-func addToPaymentCards(w http.ResponseWriter, r *http.Request)  {
+func AddPaymentCardsToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -333,7 +330,7 @@ func addToPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -352,7 +349,7 @@ func addToPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more paymentCardsIds as a PaymentCards from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromPaymentCards(w http.ResponseWriter, r *http.Request)  {
+func RemovePaymentCardsFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -362,7 +359,7 @@ func removeFromPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -380,7 +377,7 @@ func removeFromPaymentCards(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more externalAccountsIds as a ExternalAccounts to a Customer
 	//----------------------------------------------------------------------------
-func addToExternalAccounts(w http.ResponseWriter, r *http.Request)  {
+func AddExternalAccountsToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -390,7 +387,7 @@ func addToExternalAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -409,7 +406,7 @@ func addToExternalAccounts(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more externalAccountsIds as a ExternalAccounts from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromExternalAccounts(w http.ResponseWriter, r *http.Request)  {
+func RemoveExternalAccountsFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -419,7 +416,7 @@ func removeFromExternalAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -437,7 +434,7 @@ func removeFromExternalAccounts(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more fundsTransfersIds as a FundsTransfers to a Customer
 	//----------------------------------------------------------------------------
-func addToFundsTransfers(w http.ResponseWriter, r *http.Request)  {
+func AddFundsTransfersToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -447,7 +444,7 @@ func addToFundsTransfers(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -466,7 +463,7 @@ func addToFundsTransfers(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more fundsTransfersIds as a FundsTransfers from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromFundsTransfers(w http.ResponseWriter, r *http.Request)  {
+func RemoveFundsTransfersFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -476,7 +473,7 @@ func removeFromFundsTransfers(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -494,7 +491,7 @@ func removeFromFundsTransfers(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more disputesIds as a Disputes to a Customer
 	//----------------------------------------------------------------------------
-func addToDisputes(w http.ResponseWriter, r *http.Request)  {
+func AddDisputesToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -504,7 +501,7 @@ func addToDisputes(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -523,7 +520,7 @@ func addToDisputes(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more disputesIds as a Disputes from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromDisputes(w http.ResponseWriter, r *http.Request)  {
+func RemoveDisputesFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -533,7 +530,7 @@ func removeFromDisputes(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -551,7 +548,7 @@ func removeFromDisputes(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more kycProfilesIds as a KycProfiles to a Customer
 	//----------------------------------------------------------------------------
-func addToKycProfiles(w http.ResponseWriter, r *http.Request)  {
+func AddKycProfilesToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -561,7 +558,7 @@ func addToKycProfiles(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -580,7 +577,7 @@ func addToKycProfiles(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more kycProfilesIds as a KycProfiles from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromKycProfiles(w http.ResponseWriter, r *http.Request)  {
+func RemoveKycProfilesFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -590,7 +587,7 @@ func removeFromKycProfiles(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -608,7 +605,7 @@ func removeFromKycProfiles(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more consentsIds as a Consents to a Customer
 	//----------------------------------------------------------------------------
-func addToConsents(w http.ResponseWriter, r *http.Request)  {
+func AddConsentsToCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -618,7 +615,7 @@ func addToConsents(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO
@@ -637,7 +634,7 @@ func addToConsents(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more consentsIds as a Consents from a Customer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromConsents(w http.ResponseWriter, r *http.Request)  {
+func RemoveConsentsFromCustomer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -647,7 +644,7 @@ func removeFromConsents(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Customer DAO

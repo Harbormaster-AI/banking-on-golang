@@ -5,17 +5,14 @@ import (
     FXTradeDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to FXTradeDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateFXTrade(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty FXTrade model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a FXTrade model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to FXTradeDAO to find the relevant FXTrade
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to FXTradeDAO for database read of all FXTrades
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllFXTrade(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to FXTradeDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateFXTrade(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty FXTrade model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a FXTrade model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to FXTradeDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteFXTrade(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Customer on a FXTrade
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignCustomer(w http.ResponseWriter, r *http.Request) {
+func AssignCustomerToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -179,7 +176,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Customer on a FXTrade
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
+func UnassignCustomerFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -209,7 +206,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Bank on a FXTrade
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignBank(w http.ResponseWriter, r *http.Request) {
+func AssignBankToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -219,7 +216,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -238,7 +235,7 @@ func assignBank(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Bank on a FXTrade
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignBank( w http.ResponseWriter, r *http.Request ) {
+func UnassignBankFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -248,7 +245,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -268,7 +265,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	// assigns a ExchangeRate on a FXTrade
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignExchangeRate(w http.ResponseWriter, r *http.Request) {
+func AssignExchangeRateToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -278,7 +275,7 @@ func assignExchangeRate(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -297,7 +294,7 @@ func assignExchangeRate(w http.ResponseWriter, r *http.Request) {
 	// unassigns a ExchangeRate on a FXTrade
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignExchangeRate( w http.ResponseWriter, r *http.Request ) {
+func UnassignExchangeRateFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -307,7 +304,7 @@ func unassignExchangeRate( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -327,7 +324,7 @@ func unassignExchangeRate( w http.ResponseWriter, r *http.Request ) {
 	// assigns a SourceAccount on a FXTrade
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignSourceAccount(w http.ResponseWriter, r *http.Request) {
+func AssignSourceAccountToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -337,7 +334,7 @@ func assignSourceAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -356,7 +353,7 @@ func assignSourceAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a SourceAccount on a FXTrade
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignSourceAccountFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -366,7 +363,7 @@ func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -386,7 +383,7 @@ func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a DestinationAccount on a FXTrade
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignDestinationAccount(w http.ResponseWriter, r *http.Request) {
+func AssignDestinationAccountToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -396,7 +393,7 @@ func assignDestinationAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -415,7 +412,7 @@ func assignDestinationAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a DestinationAccount on a FXTrade
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignDestinationAccountFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -425,7 +422,7 @@ func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -445,7 +442,7 @@ func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Transaction on a FXTrade
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignTransaction(w http.ResponseWriter, r *http.Request) {
+func AssignTransactionToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -455,7 +452,7 @@ func assignTransaction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
@@ -474,7 +471,7 @@ func assignTransaction(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Transaction on a FXTrade
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignTransaction( w http.ResponseWriter, r *http.Request ) {
+func UnassignTransactionFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -484,7 +481,7 @@ func unassignTransaction( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO

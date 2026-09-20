@@ -5,17 +5,14 @@ import (
     KycProfileDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to KycProfileDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateKycProfile(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty KycProfile model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a KycProfile model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to KycProfileDAO to find the relevant KycProfile
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetKycProfile(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to KycProfileDAO for database read of all KycProfiles
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllKycProfile(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to KycProfileDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateKycProfile(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty KycProfile model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a KycProfile model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to KycProfileDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteKycProfile(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Customer on a KycProfile
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignCustomer(w http.ResponseWriter, r *http.Request) {
+func AssignCustomerToKycProfile(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -179,7 +176,7 @@ func assignCustomer(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Customer on a KycProfile
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
+func UnassignCustomerFromKycProfile( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -209,7 +206,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more identityDocumentsIds as a IdentityDocuments to a KycProfile
 	//----------------------------------------------------------------------------
-func addToIdentityDocuments(w http.ResponseWriter, r *http.Request)  {
+func AddIdentityDocumentsToKycProfile(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -219,7 +216,7 @@ func addToIdentityDocuments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -238,7 +235,7 @@ func addToIdentityDocuments(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more identityDocumentsIds as a IdentityDocuments from a KycProfile
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromIdentityDocuments(w http.ResponseWriter, r *http.Request)  {
+func RemoveIdentityDocumentsFromKycProfile(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -248,7 +245,7 @@ func removeFromIdentityDocuments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -266,7 +263,7 @@ func removeFromIdentityDocuments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more riskAssessmentsIds as a RiskAssessments to a KycProfile
 	//----------------------------------------------------------------------------
-func addToRiskAssessments(w http.ResponseWriter, r *http.Request)  {
+func AddRiskAssessmentsToKycProfile(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -276,7 +273,7 @@ func addToRiskAssessments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -295,7 +292,7 @@ func addToRiskAssessments(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more riskAssessmentsIds as a RiskAssessments from a KycProfile
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromRiskAssessments(w http.ResponseWriter, r *http.Request)  {
+func RemoveRiskAssessmentsFromKycProfile(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -305,7 +302,7 @@ func removeFromRiskAssessments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -323,7 +320,7 @@ func removeFromRiskAssessments(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// adds one or more screeningsIds as a Screenings to a KycProfile
 	//----------------------------------------------------------------------------
-func addToScreenings(w http.ResponseWriter, r *http.Request)  {
+func AddScreeningsToKycProfile(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -333,7 +330,7 @@ func addToScreenings(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
@@ -352,7 +349,7 @@ func addToScreenings(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more screeningsIds as a Screenings from a KycProfile
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromScreenings(w http.ResponseWriter, r *http.Request)  {
+func RemoveScreeningsFromKycProfile(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -362,7 +359,7 @@ func removeFromScreenings(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO

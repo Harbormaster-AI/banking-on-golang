@@ -5,17 +5,14 @@ import (
     TransactionDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to TransactionDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateTransaction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty Transaction model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a Transaction model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to TransactionDAO to find the relevant Transaction
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to TransactionDAO for database read of all Transactions
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllTransaction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to TransactionDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateTransaction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty Transaction model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a Transaction model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to TransactionDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteTransaction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a Account on a Transaction
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignAccount(w http.ResponseWriter, r *http.Request) {
+func AssignAccountToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -179,7 +176,7 @@ func assignAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Account on a Transaction
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignAccountFromTransaction( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -209,7 +206,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a ExternalCounterparty on a Transaction
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignExternalCounterparty(w http.ResponseWriter, r *http.Request) {
+func AssignExternalCounterpartyToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -219,7 +216,7 @@ func assignExternalCounterparty(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -238,7 +235,7 @@ func assignExternalCounterparty(w http.ResponseWriter, r *http.Request) {
 	// unassigns a ExternalCounterparty on a Transaction
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignExternalCounterparty( w http.ResponseWriter, r *http.Request ) {
+func UnassignExternalCounterpartyFromTransaction( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -248,7 +245,7 @@ func unassignExternalCounterparty( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -268,7 +265,7 @@ func unassignExternalCounterparty( w http.ResponseWriter, r *http.Request ) {
 	// assigns a PaymentCard on a Transaction
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignPaymentCard(w http.ResponseWriter, r *http.Request) {
+func AssignPaymentCardToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -278,7 +275,7 @@ func assignPaymentCard(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -297,7 +294,7 @@ func assignPaymentCard(w http.ResponseWriter, r *http.Request) {
 	// unassigns a PaymentCard on a Transaction
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignPaymentCard( w http.ResponseWriter, r *http.Request ) {
+func UnassignPaymentCardFromTransaction( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -307,7 +304,7 @@ func unassignPaymentCard( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -327,7 +324,7 @@ func unassignPaymentCard( w http.ResponseWriter, r *http.Request ) {
 	// assigns a FundsTransfer on a Transaction
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignFundsTransfer(w http.ResponseWriter, r *http.Request) {
+func AssignFundsTransferToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -337,7 +334,7 @@ func assignFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -356,7 +353,7 @@ func assignFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	// unassigns a FundsTransfer on a Transaction
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignFundsTransfer( w http.ResponseWriter, r *http.Request ) {
+func UnassignFundsTransferFromTransaction( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -366,7 +363,7 @@ func unassignFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -386,7 +383,7 @@ func unassignFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 	// assigns a FxTrade on a Transaction
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignFxTrade(w http.ResponseWriter, r *http.Request) {
+func AssignFxTradeToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -396,7 +393,7 @@ func assignFxTrade(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -415,7 +412,7 @@ func assignFxTrade(w http.ResponseWriter, r *http.Request) {
 	// unassigns a FxTrade on a Transaction
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignFxTrade( w http.ResponseWriter, r *http.Request ) {
+func UnassignFxTradeFromTransaction( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -425,7 +422,7 @@ func unassignFxTrade( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -445,7 +442,7 @@ func unassignFxTrade( w http.ResponseWriter, r *http.Request ) {
 	// assigns a Dispute on a Transaction
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignDispute(w http.ResponseWriter, r *http.Request) {
+func AssignDisputeToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -455,7 +452,7 @@ func assignDispute(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
@@ -474,7 +471,7 @@ func assignDispute(w http.ResponseWriter, r *http.Request) {
 	// unassigns a Dispute on a Transaction
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignDispute( w http.ResponseWriter, r *http.Request ) {
+func UnassignDisputeFromTransaction( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -484,7 +481,7 @@ func unassignDispute( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO

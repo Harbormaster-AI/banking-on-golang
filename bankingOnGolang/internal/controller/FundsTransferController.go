@@ -5,17 +5,14 @@ import (
     FundsTransferDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 //----------------------------------------------------------------------------
 // Create controller, delegates to FundsTransferDAO for database creation
 //----------------------------------------------------------------------------
-func create(w http.ResponseWriter, r *http.Request) {
+func CreateFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty FundsTransfer model
 	//----------------------------------------------------------------------------
@@ -24,7 +21,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a FundsTransfer model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer data access object to create
@@ -43,7 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Get controller, delegates to FundsTransferDAO to find the relevant FundsTransfer
 //----------------------------------------------------------------------------
-func get(w http.ResponseWriter, r *http.Request) {
+func GetFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty GetRequest model
@@ -53,7 +50,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a GetRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer data access object
@@ -74,7 +71,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // GetAll controller, delegates to FundsTransferDAO for database read of all FundsTransfers
 //----------------------------------------------------------------------------
-func getAll(w http.ResponseWriter, r *http.Request) {
+func GetAllFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer data access object to get all
 	//----------------------------------------------------------------------------
@@ -92,7 +89,7 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Update controller, delegates to FundsTransferDAO for database save
 //----------------------------------------------------------------------------
-func update(w http.ResponseWriter, r *http.Request) {
+func UpdateFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty FundsTransfer model
 	//----------------------------------------------------------------------------
@@ -101,7 +98,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a FundsTransfer model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer data access object
@@ -120,7 +117,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 //----------------------------------------------------------------------------
 // Delete controller, delegates to FundsTransferDAO for database deletion
 //----------------------------------------------------------------------------
-func delete(w http.ResponseWriter, r *http.Request) {
+func DeleteFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Initialize an empty DeleteRequest model
 	//----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a DeleteRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer data access object
@@ -150,7 +147,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// assigns a SourceAccount on a FundsTransfer
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignSourceAccount(w http.ResponseWriter, r *http.Request) {
+func AssignSourceAccountToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -160,7 +157,7 @@ func assignSourceAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -179,7 +176,7 @@ func assignSourceAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a SourceAccount on a FundsTransfer
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignSourceAccountFromFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -189,7 +186,7 @@ func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -209,7 +206,7 @@ func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a DestinationAccount on a FundsTransfer
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignDestinationAccount(w http.ResponseWriter, r *http.Request) {
+func AssignDestinationAccountToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -219,7 +216,7 @@ func assignDestinationAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -238,7 +235,7 @@ func assignDestinationAccount(w http.ResponseWriter, r *http.Request) {
 	// unassigns a DestinationAccount on a FundsTransfer
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
+func UnassignDestinationAccountFromFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -248,7 +245,7 @@ func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -268,7 +265,7 @@ func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
 	// assigns a ExternalBeneficiary on a FundsTransfer
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignExternalBeneficiary(w http.ResponseWriter, r *http.Request) {
+func AssignExternalBeneficiaryToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -278,7 +275,7 @@ func assignExternalBeneficiary(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -297,7 +294,7 @@ func assignExternalBeneficiary(w http.ResponseWriter, r *http.Request) {
 	// unassigns a ExternalBeneficiary on a FundsTransfer
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignExternalBeneficiary( w http.ResponseWriter, r *http.Request ) {
+func UnassignExternalBeneficiaryFromFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -307,7 +304,7 @@ func unassignExternalBeneficiary( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -327,7 +324,7 @@ func unassignExternalBeneficiary( w http.ResponseWriter, r *http.Request ) {
 	// assigns a InitiatedBy on a FundsTransfer
 	// delegates to an ORM handler
 	///----------------------------------------------------------------------------
-func assignInitiatedBy(w http.ResponseWriter, r *http.Request) {
+func AssignInitiatedByToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AssignRequest model
@@ -337,7 +334,7 @@ func assignInitiatedBy(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AssignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -356,7 +353,7 @@ func assignInitiatedBy(w http.ResponseWriter, r *http.Request) {
 	// unassigns a InitiatedBy on a FundsTransfer
 	// delegates to the ORM handler
 	//----------------------------------------------------------------------------
-func unassignInitiatedBy( w http.ResponseWriter, r *http.Request ) {
+func UnassignInitiatedByFromFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty UnassignRequest model
@@ -366,7 +363,7 @@ func unassignInitiatedBy( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Parse the body into a UnassignRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -386,7 +383,7 @@ func unassignInitiatedBy( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// adds one or more transactionsIds as a Transactions to a FundsTransfer
 	//----------------------------------------------------------------------------
-func addToTransactions(w http.ResponseWriter, r *http.Request)  {
+func AddTransactionsToFundsTransfer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty AddToRequest model
@@ -396,7 +393,7 @@ func addToTransactions(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a AddToRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
@@ -415,7 +412,7 @@ func addToTransactions(w http.ResponseWriter, r *http.Request)  {
 	// removes one or more transactionsIds as a Transactions from a FundsTransfer
 	// delegates via URI to an ORM handler
 	//----------------------------------------------------------------------------
-func removeFromTransactions(w http.ResponseWriter, r *http.Request)  {
+func RemoveTransactionsFromFundsTransfer(w http.ResponseWriter, r *http.Request)  {
 
 	//----------------------------------------------------------------------------
 	// Initialize an empty RemoveFromRequest model
@@ -425,7 +422,7 @@ func removeFromTransactions(w http.ResponseWriter, r *http.Request)  {
 	//----------------------------------------------------------------------------
 	// Parse the body into a RemoveFromRequest model structure
 	//----------------------------------------------------------------------------
-	utils.ParseBody(r, data)
+	utils.ParseBody(r, &data)
 
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO

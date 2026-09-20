@@ -56,11 +56,11 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Bank/{id}", jsonResponseFormatter.FormatToJSON(BankController.GetBank)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Bank", jsonResponseFormatter.FormatToJSON(BankController.GetAllBank)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewBank", jsonResponseFormatter.FormatToJSON(BankController.CreateBank)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Bank/{id}", jsonResponseFormatter.FormatToJSON(BankController.UpdateBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteBank/{id}", jsonResponseFormatter.FormatToJSON(BankController.DeleteBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/get", jsonResponseFormatter.FormatToJSON(BankController.GetBank)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/BankgetAll", jsonResponseFormatter.FormatToJSON(BankController.GetAllBank)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Bank/create", jsonResponseFormatter.FormatToJSON(BankController.CreateBank)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Bank/update", jsonResponseFormatter.FormatToJSON(BankController.UpdateBank)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteBank/delete", jsonResponseFormatter.FormatToJSON(BankController.DeleteBank)).Methods("POST", "OPTIONS")
 
 
 
@@ -71,32 +71,32 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddBranchesToBank/{parentId}/branchesId", jsonResponseFormatter.FormatToJSON(BankController.AddBranchesToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveBranchesFromBank/{parentId}/branchesIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveBranchesFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToBranches/", jsonResponseFormatter.FormatToJSON(BankController.AddBranchesToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromBranches/", jsonResponseFormatter.FormatToJSON(BankController.RemoveBranchesFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddProductsToBank/{parentId}/productsId", jsonResponseFormatter.FormatToJSON(BankController.AddProductsToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveProductsFromBank/{parentId}/productsIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveProductsFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToProducts/", jsonResponseFormatter.FormatToJSON(BankController.AddProductsToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromProducts/", jsonResponseFormatter.FormatToJSON(BankController.RemoveProductsFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddCustomersToBank/{parentId}/customersId", jsonResponseFormatter.FormatToJSON(BankController.AddCustomersToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveCustomersFromBank/{parentId}/customersIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveCustomersFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToCustomers/", jsonResponseFormatter.FormatToJSON(BankController.AddCustomersToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromCustomers/", jsonResponseFormatter.FormatToJSON(BankController.RemoveCustomersFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddAccountsToBank/{parentId}/accountsId", jsonResponseFormatter.FormatToJSON(BankController.AddAccountsToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveAccountsFromBank/{parentId}/accountsIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveAccountsFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToAccounts/", jsonResponseFormatter.FormatToJSON(BankController.AddAccountsToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromAccounts/", jsonResponseFormatter.FormatToJSON(BankController.RemoveAccountsFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddPaymentCardsToBank/{parentId}/paymentCardsId", jsonResponseFormatter.FormatToJSON(BankController.AddPaymentCardsToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemovePaymentCardsFromBank/{parentId}/paymentCardsIds", jsonResponseFormatter.FormatToJSON(BankController.RemovePaymentCardsFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToPaymentCards/", jsonResponseFormatter.FormatToJSON(BankController.AddPaymentCardsToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromPaymentCards/", jsonResponseFormatter.FormatToJSON(BankController.RemovePaymentCardsFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddLoanAccountsToBank/{parentId}/loanAccountsId", jsonResponseFormatter.FormatToJSON(BankController.AddLoanAccountsToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveLoanAccountsFromBank/{parentId}/loanAccountsIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveLoanAccountsFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToLoanAccounts/", jsonResponseFormatter.FormatToJSON(BankController.AddLoanAccountsToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromLoanAccounts/", jsonResponseFormatter.FormatToJSON(BankController.RemoveLoanAccountsFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddExchangeRatesToBank/{parentId}/exchangeRatesId", jsonResponseFormatter.FormatToJSON(BankController.AddExchangeRatesToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveExchangeRatesFromBank/{parentId}/exchangeRatesIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveExchangeRatesFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToExchangeRates/", jsonResponseFormatter.FormatToJSON(BankController.AddExchangeRatesToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromExchangeRates/", jsonResponseFormatter.FormatToJSON(BankController.RemoveExchangeRatesFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddConsentsToBank/{parentId}/consentsId", jsonResponseFormatter.FormatToJSON(BankController.AddConsentsToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveConsentsFromBank/{parentId}/consentsIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveConsentsFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToConsents/", jsonResponseFormatter.FormatToJSON(BankController.AddConsentsToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromConsents/", jsonResponseFormatter.FormatToJSON(BankController.RemoveConsentsFromBank)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddThirdPartyProvidersToBank/{parentId}/thirdPartyProvidersId", jsonResponseFormatter.FormatToJSON(BankController.AddThirdPartyProvidersToBank)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveThirdPartyProvidersFromBank/{parentId}/thirdPartyProvidersIds", jsonResponseFormatter.FormatToJSON(BankController.RemoveThirdPartyProvidersFromBank)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Bank/addToThirdPartyProviders/", jsonResponseFormatter.FormatToJSON(BankController.AddThirdPartyProvidersToBank)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankremoveFromThirdPartyProviders/", jsonResponseFormatter.FormatToJSON(BankController.RemoveThirdPartyProvidersFromBank)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -107,32 +107,32 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Branch/{id}", jsonResponseFormatter.FormatToJSON(BranchController.GetBranch)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Branch", jsonResponseFormatter.FormatToJSON(BranchController.GetAllBranch)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewBranch", jsonResponseFormatter.FormatToJSON(BranchController.CreateBranch)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Branch/{id}", jsonResponseFormatter.FormatToJSON(BranchController.UpdateBranch)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteBranch/{id}", jsonResponseFormatter.FormatToJSON(BranchController.DeleteBranch)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Branch/get", jsonResponseFormatter.FormatToJSON(BranchController.GetBranch)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/BranchgetAll", jsonResponseFormatter.FormatToJSON(BranchController.GetAllBranch)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Branch/create", jsonResponseFormatter.FormatToJSON(BranchController.CreateBranch)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Branch/update", jsonResponseFormatter.FormatToJSON(BranchController.UpdateBranch)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteBranch/delete", jsonResponseFormatter.FormatToJSON(BranchController.DeleteBranch)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToBranch/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(BranchController.AssignBankToBranch)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromBranch/{parentId}", jsonResponseFormatter.FormatToJSON(BranchController.UnassignBankFromBranch)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Branch/assignBank", jsonResponseFormatter.FormatToJSON(BranchController.AssignBankToBranch)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Branch/unassignBank", jsonResponseFormatter.FormatToJSON(BranchController.UnassignBankFromBranch)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddAccountsToBranch/{parentId}/accountsId", jsonResponseFormatter.FormatToJSON(BranchController.AddAccountsToBranch)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveAccountsFromBranch/{parentId}/accountsIds", jsonResponseFormatter.FormatToJSON(BranchController.RemoveAccountsFromBranch)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Branch/addToAccounts/", jsonResponseFormatter.FormatToJSON(BranchController.AddAccountsToBranch)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BranchremoveFromAccounts/", jsonResponseFormatter.FormatToJSON(BranchController.RemoveAccountsFromBranch)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddLoanAccountsToBranch/{parentId}/loanAccountsId", jsonResponseFormatter.FormatToJSON(BranchController.AddLoanAccountsToBranch)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveLoanAccountsFromBranch/{parentId}/loanAccountsIds", jsonResponseFormatter.FormatToJSON(BranchController.RemoveLoanAccountsFromBranch)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Branch/addToLoanAccounts/", jsonResponseFormatter.FormatToJSON(BranchController.AddLoanAccountsToBranch)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BranchremoveFromLoanAccounts/", jsonResponseFormatter.FormatToJSON(BranchController.RemoveLoanAccountsFromBranch)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddAtmsToBranch/{parentId}/atmsId", jsonResponseFormatter.FormatToJSON(BranchController.AddAtmsToBranch)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveAtmsFromBranch/{parentId}/atmsIds", jsonResponseFormatter.FormatToJSON(BranchController.RemoveAtmsFromBranch)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Branch/addToAtms/", jsonResponseFormatter.FormatToJSON(BranchController.AddAtmsToBranch)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BranchremoveFromAtms/", jsonResponseFormatter.FormatToJSON(BranchController.RemoveAtmsFromBranch)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -143,19 +143,19 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/ATM/{id}", jsonResponseFormatter.FormatToJSON(ATMController.GetATM)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/ATM", jsonResponseFormatter.FormatToJSON(ATMController.GetAllATM)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewATM", jsonResponseFormatter.FormatToJSON(ATMController.CreateATM)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/ATM/{id}", jsonResponseFormatter.FormatToJSON(ATMController.UpdateATM)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteATM/{id}", jsonResponseFormatter.FormatToJSON(ATMController.DeleteATM)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ATM/get", jsonResponseFormatter.FormatToJSON(ATMController.GetATM)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ATMgetAll", jsonResponseFormatter.FormatToJSON(ATMController.GetAllATM)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/ATM/create", jsonResponseFormatter.FormatToJSON(ATMController.CreateATM)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ATM/update", jsonResponseFormatter.FormatToJSON(ATMController.UpdateATM)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteATM/delete", jsonResponseFormatter.FormatToJSON(ATMController.DeleteATM)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBranchToATM/{parentId}/branchId", jsonResponseFormatter.FormatToJSON(ATMController.AssignBranchToATM)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBranchFromATM/{parentId}", jsonResponseFormatter.FormatToJSON(ATMController.UnassignBranchFromATM)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ATM/assignBranch", jsonResponseFormatter.FormatToJSON(ATMController.AssignBranchToATM)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ATM/unassignBranch", jsonResponseFormatter.FormatToJSON(ATMController.UnassignBranchFromATM)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -170,47 +170,47 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Customer/{id}", jsonResponseFormatter.FormatToJSON(CustomerController.GetCustomer)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Customer", jsonResponseFormatter.FormatToJSON(CustomerController.GetAllCustomer)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewCustomer", jsonResponseFormatter.FormatToJSON(CustomerController.CreateCustomer)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Customer/{id}", jsonResponseFormatter.FormatToJSON(CustomerController.UpdateCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteCustomer/{id}", jsonResponseFormatter.FormatToJSON(CustomerController.DeleteCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/get", jsonResponseFormatter.FormatToJSON(CustomerController.GetCustomer)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/CustomergetAll", jsonResponseFormatter.FormatToJSON(CustomerController.GetAllCustomer)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Customer/create", jsonResponseFormatter.FormatToJSON(CustomerController.CreateCustomer)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Customer/update", jsonResponseFormatter.FormatToJSON(CustomerController.UpdateCustomer)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteCustomer/delete", jsonResponseFormatter.FormatToJSON(CustomerController.DeleteCustomer)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToCustomer/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(CustomerController.AssignBankToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromCustomer/{parentId}", jsonResponseFormatter.FormatToJSON(CustomerController.UnassignBankFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/assignBank", jsonResponseFormatter.FormatToJSON(CustomerController.AssignBankToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Customer/unassignBank", jsonResponseFormatter.FormatToJSON(CustomerController.UnassignBankFromCustomer)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddAccountsToCustomer/{parentId}/accountsId", jsonResponseFormatter.FormatToJSON(CustomerController.AddAccountsToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveAccountsFromCustomer/{parentId}/accountsIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveAccountsFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToAccounts/", jsonResponseFormatter.FormatToJSON(CustomerController.AddAccountsToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromAccounts/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveAccountsFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddLoanAccountsToCustomer/{parentId}/loanAccountsId", jsonResponseFormatter.FormatToJSON(CustomerController.AddLoanAccountsToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveLoanAccountsFromCustomer/{parentId}/loanAccountsIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveLoanAccountsFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToLoanAccounts/", jsonResponseFormatter.FormatToJSON(CustomerController.AddLoanAccountsToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromLoanAccounts/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveLoanAccountsFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddPaymentCardsToCustomer/{parentId}/paymentCardsId", jsonResponseFormatter.FormatToJSON(CustomerController.AddPaymentCardsToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemovePaymentCardsFromCustomer/{parentId}/paymentCardsIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemovePaymentCardsFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToPaymentCards/", jsonResponseFormatter.FormatToJSON(CustomerController.AddPaymentCardsToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromPaymentCards/", jsonResponseFormatter.FormatToJSON(CustomerController.RemovePaymentCardsFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddExternalAccountsToCustomer/{parentId}/externalAccountsId", jsonResponseFormatter.FormatToJSON(CustomerController.AddExternalAccountsToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveExternalAccountsFromCustomer/{parentId}/externalAccountsIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveExternalAccountsFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToExternalAccounts/", jsonResponseFormatter.FormatToJSON(CustomerController.AddExternalAccountsToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromExternalAccounts/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveExternalAccountsFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddFundsTransfersToCustomer/{parentId}/fundsTransfersId", jsonResponseFormatter.FormatToJSON(CustomerController.AddFundsTransfersToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveFundsTransfersFromCustomer/{parentId}/fundsTransfersIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveFundsTransfersFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToFundsTransfers/", jsonResponseFormatter.FormatToJSON(CustomerController.AddFundsTransfersToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromFundsTransfers/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveFundsTransfersFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddDisputesToCustomer/{parentId}/disputesId", jsonResponseFormatter.FormatToJSON(CustomerController.AddDisputesToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveDisputesFromCustomer/{parentId}/disputesIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveDisputesFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToDisputes/", jsonResponseFormatter.FormatToJSON(CustomerController.AddDisputesToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromDisputes/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveDisputesFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddKycProfilesToCustomer/{parentId}/kycProfilesId", jsonResponseFormatter.FormatToJSON(CustomerController.AddKycProfilesToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveKycProfilesFromCustomer/{parentId}/kycProfilesIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveKycProfilesFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToKycProfiles/", jsonResponseFormatter.FormatToJSON(CustomerController.AddKycProfilesToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromKycProfiles/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveKycProfilesFromCustomer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddConsentsToCustomer/{parentId}/consentsId", jsonResponseFormatter.FormatToJSON(CustomerController.AddConsentsToCustomer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveConsentsFromCustomer/{parentId}/consentsIds", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveConsentsFromCustomer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Customer/addToConsents/", jsonResponseFormatter.FormatToJSON(CustomerController.AddConsentsToCustomer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/CustomerremoveFromConsents/", jsonResponseFormatter.FormatToJSON(CustomerController.RemoveConsentsFromCustomer)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -221,32 +221,32 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/KycProfile/{id}", jsonResponseFormatter.FormatToJSON(KycProfileController.GetKycProfile)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/KycProfile", jsonResponseFormatter.FormatToJSON(KycProfileController.GetAllKycProfile)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewKycProfile", jsonResponseFormatter.FormatToJSON(KycProfileController.CreateKycProfile)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/KycProfile/{id}", jsonResponseFormatter.FormatToJSON(KycProfileController.UpdateKycProfile)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteKycProfile/{id}", jsonResponseFormatter.FormatToJSON(KycProfileController.DeleteKycProfile)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/get", jsonResponseFormatter.FormatToJSON(KycProfileController.GetKycProfile)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/KycProfilegetAll", jsonResponseFormatter.FormatToJSON(KycProfileController.GetAllKycProfile)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/create", jsonResponseFormatter.FormatToJSON(KycProfileController.CreateKycProfile)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/update", jsonResponseFormatter.FormatToJSON(KycProfileController.UpdateKycProfile)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteKycProfile/delete", jsonResponseFormatter.FormatToJSON(KycProfileController.DeleteKycProfile)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignCustomerToKycProfile/{parentId}/customerId", jsonResponseFormatter.FormatToJSON(KycProfileController.AssignCustomerToKycProfile)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignCustomerFromKycProfile/{parentId}", jsonResponseFormatter.FormatToJSON(KycProfileController.UnassignCustomerFromKycProfile)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/assignCustomer", jsonResponseFormatter.FormatToJSON(KycProfileController.AssignCustomerToKycProfile)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/unassignCustomer", jsonResponseFormatter.FormatToJSON(KycProfileController.UnassignCustomerFromKycProfile)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddIdentityDocumentsToKycProfile/{parentId}/identityDocumentsId", jsonResponseFormatter.FormatToJSON(KycProfileController.AddIdentityDocumentsToKycProfile)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveIdentityDocumentsFromKycProfile/{parentId}/identityDocumentsIds", jsonResponseFormatter.FormatToJSON(KycProfileController.RemoveIdentityDocumentsFromKycProfile)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/addToIdentityDocuments/", jsonResponseFormatter.FormatToJSON(KycProfileController.AddIdentityDocumentsToKycProfile)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/KycProfileremoveFromIdentityDocuments/", jsonResponseFormatter.FormatToJSON(KycProfileController.RemoveIdentityDocumentsFromKycProfile)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddRiskAssessmentsToKycProfile/{parentId}/riskAssessmentsId", jsonResponseFormatter.FormatToJSON(KycProfileController.AddRiskAssessmentsToKycProfile)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveRiskAssessmentsFromKycProfile/{parentId}/riskAssessmentsIds", jsonResponseFormatter.FormatToJSON(KycProfileController.RemoveRiskAssessmentsFromKycProfile)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/addToRiskAssessments/", jsonResponseFormatter.FormatToJSON(KycProfileController.AddRiskAssessmentsToKycProfile)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/KycProfileremoveFromRiskAssessments/", jsonResponseFormatter.FormatToJSON(KycProfileController.RemoveRiskAssessmentsFromKycProfile)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddScreeningsToKycProfile/{parentId}/screeningsId", jsonResponseFormatter.FormatToJSON(KycProfileController.AddScreeningsToKycProfile)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveScreeningsFromKycProfile/{parentId}/screeningsIds", jsonResponseFormatter.FormatToJSON(KycProfileController.RemoveScreeningsFromKycProfile)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/KycProfile/addToScreenings/", jsonResponseFormatter.FormatToJSON(KycProfileController.AddScreeningsToKycProfile)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/KycProfileremoveFromScreenings/", jsonResponseFormatter.FormatToJSON(KycProfileController.RemoveScreeningsFromKycProfile)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -257,19 +257,19 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/IdentityDocument/{id}", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.GetIdentityDocument)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/IdentityDocument", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.GetAllIdentityDocument)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewIdentityDocument", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.CreateIdentityDocument)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/IdentityDocument/{id}", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.UpdateIdentityDocument)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteIdentityDocument/{id}", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.DeleteIdentityDocument)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/IdentityDocument/get", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.GetIdentityDocument)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/IdentityDocumentgetAll", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.GetAllIdentityDocument)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/IdentityDocument/create", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.CreateIdentityDocument)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/IdentityDocument/update", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.UpdateIdentityDocument)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteIdentityDocument/delete", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.DeleteIdentityDocument)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignKycProfileToIdentityDocument/{parentId}/kycProfileId", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.AssignKycProfileToIdentityDocument)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignKycProfileFromIdentityDocument/{parentId}", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.UnassignKycProfileFromIdentityDocument)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/IdentityDocument/assignKycProfile", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.AssignKycProfileToIdentityDocument)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/IdentityDocument/unassignKycProfile", jsonResponseFormatter.FormatToJSON(IdentityDocumentController.UnassignKycProfileFromIdentityDocument)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -284,19 +284,19 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/RiskAssessment/{id}", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.GetRiskAssessment)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/RiskAssessment", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.GetAllRiskAssessment)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewRiskAssessment", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.CreateRiskAssessment)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/RiskAssessment/{id}", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.UpdateRiskAssessment)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteRiskAssessment/{id}", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.DeleteRiskAssessment)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/RiskAssessment/get", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.GetRiskAssessment)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/RiskAssessmentgetAll", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.GetAllRiskAssessment)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/RiskAssessment/create", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.CreateRiskAssessment)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/RiskAssessment/update", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.UpdateRiskAssessment)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteRiskAssessment/delete", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.DeleteRiskAssessment)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignKycProfileToRiskAssessment/{parentId}/kycProfileId", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.AssignKycProfileToRiskAssessment)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignKycProfileFromRiskAssessment/{parentId}", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.UnassignKycProfileFromRiskAssessment)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/RiskAssessment/assignKycProfile", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.AssignKycProfileToRiskAssessment)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/RiskAssessment/unassignKycProfile", jsonResponseFormatter.FormatToJSON(RiskAssessmentController.UnassignKycProfileFromRiskAssessment)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -311,19 +311,19 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/ScreeningResult/{id}", jsonResponseFormatter.FormatToJSON(ScreeningResultController.GetScreeningResult)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/ScreeningResult", jsonResponseFormatter.FormatToJSON(ScreeningResultController.GetAllScreeningResult)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewScreeningResult", jsonResponseFormatter.FormatToJSON(ScreeningResultController.CreateScreeningResult)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/ScreeningResult/{id}", jsonResponseFormatter.FormatToJSON(ScreeningResultController.UpdateScreeningResult)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteScreeningResult/{id}", jsonResponseFormatter.FormatToJSON(ScreeningResultController.DeleteScreeningResult)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ScreeningResult/get", jsonResponseFormatter.FormatToJSON(ScreeningResultController.GetScreeningResult)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ScreeningResultgetAll", jsonResponseFormatter.FormatToJSON(ScreeningResultController.GetAllScreeningResult)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/ScreeningResult/create", jsonResponseFormatter.FormatToJSON(ScreeningResultController.CreateScreeningResult)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ScreeningResult/update", jsonResponseFormatter.FormatToJSON(ScreeningResultController.UpdateScreeningResult)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteScreeningResult/delete", jsonResponseFormatter.FormatToJSON(ScreeningResultController.DeleteScreeningResult)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignKycProfileToScreeningResult/{parentId}/kycProfileId", jsonResponseFormatter.FormatToJSON(ScreeningResultController.AssignKycProfileToScreeningResult)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignKycProfileFromScreeningResult/{parentId}", jsonResponseFormatter.FormatToJSON(ScreeningResultController.UnassignKycProfileFromScreeningResult)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ScreeningResult/assignKycProfile", jsonResponseFormatter.FormatToJSON(ScreeningResultController.AssignKycProfileToScreeningResult)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ScreeningResult/unassignKycProfile", jsonResponseFormatter.FormatToJSON(ScreeningResultController.UnassignKycProfileFromScreeningResult)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -338,32 +338,32 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/BankingProduct/{id}", jsonResponseFormatter.FormatToJSON(BankingProductController.GetBankingProduct)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/BankingProduct", jsonResponseFormatter.FormatToJSON(BankingProductController.GetAllBankingProduct)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewBankingProduct", jsonResponseFormatter.FormatToJSON(BankingProductController.CreateBankingProduct)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/BankingProduct/{id}", jsonResponseFormatter.FormatToJSON(BankingProductController.UpdateBankingProduct)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteBankingProduct/{id}", jsonResponseFormatter.FormatToJSON(BankingProductController.DeleteBankingProduct)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/get", jsonResponseFormatter.FormatToJSON(BankingProductController.GetBankingProduct)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/BankingProductgetAll", jsonResponseFormatter.FormatToJSON(BankingProductController.GetAllBankingProduct)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/create", jsonResponseFormatter.FormatToJSON(BankingProductController.CreateBankingProduct)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/update", jsonResponseFormatter.FormatToJSON(BankingProductController.UpdateBankingProduct)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteBankingProduct/delete", jsonResponseFormatter.FormatToJSON(BankingProductController.DeleteBankingProduct)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToBankingProduct/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(BankingProductController.AssignBankToBankingProduct)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromBankingProduct/{parentId}", jsonResponseFormatter.FormatToJSON(BankingProductController.UnassignBankFromBankingProduct)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/assignBank", jsonResponseFormatter.FormatToJSON(BankingProductController.AssignBankToBankingProduct)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/unassignBank", jsonResponseFormatter.FormatToJSON(BankingProductController.UnassignBankFromBankingProduct)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddAccountsToBankingProduct/{parentId}/accountsId", jsonResponseFormatter.FormatToJSON(BankingProductController.AddAccountsToBankingProduct)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveAccountsFromBankingProduct/{parentId}/accountsIds", jsonResponseFormatter.FormatToJSON(BankingProductController.RemoveAccountsFromBankingProduct)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/addToAccounts/", jsonResponseFormatter.FormatToJSON(BankingProductController.AddAccountsToBankingProduct)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankingProductremoveFromAccounts/", jsonResponseFormatter.FormatToJSON(BankingProductController.RemoveAccountsFromBankingProduct)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddLoanAccountsToBankingProduct/{parentId}/loanAccountsId", jsonResponseFormatter.FormatToJSON(BankingProductController.AddLoanAccountsToBankingProduct)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveLoanAccountsFromBankingProduct/{parentId}/loanAccountsIds", jsonResponseFormatter.FormatToJSON(BankingProductController.RemoveLoanAccountsFromBankingProduct)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/addToLoanAccounts/", jsonResponseFormatter.FormatToJSON(BankingProductController.AddLoanAccountsToBankingProduct)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankingProductremoveFromLoanAccounts/", jsonResponseFormatter.FormatToJSON(BankingProductController.RemoveLoanAccountsFromBankingProduct)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddPaymentCardsToBankingProduct/{parentId}/paymentCardsId", jsonResponseFormatter.FormatToJSON(BankingProductController.AddPaymentCardsToBankingProduct)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemovePaymentCardsFromBankingProduct/{parentId}/paymentCardsIds", jsonResponseFormatter.FormatToJSON(BankingProductController.RemovePaymentCardsFromBankingProduct)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/BankingProduct/addToPaymentCards/", jsonResponseFormatter.FormatToJSON(BankingProductController.AddPaymentCardsToBankingProduct)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/BankingProductremoveFromPaymentCards/", jsonResponseFormatter.FormatToJSON(BankingProductController.RemovePaymentCardsFromBankingProduct)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -374,44 +374,44 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Account/{id}", jsonResponseFormatter.FormatToJSON(AccountController.GetAccount)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Account", jsonResponseFormatter.FormatToJSON(AccountController.GetAllAccount)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewAccount", jsonResponseFormatter.FormatToJSON(AccountController.CreateAccount)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Account/{id}", jsonResponseFormatter.FormatToJSON(AccountController.UpdateAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteAccount/{id}", jsonResponseFormatter.FormatToJSON(AccountController.DeleteAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/get", jsonResponseFormatter.FormatToJSON(AccountController.GetAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/AccountgetAll", jsonResponseFormatter.FormatToJSON(AccountController.GetAllAccount)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Account/create", jsonResponseFormatter.FormatToJSON(AccountController.CreateAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Account/update", jsonResponseFormatter.FormatToJSON(AccountController.UpdateAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteAccount/delete", jsonResponseFormatter.FormatToJSON(AccountController.DeleteAccount)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToAccount/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(AccountController.AssignBankToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromAccount/{parentId}", jsonResponseFormatter.FormatToJSON(AccountController.UnassignBankFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/assignBank", jsonResponseFormatter.FormatToJSON(AccountController.AssignBankToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Account/unassignBank", jsonResponseFormatter.FormatToJSON(AccountController.UnassignBankFromAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignBranchToAccount/{parentId}/branchId", jsonResponseFormatter.FormatToJSON(AccountController.AssignBranchToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBranchFromAccount/{parentId}", jsonResponseFormatter.FormatToJSON(AccountController.UnassignBranchFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/assignBranch", jsonResponseFormatter.FormatToJSON(AccountController.AssignBranchToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Account/unassignBranch", jsonResponseFormatter.FormatToJSON(AccountController.UnassignBranchFromAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignProductToAccount/{parentId}/productId", jsonResponseFormatter.FormatToJSON(AccountController.AssignProductToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignProductFromAccount/{parentId}", jsonResponseFormatter.FormatToJSON(AccountController.UnassignProductFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/assignProduct", jsonResponseFormatter.FormatToJSON(AccountController.AssignProductToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Account/unassignProduct", jsonResponseFormatter.FormatToJSON(AccountController.UnassignProductFromAccount)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddOwnersToAccount/{parentId}/ownersId", jsonResponseFormatter.FormatToJSON(AccountController.AddOwnersToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveOwnersFromAccount/{parentId}/ownersIds", jsonResponseFormatter.FormatToJSON(AccountController.RemoveOwnersFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/addToOwners/", jsonResponseFormatter.FormatToJSON(AccountController.AddOwnersToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/AccountremoveFromOwners/", jsonResponseFormatter.FormatToJSON(AccountController.RemoveOwnersFromAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddTransactionsToAccount/{parentId}/transactionsId", jsonResponseFormatter.FormatToJSON(AccountController.AddTransactionsToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveTransactionsFromAccount/{parentId}/transactionsIds", jsonResponseFormatter.FormatToJSON(AccountController.RemoveTransactionsFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/addToTransactions/", jsonResponseFormatter.FormatToJSON(AccountController.AddTransactionsToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/AccountremoveFromTransactions/", jsonResponseFormatter.FormatToJSON(AccountController.RemoveTransactionsFromAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddStatementsToAccount/{parentId}/statementsId", jsonResponseFormatter.FormatToJSON(AccountController.AddStatementsToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveStatementsFromAccount/{parentId}/statementsIds", jsonResponseFormatter.FormatToJSON(AccountController.RemoveStatementsFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/addToStatements/", jsonResponseFormatter.FormatToJSON(AccountController.AddStatementsToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/AccountremoveFromStatements/", jsonResponseFormatter.FormatToJSON(AccountController.RemoveStatementsFromAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddStandingInstructionsToAccount/{parentId}/standingInstructionsId", jsonResponseFormatter.FormatToJSON(AccountController.AddStandingInstructionsToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveStandingInstructionsFromAccount/{parentId}/standingInstructionsIds", jsonResponseFormatter.FormatToJSON(AccountController.RemoveStandingInstructionsFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/addToStandingInstructions/", jsonResponseFormatter.FormatToJSON(AccountController.AddStandingInstructionsToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/AccountremoveFromStandingInstructions/", jsonResponseFormatter.FormatToJSON(AccountController.RemoveStandingInstructionsFromAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddFeeChargesToAccount/{parentId}/feeChargesId", jsonResponseFormatter.FormatToJSON(AccountController.AddFeeChargesToAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveFeeChargesFromAccount/{parentId}/feeChargesIds", jsonResponseFormatter.FormatToJSON(AccountController.RemoveFeeChargesFromAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Account/addToFeeCharges/", jsonResponseFormatter.FormatToJSON(AccountController.AddFeeChargesToAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/AccountremoveFromFeeCharges/", jsonResponseFormatter.FormatToJSON(AccountController.RemoveFeeChargesFromAccount)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -422,19 +422,19 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AccountStatement/{id}", jsonResponseFormatter.FormatToJSON(AccountStatementController.GetAccountStatement)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/AccountStatement", jsonResponseFormatter.FormatToJSON(AccountStatementController.GetAllAccountStatement)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewAccountStatement", jsonResponseFormatter.FormatToJSON(AccountStatementController.CreateAccountStatement)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/AccountStatement/{id}", jsonResponseFormatter.FormatToJSON(AccountStatementController.UpdateAccountStatement)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteAccountStatement/{id}", jsonResponseFormatter.FormatToJSON(AccountStatementController.DeleteAccountStatement)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/AccountStatement/get", jsonResponseFormatter.FormatToJSON(AccountStatementController.GetAccountStatement)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/AccountStatementgetAll", jsonResponseFormatter.FormatToJSON(AccountStatementController.GetAllAccountStatement)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/AccountStatement/create", jsonResponseFormatter.FormatToJSON(AccountStatementController.CreateAccountStatement)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/AccountStatement/update", jsonResponseFormatter.FormatToJSON(AccountStatementController.UpdateAccountStatement)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteAccountStatement/delete", jsonResponseFormatter.FormatToJSON(AccountStatementController.DeleteAccountStatement)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignAccountToAccountStatement/{parentId}/accountId", jsonResponseFormatter.FormatToJSON(AccountStatementController.AssignAccountToAccountStatement)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignAccountFromAccountStatement/{parentId}", jsonResponseFormatter.FormatToJSON(AccountStatementController.UnassignAccountFromAccountStatement)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/AccountStatement/assignAccount", jsonResponseFormatter.FormatToJSON(AccountStatementController.AssignAccountToAccountStatement)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/AccountStatement/unassignAccount", jsonResponseFormatter.FormatToJSON(AccountStatementController.UnassignAccountFromAccountStatement)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -449,34 +449,34 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Transaction/{id}", jsonResponseFormatter.FormatToJSON(TransactionController.GetTransaction)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Transaction", jsonResponseFormatter.FormatToJSON(TransactionController.GetAllTransaction)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewTransaction", jsonResponseFormatter.FormatToJSON(TransactionController.CreateTransaction)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Transaction/{id}", jsonResponseFormatter.FormatToJSON(TransactionController.UpdateTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteTransaction/{id}", jsonResponseFormatter.FormatToJSON(TransactionController.DeleteTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/get", jsonResponseFormatter.FormatToJSON(TransactionController.GetTransaction)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/TransactiongetAll", jsonResponseFormatter.FormatToJSON(TransactionController.GetAllTransaction)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Transaction/create", jsonResponseFormatter.FormatToJSON(TransactionController.CreateTransaction)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Transaction/update", jsonResponseFormatter.FormatToJSON(TransactionController.UpdateTransaction)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteTransaction/delete", jsonResponseFormatter.FormatToJSON(TransactionController.DeleteTransaction)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignAccountToTransaction/{parentId}/accountId", jsonResponseFormatter.FormatToJSON(TransactionController.AssignAccountToTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignAccountFromTransaction/{parentId}", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignAccountFromTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/assignAccount", jsonResponseFormatter.FormatToJSON(TransactionController.AssignAccountToTransaction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Transaction/unassignAccount", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignAccountFromTransaction)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignExternalCounterpartyToTransaction/{parentId}/externalCounterpartyId", jsonResponseFormatter.FormatToJSON(TransactionController.AssignExternalCounterpartyToTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignExternalCounterpartyFromTransaction/{parentId}", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignExternalCounterpartyFromTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/assignExternalCounterparty", jsonResponseFormatter.FormatToJSON(TransactionController.AssignExternalCounterpartyToTransaction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Transaction/unassignExternalCounterparty", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignExternalCounterpartyFromTransaction)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignPaymentCardToTransaction/{parentId}/paymentCardId", jsonResponseFormatter.FormatToJSON(TransactionController.AssignPaymentCardToTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignPaymentCardFromTransaction/{parentId}", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignPaymentCardFromTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/assignPaymentCard", jsonResponseFormatter.FormatToJSON(TransactionController.AssignPaymentCardToTransaction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Transaction/unassignPaymentCard", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignPaymentCardFromTransaction)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignFundsTransferToTransaction/{parentId}/fundsTransferId", jsonResponseFormatter.FormatToJSON(TransactionController.AssignFundsTransferToTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignFundsTransferFromTransaction/{parentId}", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignFundsTransferFromTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/assignFundsTransfer", jsonResponseFormatter.FormatToJSON(TransactionController.AssignFundsTransferToTransaction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Transaction/unassignFundsTransfer", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignFundsTransferFromTransaction)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignFxTradeToTransaction/{parentId}/fxTradeId", jsonResponseFormatter.FormatToJSON(TransactionController.AssignFxTradeToTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignFxTradeFromTransaction/{parentId}", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignFxTradeFromTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/assignFxTrade", jsonResponseFormatter.FormatToJSON(TransactionController.AssignFxTradeToTransaction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Transaction/unassignFxTrade", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignFxTradeFromTransaction)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignDisputeToTransaction/{parentId}/disputeId", jsonResponseFormatter.FormatToJSON(TransactionController.AssignDisputeToTransaction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignDisputeFromTransaction/{parentId}", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignDisputeFromTransaction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Transaction/assignDispute", jsonResponseFormatter.FormatToJSON(TransactionController.AssignDisputeToTransaction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Transaction/unassignDispute", jsonResponseFormatter.FormatToJSON(TransactionController.UnassignDisputeFromTransaction)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -491,26 +491,26 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/ExternalAccount/{id}", jsonResponseFormatter.FormatToJSON(ExternalAccountController.GetExternalAccount)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/ExternalAccount", jsonResponseFormatter.FormatToJSON(ExternalAccountController.GetAllExternalAccount)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewExternalAccount", jsonResponseFormatter.FormatToJSON(ExternalAccountController.CreateExternalAccount)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/ExternalAccount/{id}", jsonResponseFormatter.FormatToJSON(ExternalAccountController.UpdateExternalAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteExternalAccount/{id}", jsonResponseFormatter.FormatToJSON(ExternalAccountController.DeleteExternalAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccount/get", jsonResponseFormatter.FormatToJSON(ExternalAccountController.GetExternalAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccountgetAll", jsonResponseFormatter.FormatToJSON(ExternalAccountController.GetAllExternalAccount)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccount/create", jsonResponseFormatter.FormatToJSON(ExternalAccountController.CreateExternalAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccount/update", jsonResponseFormatter.FormatToJSON(ExternalAccountController.UpdateExternalAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteExternalAccount/delete", jsonResponseFormatter.FormatToJSON(ExternalAccountController.DeleteExternalAccount)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignCustomerToExternalAccount/{parentId}/customerId", jsonResponseFormatter.FormatToJSON(ExternalAccountController.AssignCustomerToExternalAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignCustomerFromExternalAccount/{parentId}", jsonResponseFormatter.FormatToJSON(ExternalAccountController.UnassignCustomerFromExternalAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccount/assignCustomer", jsonResponseFormatter.FormatToJSON(ExternalAccountController.AssignCustomerToExternalAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccount/unassignCustomer", jsonResponseFormatter.FormatToJSON(ExternalAccountController.UnassignCustomerFromExternalAccount)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddTransactionsToExternalAccount/{parentId}/transactionsId", jsonResponseFormatter.FormatToJSON(ExternalAccountController.AddTransactionsToExternalAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveTransactionsFromExternalAccount/{parentId}/transactionsIds", jsonResponseFormatter.FormatToJSON(ExternalAccountController.RemoveTransactionsFromExternalAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccount/addToTransactions/", jsonResponseFormatter.FormatToJSON(ExternalAccountController.AddTransactionsToExternalAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ExternalAccountremoveFromTransactions/", jsonResponseFormatter.FormatToJSON(ExternalAccountController.RemoveTransactionsFromExternalAccount)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -521,35 +521,35 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/FundsTransfer/{id}", jsonResponseFormatter.FormatToJSON(FundsTransferController.GetFundsTransfer)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/FundsTransfer", jsonResponseFormatter.FormatToJSON(FundsTransferController.GetAllFundsTransfer)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewFundsTransfer", jsonResponseFormatter.FormatToJSON(FundsTransferController.CreateFundsTransfer)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/FundsTransfer/{id}", jsonResponseFormatter.FormatToJSON(FundsTransferController.UpdateFundsTransfer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteFundsTransfer/{id}", jsonResponseFormatter.FormatToJSON(FundsTransferController.DeleteFundsTransfer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/get", jsonResponseFormatter.FormatToJSON(FundsTransferController.GetFundsTransfer)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfergetAll", jsonResponseFormatter.FormatToJSON(FundsTransferController.GetAllFundsTransfer)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/create", jsonResponseFormatter.FormatToJSON(FundsTransferController.CreateFundsTransfer)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/update", jsonResponseFormatter.FormatToJSON(FundsTransferController.UpdateFundsTransfer)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteFundsTransfer/delete", jsonResponseFormatter.FormatToJSON(FundsTransferController.DeleteFundsTransfer)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignSourceAccountToFundsTransfer/{parentId}/sourceAccountId", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignSourceAccountToFundsTransfer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignSourceAccountFromFundsTransfer/{parentId}", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignSourceAccountFromFundsTransfer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/assignSourceAccount", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignSourceAccountToFundsTransfer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/unassignSourceAccount", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignSourceAccountFromFundsTransfer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignDestinationAccountToFundsTransfer/{parentId}/destinationAccountId", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignDestinationAccountToFundsTransfer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignDestinationAccountFromFundsTransfer/{parentId}", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignDestinationAccountFromFundsTransfer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/assignDestinationAccount", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignDestinationAccountToFundsTransfer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/unassignDestinationAccount", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignDestinationAccountFromFundsTransfer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignExternalBeneficiaryToFundsTransfer/{parentId}/externalBeneficiaryId", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignExternalBeneficiaryToFundsTransfer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignExternalBeneficiaryFromFundsTransfer/{parentId}", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignExternalBeneficiaryFromFundsTransfer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/assignExternalBeneficiary", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignExternalBeneficiaryToFundsTransfer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/unassignExternalBeneficiary", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignExternalBeneficiaryFromFundsTransfer)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignInitiatedByToFundsTransfer/{parentId}/initiatedById", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignInitiatedByToFundsTransfer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignInitiatedByFromFundsTransfer/{parentId}", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignInitiatedByFromFundsTransfer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/assignInitiatedBy", jsonResponseFormatter.FormatToJSON(FundsTransferController.AssignInitiatedByToFundsTransfer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/unassignInitiatedBy", jsonResponseFormatter.FormatToJSON(FundsTransferController.UnassignInitiatedByFromFundsTransfer)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddTransactionsToFundsTransfer/{parentId}/transactionsId", jsonResponseFormatter.FormatToJSON(FundsTransferController.AddTransactionsToFundsTransfer)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveTransactionsFromFundsTransfer/{parentId}/transactionsIds", jsonResponseFormatter.FormatToJSON(FundsTransferController.RemoveTransactionsFromFundsTransfer)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FundsTransfer/addToTransactions/", jsonResponseFormatter.FormatToJSON(FundsTransferController.AddTransactionsToFundsTransfer)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FundsTransferremoveFromTransactions/", jsonResponseFormatter.FormatToJSON(FundsTransferController.RemoveTransactionsFromFundsTransfer)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -560,22 +560,22 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/StandingInstruction/{id}", jsonResponseFormatter.FormatToJSON(StandingInstructionController.GetStandingInstruction)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/StandingInstruction", jsonResponseFormatter.FormatToJSON(StandingInstructionController.GetAllStandingInstruction)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewStandingInstruction", jsonResponseFormatter.FormatToJSON(StandingInstructionController.CreateStandingInstruction)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/StandingInstruction/{id}", jsonResponseFormatter.FormatToJSON(StandingInstructionController.UpdateStandingInstruction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteStandingInstruction/{id}", jsonResponseFormatter.FormatToJSON(StandingInstructionController.DeleteStandingInstruction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/get", jsonResponseFormatter.FormatToJSON(StandingInstructionController.GetStandingInstruction)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/StandingInstructiongetAll", jsonResponseFormatter.FormatToJSON(StandingInstructionController.GetAllStandingInstruction)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/create", jsonResponseFormatter.FormatToJSON(StandingInstructionController.CreateStandingInstruction)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/update", jsonResponseFormatter.FormatToJSON(StandingInstructionController.UpdateStandingInstruction)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteStandingInstruction/delete", jsonResponseFormatter.FormatToJSON(StandingInstructionController.DeleteStandingInstruction)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignAccountToStandingInstruction/{parentId}/accountId", jsonResponseFormatter.FormatToJSON(StandingInstructionController.AssignAccountToStandingInstruction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignAccountFromStandingInstruction/{parentId}", jsonResponseFormatter.FormatToJSON(StandingInstructionController.UnassignAccountFromStandingInstruction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/assignAccount", jsonResponseFormatter.FormatToJSON(StandingInstructionController.AssignAccountToStandingInstruction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/unassignAccount", jsonResponseFormatter.FormatToJSON(StandingInstructionController.UnassignAccountFromStandingInstruction)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignBeneficiaryToStandingInstruction/{parentId}/beneficiaryId", jsonResponseFormatter.FormatToJSON(StandingInstructionController.AssignBeneficiaryToStandingInstruction)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBeneficiaryFromStandingInstruction/{parentId}", jsonResponseFormatter.FormatToJSON(StandingInstructionController.UnassignBeneficiaryFromStandingInstruction)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/assignBeneficiary", jsonResponseFormatter.FormatToJSON(StandingInstructionController.AssignBeneficiaryToStandingInstruction)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/StandingInstruction/unassignBeneficiary", jsonResponseFormatter.FormatToJSON(StandingInstructionController.UnassignBeneficiaryFromStandingInstruction)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -590,32 +590,32 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/PaymentCard/{id}", jsonResponseFormatter.FormatToJSON(PaymentCardController.GetPaymentCard)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/PaymentCard", jsonResponseFormatter.FormatToJSON(PaymentCardController.GetAllPaymentCard)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewPaymentCard", jsonResponseFormatter.FormatToJSON(PaymentCardController.CreatePaymentCard)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/PaymentCard/{id}", jsonResponseFormatter.FormatToJSON(PaymentCardController.UpdatePaymentCard)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeletePaymentCard/{id}", jsonResponseFormatter.FormatToJSON(PaymentCardController.DeletePaymentCard)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/get", jsonResponseFormatter.FormatToJSON(PaymentCardController.GetPaymentCard)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/PaymentCardgetAll", jsonResponseFormatter.FormatToJSON(PaymentCardController.GetAllPaymentCard)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/create", jsonResponseFormatter.FormatToJSON(PaymentCardController.CreatePaymentCard)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/update", jsonResponseFormatter.FormatToJSON(PaymentCardController.UpdatePaymentCard)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeletePaymentCard/delete", jsonResponseFormatter.FormatToJSON(PaymentCardController.DeletePaymentCard)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToPaymentCard/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(PaymentCardController.AssignBankToPaymentCard)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromPaymentCard/{parentId}", jsonResponseFormatter.FormatToJSON(PaymentCardController.UnassignBankFromPaymentCard)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/assignBank", jsonResponseFormatter.FormatToJSON(PaymentCardController.AssignBankToPaymentCard)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/unassignBank", jsonResponseFormatter.FormatToJSON(PaymentCardController.UnassignBankFromPaymentCard)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignAccountToPaymentCard/{parentId}/accountId", jsonResponseFormatter.FormatToJSON(PaymentCardController.AssignAccountToPaymentCard)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignAccountFromPaymentCard/{parentId}", jsonResponseFormatter.FormatToJSON(PaymentCardController.UnassignAccountFromPaymentCard)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/assignAccount", jsonResponseFormatter.FormatToJSON(PaymentCardController.AssignAccountToPaymentCard)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/unassignAccount", jsonResponseFormatter.FormatToJSON(PaymentCardController.UnassignAccountFromPaymentCard)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignCustomerToPaymentCard/{parentId}/customerId", jsonResponseFormatter.FormatToJSON(PaymentCardController.AssignCustomerToPaymentCard)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignCustomerFromPaymentCard/{parentId}", jsonResponseFormatter.FormatToJSON(PaymentCardController.UnassignCustomerFromPaymentCard)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/assignCustomer", jsonResponseFormatter.FormatToJSON(PaymentCardController.AssignCustomerToPaymentCard)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/unassignCustomer", jsonResponseFormatter.FormatToJSON(PaymentCardController.UnassignCustomerFromPaymentCard)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddTransactionsToPaymentCard/{parentId}/transactionsId", jsonResponseFormatter.FormatToJSON(PaymentCardController.AddTransactionsToPaymentCard)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveTransactionsFromPaymentCard/{parentId}/transactionsIds", jsonResponseFormatter.FormatToJSON(PaymentCardController.RemoveTransactionsFromPaymentCard)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/PaymentCard/addToTransactions/", jsonResponseFormatter.FormatToJSON(PaymentCardController.AddTransactionsToPaymentCard)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/PaymentCardremoveFromTransactions/", jsonResponseFormatter.FormatToJSON(PaymentCardController.RemoveTransactionsFromPaymentCard)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -626,44 +626,44 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/LoanAccount/{id}", jsonResponseFormatter.FormatToJSON(LoanAccountController.GetLoanAccount)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/LoanAccount", jsonResponseFormatter.FormatToJSON(LoanAccountController.GetAllLoanAccount)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewLoanAccount", jsonResponseFormatter.FormatToJSON(LoanAccountController.CreateLoanAccount)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/LoanAccount/{id}", jsonResponseFormatter.FormatToJSON(LoanAccountController.UpdateLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteLoanAccount/{id}", jsonResponseFormatter.FormatToJSON(LoanAccountController.DeleteLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/get", jsonResponseFormatter.FormatToJSON(LoanAccountController.GetLoanAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/LoanAccountgetAll", jsonResponseFormatter.FormatToJSON(LoanAccountController.GetAllLoanAccount)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/create", jsonResponseFormatter.FormatToJSON(LoanAccountController.CreateLoanAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/update", jsonResponseFormatter.FormatToJSON(LoanAccountController.UpdateLoanAccount)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteLoanAccount/delete", jsonResponseFormatter.FormatToJSON(LoanAccountController.DeleteLoanAccount)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToLoanAccount/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AssignBankToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromLoanAccount/{parentId}", jsonResponseFormatter.FormatToJSON(LoanAccountController.UnassignBankFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/assignBank", jsonResponseFormatter.FormatToJSON(LoanAccountController.AssignBankToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/unassignBank", jsonResponseFormatter.FormatToJSON(LoanAccountController.UnassignBankFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignBranchToLoanAccount/{parentId}/branchId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AssignBranchToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBranchFromLoanAccount/{parentId}", jsonResponseFormatter.FormatToJSON(LoanAccountController.UnassignBranchFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/assignBranch", jsonResponseFormatter.FormatToJSON(LoanAccountController.AssignBranchToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/unassignBranch", jsonResponseFormatter.FormatToJSON(LoanAccountController.UnassignBranchFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignProductToLoanAccount/{parentId}/productId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AssignProductToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignProductFromLoanAccount/{parentId}", jsonResponseFormatter.FormatToJSON(LoanAccountController.UnassignProductFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/assignProduct", jsonResponseFormatter.FormatToJSON(LoanAccountController.AssignProductToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/unassignProduct", jsonResponseFormatter.FormatToJSON(LoanAccountController.UnassignProductFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddBorrowersToLoanAccount/{parentId}/borrowersId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddBorrowersToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveBorrowersFromLoanAccount/{parentId}/borrowersIds", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveBorrowersFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/addToBorrowers/", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddBorrowersToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccountremoveFromBorrowers/", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveBorrowersFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddRepaymentScheduleToLoanAccount/{parentId}/repaymentScheduleId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddRepaymentScheduleToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveRepaymentScheduleFromLoanAccount/{parentId}/repaymentScheduleIds", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveRepaymentScheduleFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/addToRepaymentSchedule/", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddRepaymentScheduleToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccountremoveFromRepaymentSchedule/", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveRepaymentScheduleFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddPaymentsToLoanAccount/{parentId}/paymentsId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddPaymentsToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemovePaymentsFromLoanAccount/{parentId}/paymentsIds", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemovePaymentsFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/addToPayments/", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddPaymentsToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccountremoveFromPayments/", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemovePaymentsFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddCollateralToLoanAccount/{parentId}/collateralId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddCollateralToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveCollateralFromLoanAccount/{parentId}/collateralIds", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveCollateralFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/addToCollateral/", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddCollateralToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccountremoveFromCollateral/", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveCollateralFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AddFeeChargesToLoanAccount/{parentId}/feeChargesId", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddFeeChargesToLoanAccount)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveFeeChargesFromLoanAccount/{parentId}/feeChargesIds", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveFeeChargesFromLoanAccount)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanAccount/addToFeeCharges/", jsonResponseFormatter.FormatToJSON(LoanAccountController.AddFeeChargesToLoanAccount)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanAccountremoveFromFeeCharges/", jsonResponseFormatter.FormatToJSON(LoanAccountController.RemoveFeeChargesFromLoanAccount)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -674,22 +674,22 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/RepaymentSchedule/{id}", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.GetRepaymentSchedule)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/RepaymentSchedule", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.GetAllRepaymentSchedule)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewRepaymentSchedule", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.CreateRepaymentSchedule)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/RepaymentSchedule/{id}", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.UpdateRepaymentSchedule)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteRepaymentSchedule/{id}", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.DeleteRepaymentSchedule)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/get", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.GetRepaymentSchedule)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedulegetAll", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.GetAllRepaymentSchedule)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/create", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.CreateRepaymentSchedule)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/update", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.UpdateRepaymentSchedule)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteRepaymentSchedule/delete", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.DeleteRepaymentSchedule)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignLoanAccountToRepaymentSchedule/{parentId}/loanAccountId", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.AssignLoanAccountToRepaymentSchedule)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignLoanAccountFromRepaymentSchedule/{parentId}", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.UnassignLoanAccountFromRepaymentSchedule)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/assignLoanAccount", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.AssignLoanAccountToRepaymentSchedule)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/unassignLoanAccount", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.UnassignLoanAccountFromRepaymentSchedule)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignPaymentToRepaymentSchedule/{parentId}/paymentId", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.AssignPaymentToRepaymentSchedule)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignPaymentFromRepaymentSchedule/{parentId}", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.UnassignPaymentFromRepaymentSchedule)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/assignPayment", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.AssignPaymentToRepaymentSchedule)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/RepaymentSchedule/unassignPayment", jsonResponseFormatter.FormatToJSON(RepaymentScheduleController.UnassignPaymentFromRepaymentSchedule)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -704,22 +704,22 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/LoanPayment/{id}", jsonResponseFormatter.FormatToJSON(LoanPaymentController.GetLoanPayment)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/LoanPayment", jsonResponseFormatter.FormatToJSON(LoanPaymentController.GetAllLoanPayment)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewLoanPayment", jsonResponseFormatter.FormatToJSON(LoanPaymentController.CreateLoanPayment)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/LoanPayment/{id}", jsonResponseFormatter.FormatToJSON(LoanPaymentController.UpdateLoanPayment)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteLoanPayment/{id}", jsonResponseFormatter.FormatToJSON(LoanPaymentController.DeleteLoanPayment)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/get", jsonResponseFormatter.FormatToJSON(LoanPaymentController.GetLoanPayment)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/LoanPaymentgetAll", jsonResponseFormatter.FormatToJSON(LoanPaymentController.GetAllLoanPayment)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/create", jsonResponseFormatter.FormatToJSON(LoanPaymentController.CreateLoanPayment)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/update", jsonResponseFormatter.FormatToJSON(LoanPaymentController.UpdateLoanPayment)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteLoanPayment/delete", jsonResponseFormatter.FormatToJSON(LoanPaymentController.DeleteLoanPayment)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignLoanAccountToLoanPayment/{parentId}/loanAccountId", jsonResponseFormatter.FormatToJSON(LoanPaymentController.AssignLoanAccountToLoanPayment)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignLoanAccountFromLoanPayment/{parentId}", jsonResponseFormatter.FormatToJSON(LoanPaymentController.UnassignLoanAccountFromLoanPayment)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/assignLoanAccount", jsonResponseFormatter.FormatToJSON(LoanPaymentController.AssignLoanAccountToLoanPayment)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/unassignLoanAccount", jsonResponseFormatter.FormatToJSON(LoanPaymentController.UnassignLoanAccountFromLoanPayment)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignTransactionToLoanPayment/{parentId}/transactionId", jsonResponseFormatter.FormatToJSON(LoanPaymentController.AssignTransactionToLoanPayment)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignTransactionFromLoanPayment/{parentId}", jsonResponseFormatter.FormatToJSON(LoanPaymentController.UnassignTransactionFromLoanPayment)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/assignTransaction", jsonResponseFormatter.FormatToJSON(LoanPaymentController.AssignTransactionToLoanPayment)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/LoanPayment/unassignTransaction", jsonResponseFormatter.FormatToJSON(LoanPaymentController.UnassignTransactionFromLoanPayment)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -734,19 +734,19 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Collateral/{id}", jsonResponseFormatter.FormatToJSON(CollateralController.GetCollateral)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Collateral", jsonResponseFormatter.FormatToJSON(CollateralController.GetAllCollateral)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewCollateral", jsonResponseFormatter.FormatToJSON(CollateralController.CreateCollateral)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Collateral/{id}", jsonResponseFormatter.FormatToJSON(CollateralController.UpdateCollateral)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteCollateral/{id}", jsonResponseFormatter.FormatToJSON(CollateralController.DeleteCollateral)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Collateral/get", jsonResponseFormatter.FormatToJSON(CollateralController.GetCollateral)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/CollateralgetAll", jsonResponseFormatter.FormatToJSON(CollateralController.GetAllCollateral)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Collateral/create", jsonResponseFormatter.FormatToJSON(CollateralController.CreateCollateral)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Collateral/update", jsonResponseFormatter.FormatToJSON(CollateralController.UpdateCollateral)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteCollateral/delete", jsonResponseFormatter.FormatToJSON(CollateralController.DeleteCollateral)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignLoanAccountToCollateral/{parentId}/loanAccountId", jsonResponseFormatter.FormatToJSON(CollateralController.AssignLoanAccountToCollateral)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignLoanAccountFromCollateral/{parentId}", jsonResponseFormatter.FormatToJSON(CollateralController.UnassignLoanAccountFromCollateral)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Collateral/assignLoanAccount", jsonResponseFormatter.FormatToJSON(CollateralController.AssignLoanAccountToCollateral)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Collateral/unassignLoanAccount", jsonResponseFormatter.FormatToJSON(CollateralController.UnassignLoanAccountFromCollateral)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -761,22 +761,22 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/FeeCharge/{id}", jsonResponseFormatter.FormatToJSON(FeeChargeController.GetFeeCharge)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/FeeCharge", jsonResponseFormatter.FormatToJSON(FeeChargeController.GetAllFeeCharge)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewFeeCharge", jsonResponseFormatter.FormatToJSON(FeeChargeController.CreateFeeCharge)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/FeeCharge/{id}", jsonResponseFormatter.FormatToJSON(FeeChargeController.UpdateFeeCharge)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteFeeCharge/{id}", jsonResponseFormatter.FormatToJSON(FeeChargeController.DeleteFeeCharge)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/get", jsonResponseFormatter.FormatToJSON(FeeChargeController.GetFeeCharge)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/FeeChargegetAll", jsonResponseFormatter.FormatToJSON(FeeChargeController.GetAllFeeCharge)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/create", jsonResponseFormatter.FormatToJSON(FeeChargeController.CreateFeeCharge)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/update", jsonResponseFormatter.FormatToJSON(FeeChargeController.UpdateFeeCharge)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteFeeCharge/delete", jsonResponseFormatter.FormatToJSON(FeeChargeController.DeleteFeeCharge)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignAccountToFeeCharge/{parentId}/accountId", jsonResponseFormatter.FormatToJSON(FeeChargeController.AssignAccountToFeeCharge)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignAccountFromFeeCharge/{parentId}", jsonResponseFormatter.FormatToJSON(FeeChargeController.UnassignAccountFromFeeCharge)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/assignAccount", jsonResponseFormatter.FormatToJSON(FeeChargeController.AssignAccountToFeeCharge)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/unassignAccount", jsonResponseFormatter.FormatToJSON(FeeChargeController.UnassignAccountFromFeeCharge)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignLoanAccountToFeeCharge/{parentId}/loanAccountId", jsonResponseFormatter.FormatToJSON(FeeChargeController.AssignLoanAccountToFeeCharge)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignLoanAccountFromFeeCharge/{parentId}", jsonResponseFormatter.FormatToJSON(FeeChargeController.UnassignLoanAccountFromFeeCharge)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/assignLoanAccount", jsonResponseFormatter.FormatToJSON(FeeChargeController.AssignLoanAccountToFeeCharge)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FeeCharge/unassignLoanAccount", jsonResponseFormatter.FormatToJSON(FeeChargeController.UnassignLoanAccountFromFeeCharge)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -791,26 +791,26 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/ExchangeRate/{id}", jsonResponseFormatter.FormatToJSON(ExchangeRateController.GetExchangeRate)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/ExchangeRate", jsonResponseFormatter.FormatToJSON(ExchangeRateController.GetAllExchangeRate)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewExchangeRate", jsonResponseFormatter.FormatToJSON(ExchangeRateController.CreateExchangeRate)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/ExchangeRate/{id}", jsonResponseFormatter.FormatToJSON(ExchangeRateController.UpdateExchangeRate)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteExchangeRate/{id}", jsonResponseFormatter.FormatToJSON(ExchangeRateController.DeleteExchangeRate)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRate/get", jsonResponseFormatter.FormatToJSON(ExchangeRateController.GetExchangeRate)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRategetAll", jsonResponseFormatter.FormatToJSON(ExchangeRateController.GetAllExchangeRate)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRate/create", jsonResponseFormatter.FormatToJSON(ExchangeRateController.CreateExchangeRate)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRate/update", jsonResponseFormatter.FormatToJSON(ExchangeRateController.UpdateExchangeRate)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteExchangeRate/delete", jsonResponseFormatter.FormatToJSON(ExchangeRateController.DeleteExchangeRate)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToExchangeRate/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(ExchangeRateController.AssignBankToExchangeRate)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromExchangeRate/{parentId}", jsonResponseFormatter.FormatToJSON(ExchangeRateController.UnassignBankFromExchangeRate)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRate/assignBank", jsonResponseFormatter.FormatToJSON(ExchangeRateController.AssignBankToExchangeRate)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRate/unassignBank", jsonResponseFormatter.FormatToJSON(ExchangeRateController.UnassignBankFromExchangeRate)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddFxTradesToExchangeRate/{parentId}/fxTradesId", jsonResponseFormatter.FormatToJSON(ExchangeRateController.AddFxTradesToExchangeRate)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveFxTradesFromExchangeRate/{parentId}/fxTradesIds", jsonResponseFormatter.FormatToJSON(ExchangeRateController.RemoveFxTradesFromExchangeRate)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRate/addToFxTrades/", jsonResponseFormatter.FormatToJSON(ExchangeRateController.AddFxTradesToExchangeRate)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ExchangeRateremoveFromFxTrades/", jsonResponseFormatter.FormatToJSON(ExchangeRateController.RemoveFxTradesFromExchangeRate)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -821,34 +821,34 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/FXTrade/{id}", jsonResponseFormatter.FormatToJSON(FXTradeController.GetFXTrade)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/FXTrade", jsonResponseFormatter.FormatToJSON(FXTradeController.GetAllFXTrade)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewFXTrade", jsonResponseFormatter.FormatToJSON(FXTradeController.CreateFXTrade)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/FXTrade/{id}", jsonResponseFormatter.FormatToJSON(FXTradeController.UpdateFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteFXTrade/{id}", jsonResponseFormatter.FormatToJSON(FXTradeController.DeleteFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/get", jsonResponseFormatter.FormatToJSON(FXTradeController.GetFXTrade)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/FXTradegetAll", jsonResponseFormatter.FormatToJSON(FXTradeController.GetAllFXTrade)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/create", jsonResponseFormatter.FormatToJSON(FXTradeController.CreateFXTrade)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/update", jsonResponseFormatter.FormatToJSON(FXTradeController.UpdateFXTrade)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteFXTrade/delete", jsonResponseFormatter.FormatToJSON(FXTradeController.DeleteFXTrade)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignCustomerToFXTrade/{parentId}/customerId", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignCustomerToFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignCustomerFromFXTrade/{parentId}", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignCustomerFromFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/assignCustomer", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignCustomerToFXTrade)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/unassignCustomer", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignCustomerFromFXTrade)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignBankToFXTrade/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignBankToFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromFXTrade/{parentId}", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignBankFromFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/assignBank", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignBankToFXTrade)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/unassignBank", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignBankFromFXTrade)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignExchangeRateToFXTrade/{parentId}/exchangeRateId", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignExchangeRateToFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignExchangeRateFromFXTrade/{parentId}", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignExchangeRateFromFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/assignExchangeRate", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignExchangeRateToFXTrade)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/unassignExchangeRate", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignExchangeRateFromFXTrade)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignSourceAccountToFXTrade/{parentId}/sourceAccountId", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignSourceAccountToFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignSourceAccountFromFXTrade/{parentId}", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignSourceAccountFromFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/assignSourceAccount", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignSourceAccountToFXTrade)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/unassignSourceAccount", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignSourceAccountFromFXTrade)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignDestinationAccountToFXTrade/{parentId}/destinationAccountId", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignDestinationAccountToFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignDestinationAccountFromFXTrade/{parentId}", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignDestinationAccountFromFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/assignDestinationAccount", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignDestinationAccountToFXTrade)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/unassignDestinationAccount", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignDestinationAccountFromFXTrade)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignTransactionToFXTrade/{parentId}/transactionId", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignTransactionToFXTrade)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignTransactionFromFXTrade/{parentId}", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignTransactionFromFXTrade)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/assignTransaction", jsonResponseFormatter.FormatToJSON(FXTradeController.AssignTransactionToFXTrade)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/FXTrade/unassignTransaction", jsonResponseFormatter.FormatToJSON(FXTradeController.UnassignTransactionFromFXTrade)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -863,28 +863,28 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Dispute/{id}", jsonResponseFormatter.FormatToJSON(DisputeController.GetDispute)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Dispute", jsonResponseFormatter.FormatToJSON(DisputeController.GetAllDispute)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewDispute", jsonResponseFormatter.FormatToJSON(DisputeController.CreateDispute)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Dispute/{id}", jsonResponseFormatter.FormatToJSON(DisputeController.UpdateDispute)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteDispute/{id}", jsonResponseFormatter.FormatToJSON(DisputeController.DeleteDispute)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Dispute/get", jsonResponseFormatter.FormatToJSON(DisputeController.GetDispute)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DisputegetAll", jsonResponseFormatter.FormatToJSON(DisputeController.GetAllDispute)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Dispute/create", jsonResponseFormatter.FormatToJSON(DisputeController.CreateDispute)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Dispute/update", jsonResponseFormatter.FormatToJSON(DisputeController.UpdateDispute)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteDispute/delete", jsonResponseFormatter.FormatToJSON(DisputeController.DeleteDispute)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignTransactionToDispute/{parentId}/transactionId", jsonResponseFormatter.FormatToJSON(DisputeController.AssignTransactionToDispute)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignTransactionFromDispute/{parentId}", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignTransactionFromDispute)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Dispute/assignTransaction", jsonResponseFormatter.FormatToJSON(DisputeController.AssignTransactionToDispute)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Dispute/unassignTransaction", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignTransactionFromDispute)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignCustomerToDispute/{parentId}/customerId", jsonResponseFormatter.FormatToJSON(DisputeController.AssignCustomerToDispute)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignCustomerFromDispute/{parentId}", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignCustomerFromDispute)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Dispute/assignCustomer", jsonResponseFormatter.FormatToJSON(DisputeController.AssignCustomerToDispute)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Dispute/unassignCustomer", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignCustomerFromDispute)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignAccountToDispute/{parentId}/accountId", jsonResponseFormatter.FormatToJSON(DisputeController.AssignAccountToDispute)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignAccountFromDispute/{parentId}", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignAccountFromDispute)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Dispute/assignAccount", jsonResponseFormatter.FormatToJSON(DisputeController.AssignAccountToDispute)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Dispute/unassignAccount", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignAccountFromDispute)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignPaymentCardToDispute/{parentId}/paymentCardId", jsonResponseFormatter.FormatToJSON(DisputeController.AssignPaymentCardToDispute)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignPaymentCardFromDispute/{parentId}", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignPaymentCardFromDispute)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Dispute/assignPaymentCard", jsonResponseFormatter.FormatToJSON(DisputeController.AssignPaymentCardToDispute)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Dispute/unassignPaymentCard", jsonResponseFormatter.FormatToJSON(DisputeController.UnassignPaymentCardFromDispute)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -899,32 +899,32 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/Consent/{id}", jsonResponseFormatter.FormatToJSON(ConsentController.GetConsent)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/Consent", jsonResponseFormatter.FormatToJSON(ConsentController.GetAllConsent)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewConsent", jsonResponseFormatter.FormatToJSON(ConsentController.CreateConsent)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/Consent/{id}", jsonResponseFormatter.FormatToJSON(ConsentController.UpdateConsent)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteConsent/{id}", jsonResponseFormatter.FormatToJSON(ConsentController.DeleteConsent)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Consent/get", jsonResponseFormatter.FormatToJSON(ConsentController.GetConsent)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ConsentgetAll", jsonResponseFormatter.FormatToJSON(ConsentController.GetAllConsent)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/Consent/create", jsonResponseFormatter.FormatToJSON(ConsentController.CreateConsent)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/Consent/update", jsonResponseFormatter.FormatToJSON(ConsentController.UpdateConsent)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteConsent/delete", jsonResponseFormatter.FormatToJSON(ConsentController.DeleteConsent)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignCustomerToConsent/{parentId}/customerId", jsonResponseFormatter.FormatToJSON(ConsentController.AssignCustomerToConsent)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignCustomerFromConsent/{parentId}", jsonResponseFormatter.FormatToJSON(ConsentController.UnassignCustomerFromConsent)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Consent/assignCustomer", jsonResponseFormatter.FormatToJSON(ConsentController.AssignCustomerToConsent)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Consent/unassignCustomer", jsonResponseFormatter.FormatToJSON(ConsentController.UnassignCustomerFromConsent)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignBankToConsent/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(ConsentController.AssignBankToConsent)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromConsent/{parentId}", jsonResponseFormatter.FormatToJSON(ConsentController.UnassignBankFromConsent)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Consent/assignBank", jsonResponseFormatter.FormatToJSON(ConsentController.AssignBankToConsent)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Consent/unassignBank", jsonResponseFormatter.FormatToJSON(ConsentController.UnassignBankFromConsent)).Methods("DELETE", "OPTIONS")
 
-    router.HandleFunc("/api/AssignThirdPartyProviderToConsent/{parentId}/thirdPartyProviderId", jsonResponseFormatter.FormatToJSON(ConsentController.AssignThirdPartyProviderToConsent)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignThirdPartyProviderFromConsent/{parentId}", jsonResponseFormatter.FormatToJSON(ConsentController.UnassignThirdPartyProviderFromConsent)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Consent/assignThirdPartyProvider", jsonResponseFormatter.FormatToJSON(ConsentController.AssignThirdPartyProviderToConsent)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/Consent/unassignThirdPartyProvider", jsonResponseFormatter.FormatToJSON(ConsentController.UnassignThirdPartyProviderFromConsent)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddAuthorizedAccountsToConsent/{parentId}/authorizedAccountsId", jsonResponseFormatter.FormatToJSON(ConsentController.AddAuthorizedAccountsToConsent)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveAuthorizedAccountsFromConsent/{parentId}/authorizedAccountsIds", jsonResponseFormatter.FormatToJSON(ConsentController.RemoveAuthorizedAccountsFromConsent)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/Consent/addToAuthorizedAccounts/", jsonResponseFormatter.FormatToJSON(ConsentController.AddAuthorizedAccountsToConsent)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ConsentremoveFromAuthorizedAccounts/", jsonResponseFormatter.FormatToJSON(ConsentController.RemoveAuthorizedAccountsFromConsent)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
@@ -935,26 +935,26 @@ func Router() *mux.Router {
     //----------------------------------------------------------------------------
     // Standard Lifecycle Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/ThirdPartyProvider/{id}", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.GetThirdPartyProvider)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/ThirdPartyProvider", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.GetAllThirdPartyProvider)).Methods("GET", "OPTIONS")
-    router.HandleFunc("/api/NewThirdPartyProvider", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.CreateThirdPartyProvider)).Methods("POST", "OPTIONS")
-    router.HandleFunc("/api/ThirdPartyProvider/{id}", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.UpdateThirdPartyProvider)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/DeleteThirdPartyProvider/{id}", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.DeleteThirdPartyProvider)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvider/get", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.GetThirdPartyProvider)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvidergetAll", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.GetAllThirdPartyProvider)).Methods("GET", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvider/create", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.CreateThirdPartyProvider)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvider/update", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.UpdateThirdPartyProvider)).Methods("POST", "OPTIONS")
+    router.HandleFunc("/api/DeleteThirdPartyProvider/delete", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.DeleteThirdPartyProvider)).Methods("POST", "OPTIONS")
 
 
 
     //----------------------------------------------------------------------------
     // Single Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AssignBankToThirdPartyProvider/{parentId}/bankId", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.AssignBankToThirdPartyProvider)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/UnassignBankFromThirdPartyProvider/{parentId}", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.UnassignBankFromThirdPartyProvider)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvider/assignBank", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.AssignBankToThirdPartyProvider)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvider/unassignBank", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.UnassignBankFromThirdPartyProvider)).Methods("DELETE", "OPTIONS")
 
 
     //----------------------------------------------------------------------------
     // Multiple Association Routers
     //----------------------------------------------------------------------------
-    router.HandleFunc("/api/AddConsentsToThirdPartyProvider/{parentId}/consentsId", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.AddConsentsToThirdPartyProvider)).Methods("PUT", "OPTIONS")
-    router.HandleFunc("/api/RemoveConsentsFromThirdPartyProvider/{parentId}/consentsIds", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.RemoveConsentsFromThirdPartyProvider)).Methods("DELETE", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProvider/addToConsents/", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.AddConsentsToThirdPartyProvider)).Methods("PUT", "OPTIONS")
+    router.HandleFunc("/api/ThirdPartyProviderremoveFromConsents/", jsonResponseFormatter.FormatToJSON(ThirdPartyProviderController.RemoveConsentsFromThirdPartyProvider)).Methods("DELETE", "OPTIONS")
 
 
     return router
