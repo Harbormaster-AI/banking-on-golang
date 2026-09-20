@@ -435,7 +435,7 @@ func UnassignProductFromAccount(accountId uuid.UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more ownersIds as a Owners to a Account
 //----------------------------------------------------------------------------
-func AddOwnersToAccount ( accountId uuid.UUID, ownersIds uuid.UUID )(utils.RequestResult) {
+func AddOwnersToAccount ( accountId uuid.UUID, ownersIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
@@ -486,7 +486,7 @@ func AddOwnersToAccount ( accountId uuid.UUID, ownersIds uuid.UUID )(utils.Reque
 //----------------------------------------------------------------------------
 // removes one or more ownersIds as a Owners from a Account
 //----------------------------------------------------------------------------
-func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds uuid.UUID )(utils.RequestResult) {
+func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
 	//----------------------------------------------------------------------------
@@ -536,7 +536,7 @@ func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds uuid.UUID )(utils.R
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a Account
 //----------------------------------------------------------------------------
-func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
@@ -587,7 +587,7 @@ func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds uuid.UUID )
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a Account
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
 	//----------------------------------------------------------------------------
@@ -637,7 +637,7 @@ func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds uuid.UU
 //----------------------------------------------------------------------------
 // adds one or more statementsIds as a Statements to a Account
 //----------------------------------------------------------------------------
-func AddStatementsToAccount ( accountId uuid.UUID, statementsIds uuid.UUID )(utils.RequestResult) {
+func AddStatementsToAccount ( accountId uuid.UUID, statementsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
@@ -688,7 +688,7 @@ func AddStatementsToAccount ( accountId uuid.UUID, statementsIds uuid.UUID )(uti
 //----------------------------------------------------------------------------
 // removes one or more statementsIds as a Statements from a Account
 //----------------------------------------------------------------------------
-func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds uuid.UUID )(utils.RequestResult) {
+func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
 	//----------------------------------------------------------------------------
@@ -738,7 +738,7 @@ func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds uuid.UUID )
 //----------------------------------------------------------------------------
 // adds one or more standingInstructionsIds as a StandingInstructions to a Account
 //----------------------------------------------------------------------------
-func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstructionsIds uuid.UUID )(utils.RequestResult) {
+func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstructionsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
@@ -789,7 +789,7 @@ func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstruction
 //----------------------------------------------------------------------------
 // removes one or more standingInstructionsIds as a StandingInstructions from a Account
 //----------------------------------------------------------------------------
-func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstructionsIds uuid.UUID )(utils.RequestResult) {
+func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstructionsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
 	//----------------------------------------------------------------------------
@@ -839,7 +839,7 @@ func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstruc
 //----------------------------------------------------------------------------
 // adds one or more feeChargesIds as a FeeCharges to a Account
 //----------------------------------------------------------------------------
-func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds uuid.UUID )(utils.RequestResult) {
+func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
@@ -890,7 +890,7 @@ func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds uuid.UUID )(uti
 //----------------------------------------------------------------------------
 // removes one or more feeChargesIds as a FeeCharges from a Account
 //----------------------------------------------------------------------------
-func RemoveFeeChargesFromAccount( accountId uuid.UUID, feeChargesIds uuid.UUID )(utils.RequestResult) {
+func RemoveFeeChargesFromAccount( accountId uuid.UUID, feeChargesIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Account with the matching identifier
 	//----------------------------------------------------------------------------

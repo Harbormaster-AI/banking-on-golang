@@ -435,7 +435,7 @@ func UnassignCustomerFromPaymentCard(paymentCardId uuid.UUID)(utils.RequestResul
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a PaymentCard
 //----------------------------------------------------------------------------
-func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
@@ -486,7 +486,7 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds uui
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a PaymentCard
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the PaymentCard with the matching identifier
 	//----------------------------------------------------------------------------

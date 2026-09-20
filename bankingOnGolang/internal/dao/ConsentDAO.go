@@ -435,7 +435,7 @@ func UnassignThirdPartyProviderFromConsent(consentId uuid.UUID)(utils.RequestRes
 //----------------------------------------------------------------------------
 // adds one or more authorizedAccountsIds as a AuthorizedAccounts to a Consent
 //----------------------------------------------------------------------------
-func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds uuid.UUID )(utils.RequestResult) {
+func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
@@ -486,7 +486,7 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 //----------------------------------------------------------------------------
 // removes one or more authorizedAccountsIds as a AuthorizedAccounts from a Consent
 //----------------------------------------------------------------------------
-func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccountsIds uuid.UUID )(utils.RequestResult) {
+func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccountsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Consent with the matching identifier
 	//----------------------------------------------------------------------------

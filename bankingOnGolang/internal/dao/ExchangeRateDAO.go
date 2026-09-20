@@ -265,7 +265,7 @@ func UnassignBankFromExchangeRate(exchangeRateId uuid.UUID)(utils.RequestResult)
 //----------------------------------------------------------------------------
 // adds one or more fxTradesIds as a FxTrades to a ExchangeRate
 //----------------------------------------------------------------------------
-func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds uuid.UUID )(utils.RequestResult) {
+func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExchangeRate with the matching identifier
@@ -316,7 +316,7 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds uuid.UUID
 //----------------------------------------------------------------------------
 // removes one or more fxTradesIds as a FxTrades from a ExchangeRate
 //----------------------------------------------------------------------------
-func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds uuid.UUID )(utils.RequestResult) {
+func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ExchangeRate with the matching identifier
 	//----------------------------------------------------------------------------

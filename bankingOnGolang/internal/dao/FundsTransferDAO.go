@@ -520,7 +520,7 @@ func UnassignInitiatedByFromFundsTransfer(fundsTransferId uuid.UUID)(utils.Reque
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a FundsTransfer
 //----------------------------------------------------------------------------
-func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
@@ -571,7 +571,7 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a FundsTransfer
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the FundsTransfer with the matching identifier
 	//----------------------------------------------------------------------------

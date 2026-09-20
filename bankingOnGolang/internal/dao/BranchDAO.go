@@ -265,7 +265,7 @@ func UnassignBankFromBranch(branchId uuid.UUID)(utils.RequestResult) {
 //----------------------------------------------------------------------------
 // adds one or more accountsIds as a Accounts to a Branch
 //----------------------------------------------------------------------------
-func AddAccountsToBranch ( branchId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
+func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -316,7 +316,7 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds uuid.UUID )(utils.Req
 //----------------------------------------------------------------------------
 // removes one or more accountsIds as a Accounts from a Branch
 //----------------------------------------------------------------------------
-func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds uuid.UUID )(utils.RequestResult) {
+func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
 	//----------------------------------------------------------------------------
@@ -366,7 +366,7 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds uuid.UUID )(utils
 //----------------------------------------------------------------------------
 // adds one or more loanAccountsIds as a LoanAccounts to a Branch
 //----------------------------------------------------------------------------
-func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
+func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -417,7 +417,7 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds uuid.UUID )(u
 //----------------------------------------------------------------------------
 // removes one or more loanAccountsIds as a LoanAccounts from a Branch
 //----------------------------------------------------------------------------
-func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds uuid.UUID )(utils.RequestResult) {
+func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
 	//----------------------------------------------------------------------------
@@ -467,7 +467,7 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds uuid.UUID
 //----------------------------------------------------------------------------
 // adds one or more atmsIds as a Atms to a Branch
 //----------------------------------------------------------------------------
-func AddAtmsToBranch ( branchId uuid.UUID, atmsIds uuid.UUID )(utils.RequestResult) {
+func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
@@ -518,7 +518,7 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds uuid.UUID )(utils.RequestResu
 //----------------------------------------------------------------------------
 // removes one or more atmsIds as a Atms from a Branch
 //----------------------------------------------------------------------------
-func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds uuid.UUID )(utils.RequestResult) {
+func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the Branch with the matching identifier
 	//----------------------------------------------------------------------------

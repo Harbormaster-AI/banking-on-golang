@@ -265,7 +265,7 @@ func UnassignBankFromThirdPartyProvider(thirdPartyProviderId uuid.UUID)(utils.Re
 //----------------------------------------------------------------------------
 // adds one or more consentsIds as a Consents to a ThirdPartyProvider
 //----------------------------------------------------------------------------
-func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
+func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ThirdPartyProvider with the matching identifier
@@ -316,7 +316,7 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 //----------------------------------------------------------------------------
 // removes one or more consentsIds as a Consents from a ThirdPartyProvider
 //----------------------------------------------------------------------------
-func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, consentsIds uuid.UUID )(utils.RequestResult) {
+func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, consentsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ThirdPartyProvider with the matching identifier
 	//----------------------------------------------------------------------------

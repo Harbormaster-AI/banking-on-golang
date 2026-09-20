@@ -265,7 +265,7 @@ func UnassignCustomerFromExternalAccount(externalAccountId uuid.UUID)(utils.Requ
 //----------------------------------------------------------------------------
 // adds one or more transactionsIds as a Transactions to a ExternalAccount
 //----------------------------------------------------------------------------
-func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
@@ -316,7 +316,7 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 //----------------------------------------------------------------------------
 // removes one or more transactionsIds as a Transactions from a ExternalAccount
 //----------------------------------------------------------------------------
-func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transactionsIds uuid.UUID )(utils.RequestResult) {
+func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transactionsIds []uuid.UUID )(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	// Obtain the ExternalAccount with the matching identifier
 	//----------------------------------------------------------------------------
