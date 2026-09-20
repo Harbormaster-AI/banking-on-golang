@@ -20,7 +20,7 @@ type AssignRequest struct {
 
 // Unassign request
 type UnassignRequest struct {
-    Id uuid.UUID `json:"Id"`
+    ParentId uuid.UUID `json:"parentId"`
 }
 
 // AddTo request

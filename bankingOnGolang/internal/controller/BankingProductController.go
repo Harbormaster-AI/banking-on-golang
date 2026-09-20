@@ -194,7 +194,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the BankingProduct DAO
 	//----------------------------------------------------------------------------
-	requestResult := BankingProductDAO.UnassignBankFromBankingProduct(data.Id)
+	requestResult := BankingProductDAO.UnassignBankFromBankingProduct(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

@@ -194,7 +194,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Branch DAO
 	//----------------------------------------------------------------------------
-	requestResult := BranchDAO.UnassignBankFromBranch(data.Id)
+	requestResult := BranchDAO.UnassignBankFromBranch(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

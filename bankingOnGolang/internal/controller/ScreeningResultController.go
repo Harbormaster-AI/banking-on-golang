@@ -194,7 +194,7 @@ func unassignKycProfile( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the ScreeningResult DAO
 	//----------------------------------------------------------------------------
-	requestResult := ScreeningResultDAO.UnassignKycProfileFromScreeningResult(data.Id)
+	requestResult := ScreeningResultDAO.UnassignKycProfileFromScreeningResult(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

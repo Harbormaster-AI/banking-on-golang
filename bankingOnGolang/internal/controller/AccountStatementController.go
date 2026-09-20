@@ -194,7 +194,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the AccountStatement DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountStatementDAO.UnassignAccountFromAccountStatement(data.Id)
+	requestResult := AccountStatementDAO.UnassignAccountFromAccountStatement(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

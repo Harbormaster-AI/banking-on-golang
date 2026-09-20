@@ -194,7 +194,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
 	//----------------------------------------------------------------------------
-	requestResult := TransactionDAO.UnassignAccountFromTransaction(data.Id)
+	requestResult := TransactionDAO.UnassignAccountFromTransaction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignExternalCounterparty( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
 	//----------------------------------------------------------------------------
-	requestResult := TransactionDAO.UnassignExternalCounterpartyFromTransaction(data.Id)
+	requestResult := TransactionDAO.UnassignExternalCounterpartyFromTransaction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignPaymentCard( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
 	//----------------------------------------------------------------------------
-	requestResult := TransactionDAO.UnassignPaymentCardFromTransaction(data.Id)
+	requestResult := TransactionDAO.UnassignPaymentCardFromTransaction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -371,7 +371,7 @@ func unassignFundsTransfer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
 	//----------------------------------------------------------------------------
-	requestResult := TransactionDAO.UnassignFundsTransferFromTransaction(data.Id)
+	requestResult := TransactionDAO.UnassignFundsTransferFromTransaction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -430,7 +430,7 @@ func unassignFxTrade( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
 	//----------------------------------------------------------------------------
-	requestResult := TransactionDAO.UnassignFxTradeFromTransaction(data.Id)
+	requestResult := TransactionDAO.UnassignFxTradeFromTransaction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -489,7 +489,7 @@ func unassignDispute( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Transaction DAO
 	//----------------------------------------------------------------------------
-	requestResult := TransactionDAO.UnassignDisputeFromTransaction(data.Id)
+	requestResult := TransactionDAO.UnassignDisputeFromTransaction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

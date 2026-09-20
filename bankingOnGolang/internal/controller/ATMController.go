@@ -194,7 +194,7 @@ func unassignBranch( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the ATM DAO
 	//----------------------------------------------------------------------------
-	requestResult := ATMDAO.UnassignBranchFromATM(data.Id)
+	requestResult := ATMDAO.UnassignBranchFromATM(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

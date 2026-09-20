@@ -194,7 +194,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Consent DAO
 	//----------------------------------------------------------------------------
-	requestResult := ConsentDAO.UnassignCustomerFromConsent(data.Id)
+	requestResult := ConsentDAO.UnassignCustomerFromConsent(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Consent DAO
 	//----------------------------------------------------------------------------
-	requestResult := ConsentDAO.UnassignBankFromConsent(data.Id)
+	requestResult := ConsentDAO.UnassignBankFromConsent(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignThirdPartyProvider( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Consent DAO
 	//----------------------------------------------------------------------------
-	requestResult := ConsentDAO.UnassignThirdPartyProviderFromConsent(data.Id)
+	requestResult := ConsentDAO.UnassignThirdPartyProviderFromConsent(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

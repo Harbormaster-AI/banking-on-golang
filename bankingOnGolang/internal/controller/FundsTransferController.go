@@ -194,7 +194,7 @@ func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
 	//----------------------------------------------------------------------------
-	requestResult := FundsTransferDAO.UnassignSourceAccountFromFundsTransfer(data.Id)
+	requestResult := FundsTransferDAO.UnassignSourceAccountFromFundsTransfer(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
 	//----------------------------------------------------------------------------
-	requestResult := FundsTransferDAO.UnassignDestinationAccountFromFundsTransfer(data.Id)
+	requestResult := FundsTransferDAO.UnassignDestinationAccountFromFundsTransfer(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignExternalBeneficiary( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
 	//----------------------------------------------------------------------------
-	requestResult := FundsTransferDAO.UnassignExternalBeneficiaryFromFundsTransfer(data.Id)
+	requestResult := FundsTransferDAO.UnassignExternalBeneficiaryFromFundsTransfer(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -371,7 +371,7 @@ func unassignInitiatedBy( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FundsTransfer DAO
 	//----------------------------------------------------------------------------
-	requestResult := FundsTransferDAO.UnassignInitiatedByFromFundsTransfer(data.Id)
+	requestResult := FundsTransferDAO.UnassignInitiatedByFromFundsTransfer(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

@@ -194,7 +194,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.UnassignBankFromAccount(data.Id)
+	requestResult := AccountDAO.UnassignBankFromAccount(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignBranch( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.UnassignBranchFromAccount(data.Id)
+	requestResult := AccountDAO.UnassignBranchFromAccount(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignProduct( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Account DAO
 	//----------------------------------------------------------------------------
-	requestResult := AccountDAO.UnassignProductFromAccount(data.Id)
+	requestResult := AccountDAO.UnassignProductFromAccount(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

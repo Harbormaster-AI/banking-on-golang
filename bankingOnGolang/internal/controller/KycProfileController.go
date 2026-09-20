@@ -194,7 +194,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the KycProfile DAO
 	//----------------------------------------------------------------------------
-	requestResult := KycProfileDAO.UnassignCustomerFromKycProfile(data.Id)
+	requestResult := KycProfileDAO.UnassignCustomerFromKycProfile(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

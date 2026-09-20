@@ -194,7 +194,7 @@ func unassignKycProfile( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the RiskAssessment DAO
 	//----------------------------------------------------------------------------
-	requestResult := RiskAssessmentDAO.UnassignKycProfileFromRiskAssessment(data.Id)
+	requestResult := RiskAssessmentDAO.UnassignKycProfileFromRiskAssessment(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

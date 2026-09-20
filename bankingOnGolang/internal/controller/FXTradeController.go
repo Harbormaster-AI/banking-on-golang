@@ -194,7 +194,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
 	//----------------------------------------------------------------------------
-	requestResult := FXTradeDAO.UnassignCustomerFromFXTrade(data.Id)
+	requestResult := FXTradeDAO.UnassignCustomerFromFXTrade(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
 	//----------------------------------------------------------------------------
-	requestResult := FXTradeDAO.UnassignBankFromFXTrade(data.Id)
+	requestResult := FXTradeDAO.UnassignBankFromFXTrade(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignExchangeRate( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
 	//----------------------------------------------------------------------------
-	requestResult := FXTradeDAO.UnassignExchangeRateFromFXTrade(data.Id)
+	requestResult := FXTradeDAO.UnassignExchangeRateFromFXTrade(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -371,7 +371,7 @@ func unassignSourceAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
 	//----------------------------------------------------------------------------
-	requestResult := FXTradeDAO.UnassignSourceAccountFromFXTrade(data.Id)
+	requestResult := FXTradeDAO.UnassignSourceAccountFromFXTrade(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -430,7 +430,7 @@ func unassignDestinationAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
 	//----------------------------------------------------------------------------
-	requestResult := FXTradeDAO.UnassignDestinationAccountFromFXTrade(data.Id)
+	requestResult := FXTradeDAO.UnassignDestinationAccountFromFXTrade(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -489,7 +489,7 @@ func unassignTransaction( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FXTrade DAO
 	//----------------------------------------------------------------------------
-	requestResult := FXTradeDAO.UnassignTransactionFromFXTrade(data.Id)
+	requestResult := FXTradeDAO.UnassignTransactionFromFXTrade(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

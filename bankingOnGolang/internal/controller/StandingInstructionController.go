@@ -194,7 +194,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the StandingInstruction DAO
 	//----------------------------------------------------------------------------
-	requestResult := StandingInstructionDAO.UnassignAccountFromStandingInstruction(data.Id)
+	requestResult := StandingInstructionDAO.UnassignAccountFromStandingInstruction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignBeneficiary( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the StandingInstruction DAO
 	//----------------------------------------------------------------------------
-	requestResult := StandingInstructionDAO.UnassignBeneficiaryFromStandingInstruction(data.Id)
+	requestResult := StandingInstructionDAO.UnassignBeneficiaryFromStandingInstruction(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

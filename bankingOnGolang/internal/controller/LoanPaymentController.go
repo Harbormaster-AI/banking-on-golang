@@ -194,7 +194,7 @@ func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanPayment DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanPaymentDAO.UnassignLoanAccountFromLoanPayment(data.Id)
+	requestResult := LoanPaymentDAO.UnassignLoanAccountFromLoanPayment(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignTransaction( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the LoanPayment DAO
 	//----------------------------------------------------------------------------
-	requestResult := LoanPaymentDAO.UnassignTransactionFromLoanPayment(data.Id)
+	requestResult := LoanPaymentDAO.UnassignTransactionFromLoanPayment(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

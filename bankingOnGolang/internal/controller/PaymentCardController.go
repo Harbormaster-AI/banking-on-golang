@@ -194,7 +194,7 @@ func unassignBank( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
 	//----------------------------------------------------------------------------
-	requestResult := PaymentCardDAO.UnassignBankFromPaymentCard(data.Id)
+	requestResult := PaymentCardDAO.UnassignBankFromPaymentCard(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
 	//----------------------------------------------------------------------------
-	requestResult := PaymentCardDAO.UnassignAccountFromPaymentCard(data.Id)
+	requestResult := PaymentCardDAO.UnassignAccountFromPaymentCard(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the PaymentCard DAO
 	//----------------------------------------------------------------------------
-	requestResult := PaymentCardDAO.UnassignCustomerFromPaymentCard(data.Id)
+	requestResult := PaymentCardDAO.UnassignCustomerFromPaymentCard(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

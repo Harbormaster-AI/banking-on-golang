@@ -194,7 +194,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FeeCharge DAO
 	//----------------------------------------------------------------------------
-	requestResult := FeeChargeDAO.UnassignAccountFromFeeCharge(data.Id)
+	requestResult := FeeChargeDAO.UnassignAccountFromFeeCharge(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the FeeCharge DAO
 	//----------------------------------------------------------------------------
-	requestResult := FeeChargeDAO.UnassignLoanAccountFromFeeCharge(data.Id)
+	requestResult := FeeChargeDAO.UnassignLoanAccountFromFeeCharge(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

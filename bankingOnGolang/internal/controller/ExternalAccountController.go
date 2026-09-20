@@ -194,7 +194,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the ExternalAccount DAO
 	//----------------------------------------------------------------------------
-	requestResult := ExternalAccountDAO.UnassignCustomerFromExternalAccount(data.Id)
+	requestResult := ExternalAccountDAO.UnassignCustomerFromExternalAccount(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

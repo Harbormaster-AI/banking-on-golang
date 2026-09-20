@@ -194,7 +194,7 @@ func unassignTransaction( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Dispute DAO
 	//----------------------------------------------------------------------------
-	requestResult := DisputeDAO.UnassignTransactionFromDispute(data.Id)
+	requestResult := DisputeDAO.UnassignTransactionFromDispute(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -253,7 +253,7 @@ func unassignCustomer( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Dispute DAO
 	//----------------------------------------------------------------------------
-	requestResult := DisputeDAO.UnassignCustomerFromDispute(data.Id)
+	requestResult := DisputeDAO.UnassignCustomerFromDispute(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -312,7 +312,7 @@ func unassignAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Dispute DAO
 	//----------------------------------------------------------------------------
-	requestResult := DisputeDAO.UnassignAccountFromDispute(data.Id)
+	requestResult := DisputeDAO.UnassignAccountFromDispute(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
@@ -371,7 +371,7 @@ func unassignPaymentCard( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Dispute DAO
 	//----------------------------------------------------------------------------
-	requestResult := DisputeDAO.UnassignPaymentCardFromDispute(data.Id)
+	requestResult := DisputeDAO.UnassignPaymentCardFromDispute(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

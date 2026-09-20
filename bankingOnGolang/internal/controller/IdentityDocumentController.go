@@ -194,7 +194,7 @@ func unassignKycProfile( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the IdentityDocument DAO
 	//----------------------------------------------------------------------------
-	requestResult := IdentityDocumentDAO.UnassignKycProfileFromIdentityDocument(data.Id)
+	requestResult := IdentityDocumentDAO.UnassignKycProfileFromIdentityDocument(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object

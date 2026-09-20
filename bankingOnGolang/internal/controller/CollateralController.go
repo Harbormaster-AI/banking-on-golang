@@ -194,7 +194,7 @@ func unassignLoanAccount( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// Delegate to the Collateral DAO
 	//----------------------------------------------------------------------------
-	requestResult := CollateralDAO.UnassignLoanAccountFromCollateral(data.Id)
+	requestResult := CollateralDAO.UnassignLoanAccountFromCollateral(data.ParentId)
 
 	//----------------------------------------------------------------------------
 	// Marshal the model into a JSON object
