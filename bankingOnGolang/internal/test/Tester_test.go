@@ -19,7 +19,11 @@ func TestBankCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Bank
 	//----------------------------------------------------------------------------
-	BankObj := model.Bank                                                                                                                                            {Name:"test value for Name",LegalName:"test value for LegalName",SwiftBic:new BIC(),HeadquartersCountry:"test value for HeadquartersCountry",Website:"test value for Website"}
+	BankObj := model.Bank                                                    {Name:"test value for Name",
+                                                    {Name:"test value for Name",LegalName:"test value for LegalName",
+                                    {Name:"test value for Name",LegalName:"test value for LegalName",SwiftBic:new(BIC),
+                                                    {Name:"test value for Name",LegalName:"test value for LegalName",SwiftBic:new(BIC),HeadquartersCountry:"test value for HeadquartersCountry",
+                                                {Name:"test value for Name",LegalName:"test value for LegalName",SwiftBic:new(BIC),HeadquartersCountry:"test value for HeadquartersCountry",Website:"test value for Website"
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -120,7 +124,11 @@ func TestBranchCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Branch
 	//----------------------------------------------------------------------------
-	BranchObj := model.Branch                                                                                                                                            {Name:"test value for Name",BranchCode:"test value for BranchCode",Address:new Address(),Phone:"test value for Phone",OpeningHours:"test value for OpeningHours"}
+	BranchObj := model.Branch                                                    {Name:"test value for Name",
+                                                    {Name:"test value for Name",BranchCode:"test value for BranchCode",
+                                    {Name:"test value for Name",BranchCode:"test value for BranchCode",Address:new(Address),
+                                                    {Name:"test value for Name",BranchCode:"test value for BranchCode",Address:new(Address),Phone:"test value for Phone",
+                                                {Name:"test value for Name",BranchCode:"test value for BranchCode",Address:new(Address),Phone:"test value for Phone",OpeningHours:"test value for OpeningHours"
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -221,7 +229,9 @@ func TestATMCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for ATM
 	//----------------------------------------------------------------------------
-	ATMObj := model.ATM                                                            {TerminalId:"test value for TerminalId",Location:new Address(),Status:0}
+	ATMObj := model.ATM                                                    {TerminalId:"test value for TerminalId",
+                                    {TerminalId:"test value for TerminalId",Location:new(Address),
+                                {TerminalId:"test value for TerminalId",Location:new(Address),Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -322,7 +332,17 @@ func TestCustomerCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Customer
 	//----------------------------------------------------------------------------
-	CustomerObj := model.Customer                                                                                                                                                                                                                                                                                                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",Phone:"test value for Phone",Address:new Address(),CustomerType:0,RiskRating:0,KycStatus:0}
+	CustomerObj := model.Customer                                                    {FirstName:"test value for FirstName",
+                                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",
+                                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",
+                                                                            {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),
+                                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",
+                                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",
+                                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",Phone:"test value for Phone",
+                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",Phone:"test value for Phone",Address:new(Address),
+                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",Phone:"test value for Phone",Address:new(Address),CustomerType:0,
+                                    {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",Phone:"test value for Phone",Address:new(Address),CustomerType:0,RiskRating:0,
+                                {FirstName:"test value for FirstName",LastName:"test value for LastName",LegalName:"test value for LegalName",DateOfBirth:time.Now(),TaxId:"test value for TaxId",Email:"test value for Email",Phone:"test value for Phone",Address:new(Address),CustomerType:0,RiskRating:0,KycStatus:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -423,7 +443,9 @@ func TestKycProfileCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for KycProfile
 	//----------------------------------------------------------------------------
-	KycProfileObj := model.KycProfile                                                                                                    {ProfileId:"test value for ProfileId",LastReviewedOn:time.Now(),Status:0}
+	KycProfileObj := model.KycProfile                                                    {ProfileId:"test value for ProfileId",
+                                                                            {ProfileId:"test value for ProfileId",LastReviewedOn:time.Now(),
+                                {ProfileId:"test value for ProfileId",LastReviewedOn:time.Now(),Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -524,7 +546,10 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for IdentityDocument
 	//----------------------------------------------------------------------------
-	IdentityDocumentObj := model.IdentityDocument                                                                                                                                    {DocumentNumber:"test value for DocumentNumber",IssuingCountry:"test value for IssuingCountry",ExpirationDate:time.Now(),DocumentType:0}
+	IdentityDocumentObj := model.IdentityDocument                                                    {DocumentNumber:"test value for DocumentNumber",
+                                                    {DocumentNumber:"test value for DocumentNumber",IssuingCountry:"test value for IssuingCountry",
+                                                                            {DocumentNumber:"test value for DocumentNumber",IssuingCountry:"test value for IssuingCountry",ExpirationDate:time.Now(),
+                                {DocumentNumber:"test value for DocumentNumber",IssuingCountry:"test value for IssuingCountry",ExpirationDate:time.Now(),DocumentType:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -625,7 +650,9 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for RiskAssessment
 	//----------------------------------------------------------------------------
-	RiskAssessmentObj := model.RiskAssessment                                                                                                    {Score:100,AssessedOn:time.Now(),Rating:0}
+	RiskAssessmentObj := model.RiskAssessment                                                    {Score:100,
+                                                                            {Score:100,AssessedOn:time.Now(),
+                                {Score:100,AssessedOn:time.Now(),Rating:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -726,7 +753,9 @@ func TestScreeningResultCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for ScreeningResult
 	//----------------------------------------------------------------------------
-	ScreeningResultObj := model.ScreeningResult                                                                                                    {ScreeningDate:time.Now(),Provider:"test value for Provider",Outcome:0}
+	ScreeningResultObj := model.ScreeningResult                                                                            {ScreeningDate:time.Now(),
+                                                    {ScreeningDate:time.Now(),Provider:"test value for Provider",
+                                {ScreeningDate:time.Now(),Provider:"test value for Provider",Outcome:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -827,7 +856,10 @@ func TestBankingProductCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for BankingProduct
 	//----------------------------------------------------------------------------
-	BankingProductObj := model.BankingProduct                                                                                                            {ProductCode:"test value for ProductCode",Name:"test value for Name",Description:"test value for Description",ProductCategory:0}
+	BankingProductObj := model.BankingProduct                                                    {ProductCode:"test value for ProductCode",
+                                                    {ProductCode:"test value for ProductCode",Name:"test value for Name",
+                                                    {ProductCode:"test value for ProductCode",Name:"test value for Name",Description:"test value for Description",
+                                {ProductCode:"test value for ProductCode",Name:"test value for Name",Description:"test value for Description",ProductCategory:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -928,7 +960,15 @@ func TestAccountCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Account
 	//----------------------------------------------------------------------------
-	AccountObj := model.Account                                                                                                                                                                                                                                                            {AccountNumber:new AccountNumber(),Iban:new IBAN(),AccountName:"test value for AccountName",Currency:"test value for Currency",OpenedOn:time.Now(),ClosedOn:time.Now(),AccountType:0,OwnershipType:0,Status:0}
+	AccountObj := model.Account                                    {AccountNumber:new(AccountNumber),
+                                    {AccountNumber:new(AccountNumber),Iban:new(IBAN),
+                                                    {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",
+                                                    {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",Currency:"test value for Currency",
+                                                                            {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",Currency:"test value for Currency",OpenedOn:time.Now(),
+                                                                            {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",Currency:"test value for Currency",OpenedOn:time.Now(),ClosedOn:time.Now(),
+                                    {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",Currency:"test value for Currency",OpenedOn:time.Now(),ClosedOn:time.Now(),AccountType:0,
+                                    {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",Currency:"test value for Currency",OpenedOn:time.Now(),ClosedOn:time.Now(),AccountType:0,OwnershipType:0,
+                                {AccountNumber:new(AccountNumber),Iban:new(IBAN),AccountName:"test value for AccountName",Currency:"test value for Currency",OpenedOn:time.Now(),ClosedOn:time.Now(),AccountType:0,OwnershipType:0,Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1029,7 +1069,12 @@ func TestAccountStatementCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for AccountStatement
 	//----------------------------------------------------------------------------
-	AccountStatementObj := model.AccountStatement                                                                                                                                                                                            {StatementNumber:"test value for StatementNumber",PeriodStart:time.Now(),PeriodEnd:time.Now(),OpeningBalance:new Money(),ClosingBalance:new Money(),DeliveryMethod:0}
+	AccountStatementObj := model.AccountStatement                                                    {StatementNumber:"test value for StatementNumber",
+                                                                            {StatementNumber:"test value for StatementNumber",PeriodStart:time.Now(),
+                                                                            {StatementNumber:"test value for StatementNumber",PeriodStart:time.Now(),PeriodEnd:time.Now(),
+                                    {StatementNumber:"test value for StatementNumber",PeriodStart:time.Now(),PeriodEnd:time.Now(),OpeningBalance:new(Money),
+                                    {StatementNumber:"test value for StatementNumber",PeriodStart:time.Now(),PeriodEnd:time.Now(),OpeningBalance:new(Money),ClosingBalance:new(Money),
+                                {StatementNumber:"test value for StatementNumber",PeriodStart:time.Now(),PeriodEnd:time.Now(),OpeningBalance:new(Money),ClosingBalance:new(Money),DeliveryMethod:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1130,7 +1175,14 @@ func TestTransactionCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Transaction
 	//----------------------------------------------------------------------------
-	TransactionObj := model.Transaction                                                                                                                                                                                                                            {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new Money(),Description:"test value for Description",Direction:0,TransactionType:0,Status:0,Channel:0}
+	TransactionObj := model.Transaction                                                                            {BookingDate:time.Now(),
+                                                                            {BookingDate:time.Now(),ValueDate:time.Now(),
+                                    {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new(Money),
+                                                    {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new(Money),Description:"test value for Description",
+                                    {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new(Money),Description:"test value for Description",Direction:0,
+                                    {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new(Money),Description:"test value for Description",Direction:0,TransactionType:0,
+                                    {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new(Money),Description:"test value for Description",Direction:0,TransactionType:0,Status:0,
+                                {BookingDate:time.Now(),ValueDate:time.Now(),Amount:new(Money),Description:"test value for Description",Direction:0,TransactionType:0,Status:0,Channel:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1231,7 +1283,12 @@ func TestExternalAccountCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for ExternalAccount
 	//----------------------------------------------------------------------------
-	ExternalAccountObj := model.ExternalAccount                                                                                                                                            {Name:"test value for Name",Iban:new IBAN(),AccountNumber:new AccountNumber(),Bic:new BIC(),BankName:"test value for BankName",Country:"test value for Country"}
+	ExternalAccountObj := model.ExternalAccount                                                    {Name:"test value for Name",
+                                    {Name:"test value for Name",Iban:new(IBAN),
+                                    {Name:"test value for Name",Iban:new(IBAN),AccountNumber:new(AccountNumber),
+                                    {Name:"test value for Name",Iban:new(IBAN),AccountNumber:new(AccountNumber),Bic:new(BIC),
+                                                    {Name:"test value for Name",Iban:new(IBAN),AccountNumber:new(AccountNumber),Bic:new(BIC),BankName:"test value for BankName",
+                                                {Name:"test value for Name",Iban:new(IBAN),AccountNumber:new(AccountNumber),Bic:new(BIC),BankName:"test value for BankName",Country:"test value for Country"
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1332,7 +1389,14 @@ func TestFundsTransferCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for FundsTransfer
 	//----------------------------------------------------------------------------
-	FundsTransferObj := model.FundsTransfer                                                                                                                                                                                                                                            {TransferReference:"test value for TransferReference",Amount:new Money(),RequestedDate:time.Now(),ExecutionDate:time.Now(),Purpose:"test value for Purpose",FeeAmount:new Money(),Method:0,Status:0}
+	FundsTransferObj := model.FundsTransfer                                                    {TransferReference:"test value for TransferReference",
+                                    {TransferReference:"test value for TransferReference",Amount:new(Money),
+                                                                            {TransferReference:"test value for TransferReference",Amount:new(Money),RequestedDate:time.Now(),
+                                                                            {TransferReference:"test value for TransferReference",Amount:new(Money),RequestedDate:time.Now(),ExecutionDate:time.Now(),
+                                                    {TransferReference:"test value for TransferReference",Amount:new(Money),RequestedDate:time.Now(),ExecutionDate:time.Now(),Purpose:"test value for Purpose",
+                                    {TransferReference:"test value for TransferReference",Amount:new(Money),RequestedDate:time.Now(),ExecutionDate:time.Now(),Purpose:"test value for Purpose",FeeAmount:new(Money),
+                                    {TransferReference:"test value for TransferReference",Amount:new(Money),RequestedDate:time.Now(),ExecutionDate:time.Now(),Purpose:"test value for Purpose",FeeAmount:new(Money),Method:0,
+                                {TransferReference:"test value for TransferReference",Amount:new(Money),RequestedDate:time.Now(),ExecutionDate:time.Now(),Purpose:"test value for Purpose",FeeAmount:new(Money),Method:0,Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1433,7 +1497,11 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for StandingInstruction
 	//----------------------------------------------------------------------------
-	StandingInstructionObj := model.StandingInstruction                                                                                                                                    {InstructionId:"test value for InstructionId",Amount:new Money(),NextExecutionDate:time.Now(),Frequency:0,Status:0}
+	StandingInstructionObj := model.StandingInstruction                                                    {InstructionId:"test value for InstructionId",
+                                    {InstructionId:"test value for InstructionId",Amount:new(Money),
+                                                                            {InstructionId:"test value for InstructionId",Amount:new(Money),NextExecutionDate:time.Now(),
+                                    {InstructionId:"test value for InstructionId",Amount:new(Money),NextExecutionDate:time.Now(),Frequency:0,
+                                {InstructionId:"test value for InstructionId",Amount:new(Money),NextExecutionDate:time.Now(),Frequency:0,Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1534,7 +1602,13 @@ func TestPaymentCardCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for PaymentCard
 	//----------------------------------------------------------------------------
-	PaymentCardObj := model.PaymentCard                                                                                                                                                            {CardNumber:new CardPAN(),EmbossedName:"test value for EmbossedName",ExpiryMonth:100,ExpiryYear:100,CardType:0,CardStatus:0,Network:0}
+	PaymentCardObj := model.PaymentCard                                    {CardNumber:new(CardPAN),
+                                                    {CardNumber:new(CardPAN),EmbossedName:"test value for EmbossedName",
+                                                    {CardNumber:new(CardPAN),EmbossedName:"test value for EmbossedName",ExpiryMonth:100,
+                                                    {CardNumber:new(CardPAN),EmbossedName:"test value for EmbossedName",ExpiryMonth:100,ExpiryYear:100,
+                                    {CardNumber:new(CardPAN),EmbossedName:"test value for EmbossedName",ExpiryMonth:100,ExpiryYear:100,CardType:0,
+                                    {CardNumber:new(CardPAN),EmbossedName:"test value for EmbossedName",ExpiryMonth:100,ExpiryYear:100,CardType:0,CardStatus:0,
+                                {CardNumber:new(CardPAN),EmbossedName:"test value for EmbossedName",ExpiryMonth:100,ExpiryYear:100,CardType:0,CardStatus:0,Network:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1635,7 +1709,18 @@ func TestLoanAccountCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for LoanAccount
 	//----------------------------------------------------------------------------
-	LoanAccountObj := model.LoanAccount                                                                                                                                                                                                                                                                                                                            {LoanNumber:"test value for LoanNumber",PrincipalAmount:new Money(),OutstandingPrincipal:new Money(),InterestRate:new Percentage(),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,Currency:"test value for Currency",LoanType:0,RateType:0,Compounding:0,Status:0}
+	LoanAccountObj := model.LoanAccount                                                    {LoanNumber:"test value for LoanNumber",
+                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),
+                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),
+                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),
+                                                                            {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),
+                                                                            {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),
+                                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,
+                                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,Currency:"test value for Currency",
+                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,Currency:"test value for Currency",LoanType:0,
+                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,Currency:"test value for Currency",LoanType:0,RateType:0,
+                                    {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,Currency:"test value for Currency",LoanType:0,RateType:0,Compounding:0,
+                                {LoanNumber:"test value for LoanNumber",PrincipalAmount:new(Money),OutstandingPrincipal:new(Money),InterestRate:new(Percentage),OriginationDate:time.Now(),MaturityDate:time.Now(),PaymentDayOfMonth:100,Currency:"test value for Currency",LoanType:0,RateType:0,Compounding:0,Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1736,7 +1821,12 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for RepaymentSchedule
 	//----------------------------------------------------------------------------
-	RepaymentScheduleObj := model.RepaymentSchedule                                                                                                                                                    {InstallmentNumber:100,DueDate:time.Now(),PrincipalDue:new Money(),InterestDue:new Money(),TotalDue:new Money(),Status:0}
+	RepaymentScheduleObj := model.RepaymentSchedule                                                    {InstallmentNumber:100,
+                                                                            {InstallmentNumber:100,DueDate:time.Now(),
+                                    {InstallmentNumber:100,DueDate:time.Now(),PrincipalDue:new(Money),
+                                    {InstallmentNumber:100,DueDate:time.Now(),PrincipalDue:new(Money),InterestDue:new(Money),
+                                    {InstallmentNumber:100,DueDate:time.Now(),PrincipalDue:new(Money),InterestDue:new(Money),TotalDue:new(Money),
+                                {InstallmentNumber:100,DueDate:time.Now(),PrincipalDue:new(Money),InterestDue:new(Money),TotalDue:new(Money),Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1837,7 +1927,11 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for LoanPayment
 	//----------------------------------------------------------------------------
-	LoanPaymentObj := model.LoanPayment                                                                                                                                    {PaymentReference:"test value for PaymentReference",Amount:new Money(),PaymentDate:time.Now(),Method:0,Status:0}
+	LoanPaymentObj := model.LoanPayment                                                    {PaymentReference:"test value for PaymentReference",
+                                    {PaymentReference:"test value for PaymentReference",Amount:new(Money),
+                                                                            {PaymentReference:"test value for PaymentReference",Amount:new(Money),PaymentDate:time.Now(),
+                                    {PaymentReference:"test value for PaymentReference",Amount:new(Money),PaymentDate:time.Now(),Method:0,
+                                {PaymentReference:"test value for PaymentReference",Amount:new(Money),PaymentDate:time.Now(),Method:0,Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -1938,7 +2032,11 @@ func TestCollateralCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Collateral
 	//----------------------------------------------------------------------------
-	CollateralObj := model.Collateral                                                                                                            {CollateralIdentifier:"test value for CollateralIdentifier",AppraisedValue:new Money(),Description:"test value for Description",Location:new Address(),CollateralType:0}
+	CollateralObj := model.Collateral                                                    {CollateralIdentifier:"test value for CollateralIdentifier",
+                                    {CollateralIdentifier:"test value for CollateralIdentifier",AppraisedValue:new(Money),
+                                                    {CollateralIdentifier:"test value for CollateralIdentifier",AppraisedValue:new(Money),Description:"test value for Description",
+                                    {CollateralIdentifier:"test value for CollateralIdentifier",AppraisedValue:new(Money),Description:"test value for Description",Location:new(Address),
+                                {CollateralIdentifier:"test value for CollateralIdentifier",AppraisedValue:new(Money),Description:"test value for Description",Location:new(Address),CollateralType:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -2039,7 +2137,10 @@ func TestFeeChargeCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for FeeCharge
 	//----------------------------------------------------------------------------
-	FeeChargeObj := model.FeeCharge                                                                                                                    {FeeCode:"test value for FeeCode",Amount:new Money(),AppliedOn:time.Now(),FeeType:0}
+	FeeChargeObj := model.FeeCharge                                                    {FeeCode:"test value for FeeCode",
+                                    {FeeCode:"test value for FeeCode",Amount:new(Money),
+                                                                            {FeeCode:"test value for FeeCode",Amount:new(Money),AppliedOn:time.Now(),
+                                {FeeCode:"test value for FeeCode",Amount:new(Money),AppliedOn:time.Now(),FeeType:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -2140,7 +2241,11 @@ func TestExchangeRateCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for ExchangeRate
 	//----------------------------------------------------------------------------
-	ExchangeRateObj := model.ExchangeRate                                                                                                                                                                                                            {BaseCurrency:"test value for BaseCurrency",CounterCurrency:"test value for CounterCurrency",Rate:"test value",AsOf:time.Now(),Source:"test value for Source"}
+	ExchangeRateObj := model.ExchangeRate                                                    {BaseCurrency:"test value for BaseCurrency",
+                                                    {BaseCurrency:"test value for BaseCurrency",CounterCurrency:"test value for CounterCurrency",
+                                                                            {BaseCurrency:"test value for BaseCurrency",CounterCurrency:"test value for CounterCurrency",Rate:"test value",
+                                                                            {BaseCurrency:"test value for BaseCurrency",CounterCurrency:"test value for CounterCurrency",Rate:"test value",AsOf:time.Now(),
+                                                {BaseCurrency:"test value for BaseCurrency",CounterCurrency:"test value for CounterCurrency",Rate:"test value",AsOf:time.Now(),Source:"test value for Source"
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -2241,7 +2346,13 @@ func TestFXTradeCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for FXTrade
 	//----------------------------------------------------------------------------
-	FXTradeObj := model.FXTrade                                                                                                                                                                                                                                                    {TradeReference:"test value for TradeReference",TradeDate:time.Now(),SettlementDate:time.Now(),AmountSold:new Money(),AmountBought:new Money(),Rate:"test value",Status:0}
+	FXTradeObj := model.FXTrade                                                    {TradeReference:"test value for TradeReference",
+                                                                            {TradeReference:"test value for TradeReference",TradeDate:time.Now(),
+                                                                            {TradeReference:"test value for TradeReference",TradeDate:time.Now(),SettlementDate:time.Now(),
+                                    {TradeReference:"test value for TradeReference",TradeDate:time.Now(),SettlementDate:time.Now(),AmountSold:new(Money),
+                                    {TradeReference:"test value for TradeReference",TradeDate:time.Now(),SettlementDate:time.Now(),AmountSold:new(Money),AmountBought:new(Money),
+                                                                            {TradeReference:"test value for TradeReference",TradeDate:time.Now(),SettlementDate:time.Now(),AmountSold:new(Money),AmountBought:new(Money),Rate:"test value",
+                                {TradeReference:"test value for TradeReference",TradeDate:time.Now(),SettlementDate:time.Now(),AmountSold:new(Money),AmountBought:new(Money),Rate:"test value",Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -2342,7 +2453,10 @@ func TestDisputeCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Dispute
 	//----------------------------------------------------------------------------
-	DisputeObj := model.Dispute                                                                                                                                    {DisputeReference:"test value for DisputeReference",RaisedOn:time.Now(),Reason:"test value for Reason",Status:0}
+	DisputeObj := model.Dispute                                                    {DisputeReference:"test value for DisputeReference",
+                                                                            {DisputeReference:"test value for DisputeReference",RaisedOn:time.Now(),
+                                                    {DisputeReference:"test value for DisputeReference",RaisedOn:time.Now(),Reason:"test value for Reason",
+                                {DisputeReference:"test value for DisputeReference",RaisedOn:time.Now(),Reason:"test value for Reason",Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -2443,7 +2557,10 @@ func TestConsentCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for Consent
 	//----------------------------------------------------------------------------
-	ConsentObj := model.Consent                                                                                                                                            {GrantedOn:time.Now(),ExpiresOn:time.Now(),ConsentType:0,Status:0}
+	ConsentObj := model.Consent                                                                            {GrantedOn:time.Now(),
+                                                                            {GrantedOn:time.Now(),ExpiresOn:time.Now(),
+                                    {GrantedOn:time.Now(),ExpiresOn:time.Now(),ConsentType:0,
+                                {GrantedOn:time.Now(),ExpiresOn:time.Now(),ConsentType:0,Status:0
 
 	// --------------------------------------------------------------
 	// Check Create
@@ -2544,7 +2661,9 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	// Test CRUD for ThirdPartyProvider
 	//----------------------------------------------------------------------------
-	ThirdPartyProviderObj := model.ThirdPartyProvider                                                                                            {Name:"test value for Name",RegistrationId:"test value for RegistrationId",Website:"test value for Website"}
+	ThirdPartyProviderObj := model.ThirdPartyProvider                                                    {Name:"test value for Name",
+                                                    {Name:"test value for Name",RegistrationId:"test value for RegistrationId",
+                                                {Name:"test value for Name",RegistrationId:"test value for RegistrationId",Website:"test value for Website"
 
 	// --------------------------------------------------------------
 	// Check Create
