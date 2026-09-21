@@ -27,18 +27,22 @@ func TestBankCRUD(t *testing.T) {
 	createBankRequestResult := dao.CreateBank( BankObj )
 	
 	if createBankRequestResult.Success == false {
-		t.Errorf(createBankRequestResult.Msg)
+		t.Error(createBankRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Bank success...")
 	}
 	
-	createBankObj,_ := createBankRequestResult.Data. (model.Bank)
+	createBankObj, ok := createBankRequestResult.Data.(model.Bank)
+
+    if !ok {
+        t.Fatalf("Expected Bank, got %T", createBankRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Bank Obj ID
 	// --------------------------------------------------------------	
 	if createBankObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Bank" )
+	    t.Error( "The ORM failed to assign and ID for Bank" )
 	}	
 
 	// --------------------------------------------------------------
@@ -47,7 +51,7 @@ func TestBankCRUD(t *testing.T) {
 	getBankRequestResult := dao.GetBank( uint64(createBankObj.ID) )
 	
 	if getBankRequestResult.Success == false {
-		t.Errorf(getBankRequestResult.Msg)
+		t.Error(getBankRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Bank success...")
 	}
@@ -55,11 +59,11 @@ func TestBankCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getBankObj,_ := getBankRequestResult.Data. (model.Bank)
+	getBankObj,_ := getBankRequestResult.Data (model.Bank)
 	compareBank := cmp.Equal(createBankObj.ID, getBankObj.ID)
 	
 	if  compareBank == false	{
-		t.Errorf( "Created Bank object is not equal to read object." )
+		t.Error( "Created Bank object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -68,7 +72,7 @@ func TestBankCRUD(t *testing.T) {
 	getAllBankRequestResult := dao.GetAllBank()
 
 	if getAllBankRequestResult.Success == false {
-			t.Errorf(getAllBankRequestResult.Msg)
+			t.Error(getAllBankRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Bank success...")
 	}
@@ -82,7 +86,7 @@ func TestBankCRUD(t *testing.T) {
 	equalBank := cmp.Equal(createBankObj.ID, getAllBankObj[len(getAllBankObj)-1].ID)
 		
 	if equalBank == false {
-		t.Errorf( "Created object is not equal to the last entry in Bank[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Bank[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -91,7 +95,7 @@ func TestBankCRUD(t *testing.T) {
 	deleteBankRequestResult := dao.DeleteBank(uint64(createBankObj.ID))
 
 	if deleteBankRequestResult.Success == false {
-			t.Errorf(deleteBankRequestResult.Msg)
+			t.Error(deleteBankRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Bank success...")
 	}
@@ -103,7 +107,7 @@ func TestBankCRUD(t *testing.T) {
 	getBankRequestResult = dao.GetBank( uint64(createBankObj.ID) )
 	
 	if getBankRequestResult.Success == true {
-		t.Errorf(getBankRequestResult.Msg)
+		t.Error(getBankRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -124,18 +128,22 @@ func TestBranchCRUD(t *testing.T) {
 	createBranchRequestResult := dao.CreateBranch( BranchObj )
 	
 	if createBranchRequestResult.Success == false {
-		t.Errorf(createBranchRequestResult.Msg)
+		t.Error(createBranchRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Branch success...")
 	}
 	
-	createBranchObj,_ := createBranchRequestResult.Data. (model.Branch)
+	createBranchObj, ok := createBranchRequestResult.Data.(model.Branch)
+
+    if !ok {
+        t.Fatalf("Expected Branch, got %T", createBranchRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Branch Obj ID
 	// --------------------------------------------------------------	
 	if createBranchObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Branch" )
+	    t.Error( "The ORM failed to assign and ID for Branch" )
 	}	
 
 	// --------------------------------------------------------------
@@ -144,7 +152,7 @@ func TestBranchCRUD(t *testing.T) {
 	getBranchRequestResult := dao.GetBranch( uint64(createBranchObj.ID) )
 	
 	if getBranchRequestResult.Success == false {
-		t.Errorf(getBranchRequestResult.Msg)
+		t.Error(getBranchRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Branch success...")
 	}
@@ -152,11 +160,11 @@ func TestBranchCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getBranchObj,_ := getBranchRequestResult.Data. (model.Branch)
+	getBranchObj,_ := getBranchRequestResult.Data (model.Branch)
 	compareBranch := cmp.Equal(createBranchObj.ID, getBranchObj.ID)
 	
 	if  compareBranch == false	{
-		t.Errorf( "Created Branch object is not equal to read object." )
+		t.Error( "Created Branch object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -165,7 +173,7 @@ func TestBranchCRUD(t *testing.T) {
 	getAllBranchRequestResult := dao.GetAllBranch()
 
 	if getAllBranchRequestResult.Success == false {
-			t.Errorf(getAllBranchRequestResult.Msg)
+			t.Error(getAllBranchRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Branch success...")
 	}
@@ -179,7 +187,7 @@ func TestBranchCRUD(t *testing.T) {
 	equalBranch := cmp.Equal(createBranchObj.ID, getAllBranchObj[len(getAllBranchObj)-1].ID)
 		
 	if equalBranch == false {
-		t.Errorf( "Created object is not equal to the last entry in Branch[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Branch[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -188,7 +196,7 @@ func TestBranchCRUD(t *testing.T) {
 	deleteBranchRequestResult := dao.DeleteBranch(uint64(createBranchObj.ID))
 
 	if deleteBranchRequestResult.Success == false {
-			t.Errorf(deleteBranchRequestResult.Msg)
+			t.Error(deleteBranchRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Branch success...")
 	}
@@ -200,7 +208,7 @@ func TestBranchCRUD(t *testing.T) {
 	getBranchRequestResult = dao.GetBranch( uint64(createBranchObj.ID) )
 	
 	if getBranchRequestResult.Success == true {
-		t.Errorf(getBranchRequestResult.Msg)
+		t.Error(getBranchRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -221,18 +229,22 @@ func TestATMCRUD(t *testing.T) {
 	createATMRequestResult := dao.CreateATM( ATMObj )
 	
 	if createATMRequestResult.Success == false {
-		t.Errorf(createATMRequestResult.Msg)
+		t.Error(createATMRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create ATM success...")
 	}
 	
-	createATMObj,_ := createATMRequestResult.Data. (model.ATM)
+	createATMObj, ok := createATMRequestResult.Data.(model.ATM)
+
+    if !ok {
+        t.Fatalf("Expected ATM, got %T", createATMRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check ATM Obj ID
 	// --------------------------------------------------------------	
 	if createATMObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for ATM" )
+	    t.Error( "The ORM failed to assign and ID for ATM" )
 	}	
 
 	// --------------------------------------------------------------
@@ -241,7 +253,7 @@ func TestATMCRUD(t *testing.T) {
 	getATMRequestResult := dao.GetATM( uint64(createATMObj.ID) )
 	
 	if getATMRequestResult.Success == false {
-		t.Errorf(getATMRequestResult.Msg)
+		t.Error(getATMRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get ATM success...")
 	}
@@ -249,11 +261,11 @@ func TestATMCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getATMObj,_ := getATMRequestResult.Data. (model.ATM)
+	getATMObj,_ := getATMRequestResult.Data (model.ATM)
 	compareATM := cmp.Equal(createATMObj.ID, getATMObj.ID)
 	
 	if  compareATM == false	{
-		t.Errorf( "Created ATM object is not equal to read object." )
+		t.Error( "Created ATM object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -262,7 +274,7 @@ func TestATMCRUD(t *testing.T) {
 	getAllATMRequestResult := dao.GetAllATM()
 
 	if getAllATMRequestResult.Success == false {
-			t.Errorf(getAllATMRequestResult.Msg)
+			t.Error(getAllATMRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll ATM success...")
 	}
@@ -276,7 +288,7 @@ func TestATMCRUD(t *testing.T) {
 	equalATM := cmp.Equal(createATMObj.ID, getAllATMObj[len(getAllATMObj)-1].ID)
 		
 	if equalATM == false {
-		t.Errorf( "Created object is not equal to the last entry in ATM[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in ATM[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -285,7 +297,7 @@ func TestATMCRUD(t *testing.T) {
 	deleteATMRequestResult := dao.DeleteATM(uint64(createATMObj.ID))
 
 	if deleteATMRequestResult.Success == false {
-			t.Errorf(deleteATMRequestResult.Msg)
+			t.Error(deleteATMRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion ATM success...")
 	}
@@ -297,7 +309,7 @@ func TestATMCRUD(t *testing.T) {
 	getATMRequestResult = dao.GetATM( uint64(createATMObj.ID) )
 	
 	if getATMRequestResult.Success == true {
-		t.Errorf(getATMRequestResult.Msg)
+		t.Error(getATMRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -318,18 +330,22 @@ func TestCustomerCRUD(t *testing.T) {
 	createCustomerRequestResult := dao.CreateCustomer( CustomerObj )
 	
 	if createCustomerRequestResult.Success == false {
-		t.Errorf(createCustomerRequestResult.Msg)
+		t.Error(createCustomerRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Customer success...")
 	}
 	
-	createCustomerObj,_ := createCustomerRequestResult.Data. (model.Customer)
+	createCustomerObj, ok := createCustomerRequestResult.Data.(model.Customer)
+
+    if !ok {
+        t.Fatalf("Expected Customer, got %T", createCustomerRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Customer Obj ID
 	// --------------------------------------------------------------	
 	if createCustomerObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Customer" )
+	    t.Error( "The ORM failed to assign and ID for Customer" )
 	}	
 
 	// --------------------------------------------------------------
@@ -338,7 +354,7 @@ func TestCustomerCRUD(t *testing.T) {
 	getCustomerRequestResult := dao.GetCustomer( uint64(createCustomerObj.ID) )
 	
 	if getCustomerRequestResult.Success == false {
-		t.Errorf(getCustomerRequestResult.Msg)
+		t.Error(getCustomerRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Customer success...")
 	}
@@ -346,11 +362,11 @@ func TestCustomerCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getCustomerObj,_ := getCustomerRequestResult.Data. (model.Customer)
+	getCustomerObj,_ := getCustomerRequestResult.Data (model.Customer)
 	compareCustomer := cmp.Equal(createCustomerObj.ID, getCustomerObj.ID)
 	
 	if  compareCustomer == false	{
-		t.Errorf( "Created Customer object is not equal to read object." )
+		t.Error( "Created Customer object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -359,7 +375,7 @@ func TestCustomerCRUD(t *testing.T) {
 	getAllCustomerRequestResult := dao.GetAllCustomer()
 
 	if getAllCustomerRequestResult.Success == false {
-			t.Errorf(getAllCustomerRequestResult.Msg)
+			t.Error(getAllCustomerRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Customer success...")
 	}
@@ -373,7 +389,7 @@ func TestCustomerCRUD(t *testing.T) {
 	equalCustomer := cmp.Equal(createCustomerObj.ID, getAllCustomerObj[len(getAllCustomerObj)-1].ID)
 		
 	if equalCustomer == false {
-		t.Errorf( "Created object is not equal to the last entry in Customer[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Customer[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -382,7 +398,7 @@ func TestCustomerCRUD(t *testing.T) {
 	deleteCustomerRequestResult := dao.DeleteCustomer(uint64(createCustomerObj.ID))
 
 	if deleteCustomerRequestResult.Success == false {
-			t.Errorf(deleteCustomerRequestResult.Msg)
+			t.Error(deleteCustomerRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Customer success...")
 	}
@@ -394,7 +410,7 @@ func TestCustomerCRUD(t *testing.T) {
 	getCustomerRequestResult = dao.GetCustomer( uint64(createCustomerObj.ID) )
 	
 	if getCustomerRequestResult.Success == true {
-		t.Errorf(getCustomerRequestResult.Msg)
+		t.Error(getCustomerRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -415,18 +431,22 @@ func TestKycProfileCRUD(t *testing.T) {
 	createKycProfileRequestResult := dao.CreateKycProfile( KycProfileObj )
 	
 	if createKycProfileRequestResult.Success == false {
-		t.Errorf(createKycProfileRequestResult.Msg)
+		t.Error(createKycProfileRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create KycProfile success...")
 	}
 	
-	createKycProfileObj,_ := createKycProfileRequestResult.Data. (model.KycProfile)
+	createKycProfileObj, ok := createKycProfileRequestResult.Data.(model.KycProfile)
+
+    if !ok {
+        t.Fatalf("Expected KycProfile, got %T", createKycProfileRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check KycProfile Obj ID
 	// --------------------------------------------------------------	
 	if createKycProfileObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for KycProfile" )
+	    t.Error( "The ORM failed to assign and ID for KycProfile" )
 	}	
 
 	// --------------------------------------------------------------
@@ -435,7 +455,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	getKycProfileRequestResult := dao.GetKycProfile( uint64(createKycProfileObj.ID) )
 	
 	if getKycProfileRequestResult.Success == false {
-		t.Errorf(getKycProfileRequestResult.Msg)
+		t.Error(getKycProfileRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get KycProfile success...")
 	}
@@ -443,11 +463,11 @@ func TestKycProfileCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getKycProfileObj,_ := getKycProfileRequestResult.Data. (model.KycProfile)
+	getKycProfileObj,_ := getKycProfileRequestResult.Data (model.KycProfile)
 	compareKycProfile := cmp.Equal(createKycProfileObj.ID, getKycProfileObj.ID)
 	
 	if  compareKycProfile == false	{
-		t.Errorf( "Created KycProfile object is not equal to read object." )
+		t.Error( "Created KycProfile object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -456,7 +476,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	getAllKycProfileRequestResult := dao.GetAllKycProfile()
 
 	if getAllKycProfileRequestResult.Success == false {
-			t.Errorf(getAllKycProfileRequestResult.Msg)
+			t.Error(getAllKycProfileRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll KycProfile success...")
 	}
@@ -470,7 +490,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	equalKycProfile := cmp.Equal(createKycProfileObj.ID, getAllKycProfileObj[len(getAllKycProfileObj)-1].ID)
 		
 	if equalKycProfile == false {
-		t.Errorf( "Created object is not equal to the last entry in KycProfile[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in KycProfile[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -479,7 +499,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	deleteKycProfileRequestResult := dao.DeleteKycProfile(uint64(createKycProfileObj.ID))
 
 	if deleteKycProfileRequestResult.Success == false {
-			t.Errorf(deleteKycProfileRequestResult.Msg)
+			t.Error(deleteKycProfileRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion KycProfile success...")
 	}
@@ -491,7 +511,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	getKycProfileRequestResult = dao.GetKycProfile( uint64(createKycProfileObj.ID) )
 	
 	if getKycProfileRequestResult.Success == true {
-		t.Errorf(getKycProfileRequestResult.Msg)
+		t.Error(getKycProfileRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -512,18 +532,22 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	createIdentityDocumentRequestResult := dao.CreateIdentityDocument( IdentityDocumentObj )
 	
 	if createIdentityDocumentRequestResult.Success == false {
-		t.Errorf(createIdentityDocumentRequestResult.Msg)
+		t.Error(createIdentityDocumentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create IdentityDocument success...")
 	}
 	
-	createIdentityDocumentObj,_ := createIdentityDocumentRequestResult.Data. (model.IdentityDocument)
+	createIdentityDocumentObj, ok := createIdentityDocumentRequestResult.Data.(model.IdentityDocument)
+
+    if !ok {
+        t.Fatalf("Expected IdentityDocument, got %T", createIdentityDocumentRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check IdentityDocument Obj ID
 	// --------------------------------------------------------------	
 	if createIdentityDocumentObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for IdentityDocument" )
+	    t.Error( "The ORM failed to assign and ID for IdentityDocument" )
 	}	
 
 	// --------------------------------------------------------------
@@ -532,7 +556,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	getIdentityDocumentRequestResult := dao.GetIdentityDocument( uint64(createIdentityDocumentObj.ID) )
 	
 	if getIdentityDocumentRequestResult.Success == false {
-		t.Errorf(getIdentityDocumentRequestResult.Msg)
+		t.Error(getIdentityDocumentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get IdentityDocument success...")
 	}
@@ -540,11 +564,11 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getIdentityDocumentObj,_ := getIdentityDocumentRequestResult.Data. (model.IdentityDocument)
+	getIdentityDocumentObj,_ := getIdentityDocumentRequestResult.Data (model.IdentityDocument)
 	compareIdentityDocument := cmp.Equal(createIdentityDocumentObj.ID, getIdentityDocumentObj.ID)
 	
 	if  compareIdentityDocument == false	{
-		t.Errorf( "Created IdentityDocument object is not equal to read object." )
+		t.Error( "Created IdentityDocument object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -553,7 +577,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	getAllIdentityDocumentRequestResult := dao.GetAllIdentityDocument()
 
 	if getAllIdentityDocumentRequestResult.Success == false {
-			t.Errorf(getAllIdentityDocumentRequestResult.Msg)
+			t.Error(getAllIdentityDocumentRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll IdentityDocument success...")
 	}
@@ -567,7 +591,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	equalIdentityDocument := cmp.Equal(createIdentityDocumentObj.ID, getAllIdentityDocumentObj[len(getAllIdentityDocumentObj)-1].ID)
 		
 	if equalIdentityDocument == false {
-		t.Errorf( "Created object is not equal to the last entry in IdentityDocument[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in IdentityDocument[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -576,7 +600,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	deleteIdentityDocumentRequestResult := dao.DeleteIdentityDocument(uint64(createIdentityDocumentObj.ID))
 
 	if deleteIdentityDocumentRequestResult.Success == false {
-			t.Errorf(deleteIdentityDocumentRequestResult.Msg)
+			t.Error(deleteIdentityDocumentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion IdentityDocument success...")
 	}
@@ -588,7 +612,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	getIdentityDocumentRequestResult = dao.GetIdentityDocument( uint64(createIdentityDocumentObj.ID) )
 	
 	if getIdentityDocumentRequestResult.Success == true {
-		t.Errorf(getIdentityDocumentRequestResult.Msg)
+		t.Error(getIdentityDocumentRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -609,18 +633,22 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	createRiskAssessmentRequestResult := dao.CreateRiskAssessment( RiskAssessmentObj )
 	
 	if createRiskAssessmentRequestResult.Success == false {
-		t.Errorf(createRiskAssessmentRequestResult.Msg)
+		t.Error(createRiskAssessmentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create RiskAssessment success...")
 	}
 	
-	createRiskAssessmentObj,_ := createRiskAssessmentRequestResult.Data. (model.RiskAssessment)
+	createRiskAssessmentObj, ok := createRiskAssessmentRequestResult.Data.(model.RiskAssessment)
+
+    if !ok {
+        t.Fatalf("Expected RiskAssessment, got %T", createRiskAssessmentRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check RiskAssessment Obj ID
 	// --------------------------------------------------------------	
 	if createRiskAssessmentObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for RiskAssessment" )
+	    t.Error( "The ORM failed to assign and ID for RiskAssessment" )
 	}	
 
 	// --------------------------------------------------------------
@@ -629,7 +657,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	getRiskAssessmentRequestResult := dao.GetRiskAssessment( uint64(createRiskAssessmentObj.ID) )
 	
 	if getRiskAssessmentRequestResult.Success == false {
-		t.Errorf(getRiskAssessmentRequestResult.Msg)
+		t.Error(getRiskAssessmentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get RiskAssessment success...")
 	}
@@ -637,11 +665,11 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getRiskAssessmentObj,_ := getRiskAssessmentRequestResult.Data. (model.RiskAssessment)
+	getRiskAssessmentObj,_ := getRiskAssessmentRequestResult.Data (model.RiskAssessment)
 	compareRiskAssessment := cmp.Equal(createRiskAssessmentObj.ID, getRiskAssessmentObj.ID)
 	
 	if  compareRiskAssessment == false	{
-		t.Errorf( "Created RiskAssessment object is not equal to read object." )
+		t.Error( "Created RiskAssessment object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -650,7 +678,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	getAllRiskAssessmentRequestResult := dao.GetAllRiskAssessment()
 
 	if getAllRiskAssessmentRequestResult.Success == false {
-			t.Errorf(getAllRiskAssessmentRequestResult.Msg)
+			t.Error(getAllRiskAssessmentRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll RiskAssessment success...")
 	}
@@ -664,7 +692,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	equalRiskAssessment := cmp.Equal(createRiskAssessmentObj.ID, getAllRiskAssessmentObj[len(getAllRiskAssessmentObj)-1].ID)
 		
 	if equalRiskAssessment == false {
-		t.Errorf( "Created object is not equal to the last entry in RiskAssessment[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in RiskAssessment[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -673,7 +701,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	deleteRiskAssessmentRequestResult := dao.DeleteRiskAssessment(uint64(createRiskAssessmentObj.ID))
 
 	if deleteRiskAssessmentRequestResult.Success == false {
-			t.Errorf(deleteRiskAssessmentRequestResult.Msg)
+			t.Error(deleteRiskAssessmentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion RiskAssessment success...")
 	}
@@ -685,7 +713,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	getRiskAssessmentRequestResult = dao.GetRiskAssessment( uint64(createRiskAssessmentObj.ID) )
 	
 	if getRiskAssessmentRequestResult.Success == true {
-		t.Errorf(getRiskAssessmentRequestResult.Msg)
+		t.Error(getRiskAssessmentRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -706,18 +734,22 @@ func TestScreeningResultCRUD(t *testing.T) {
 	createScreeningResultRequestResult := dao.CreateScreeningResult( ScreeningResultObj )
 	
 	if createScreeningResultRequestResult.Success == false {
-		t.Errorf(createScreeningResultRequestResult.Msg)
+		t.Error(createScreeningResultRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create ScreeningResult success...")
 	}
 	
-	createScreeningResultObj,_ := createScreeningResultRequestResult.Data. (model.ScreeningResult)
+	createScreeningResultObj, ok := createScreeningResultRequestResult.Data.(model.ScreeningResult)
+
+    if !ok {
+        t.Fatalf("Expected ScreeningResult, got %T", createScreeningResultRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check ScreeningResult Obj ID
 	// --------------------------------------------------------------	
 	if createScreeningResultObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for ScreeningResult" )
+	    t.Error( "The ORM failed to assign and ID for ScreeningResult" )
 	}	
 
 	// --------------------------------------------------------------
@@ -726,7 +758,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	getScreeningResultRequestResult := dao.GetScreeningResult( uint64(createScreeningResultObj.ID) )
 	
 	if getScreeningResultRequestResult.Success == false {
-		t.Errorf(getScreeningResultRequestResult.Msg)
+		t.Error(getScreeningResultRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get ScreeningResult success...")
 	}
@@ -734,11 +766,11 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getScreeningResultObj,_ := getScreeningResultRequestResult.Data. (model.ScreeningResult)
+	getScreeningResultObj,_ := getScreeningResultRequestResult.Data (model.ScreeningResult)
 	compareScreeningResult := cmp.Equal(createScreeningResultObj.ID, getScreeningResultObj.ID)
 	
 	if  compareScreeningResult == false	{
-		t.Errorf( "Created ScreeningResult object is not equal to read object." )
+		t.Error( "Created ScreeningResult object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -747,7 +779,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	getAllScreeningResultRequestResult := dao.GetAllScreeningResult()
 
 	if getAllScreeningResultRequestResult.Success == false {
-			t.Errorf(getAllScreeningResultRequestResult.Msg)
+			t.Error(getAllScreeningResultRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll ScreeningResult success...")
 	}
@@ -761,7 +793,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	equalScreeningResult := cmp.Equal(createScreeningResultObj.ID, getAllScreeningResultObj[len(getAllScreeningResultObj)-1].ID)
 		
 	if equalScreeningResult == false {
-		t.Errorf( "Created object is not equal to the last entry in ScreeningResult[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in ScreeningResult[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -770,7 +802,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	deleteScreeningResultRequestResult := dao.DeleteScreeningResult(uint64(createScreeningResultObj.ID))
 
 	if deleteScreeningResultRequestResult.Success == false {
-			t.Errorf(deleteScreeningResultRequestResult.Msg)
+			t.Error(deleteScreeningResultRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion ScreeningResult success...")
 	}
@@ -782,7 +814,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	getScreeningResultRequestResult = dao.GetScreeningResult( uint64(createScreeningResultObj.ID) )
 	
 	if getScreeningResultRequestResult.Success == true {
-		t.Errorf(getScreeningResultRequestResult.Msg)
+		t.Error(getScreeningResultRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -803,18 +835,22 @@ func TestBankingProductCRUD(t *testing.T) {
 	createBankingProductRequestResult := dao.CreateBankingProduct( BankingProductObj )
 	
 	if createBankingProductRequestResult.Success == false {
-		t.Errorf(createBankingProductRequestResult.Msg)
+		t.Error(createBankingProductRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create BankingProduct success...")
 	}
 	
-	createBankingProductObj,_ := createBankingProductRequestResult.Data. (model.BankingProduct)
+	createBankingProductObj, ok := createBankingProductRequestResult.Data.(model.BankingProduct)
+
+    if !ok {
+        t.Fatalf("Expected BankingProduct, got %T", createBankingProductRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check BankingProduct Obj ID
 	// --------------------------------------------------------------	
 	if createBankingProductObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for BankingProduct" )
+	    t.Error( "The ORM failed to assign and ID for BankingProduct" )
 	}	
 
 	// --------------------------------------------------------------
@@ -823,7 +859,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	getBankingProductRequestResult := dao.GetBankingProduct( uint64(createBankingProductObj.ID) )
 	
 	if getBankingProductRequestResult.Success == false {
-		t.Errorf(getBankingProductRequestResult.Msg)
+		t.Error(getBankingProductRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get BankingProduct success...")
 	}
@@ -831,11 +867,11 @@ func TestBankingProductCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getBankingProductObj,_ := getBankingProductRequestResult.Data. (model.BankingProduct)
+	getBankingProductObj,_ := getBankingProductRequestResult.Data (model.BankingProduct)
 	compareBankingProduct := cmp.Equal(createBankingProductObj.ID, getBankingProductObj.ID)
 	
 	if  compareBankingProduct == false	{
-		t.Errorf( "Created BankingProduct object is not equal to read object." )
+		t.Error( "Created BankingProduct object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -844,7 +880,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	getAllBankingProductRequestResult := dao.GetAllBankingProduct()
 
 	if getAllBankingProductRequestResult.Success == false {
-			t.Errorf(getAllBankingProductRequestResult.Msg)
+			t.Error(getAllBankingProductRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll BankingProduct success...")
 	}
@@ -858,7 +894,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	equalBankingProduct := cmp.Equal(createBankingProductObj.ID, getAllBankingProductObj[len(getAllBankingProductObj)-1].ID)
 		
 	if equalBankingProduct == false {
-		t.Errorf( "Created object is not equal to the last entry in BankingProduct[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in BankingProduct[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -867,7 +903,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	deleteBankingProductRequestResult := dao.DeleteBankingProduct(uint64(createBankingProductObj.ID))
 
 	if deleteBankingProductRequestResult.Success == false {
-			t.Errorf(deleteBankingProductRequestResult.Msg)
+			t.Error(deleteBankingProductRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion BankingProduct success...")
 	}
@@ -879,7 +915,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	getBankingProductRequestResult = dao.GetBankingProduct( uint64(createBankingProductObj.ID) )
 	
 	if getBankingProductRequestResult.Success == true {
-		t.Errorf(getBankingProductRequestResult.Msg)
+		t.Error(getBankingProductRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -900,18 +936,22 @@ func TestAccountCRUD(t *testing.T) {
 	createAccountRequestResult := dao.CreateAccount( AccountObj )
 	
 	if createAccountRequestResult.Success == false {
-		t.Errorf(createAccountRequestResult.Msg)
+		t.Error(createAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Account success...")
 	}
 	
-	createAccountObj,_ := createAccountRequestResult.Data. (model.Account)
+	createAccountObj, ok := createAccountRequestResult.Data.(model.Account)
+
+    if !ok {
+        t.Fatalf("Expected Account, got %T", createAccountRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Account Obj ID
 	// --------------------------------------------------------------	
 	if createAccountObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Account" )
+	    t.Error( "The ORM failed to assign and ID for Account" )
 	}	
 
 	// --------------------------------------------------------------
@@ -920,7 +960,7 @@ func TestAccountCRUD(t *testing.T) {
 	getAccountRequestResult := dao.GetAccount( uint64(createAccountObj.ID) )
 	
 	if getAccountRequestResult.Success == false {
-		t.Errorf(getAccountRequestResult.Msg)
+		t.Error(getAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Account success...")
 	}
@@ -928,11 +968,11 @@ func TestAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getAccountObj,_ := getAccountRequestResult.Data. (model.Account)
+	getAccountObj,_ := getAccountRequestResult.Data (model.Account)
 	compareAccount := cmp.Equal(createAccountObj.ID, getAccountObj.ID)
 	
 	if  compareAccount == false	{
-		t.Errorf( "Created Account object is not equal to read object." )
+		t.Error( "Created Account object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -941,7 +981,7 @@ func TestAccountCRUD(t *testing.T) {
 	getAllAccountRequestResult := dao.GetAllAccount()
 
 	if getAllAccountRequestResult.Success == false {
-			t.Errorf(getAllAccountRequestResult.Msg)
+			t.Error(getAllAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Account success...")
 	}
@@ -955,7 +995,7 @@ func TestAccountCRUD(t *testing.T) {
 	equalAccount := cmp.Equal(createAccountObj.ID, getAllAccountObj[len(getAllAccountObj)-1].ID)
 		
 	if equalAccount == false {
-		t.Errorf( "Created object is not equal to the last entry in Account[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Account[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -964,7 +1004,7 @@ func TestAccountCRUD(t *testing.T) {
 	deleteAccountRequestResult := dao.DeleteAccount(uint64(createAccountObj.ID))
 
 	if deleteAccountRequestResult.Success == false {
-			t.Errorf(deleteAccountRequestResult.Msg)
+			t.Error(deleteAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Account success...")
 	}
@@ -976,7 +1016,7 @@ func TestAccountCRUD(t *testing.T) {
 	getAccountRequestResult = dao.GetAccount( uint64(createAccountObj.ID) )
 	
 	if getAccountRequestResult.Success == true {
-		t.Errorf(getAccountRequestResult.Msg)
+		t.Error(getAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -997,18 +1037,22 @@ func TestAccountStatementCRUD(t *testing.T) {
 	createAccountStatementRequestResult := dao.CreateAccountStatement( AccountStatementObj )
 	
 	if createAccountStatementRequestResult.Success == false {
-		t.Errorf(createAccountStatementRequestResult.Msg)
+		t.Error(createAccountStatementRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create AccountStatement success...")
 	}
 	
-	createAccountStatementObj,_ := createAccountStatementRequestResult.Data. (model.AccountStatement)
+	createAccountStatementObj, ok := createAccountStatementRequestResult.Data.(model.AccountStatement)
+
+    if !ok {
+        t.Fatalf("Expected AccountStatement, got %T", createAccountStatementRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check AccountStatement Obj ID
 	// --------------------------------------------------------------	
 	if createAccountStatementObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for AccountStatement" )
+	    t.Error( "The ORM failed to assign and ID for AccountStatement" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1017,7 +1061,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	getAccountStatementRequestResult := dao.GetAccountStatement( uint64(createAccountStatementObj.ID) )
 	
 	if getAccountStatementRequestResult.Success == false {
-		t.Errorf(getAccountStatementRequestResult.Msg)
+		t.Error(getAccountStatementRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get AccountStatement success...")
 	}
@@ -1025,11 +1069,11 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getAccountStatementObj,_ := getAccountStatementRequestResult.Data. (model.AccountStatement)
+	getAccountStatementObj,_ := getAccountStatementRequestResult.Data (model.AccountStatement)
 	compareAccountStatement := cmp.Equal(createAccountStatementObj.ID, getAccountStatementObj.ID)
 	
 	if  compareAccountStatement == false	{
-		t.Errorf( "Created AccountStatement object is not equal to read object." )
+		t.Error( "Created AccountStatement object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1038,7 +1082,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	getAllAccountStatementRequestResult := dao.GetAllAccountStatement()
 
 	if getAllAccountStatementRequestResult.Success == false {
-			t.Errorf(getAllAccountStatementRequestResult.Msg)
+			t.Error(getAllAccountStatementRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll AccountStatement success...")
 	}
@@ -1052,7 +1096,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	equalAccountStatement := cmp.Equal(createAccountStatementObj.ID, getAllAccountStatementObj[len(getAllAccountStatementObj)-1].ID)
 		
 	if equalAccountStatement == false {
-		t.Errorf( "Created object is not equal to the last entry in AccountStatement[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in AccountStatement[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1061,7 +1105,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	deleteAccountStatementRequestResult := dao.DeleteAccountStatement(uint64(createAccountStatementObj.ID))
 
 	if deleteAccountStatementRequestResult.Success == false {
-			t.Errorf(deleteAccountStatementRequestResult.Msg)
+			t.Error(deleteAccountStatementRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion AccountStatement success...")
 	}
@@ -1073,7 +1117,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	getAccountStatementRequestResult = dao.GetAccountStatement( uint64(createAccountStatementObj.ID) )
 	
 	if getAccountStatementRequestResult.Success == true {
-		t.Errorf(getAccountStatementRequestResult.Msg)
+		t.Error(getAccountStatementRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1094,18 +1138,22 @@ func TestTransactionCRUD(t *testing.T) {
 	createTransactionRequestResult := dao.CreateTransaction( TransactionObj )
 	
 	if createTransactionRequestResult.Success == false {
-		t.Errorf(createTransactionRequestResult.Msg)
+		t.Error(createTransactionRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Transaction success...")
 	}
 	
-	createTransactionObj,_ := createTransactionRequestResult.Data. (model.Transaction)
+	createTransactionObj, ok := createTransactionRequestResult.Data.(model.Transaction)
+
+    if !ok {
+        t.Fatalf("Expected Transaction, got %T", createTransactionRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Transaction Obj ID
 	// --------------------------------------------------------------	
 	if createTransactionObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Transaction" )
+	    t.Error( "The ORM failed to assign and ID for Transaction" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1114,7 +1162,7 @@ func TestTransactionCRUD(t *testing.T) {
 	getTransactionRequestResult := dao.GetTransaction( uint64(createTransactionObj.ID) )
 	
 	if getTransactionRequestResult.Success == false {
-		t.Errorf(getTransactionRequestResult.Msg)
+		t.Error(getTransactionRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Transaction success...")
 	}
@@ -1122,11 +1170,11 @@ func TestTransactionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getTransactionObj,_ := getTransactionRequestResult.Data. (model.Transaction)
+	getTransactionObj,_ := getTransactionRequestResult.Data (model.Transaction)
 	compareTransaction := cmp.Equal(createTransactionObj.ID, getTransactionObj.ID)
 	
 	if  compareTransaction == false	{
-		t.Errorf( "Created Transaction object is not equal to read object." )
+		t.Error( "Created Transaction object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1135,7 +1183,7 @@ func TestTransactionCRUD(t *testing.T) {
 	getAllTransactionRequestResult := dao.GetAllTransaction()
 
 	if getAllTransactionRequestResult.Success == false {
-			t.Errorf(getAllTransactionRequestResult.Msg)
+			t.Error(getAllTransactionRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Transaction success...")
 	}
@@ -1149,7 +1197,7 @@ func TestTransactionCRUD(t *testing.T) {
 	equalTransaction := cmp.Equal(createTransactionObj.ID, getAllTransactionObj[len(getAllTransactionObj)-1].ID)
 		
 	if equalTransaction == false {
-		t.Errorf( "Created object is not equal to the last entry in Transaction[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Transaction[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1158,7 +1206,7 @@ func TestTransactionCRUD(t *testing.T) {
 	deleteTransactionRequestResult := dao.DeleteTransaction(uint64(createTransactionObj.ID))
 
 	if deleteTransactionRequestResult.Success == false {
-			t.Errorf(deleteTransactionRequestResult.Msg)
+			t.Error(deleteTransactionRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Transaction success...")
 	}
@@ -1170,7 +1218,7 @@ func TestTransactionCRUD(t *testing.T) {
 	getTransactionRequestResult = dao.GetTransaction( uint64(createTransactionObj.ID) )
 	
 	if getTransactionRequestResult.Success == true {
-		t.Errorf(getTransactionRequestResult.Msg)
+		t.Error(getTransactionRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1191,18 +1239,22 @@ func TestExternalAccountCRUD(t *testing.T) {
 	createExternalAccountRequestResult := dao.CreateExternalAccount( ExternalAccountObj )
 	
 	if createExternalAccountRequestResult.Success == false {
-		t.Errorf(createExternalAccountRequestResult.Msg)
+		t.Error(createExternalAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create ExternalAccount success...")
 	}
 	
-	createExternalAccountObj,_ := createExternalAccountRequestResult.Data. (model.ExternalAccount)
+	createExternalAccountObj, ok := createExternalAccountRequestResult.Data.(model.ExternalAccount)
+
+    if !ok {
+        t.Fatalf("Expected ExternalAccount, got %T", createExternalAccountRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check ExternalAccount Obj ID
 	// --------------------------------------------------------------	
 	if createExternalAccountObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for ExternalAccount" )
+	    t.Error( "The ORM failed to assign and ID for ExternalAccount" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1211,7 +1263,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	getExternalAccountRequestResult := dao.GetExternalAccount( uint64(createExternalAccountObj.ID) )
 	
 	if getExternalAccountRequestResult.Success == false {
-		t.Errorf(getExternalAccountRequestResult.Msg)
+		t.Error(getExternalAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get ExternalAccount success...")
 	}
@@ -1219,11 +1271,11 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getExternalAccountObj,_ := getExternalAccountRequestResult.Data. (model.ExternalAccount)
+	getExternalAccountObj,_ := getExternalAccountRequestResult.Data (model.ExternalAccount)
 	compareExternalAccount := cmp.Equal(createExternalAccountObj.ID, getExternalAccountObj.ID)
 	
 	if  compareExternalAccount == false	{
-		t.Errorf( "Created ExternalAccount object is not equal to read object." )
+		t.Error( "Created ExternalAccount object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1232,7 +1284,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	getAllExternalAccountRequestResult := dao.GetAllExternalAccount()
 
 	if getAllExternalAccountRequestResult.Success == false {
-			t.Errorf(getAllExternalAccountRequestResult.Msg)
+			t.Error(getAllExternalAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll ExternalAccount success...")
 	}
@@ -1246,7 +1298,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	equalExternalAccount := cmp.Equal(createExternalAccountObj.ID, getAllExternalAccountObj[len(getAllExternalAccountObj)-1].ID)
 		
 	if equalExternalAccount == false {
-		t.Errorf( "Created object is not equal to the last entry in ExternalAccount[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in ExternalAccount[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1255,7 +1307,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	deleteExternalAccountRequestResult := dao.DeleteExternalAccount(uint64(createExternalAccountObj.ID))
 
 	if deleteExternalAccountRequestResult.Success == false {
-			t.Errorf(deleteExternalAccountRequestResult.Msg)
+			t.Error(deleteExternalAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion ExternalAccount success...")
 	}
@@ -1267,7 +1319,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	getExternalAccountRequestResult = dao.GetExternalAccount( uint64(createExternalAccountObj.ID) )
 	
 	if getExternalAccountRequestResult.Success == true {
-		t.Errorf(getExternalAccountRequestResult.Msg)
+		t.Error(getExternalAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1288,18 +1340,22 @@ func TestFundsTransferCRUD(t *testing.T) {
 	createFundsTransferRequestResult := dao.CreateFundsTransfer( FundsTransferObj )
 	
 	if createFundsTransferRequestResult.Success == false {
-		t.Errorf(createFundsTransferRequestResult.Msg)
+		t.Error(createFundsTransferRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create FundsTransfer success...")
 	}
 	
-	createFundsTransferObj,_ := createFundsTransferRequestResult.Data. (model.FundsTransfer)
+	createFundsTransferObj, ok := createFundsTransferRequestResult.Data.(model.FundsTransfer)
+
+    if !ok {
+        t.Fatalf("Expected FundsTransfer, got %T", createFundsTransferRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check FundsTransfer Obj ID
 	// --------------------------------------------------------------	
 	if createFundsTransferObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for FundsTransfer" )
+	    t.Error( "The ORM failed to assign and ID for FundsTransfer" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1308,7 +1364,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	getFundsTransferRequestResult := dao.GetFundsTransfer( uint64(createFundsTransferObj.ID) )
 	
 	if getFundsTransferRequestResult.Success == false {
-		t.Errorf(getFundsTransferRequestResult.Msg)
+		t.Error(getFundsTransferRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get FundsTransfer success...")
 	}
@@ -1316,11 +1372,11 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getFundsTransferObj,_ := getFundsTransferRequestResult.Data. (model.FundsTransfer)
+	getFundsTransferObj,_ := getFundsTransferRequestResult.Data (model.FundsTransfer)
 	compareFundsTransfer := cmp.Equal(createFundsTransferObj.ID, getFundsTransferObj.ID)
 	
 	if  compareFundsTransfer == false	{
-		t.Errorf( "Created FundsTransfer object is not equal to read object." )
+		t.Error( "Created FundsTransfer object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1329,7 +1385,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	getAllFundsTransferRequestResult := dao.GetAllFundsTransfer()
 
 	if getAllFundsTransferRequestResult.Success == false {
-			t.Errorf(getAllFundsTransferRequestResult.Msg)
+			t.Error(getAllFundsTransferRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll FundsTransfer success...")
 	}
@@ -1343,7 +1399,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	equalFundsTransfer := cmp.Equal(createFundsTransferObj.ID, getAllFundsTransferObj[len(getAllFundsTransferObj)-1].ID)
 		
 	if equalFundsTransfer == false {
-		t.Errorf( "Created object is not equal to the last entry in FundsTransfer[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in FundsTransfer[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1352,7 +1408,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	deleteFundsTransferRequestResult := dao.DeleteFundsTransfer(uint64(createFundsTransferObj.ID))
 
 	if deleteFundsTransferRequestResult.Success == false {
-			t.Errorf(deleteFundsTransferRequestResult.Msg)
+			t.Error(deleteFundsTransferRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion FundsTransfer success...")
 	}
@@ -1364,7 +1420,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	getFundsTransferRequestResult = dao.GetFundsTransfer( uint64(createFundsTransferObj.ID) )
 	
 	if getFundsTransferRequestResult.Success == true {
-		t.Errorf(getFundsTransferRequestResult.Msg)
+		t.Error(getFundsTransferRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1385,18 +1441,22 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	createStandingInstructionRequestResult := dao.CreateStandingInstruction( StandingInstructionObj )
 	
 	if createStandingInstructionRequestResult.Success == false {
-		t.Errorf(createStandingInstructionRequestResult.Msg)
+		t.Error(createStandingInstructionRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create StandingInstruction success...")
 	}
 	
-	createStandingInstructionObj,_ := createStandingInstructionRequestResult.Data. (model.StandingInstruction)
+	createStandingInstructionObj, ok := createStandingInstructionRequestResult.Data.(model.StandingInstruction)
+
+    if !ok {
+        t.Fatalf("Expected StandingInstruction, got %T", createStandingInstructionRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check StandingInstruction Obj ID
 	// --------------------------------------------------------------	
 	if createStandingInstructionObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for StandingInstruction" )
+	    t.Error( "The ORM failed to assign and ID for StandingInstruction" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1405,7 +1465,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	getStandingInstructionRequestResult := dao.GetStandingInstruction( uint64(createStandingInstructionObj.ID) )
 	
 	if getStandingInstructionRequestResult.Success == false {
-		t.Errorf(getStandingInstructionRequestResult.Msg)
+		t.Error(getStandingInstructionRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get StandingInstruction success...")
 	}
@@ -1413,11 +1473,11 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getStandingInstructionObj,_ := getStandingInstructionRequestResult.Data. (model.StandingInstruction)
+	getStandingInstructionObj,_ := getStandingInstructionRequestResult.Data (model.StandingInstruction)
 	compareStandingInstruction := cmp.Equal(createStandingInstructionObj.ID, getStandingInstructionObj.ID)
 	
 	if  compareStandingInstruction == false	{
-		t.Errorf( "Created StandingInstruction object is not equal to read object." )
+		t.Error( "Created StandingInstruction object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1426,7 +1486,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	getAllStandingInstructionRequestResult := dao.GetAllStandingInstruction()
 
 	if getAllStandingInstructionRequestResult.Success == false {
-			t.Errorf(getAllStandingInstructionRequestResult.Msg)
+			t.Error(getAllStandingInstructionRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll StandingInstruction success...")
 	}
@@ -1440,7 +1500,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	equalStandingInstruction := cmp.Equal(createStandingInstructionObj.ID, getAllStandingInstructionObj[len(getAllStandingInstructionObj)-1].ID)
 		
 	if equalStandingInstruction == false {
-		t.Errorf( "Created object is not equal to the last entry in StandingInstruction[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in StandingInstruction[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1449,7 +1509,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	deleteStandingInstructionRequestResult := dao.DeleteStandingInstruction(uint64(createStandingInstructionObj.ID))
 
 	if deleteStandingInstructionRequestResult.Success == false {
-			t.Errorf(deleteStandingInstructionRequestResult.Msg)
+			t.Error(deleteStandingInstructionRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion StandingInstruction success...")
 	}
@@ -1461,7 +1521,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	getStandingInstructionRequestResult = dao.GetStandingInstruction( uint64(createStandingInstructionObj.ID) )
 	
 	if getStandingInstructionRequestResult.Success == true {
-		t.Errorf(getStandingInstructionRequestResult.Msg)
+		t.Error(getStandingInstructionRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1482,18 +1542,22 @@ func TestPaymentCardCRUD(t *testing.T) {
 	createPaymentCardRequestResult := dao.CreatePaymentCard( PaymentCardObj )
 	
 	if createPaymentCardRequestResult.Success == false {
-		t.Errorf(createPaymentCardRequestResult.Msg)
+		t.Error(createPaymentCardRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create PaymentCard success...")
 	}
 	
-	createPaymentCardObj,_ := createPaymentCardRequestResult.Data. (model.PaymentCard)
+	createPaymentCardObj, ok := createPaymentCardRequestResult.Data.(model.PaymentCard)
+
+    if !ok {
+        t.Fatalf("Expected PaymentCard, got %T", createPaymentCardRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check PaymentCard Obj ID
 	// --------------------------------------------------------------	
 	if createPaymentCardObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for PaymentCard" )
+	    t.Error( "The ORM failed to assign and ID for PaymentCard" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1502,7 +1566,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	getPaymentCardRequestResult := dao.GetPaymentCard( uint64(createPaymentCardObj.ID) )
 	
 	if getPaymentCardRequestResult.Success == false {
-		t.Errorf(getPaymentCardRequestResult.Msg)
+		t.Error(getPaymentCardRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get PaymentCard success...")
 	}
@@ -1510,11 +1574,11 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getPaymentCardObj,_ := getPaymentCardRequestResult.Data. (model.PaymentCard)
+	getPaymentCardObj,_ := getPaymentCardRequestResult.Data (model.PaymentCard)
 	comparePaymentCard := cmp.Equal(createPaymentCardObj.ID, getPaymentCardObj.ID)
 	
 	if  comparePaymentCard == false	{
-		t.Errorf( "Created PaymentCard object is not equal to read object." )
+		t.Error( "Created PaymentCard object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1523,7 +1587,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	getAllPaymentCardRequestResult := dao.GetAllPaymentCard()
 
 	if getAllPaymentCardRequestResult.Success == false {
-			t.Errorf(getAllPaymentCardRequestResult.Msg)
+			t.Error(getAllPaymentCardRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll PaymentCard success...")
 	}
@@ -1537,7 +1601,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	equalPaymentCard := cmp.Equal(createPaymentCardObj.ID, getAllPaymentCardObj[len(getAllPaymentCardObj)-1].ID)
 		
 	if equalPaymentCard == false {
-		t.Errorf( "Created object is not equal to the last entry in PaymentCard[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in PaymentCard[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1546,7 +1610,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	deletePaymentCardRequestResult := dao.DeletePaymentCard(uint64(createPaymentCardObj.ID))
 
 	if deletePaymentCardRequestResult.Success == false {
-			t.Errorf(deletePaymentCardRequestResult.Msg)
+			t.Error(deletePaymentCardRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion PaymentCard success...")
 	}
@@ -1558,7 +1622,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	getPaymentCardRequestResult = dao.GetPaymentCard( uint64(createPaymentCardObj.ID) )
 	
 	if getPaymentCardRequestResult.Success == true {
-		t.Errorf(getPaymentCardRequestResult.Msg)
+		t.Error(getPaymentCardRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1579,18 +1643,22 @@ func TestLoanAccountCRUD(t *testing.T) {
 	createLoanAccountRequestResult := dao.CreateLoanAccount( LoanAccountObj )
 	
 	if createLoanAccountRequestResult.Success == false {
-		t.Errorf(createLoanAccountRequestResult.Msg)
+		t.Error(createLoanAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create LoanAccount success...")
 	}
 	
-	createLoanAccountObj,_ := createLoanAccountRequestResult.Data. (model.LoanAccount)
+	createLoanAccountObj, ok := createLoanAccountRequestResult.Data.(model.LoanAccount)
+
+    if !ok {
+        t.Fatalf("Expected LoanAccount, got %T", createLoanAccountRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check LoanAccount Obj ID
 	// --------------------------------------------------------------	
 	if createLoanAccountObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for LoanAccount" )
+	    t.Error( "The ORM failed to assign and ID for LoanAccount" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1599,7 +1667,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	getLoanAccountRequestResult := dao.GetLoanAccount( uint64(createLoanAccountObj.ID) )
 	
 	if getLoanAccountRequestResult.Success == false {
-		t.Errorf(getLoanAccountRequestResult.Msg)
+		t.Error(getLoanAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get LoanAccount success...")
 	}
@@ -1607,11 +1675,11 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getLoanAccountObj,_ := getLoanAccountRequestResult.Data. (model.LoanAccount)
+	getLoanAccountObj,_ := getLoanAccountRequestResult.Data (model.LoanAccount)
 	compareLoanAccount := cmp.Equal(createLoanAccountObj.ID, getLoanAccountObj.ID)
 	
 	if  compareLoanAccount == false	{
-		t.Errorf( "Created LoanAccount object is not equal to read object." )
+		t.Error( "Created LoanAccount object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1620,7 +1688,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	getAllLoanAccountRequestResult := dao.GetAllLoanAccount()
 
 	if getAllLoanAccountRequestResult.Success == false {
-			t.Errorf(getAllLoanAccountRequestResult.Msg)
+			t.Error(getAllLoanAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll LoanAccount success...")
 	}
@@ -1634,7 +1702,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	equalLoanAccount := cmp.Equal(createLoanAccountObj.ID, getAllLoanAccountObj[len(getAllLoanAccountObj)-1].ID)
 		
 	if equalLoanAccount == false {
-		t.Errorf( "Created object is not equal to the last entry in LoanAccount[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in LoanAccount[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1643,7 +1711,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	deleteLoanAccountRequestResult := dao.DeleteLoanAccount(uint64(createLoanAccountObj.ID))
 
 	if deleteLoanAccountRequestResult.Success == false {
-			t.Errorf(deleteLoanAccountRequestResult.Msg)
+			t.Error(deleteLoanAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion LoanAccount success...")
 	}
@@ -1655,7 +1723,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	getLoanAccountRequestResult = dao.GetLoanAccount( uint64(createLoanAccountObj.ID) )
 	
 	if getLoanAccountRequestResult.Success == true {
-		t.Errorf(getLoanAccountRequestResult.Msg)
+		t.Error(getLoanAccountRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1676,18 +1744,22 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	createRepaymentScheduleRequestResult := dao.CreateRepaymentSchedule( RepaymentScheduleObj )
 	
 	if createRepaymentScheduleRequestResult.Success == false {
-		t.Errorf(createRepaymentScheduleRequestResult.Msg)
+		t.Error(createRepaymentScheduleRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create RepaymentSchedule success...")
 	}
 	
-	createRepaymentScheduleObj,_ := createRepaymentScheduleRequestResult.Data. (model.RepaymentSchedule)
+	createRepaymentScheduleObj, ok := createRepaymentScheduleRequestResult.Data.(model.RepaymentSchedule)
+
+    if !ok {
+        t.Fatalf("Expected RepaymentSchedule, got %T", createRepaymentScheduleRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check RepaymentSchedule Obj ID
 	// --------------------------------------------------------------	
 	if createRepaymentScheduleObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for RepaymentSchedule" )
+	    t.Error( "The ORM failed to assign and ID for RepaymentSchedule" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1696,7 +1768,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	getRepaymentScheduleRequestResult := dao.GetRepaymentSchedule( uint64(createRepaymentScheduleObj.ID) )
 	
 	if getRepaymentScheduleRequestResult.Success == false {
-		t.Errorf(getRepaymentScheduleRequestResult.Msg)
+		t.Error(getRepaymentScheduleRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get RepaymentSchedule success...")
 	}
@@ -1704,11 +1776,11 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getRepaymentScheduleObj,_ := getRepaymentScheduleRequestResult.Data. (model.RepaymentSchedule)
+	getRepaymentScheduleObj,_ := getRepaymentScheduleRequestResult.Data (model.RepaymentSchedule)
 	compareRepaymentSchedule := cmp.Equal(createRepaymentScheduleObj.ID, getRepaymentScheduleObj.ID)
 	
 	if  compareRepaymentSchedule == false	{
-		t.Errorf( "Created RepaymentSchedule object is not equal to read object." )
+		t.Error( "Created RepaymentSchedule object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1717,7 +1789,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	getAllRepaymentScheduleRequestResult := dao.GetAllRepaymentSchedule()
 
 	if getAllRepaymentScheduleRequestResult.Success == false {
-			t.Errorf(getAllRepaymentScheduleRequestResult.Msg)
+			t.Error(getAllRepaymentScheduleRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll RepaymentSchedule success...")
 	}
@@ -1731,7 +1803,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	equalRepaymentSchedule := cmp.Equal(createRepaymentScheduleObj.ID, getAllRepaymentScheduleObj[len(getAllRepaymentScheduleObj)-1].ID)
 		
 	if equalRepaymentSchedule == false {
-		t.Errorf( "Created object is not equal to the last entry in RepaymentSchedule[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in RepaymentSchedule[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1740,7 +1812,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	deleteRepaymentScheduleRequestResult := dao.DeleteRepaymentSchedule(uint64(createRepaymentScheduleObj.ID))
 
 	if deleteRepaymentScheduleRequestResult.Success == false {
-			t.Errorf(deleteRepaymentScheduleRequestResult.Msg)
+			t.Error(deleteRepaymentScheduleRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion RepaymentSchedule success...")
 	}
@@ -1752,7 +1824,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	getRepaymentScheduleRequestResult = dao.GetRepaymentSchedule( uint64(createRepaymentScheduleObj.ID) )
 	
 	if getRepaymentScheduleRequestResult.Success == true {
-		t.Errorf(getRepaymentScheduleRequestResult.Msg)
+		t.Error(getRepaymentScheduleRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1773,18 +1845,22 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	createLoanPaymentRequestResult := dao.CreateLoanPayment( LoanPaymentObj )
 	
 	if createLoanPaymentRequestResult.Success == false {
-		t.Errorf(createLoanPaymentRequestResult.Msg)
+		t.Error(createLoanPaymentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create LoanPayment success...")
 	}
 	
-	createLoanPaymentObj,_ := createLoanPaymentRequestResult.Data. (model.LoanPayment)
+	createLoanPaymentObj, ok := createLoanPaymentRequestResult.Data.(model.LoanPayment)
+
+    if !ok {
+        t.Fatalf("Expected LoanPayment, got %T", createLoanPaymentRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check LoanPayment Obj ID
 	// --------------------------------------------------------------	
 	if createLoanPaymentObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for LoanPayment" )
+	    t.Error( "The ORM failed to assign and ID for LoanPayment" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1793,7 +1869,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	getLoanPaymentRequestResult := dao.GetLoanPayment( uint64(createLoanPaymentObj.ID) )
 	
 	if getLoanPaymentRequestResult.Success == false {
-		t.Errorf(getLoanPaymentRequestResult.Msg)
+		t.Error(getLoanPaymentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get LoanPayment success...")
 	}
@@ -1801,11 +1877,11 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getLoanPaymentObj,_ := getLoanPaymentRequestResult.Data. (model.LoanPayment)
+	getLoanPaymentObj,_ := getLoanPaymentRequestResult.Data (model.LoanPayment)
 	compareLoanPayment := cmp.Equal(createLoanPaymentObj.ID, getLoanPaymentObj.ID)
 	
 	if  compareLoanPayment == false	{
-		t.Errorf( "Created LoanPayment object is not equal to read object." )
+		t.Error( "Created LoanPayment object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1814,7 +1890,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	getAllLoanPaymentRequestResult := dao.GetAllLoanPayment()
 
 	if getAllLoanPaymentRequestResult.Success == false {
-			t.Errorf(getAllLoanPaymentRequestResult.Msg)
+			t.Error(getAllLoanPaymentRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll LoanPayment success...")
 	}
@@ -1828,7 +1904,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	equalLoanPayment := cmp.Equal(createLoanPaymentObj.ID, getAllLoanPaymentObj[len(getAllLoanPaymentObj)-1].ID)
 		
 	if equalLoanPayment == false {
-		t.Errorf( "Created object is not equal to the last entry in LoanPayment[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in LoanPayment[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1837,7 +1913,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	deleteLoanPaymentRequestResult := dao.DeleteLoanPayment(uint64(createLoanPaymentObj.ID))
 
 	if deleteLoanPaymentRequestResult.Success == false {
-			t.Errorf(deleteLoanPaymentRequestResult.Msg)
+			t.Error(deleteLoanPaymentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion LoanPayment success...")
 	}
@@ -1849,7 +1925,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	getLoanPaymentRequestResult = dao.GetLoanPayment( uint64(createLoanPaymentObj.ID) )
 	
 	if getLoanPaymentRequestResult.Success == true {
-		t.Errorf(getLoanPaymentRequestResult.Msg)
+		t.Error(getLoanPaymentRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1870,18 +1946,22 @@ func TestCollateralCRUD(t *testing.T) {
 	createCollateralRequestResult := dao.CreateCollateral( CollateralObj )
 	
 	if createCollateralRequestResult.Success == false {
-		t.Errorf(createCollateralRequestResult.Msg)
+		t.Error(createCollateralRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Collateral success...")
 	}
 	
-	createCollateralObj,_ := createCollateralRequestResult.Data. (model.Collateral)
+	createCollateralObj, ok := createCollateralRequestResult.Data.(model.Collateral)
+
+    if !ok {
+        t.Fatalf("Expected Collateral, got %T", createCollateralRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Collateral Obj ID
 	// --------------------------------------------------------------	
 	if createCollateralObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Collateral" )
+	    t.Error( "The ORM failed to assign and ID for Collateral" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1890,7 +1970,7 @@ func TestCollateralCRUD(t *testing.T) {
 	getCollateralRequestResult := dao.GetCollateral( uint64(createCollateralObj.ID) )
 	
 	if getCollateralRequestResult.Success == false {
-		t.Errorf(getCollateralRequestResult.Msg)
+		t.Error(getCollateralRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Collateral success...")
 	}
@@ -1898,11 +1978,11 @@ func TestCollateralCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getCollateralObj,_ := getCollateralRequestResult.Data. (model.Collateral)
+	getCollateralObj,_ := getCollateralRequestResult.Data (model.Collateral)
 	compareCollateral := cmp.Equal(createCollateralObj.ID, getCollateralObj.ID)
 	
 	if  compareCollateral == false	{
-		t.Errorf( "Created Collateral object is not equal to read object." )
+		t.Error( "Created Collateral object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -1911,7 +1991,7 @@ func TestCollateralCRUD(t *testing.T) {
 	getAllCollateralRequestResult := dao.GetAllCollateral()
 
 	if getAllCollateralRequestResult.Success == false {
-			t.Errorf(getAllCollateralRequestResult.Msg)
+			t.Error(getAllCollateralRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Collateral success...")
 	}
@@ -1925,7 +2005,7 @@ func TestCollateralCRUD(t *testing.T) {
 	equalCollateral := cmp.Equal(createCollateralObj.ID, getAllCollateralObj[len(getAllCollateralObj)-1].ID)
 		
 	if equalCollateral == false {
-		t.Errorf( "Created object is not equal to the last entry in Collateral[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Collateral[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -1934,7 +2014,7 @@ func TestCollateralCRUD(t *testing.T) {
 	deleteCollateralRequestResult := dao.DeleteCollateral(uint64(createCollateralObj.ID))
 
 	if deleteCollateralRequestResult.Success == false {
-			t.Errorf(deleteCollateralRequestResult.Msg)
+			t.Error(deleteCollateralRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Collateral success...")
 	}
@@ -1946,7 +2026,7 @@ func TestCollateralCRUD(t *testing.T) {
 	getCollateralRequestResult = dao.GetCollateral( uint64(createCollateralObj.ID) )
 	
 	if getCollateralRequestResult.Success == true {
-		t.Errorf(getCollateralRequestResult.Msg)
+		t.Error(getCollateralRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -1967,18 +2047,22 @@ func TestFeeChargeCRUD(t *testing.T) {
 	createFeeChargeRequestResult := dao.CreateFeeCharge( FeeChargeObj )
 	
 	if createFeeChargeRequestResult.Success == false {
-		t.Errorf(createFeeChargeRequestResult.Msg)
+		t.Error(createFeeChargeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create FeeCharge success...")
 	}
 	
-	createFeeChargeObj,_ := createFeeChargeRequestResult.Data. (model.FeeCharge)
+	createFeeChargeObj, ok := createFeeChargeRequestResult.Data.(model.FeeCharge)
+
+    if !ok {
+        t.Fatalf("Expected FeeCharge, got %T", createFeeChargeRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check FeeCharge Obj ID
 	// --------------------------------------------------------------	
 	if createFeeChargeObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for FeeCharge" )
+	    t.Error( "The ORM failed to assign and ID for FeeCharge" )
 	}	
 
 	// --------------------------------------------------------------
@@ -1987,7 +2071,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	getFeeChargeRequestResult := dao.GetFeeCharge( uint64(createFeeChargeObj.ID) )
 	
 	if getFeeChargeRequestResult.Success == false {
-		t.Errorf(getFeeChargeRequestResult.Msg)
+		t.Error(getFeeChargeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get FeeCharge success...")
 	}
@@ -1995,11 +2079,11 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getFeeChargeObj,_ := getFeeChargeRequestResult.Data. (model.FeeCharge)
+	getFeeChargeObj,_ := getFeeChargeRequestResult.Data (model.FeeCharge)
 	compareFeeCharge := cmp.Equal(createFeeChargeObj.ID, getFeeChargeObj.ID)
 	
 	if  compareFeeCharge == false	{
-		t.Errorf( "Created FeeCharge object is not equal to read object." )
+		t.Error( "Created FeeCharge object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -2008,7 +2092,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	getAllFeeChargeRequestResult := dao.GetAllFeeCharge()
 
 	if getAllFeeChargeRequestResult.Success == false {
-			t.Errorf(getAllFeeChargeRequestResult.Msg)
+			t.Error(getAllFeeChargeRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll FeeCharge success...")
 	}
@@ -2022,7 +2106,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	equalFeeCharge := cmp.Equal(createFeeChargeObj.ID, getAllFeeChargeObj[len(getAllFeeChargeObj)-1].ID)
 		
 	if equalFeeCharge == false {
-		t.Errorf( "Created object is not equal to the last entry in FeeCharge[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in FeeCharge[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -2031,7 +2115,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	deleteFeeChargeRequestResult := dao.DeleteFeeCharge(uint64(createFeeChargeObj.ID))
 
 	if deleteFeeChargeRequestResult.Success == false {
-			t.Errorf(deleteFeeChargeRequestResult.Msg)
+			t.Error(deleteFeeChargeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion FeeCharge success...")
 	}
@@ -2043,7 +2127,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	getFeeChargeRequestResult = dao.GetFeeCharge( uint64(createFeeChargeObj.ID) )
 	
 	if getFeeChargeRequestResult.Success == true {
-		t.Errorf(getFeeChargeRequestResult.Msg)
+		t.Error(getFeeChargeRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -2064,18 +2148,22 @@ func TestExchangeRateCRUD(t *testing.T) {
 	createExchangeRateRequestResult := dao.CreateExchangeRate( ExchangeRateObj )
 	
 	if createExchangeRateRequestResult.Success == false {
-		t.Errorf(createExchangeRateRequestResult.Msg)
+		t.Error(createExchangeRateRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create ExchangeRate success...")
 	}
 	
-	createExchangeRateObj,_ := createExchangeRateRequestResult.Data. (model.ExchangeRate)
+	createExchangeRateObj, ok := createExchangeRateRequestResult.Data.(model.ExchangeRate)
+
+    if !ok {
+        t.Fatalf("Expected ExchangeRate, got %T", createExchangeRateRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check ExchangeRate Obj ID
 	// --------------------------------------------------------------	
 	if createExchangeRateObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for ExchangeRate" )
+	    t.Error( "The ORM failed to assign and ID for ExchangeRate" )
 	}	
 
 	// --------------------------------------------------------------
@@ -2084,7 +2172,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	getExchangeRateRequestResult := dao.GetExchangeRate( uint64(createExchangeRateObj.ID) )
 	
 	if getExchangeRateRequestResult.Success == false {
-		t.Errorf(getExchangeRateRequestResult.Msg)
+		t.Error(getExchangeRateRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get ExchangeRate success...")
 	}
@@ -2092,11 +2180,11 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getExchangeRateObj,_ := getExchangeRateRequestResult.Data. (model.ExchangeRate)
+	getExchangeRateObj,_ := getExchangeRateRequestResult.Data (model.ExchangeRate)
 	compareExchangeRate := cmp.Equal(createExchangeRateObj.ID, getExchangeRateObj.ID)
 	
 	if  compareExchangeRate == false	{
-		t.Errorf( "Created ExchangeRate object is not equal to read object." )
+		t.Error( "Created ExchangeRate object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -2105,7 +2193,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	getAllExchangeRateRequestResult := dao.GetAllExchangeRate()
 
 	if getAllExchangeRateRequestResult.Success == false {
-			t.Errorf(getAllExchangeRateRequestResult.Msg)
+			t.Error(getAllExchangeRateRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll ExchangeRate success...")
 	}
@@ -2119,7 +2207,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	equalExchangeRate := cmp.Equal(createExchangeRateObj.ID, getAllExchangeRateObj[len(getAllExchangeRateObj)-1].ID)
 		
 	if equalExchangeRate == false {
-		t.Errorf( "Created object is not equal to the last entry in ExchangeRate[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in ExchangeRate[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -2128,7 +2216,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	deleteExchangeRateRequestResult := dao.DeleteExchangeRate(uint64(createExchangeRateObj.ID))
 
 	if deleteExchangeRateRequestResult.Success == false {
-			t.Errorf(deleteExchangeRateRequestResult.Msg)
+			t.Error(deleteExchangeRateRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion ExchangeRate success...")
 	}
@@ -2140,7 +2228,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	getExchangeRateRequestResult = dao.GetExchangeRate( uint64(createExchangeRateObj.ID) )
 	
 	if getExchangeRateRequestResult.Success == true {
-		t.Errorf(getExchangeRateRequestResult.Msg)
+		t.Error(getExchangeRateRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -2161,18 +2249,22 @@ func TestFXTradeCRUD(t *testing.T) {
 	createFXTradeRequestResult := dao.CreateFXTrade( FXTradeObj )
 	
 	if createFXTradeRequestResult.Success == false {
-		t.Errorf(createFXTradeRequestResult.Msg)
+		t.Error(createFXTradeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create FXTrade success...")
 	}
 	
-	createFXTradeObj,_ := createFXTradeRequestResult.Data. (model.FXTrade)
+	createFXTradeObj, ok := createFXTradeRequestResult.Data.(model.FXTrade)
+
+    if !ok {
+        t.Fatalf("Expected FXTrade, got %T", createFXTradeRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check FXTrade Obj ID
 	// --------------------------------------------------------------	
 	if createFXTradeObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for FXTrade" )
+	    t.Error( "The ORM failed to assign and ID for FXTrade" )
 	}	
 
 	// --------------------------------------------------------------
@@ -2181,7 +2273,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	getFXTradeRequestResult := dao.GetFXTrade( uint64(createFXTradeObj.ID) )
 	
 	if getFXTradeRequestResult.Success == false {
-		t.Errorf(getFXTradeRequestResult.Msg)
+		t.Error(getFXTradeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get FXTrade success...")
 	}
@@ -2189,11 +2281,11 @@ func TestFXTradeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getFXTradeObj,_ := getFXTradeRequestResult.Data. (model.FXTrade)
+	getFXTradeObj,_ := getFXTradeRequestResult.Data (model.FXTrade)
 	compareFXTrade := cmp.Equal(createFXTradeObj.ID, getFXTradeObj.ID)
 	
 	if  compareFXTrade == false	{
-		t.Errorf( "Created FXTrade object is not equal to read object." )
+		t.Error( "Created FXTrade object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -2202,7 +2294,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	getAllFXTradeRequestResult := dao.GetAllFXTrade()
 
 	if getAllFXTradeRequestResult.Success == false {
-			t.Errorf(getAllFXTradeRequestResult.Msg)
+			t.Error(getAllFXTradeRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll FXTrade success...")
 	}
@@ -2216,7 +2308,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	equalFXTrade := cmp.Equal(createFXTradeObj.ID, getAllFXTradeObj[len(getAllFXTradeObj)-1].ID)
 		
 	if equalFXTrade == false {
-		t.Errorf( "Created object is not equal to the last entry in FXTrade[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in FXTrade[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -2225,7 +2317,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	deleteFXTradeRequestResult := dao.DeleteFXTrade(uint64(createFXTradeObj.ID))
 
 	if deleteFXTradeRequestResult.Success == false {
-			t.Errorf(deleteFXTradeRequestResult.Msg)
+			t.Error(deleteFXTradeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion FXTrade success...")
 	}
@@ -2237,7 +2329,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	getFXTradeRequestResult = dao.GetFXTrade( uint64(createFXTradeObj.ID) )
 	
 	if getFXTradeRequestResult.Success == true {
-		t.Errorf(getFXTradeRequestResult.Msg)
+		t.Error(getFXTradeRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -2258,18 +2350,22 @@ func TestDisputeCRUD(t *testing.T) {
 	createDisputeRequestResult := dao.CreateDispute( DisputeObj )
 	
 	if createDisputeRequestResult.Success == false {
-		t.Errorf(createDisputeRequestResult.Msg)
+		t.Error(createDisputeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Dispute success...")
 	}
 	
-	createDisputeObj,_ := createDisputeRequestResult.Data. (model.Dispute)
+	createDisputeObj, ok := createDisputeRequestResult.Data.(model.Dispute)
+
+    if !ok {
+        t.Fatalf("Expected Dispute, got %T", createDisputeRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Dispute Obj ID
 	// --------------------------------------------------------------	
 	if createDisputeObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Dispute" )
+	    t.Error( "The ORM failed to assign and ID for Dispute" )
 	}	
 
 	// --------------------------------------------------------------
@@ -2278,7 +2374,7 @@ func TestDisputeCRUD(t *testing.T) {
 	getDisputeRequestResult := dao.GetDispute( uint64(createDisputeObj.ID) )
 	
 	if getDisputeRequestResult.Success == false {
-		t.Errorf(getDisputeRequestResult.Msg)
+		t.Error(getDisputeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Dispute success...")
 	}
@@ -2286,11 +2382,11 @@ func TestDisputeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getDisputeObj,_ := getDisputeRequestResult.Data. (model.Dispute)
+	getDisputeObj,_ := getDisputeRequestResult.Data (model.Dispute)
 	compareDispute := cmp.Equal(createDisputeObj.ID, getDisputeObj.ID)
 	
 	if  compareDispute == false	{
-		t.Errorf( "Created Dispute object is not equal to read object." )
+		t.Error( "Created Dispute object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -2299,7 +2395,7 @@ func TestDisputeCRUD(t *testing.T) {
 	getAllDisputeRequestResult := dao.GetAllDispute()
 
 	if getAllDisputeRequestResult.Success == false {
-			t.Errorf(getAllDisputeRequestResult.Msg)
+			t.Error(getAllDisputeRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Dispute success...")
 	}
@@ -2313,7 +2409,7 @@ func TestDisputeCRUD(t *testing.T) {
 	equalDispute := cmp.Equal(createDisputeObj.ID, getAllDisputeObj[len(getAllDisputeObj)-1].ID)
 		
 	if equalDispute == false {
-		t.Errorf( "Created object is not equal to the last entry in Dispute[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Dispute[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -2322,7 +2418,7 @@ func TestDisputeCRUD(t *testing.T) {
 	deleteDisputeRequestResult := dao.DeleteDispute(uint64(createDisputeObj.ID))
 
 	if deleteDisputeRequestResult.Success == false {
-			t.Errorf(deleteDisputeRequestResult.Msg)
+			t.Error(deleteDisputeRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Dispute success...")
 	}
@@ -2334,7 +2430,7 @@ func TestDisputeCRUD(t *testing.T) {
 	getDisputeRequestResult = dao.GetDispute( uint64(createDisputeObj.ID) )
 	
 	if getDisputeRequestResult.Success == true {
-		t.Errorf(getDisputeRequestResult.Msg)
+		t.Error(getDisputeRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -2355,18 +2451,22 @@ func TestConsentCRUD(t *testing.T) {
 	createConsentRequestResult := dao.CreateConsent( ConsentObj )
 	
 	if createConsentRequestResult.Success == false {
-		t.Errorf(createConsentRequestResult.Msg)
+		t.Error(createConsentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create Consent success...")
 	}
 	
-	createConsentObj,_ := createConsentRequestResult.Data. (model.Consent)
+	createConsentObj, ok := createConsentRequestResult.Data.(model.Consent)
+
+    if !ok {
+        t.Fatalf("Expected Consent, got %T", createConsentRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check Consent Obj ID
 	// --------------------------------------------------------------	
 	if createConsentObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for Consent" )
+	    t.Error( "The ORM failed to assign and ID for Consent" )
 	}	
 
 	// --------------------------------------------------------------
@@ -2375,7 +2475,7 @@ func TestConsentCRUD(t *testing.T) {
 	getConsentRequestResult := dao.GetConsent( uint64(createConsentObj.ID) )
 	
 	if getConsentRequestResult.Success == false {
-		t.Errorf(getConsentRequestResult.Msg)
+		t.Error(getConsentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get Consent success...")
 	}
@@ -2383,11 +2483,11 @@ func TestConsentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getConsentObj,_ := getConsentRequestResult.Data. (model.Consent)
+	getConsentObj,_ := getConsentRequestResult.Data (model.Consent)
 	compareConsent := cmp.Equal(createConsentObj.ID, getConsentObj.ID)
 	
 	if  compareConsent == false	{
-		t.Errorf( "Created Consent object is not equal to read object." )
+		t.Error( "Created Consent object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -2396,7 +2496,7 @@ func TestConsentCRUD(t *testing.T) {
 	getAllConsentRequestResult := dao.GetAllConsent()
 
 	if getAllConsentRequestResult.Success == false {
-			t.Errorf(getAllConsentRequestResult.Msg)
+			t.Error(getAllConsentRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll Consent success...")
 	}
@@ -2410,7 +2510,7 @@ func TestConsentCRUD(t *testing.T) {
 	equalConsent := cmp.Equal(createConsentObj.ID, getAllConsentObj[len(getAllConsentObj)-1].ID)
 		
 	if equalConsent == false {
-		t.Errorf( "Created object is not equal to the last entry in Consent[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in Consent[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -2419,7 +2519,7 @@ func TestConsentCRUD(t *testing.T) {
 	deleteConsentRequestResult := dao.DeleteConsent(uint64(createConsentObj.ID))
 
 	if deleteConsentRequestResult.Success == false {
-			t.Errorf(deleteConsentRequestResult.Msg)
+			t.Error(deleteConsentRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion Consent success...")
 	}
@@ -2431,7 +2531,7 @@ func TestConsentCRUD(t *testing.T) {
 	getConsentRequestResult = dao.GetConsent( uint64(createConsentObj.ID) )
 	
 	if getConsentRequestResult.Success == true {
-		t.Errorf(getConsentRequestResult.Msg)
+		t.Error(getConsentRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
@@ -2452,18 +2552,22 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	createThirdPartyProviderRequestResult := dao.CreateThirdPartyProvider( ThirdPartyProviderObj )
 	
 	if createThirdPartyProviderRequestResult.Success == false {
-		t.Errorf(createThirdPartyProviderRequestResult.Msg)
+		t.Error(createThirdPartyProviderRequestResult.Msg)
 	} else {
 		fmt.Println("Check Create ThirdPartyProvider success...")
 	}
 	
-	createThirdPartyProviderObj,_ := createThirdPartyProviderRequestResult.Data. (model.ThirdPartyProvider)
+	createThirdPartyProviderObj, ok := createThirdPartyProviderRequestResult.Data.(model.ThirdPartyProvider)
+
+    if !ok {
+        t.Fatalf("Expected ThirdPartyProvider, got %T", createThirdPartyProviderRequestResult.Data)
+    }
 
 	// --------------------------------------------------------------
 	// Check ThirdPartyProvider Obj ID
 	// --------------------------------------------------------------	
 	if createThirdPartyProviderObj.ID == 0 {
-	    t.Errorf( "The ORM failed to assign and ID for ThirdPartyProvider" )
+	    t.Error( "The ORM failed to assign and ID for ThirdPartyProvider" )
 	}	
 
 	// --------------------------------------------------------------
@@ -2472,7 +2576,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	getThirdPartyProviderRequestResult := dao.GetThirdPartyProvider( uint64(createThirdPartyProviderObj.ID) )
 	
 	if getThirdPartyProviderRequestResult.Success == false {
-		t.Errorf(getThirdPartyProviderRequestResult.Msg)
+		t.Error(getThirdPartyProviderRequestResult.Msg)
 	} else {
 		fmt.Println("Check Get ThirdPartyProvider success...")
 	}
@@ -2480,11 +2584,11 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getThirdPartyProviderObj,_ := getThirdPartyProviderRequestResult.Data. (model.ThirdPartyProvider)
+	getThirdPartyProviderObj,_ := getThirdPartyProviderRequestResult.Data (model.ThirdPartyProvider)
 	compareThirdPartyProvider := cmp.Equal(createThirdPartyProviderObj.ID, getThirdPartyProviderObj.ID)
 	
 	if  compareThirdPartyProvider == false	{
-		t.Errorf( "Created ThirdPartyProvider object is not equal to read object." )
+		t.Error( "Created ThirdPartyProvider object is not equal to read object." )
 	}
 	
 	// --------------------------------------------------------------
@@ -2493,7 +2597,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	getAllThirdPartyProviderRequestResult := dao.GetAllThirdPartyProvider()
 
 	if getAllThirdPartyProviderRequestResult.Success == false {
-			t.Errorf(getAllThirdPartyProviderRequestResult.Msg)
+			t.Error(getAllThirdPartyProviderRequestResult.Msg)
 	} else {
 		fmt.Println("Check GetAll ThirdPartyProvider success...")
 	}
@@ -2507,7 +2611,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	equalThirdPartyProvider := cmp.Equal(createThirdPartyProviderObj.ID, getAllThirdPartyProviderObj[len(getAllThirdPartyProviderObj)-1].ID)
 		
 	if equalThirdPartyProvider == false {
-		t.Errorf( "Created object is not equal to the last entry in ThirdPartyProvider[] returned by GetAll" )
+		t.Error( "Created object is not equal to the last entry in ThirdPartyProvider[] returned by GetAll" )
     }
     
 	// --------------------------------------------------------------
@@ -2516,7 +2620,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	deleteThirdPartyProviderRequestResult := dao.DeleteThirdPartyProvider(uint64(createThirdPartyProviderObj.ID))
 
 	if deleteThirdPartyProviderRequestResult.Success == false {
-			t.Errorf(deleteThirdPartyProviderRequestResult.Msg)
+			t.Error(deleteThirdPartyProviderRequestResult.Msg)
 	} else {
 		fmt.Println("Check Deletion ThirdPartyProvider success...")
 	}
@@ -2528,7 +2632,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	getThirdPartyProviderRequestResult = dao.GetThirdPartyProvider( uint64(createThirdPartyProviderObj.ID) )
 	
 	if getThirdPartyProviderRequestResult.Success == true {
-		t.Errorf(getThirdPartyProviderRequestResult.Msg)
+		t.Error(getThirdPartyProviderRequestResult.Msg)
 	} else {
 		fmt.Println("Validate deletion success...")
 	}	
