@@ -24,7 +24,7 @@ func TestBankCRUD(t *testing.T) {
         LegalName:"test value for LegalName",
         SwiftBic:new(BIC),
         HeadquartersCountry:"test value for HeadquartersCountry",
-        Website:"test value for Website"
+        Website:"test value for Website",
 	}
 
 	// --------------------------------------------------------------
@@ -131,7 +131,7 @@ func TestBranchCRUD(t *testing.T) {
         BranchCode:"test value for BranchCode",
         Address:new(Address),
         Phone:"test value for Phone",
-        OpeningHours:"test value for OpeningHours"
+        OpeningHours:"test value for OpeningHours",
 	}
 
 	// --------------------------------------------------------------
@@ -236,7 +236,7 @@ func TestATMCRUD(t *testing.T) {
 	ATMObj := model.ATM{
         TerminalId:"test value for TerminalId",
         Location:new(Address),
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -349,7 +349,7 @@ func TestCustomerCRUD(t *testing.T) {
         Address:new(Address),
         CustomerType:0,
         RiskRating:0,
-        KycStatus:0
+        KycStatus:0,
 	}
 
 	// --------------------------------------------------------------
@@ -454,7 +454,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	KycProfileObj := model.KycProfile{
         ProfileId:"test value for ProfileId",
         LastReviewedOn:time.Now(),
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -560,7 +560,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
         DocumentNumber:"test value for DocumentNumber",
         IssuingCountry:"test value for IssuingCountry",
         ExpirationDate:time.Now(),
-        DocumentType:0
+        DocumentType:0,
 	}
 
 	// --------------------------------------------------------------
@@ -665,7 +665,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	RiskAssessmentObj := model.RiskAssessment{
         Score:100,
         AssessedOn:time.Now(),
-        Rating:0
+        Rating:0,
 	}
 
 	// --------------------------------------------------------------
@@ -770,7 +770,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	ScreeningResultObj := model.ScreeningResult{
         ScreeningDate:time.Now(),
         Provider:"test value for Provider",
-        Outcome:0
+        Outcome:0,
 	}
 
 	// --------------------------------------------------------------
@@ -876,7 +876,7 @@ func TestBankingProductCRUD(t *testing.T) {
         ProductCode:"test value for ProductCode",
         Name:"test value for Name",
         Description:"test value for Description",
-        ProductCategory:0
+        ProductCategory:0,
 	}
 
 	// --------------------------------------------------------------
@@ -987,7 +987,7 @@ func TestAccountCRUD(t *testing.T) {
         ClosedOn:time.Now(),
         AccountType:0,
         OwnershipType:0,
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1095,7 +1095,7 @@ func TestAccountStatementCRUD(t *testing.T) {
         PeriodEnd:time.Now(),
         OpeningBalance:new(Money),
         ClosingBalance:new(Money),
-        DeliveryMethod:0
+        DeliveryMethod:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1205,7 +1205,7 @@ func TestTransactionCRUD(t *testing.T) {
         Direction:0,
         TransactionType:0,
         Status:0,
-        Channel:0
+        Channel:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1313,7 +1313,7 @@ func TestExternalAccountCRUD(t *testing.T) {
         AccountNumber:new(AccountNumber),
         Bic:new(BIC),
         BankName:"test value for BankName",
-        Country:"test value for Country"
+        Country:"test value for Country",
 	}
 
 	// --------------------------------------------------------------
@@ -1423,7 +1423,7 @@ func TestFundsTransferCRUD(t *testing.T) {
         Purpose:"test value for Purpose",
         FeeAmount:new(Money),
         Method:0,
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1530,7 +1530,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
         Amount:new(Money),
         NextExecutionDate:time.Now(),
         Frequency:0,
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1639,7 +1639,7 @@ func TestPaymentCardCRUD(t *testing.T) {
         ExpiryYear:100,
         CardType:0,
         CardStatus:0,
-        Network:0
+        Network:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1753,7 +1753,7 @@ func TestLoanAccountCRUD(t *testing.T) {
         LoanType:0,
         RateType:0,
         Compounding:0,
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1861,7 +1861,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
         PrincipalDue:new(Money),
         InterestDue:new(Money),
         TotalDue:new(Money),
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1968,7 +1968,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
         Amount:new(Money),
         PaymentDate:time.Now(),
         Method:0,
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2075,7 +2075,7 @@ func TestCollateralCRUD(t *testing.T) {
         AppraisedValue:new(Money),
         Description:"test value for Description",
         Location:new(Address),
-        CollateralType:0
+        CollateralType:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2181,7 +2181,7 @@ func TestFeeChargeCRUD(t *testing.T) {
         FeeCode:"test value for FeeCode",
         Amount:new(Money),
         AppliedOn:time.Now(),
-        FeeType:0
+        FeeType:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2288,7 +2288,7 @@ func TestExchangeRateCRUD(t *testing.T) {
         CounterCurrency:"test value for CounterCurrency",
         Rate:"test value",
         AsOf:time.Now(),
-        Source:"test value for Source"
+        Source:"test value for Source",
 	}
 
 	// --------------------------------------------------------------
@@ -2397,7 +2397,7 @@ func TestFXTradeCRUD(t *testing.T) {
         AmountSold:new(Money),
         AmountBought:new(Money),
         Rate:"test value",
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2503,7 +2503,7 @@ func TestDisputeCRUD(t *testing.T) {
         DisputeReference:"test value for DisputeReference",
         RaisedOn:time.Now(),
         Reason:"test value for Reason",
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2609,7 +2609,7 @@ func TestConsentCRUD(t *testing.T) {
         GrantedOn:time.Now(),
         ExpiresOn:time.Now(),
         ConsentType:0,
-        Status:0
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2714,7 +2714,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	ThirdPartyProviderObj := model.ThirdPartyProvider{
         Name:"test value for Name",
         RegistrationId:"test value for RegistrationId",
-        Website:"test value for Website"
+        Website:"test value for Website",
 	}
 
 	// --------------------------------------------------------------

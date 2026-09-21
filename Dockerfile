@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.version="0.0.1"
 LABEL com.harbormaster.blueprint="Golang"
 LABEL com.harbormaster.model="Banking Industry Domain Model"
 LABEL com.harbormaster.generated="2026-09-21"
-#LABEL com.harbormaster.certification="0f434790-6c24-473c-9081-a615a0fd9926"
+#LABEL com.harbormaster.certification="8c3eb707-bbcd-4b1b-a24b-67289a48b73f"
 
 WORKDIR /app
 
