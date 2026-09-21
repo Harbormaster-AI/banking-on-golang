@@ -146,7 +146,7 @@ func DeleteScreeningResult(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a KycProfile on a ScreeningResult
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignKycProfileToScreeningResult(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

@@ -146,7 +146,7 @@ func DeleteKycProfile(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Customer on a KycProfile
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignCustomerToKycProfile(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

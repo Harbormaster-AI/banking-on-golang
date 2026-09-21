@@ -146,7 +146,7 @@ func DeleteFeeCharge(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Account on a FeeCharge
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignAccountToFeeCharge(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignAccountFromFeeCharge( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a LoanAccount on a FeeCharge
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignLoanAccountToFeeCharge(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

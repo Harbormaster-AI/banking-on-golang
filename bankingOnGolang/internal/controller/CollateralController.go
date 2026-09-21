@@ -146,7 +146,7 @@ func DeleteCollateral(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a LoanAccount on a Collateral
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignLoanAccountToCollateral(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

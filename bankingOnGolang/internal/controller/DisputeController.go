@@ -146,7 +146,7 @@ func DeleteDispute(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Transaction on a Dispute
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignTransactionToDispute(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignTransactionFromDispute( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Customer on a Dispute
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignCustomerToDispute(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ func UnassignCustomerFromDispute( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Account on a Dispute
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignAccountToDispute(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -323,7 +323,7 @@ func UnassignAccountFromDispute( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a PaymentCard on a Dispute
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignPaymentCardToDispute(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

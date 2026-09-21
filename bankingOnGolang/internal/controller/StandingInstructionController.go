@@ -146,7 +146,7 @@ func DeleteStandingInstruction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Account on a StandingInstruction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignAccountToStandingInstruction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignAccountFromStandingInstruction( w http.ResponseWriter, r *http.Requ
 	//----------------------------------------------------------------------------
 	// assigns a Beneficiary on a StandingInstruction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBeneficiaryToStandingInstruction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

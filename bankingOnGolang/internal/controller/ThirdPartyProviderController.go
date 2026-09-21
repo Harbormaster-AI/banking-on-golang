@@ -146,7 +146,7 @@ func DeleteThirdPartyProvider(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Bank on a ThirdPartyProvider
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBankToThirdPartyProvider(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

@@ -146,7 +146,7 @@ func DeleteConsent(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Customer on a Consent
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignCustomerToConsent(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignCustomerFromConsent( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Bank on a Consent
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBankToConsent(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ func UnassignBankFromConsent( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a ThirdPartyProvider on a Consent
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignThirdPartyProviderToConsent(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

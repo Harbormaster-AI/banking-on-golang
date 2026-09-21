@@ -146,7 +146,7 @@ func DeleteFundsTransfer(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a SourceAccount on a FundsTransfer
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignSourceAccountToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignSourceAccountFromFundsTransfer( w http.ResponseWriter, r *http.Requ
 	//----------------------------------------------------------------------------
 	// assigns a DestinationAccount on a FundsTransfer
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignDestinationAccountToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ func UnassignDestinationAccountFromFundsTransfer( w http.ResponseWriter, r *http
 	//----------------------------------------------------------------------------
 	// assigns a ExternalBeneficiary on a FundsTransfer
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignExternalBeneficiaryToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -323,7 +323,7 @@ func UnassignExternalBeneficiaryFromFundsTransfer( w http.ResponseWriter, r *htt
 	//----------------------------------------------------------------------------
 	// assigns a InitiatedBy on a FundsTransfer
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignInitiatedByToFundsTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

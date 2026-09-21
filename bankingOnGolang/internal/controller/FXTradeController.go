@@ -146,7 +146,7 @@ func DeleteFXTrade(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Customer on a FXTrade
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignCustomerToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignCustomerFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Bank on a FXTrade
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBankToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ func UnassignBankFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a ExchangeRate on a FXTrade
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignExchangeRateToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -323,7 +323,7 @@ func UnassignExchangeRateFromFXTrade( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a SourceAccount on a FXTrade
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignSourceAccountToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -382,7 +382,7 @@ func UnassignSourceAccountFromFXTrade( w http.ResponseWriter, r *http.Request ) 
 	//----------------------------------------------------------------------------
 	// assigns a DestinationAccount on a FXTrade
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignDestinationAccountToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -441,7 +441,7 @@ func UnassignDestinationAccountFromFXTrade( w http.ResponseWriter, r *http.Reque
 	//----------------------------------------------------------------------------
 	// assigns a Transaction on a FXTrade
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignTransactionToFXTrade(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

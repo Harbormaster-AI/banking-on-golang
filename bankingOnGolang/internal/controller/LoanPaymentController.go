@@ -146,7 +146,7 @@ func DeleteLoanPayment(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a LoanAccount on a LoanPayment
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignLoanAccountToLoanPayment(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignLoanAccountFromLoanPayment( w http.ResponseWriter, r *http.Request 
 	//----------------------------------------------------------------------------
 	// assigns a Transaction on a LoanPayment
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignTransactionToLoanPayment(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

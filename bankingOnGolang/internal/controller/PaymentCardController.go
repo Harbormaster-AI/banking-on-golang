@@ -146,7 +146,7 @@ func DeletePaymentCard(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Bank on a PaymentCard
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBankToPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignBankFromPaymentCard( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Account on a PaymentCard
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignAccountToPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ func UnassignAccountFromPaymentCard( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Customer on a PaymentCard
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignCustomerToPaymentCard(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

@@ -146,7 +146,7 @@ func DeleteExchangeRate(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Bank on a ExchangeRate
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBankToExchangeRate(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

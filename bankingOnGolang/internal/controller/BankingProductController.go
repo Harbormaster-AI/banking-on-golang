@@ -146,7 +146,7 @@ func DeleteBankingProduct(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Bank on a BankingProduct
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignBankToBankingProduct(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

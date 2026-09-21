@@ -146,7 +146,7 @@ func DeleteTransaction(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Account on a Transaction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignAccountToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignAccountFromTransaction( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a ExternalCounterparty on a Transaction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignExternalCounterpartyToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ func UnassignExternalCounterpartyFromTransaction( w http.ResponseWriter, r *http
 	//----------------------------------------------------------------------------
 	// assigns a PaymentCard on a Transaction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignPaymentCardToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -323,7 +323,7 @@ func UnassignPaymentCardFromTransaction( w http.ResponseWriter, r *http.Request 
 	//----------------------------------------------------------------------------
 	// assigns a FundsTransfer on a Transaction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignFundsTransferToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -382,7 +382,7 @@ func UnassignFundsTransferFromTransaction( w http.ResponseWriter, r *http.Reques
 	//----------------------------------------------------------------------------
 	// assigns a FxTrade on a Transaction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignFxTradeToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -441,7 +441,7 @@ func UnassignFxTradeFromTransaction( w http.ResponseWriter, r *http.Request ) {
 	//----------------------------------------------------------------------------
 	// assigns a Dispute on a Transaction
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignDisputeToTransaction(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

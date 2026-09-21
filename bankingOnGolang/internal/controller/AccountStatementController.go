@@ -146,7 +146,7 @@ func DeleteAccountStatement(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Account on a AccountStatement
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignAccountToAccountStatement(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

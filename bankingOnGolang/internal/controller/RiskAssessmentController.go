@@ -146,7 +146,7 @@ func DeleteRiskAssessment(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a KycProfile on a RiskAssessment
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignKycProfileToRiskAssessment(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

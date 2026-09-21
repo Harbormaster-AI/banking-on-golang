@@ -146,7 +146,7 @@ func DeleteIdentityDocument(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a KycProfile on a IdentityDocument
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignKycProfileToIdentityDocument(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

@@ -146,7 +146,7 @@ func DeleteRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a LoanAccount on a RepaymentSchedule
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignLoanAccountToRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ func UnassignLoanAccountFromRepaymentSchedule( w http.ResponseWriter, r *http.Re
 	//----------------------------------------------------------------------------
 	// assigns a Payment on a RepaymentSchedule
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignPaymentToRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------

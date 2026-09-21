@@ -146,7 +146,7 @@ func DeleteExternalAccount(w http.ResponseWriter, r *http.Request) {
 	//----------------------------------------------------------------------------
 	// assigns a Customer on a ExternalAccount
 	// delegates to an ORM handler
-	///----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 func AssignCustomerToExternalAccount(w http.ResponseWriter, r *http.Request) {
 
 	//----------------------------------------------------------------------------
