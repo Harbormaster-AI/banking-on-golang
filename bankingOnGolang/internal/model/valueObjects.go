@@ -2,7 +2,7 @@
 package model
 
 import (
-#declareImportsOnce( $valueObjects )
+#declareRequiredImportsOnce( $valueObjects )
 )
 
 type Money struct {

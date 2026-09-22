@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/uuid"
 	"fmt"
-#declareImportsOnce( $classes )
+#declareRequiredImportsOnce( $classes )
 )
 
 func init() {
