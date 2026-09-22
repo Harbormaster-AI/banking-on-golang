@@ -600,8 +600,13 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
                     Model(&parentObj).
                     Association("Transactions").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Transactions association from FundsTransfer: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addTransactionsToFundsTransfer",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
@@ -662,8 +667,13 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
                     Model(&parentObj).
                     Association("Transactions").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Transactions association from FundsTransfer: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeTransactionsFromFundsTransfer",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )

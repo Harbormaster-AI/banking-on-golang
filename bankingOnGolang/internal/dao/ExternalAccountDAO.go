@@ -327,8 +327,13 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
                     Model(&parentObj).
                     Association("Transactions").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Transactions association from ExternalAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addTransactionsToExternalAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
@@ -389,8 +394,13 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
                     Model(&parentObj).
                     Association("Transactions").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Transactions association from ExternalAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeTransactionsFromExternalAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )

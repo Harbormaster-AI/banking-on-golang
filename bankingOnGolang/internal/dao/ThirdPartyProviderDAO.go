@@ -327,8 +327,13 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
                     Model(&parentObj).
                     Association("Consents").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Consents association from ThirdPartyProvider: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addConsentsToThirdPartyProvider",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
@@ -389,8 +394,13 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
                     Model(&parentObj).
                     Association("Consents").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Consents association from ThirdPartyProvider: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeConsentsFromThirdPartyProvider",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )

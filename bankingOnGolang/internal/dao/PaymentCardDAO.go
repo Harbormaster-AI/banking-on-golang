@@ -509,8 +509,13 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
                     Model(&parentObj).
                     Association("Transactions").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Transactions association from PaymentCard: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addTransactionsToPaymentCard",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
@@ -571,8 +576,13 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
                     Model(&parentObj).
                     Association("Transactions").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Transactions association from PaymentCard: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeTransactionsFromPaymentCard",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )

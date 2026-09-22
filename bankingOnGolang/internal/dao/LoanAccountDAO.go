@@ -509,8 +509,13 @@ func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds []uuid.UU
                     Model(&parentObj).
                     Association("Borrowers").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Borrowers association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addBorrowersToLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Borrowers", borrowersId )
@@ -571,8 +576,13 @@ func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds []uui
                     Model(&parentObj).
                     Association("Borrowers").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Borrowers association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeBorrowersFromLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Borrowers", borrowersId )
@@ -635,8 +645,13 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentSched
                     Model(&parentObj).
                     Association("RepaymentSchedule").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append RepaymentSchedule association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addRepaymentScheduleToLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RepaymentSchedule", repaymentScheduleId )
@@ -697,8 +712,13 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentS
                     Model(&parentObj).
                     Association("RepaymentSchedule").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove RepaymentSchedule association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeRepaymentScheduleFromLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RepaymentSchedule", repaymentScheduleId )
@@ -761,8 +781,13 @@ func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds []uuid.UUID
                     Model(&parentObj).
                     Association("Payments").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Payments association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addPaymentsToLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Payments", paymentsId )
@@ -823,8 +848,13 @@ func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds []uuid.
                     Model(&parentObj).
                     Association("Payments").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Payments association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removePaymentsFromLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Payments", paymentsId )
@@ -887,8 +917,13 @@ func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds []uuid.
                     Model(&parentObj).
                     Association("Collateral").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Collateral association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addCollateralToLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Collateral", collateralId )
@@ -949,8 +984,13 @@ func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds []u
                     Model(&parentObj).
                     Association("Collateral").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Collateral association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeCollateralFromLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Collateral", collateralId )
@@ -1013,8 +1053,13 @@ func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds []uuid.
                     Model(&parentObj).
                     Association("FeeCharges").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append FeeCharges association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addFeeChargesToLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FeeCharges", feeChargesId )
@@ -1075,8 +1120,13 @@ func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds []u
                     Model(&parentObj).
                     Association("FeeCharges").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove FeeCharges association from LoanAccount: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeFeeChargesFromLoanAccount",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FeeCharges", feeChargesId )

@@ -509,8 +509,13 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
                     Model(&parentObj).
                     Association("AuthorizedAccounts").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append AuthorizedAccounts association from Consent: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addAuthorizedAccountsToConsent",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
@@ -571,8 +576,13 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
                     Model(&parentObj).
                     Association("AuthorizedAccounts").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove AuthorizedAccounts association from Consent: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeAuthorizedAccountsFromConsent",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )

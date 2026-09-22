@@ -327,8 +327,13 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
                     Model(&parentObj).
                     Association("FxTrades").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append FxTrades association from ExchangeRate: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addFxTradesToExchangeRate",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
@@ -389,8 +394,13 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
                     Model(&parentObj).
                     Association("FxTrades").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove FxTrades association from ExchangeRate: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeFxTradesFromExchangeRate",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )

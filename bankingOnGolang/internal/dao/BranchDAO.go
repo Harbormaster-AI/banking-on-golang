@@ -327,8 +327,13 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.R
                     Model(&parentObj).
                     Association("Accounts").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Accounts association from Branch: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addAccountsToBranch",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
@@ -389,8 +394,13 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(uti
                     Model(&parentObj).
                     Association("Accounts").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Accounts association from Branch: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeAccountsFromBranch",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
@@ -453,8 +463,13 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )
                     Model(&parentObj).
                     Association("LoanAccounts").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append LoanAccounts association from Branch: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addLoanAccountsToBranch",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
@@ -515,8 +530,13 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UU
                     Model(&parentObj).
                     Association("LoanAccounts").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove LoanAccounts association from Branch: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeLoanAccountsFromBranch",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
@@ -579,8 +599,13 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestRe
                     Model(&parentObj).
                     Association("Atms").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Atms association from Branch: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addAtmsToBranch",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )
@@ -641,8 +666,13 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.Reque
                     Model(&parentObj).
                     Association("Atms").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Atms association from Branch: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeAtmsFromBranch",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )

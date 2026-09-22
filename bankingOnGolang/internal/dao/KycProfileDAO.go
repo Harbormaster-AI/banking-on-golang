@@ -327,8 +327,13 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
                     Model(&parentObj).
                     Association("IdentityDocuments").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append IdentityDocuments association from KycProfile: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addIdentityDocumentsToKycProfile",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
@@ -389,8 +394,13 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
                     Model(&parentObj).
                     Association("IdentityDocuments").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove IdentityDocuments association from KycProfile: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeIdentityDocumentsFromKycProfile",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
@@ -453,8 +463,13 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
                     Model(&parentObj).
                     Association("RiskAssessments").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append RiskAssessments association from KycProfile: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addRiskAssessmentsToKycProfile",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
@@ -515,8 +530,13 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
                     Model(&parentObj).
                     Association("RiskAssessments").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove RiskAssessments association from KycProfile: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeRiskAssessmentsFromKycProfile",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
@@ -579,8 +599,13 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
                     Model(&parentObj).
                     Association("Screenings").
                     Append(&childObj); err != nil {
-                        log.Printf("Failed to append Screenings association from KycProfile: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "addScreeningsToKycProfile",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
@@ -641,8 +666,13 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
                     Model(&parentObj).
                     Association("Screenings").
                     Delete(&childObj); err != nil {
-                        log.Printf("Failed to remove Screenings association from KycProfile: %v", err)
-                        return err
+                        return utils.RequestResult{
+                            Success: false,
+                            Msg:     err.Error(),
+                            Call:    "removeScreeningsFromKycProfile",
+                            Data:    nil,
+                        }
+                    }
                 }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
