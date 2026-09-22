@@ -317,13 +317,12 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignTransactions",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -373,13 +372,12 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeTransactions",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 

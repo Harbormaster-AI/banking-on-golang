@@ -317,13 +317,12 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignAccounts",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -373,13 +372,12 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(uti
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeAccounts",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 
@@ -431,13 +429,12 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignLoanAccounts",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -487,13 +484,12 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UU
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeLoanAccounts",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 
@@ -545,13 +541,12 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestRe
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignAtms",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -601,13 +596,12 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.Reque
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeAtms",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 

@@ -501,13 +501,12 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignAuthorizedAccounts",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -557,13 +556,12 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeAuthorizedAccounts",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 

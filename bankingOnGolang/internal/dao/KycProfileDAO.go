@@ -317,13 +317,12 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignIdentityDocuments",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -373,13 +372,12 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeIdentityDocuments",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 
@@ -431,13 +429,12 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignRiskAssessments",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -487,13 +484,12 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeRiskAssessments",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 
@@ -545,13 +541,12 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignScreenings",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -601,13 +596,12 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeScreenings",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 

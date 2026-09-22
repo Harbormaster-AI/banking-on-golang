@@ -501,13 +501,12 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
 
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                     Success: false,
                     Msg: msg,
                     Call:  "unassignTransactions",
                     Data:    childObj,
                 }
-				return requestResult
 			}
 		}
 
@@ -557,13 +556,12 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
-                requestResult = utils.RequestResult{
+                return utils.RequestResult{
                                     Success: false,
                                     Msg: msg,
                                     Call:  "removeTransactions",
                                     Data:    childObj,
                                 }
-				return requestResult
 			}
 		}
 
