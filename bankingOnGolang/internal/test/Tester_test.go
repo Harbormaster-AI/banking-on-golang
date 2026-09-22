@@ -48,14 +48,14 @@ func TestBankCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Bank Obj ID
 	// --------------------------------------------------------------	
-	if createBankObj.ID ==  uuid.Nil {
+	if createBankObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Bank" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getBankRequestResult := dao.GetBank( uint64(createBankObj.ID) )
+	getBankRequestResult := dao.GetBank( createBankObj.ID )
 	
 	if getBankRequestResult.Success == false {
 		t.Error(getBankRequestResult.Msg)
@@ -99,7 +99,7 @@ func TestBankCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Bank
 	// --------------------------------------------------------------	
-	deleteBankRequestResult := dao.DeleteBank(uint64(createBankObj.ID))
+	deleteBankRequestResult := dao.DeleteBank( createBankObj.ID )
 
 	if deleteBankRequestResult.Success == false {
 			t.Error(deleteBankRequestResult.Msg)
@@ -111,7 +111,7 @@ func TestBankCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getBankRequestResult = dao.GetBank( uint64(createBankObj.ID) )
+	getBankRequestResult = dao.GetBank( createBankObj.ID )
 	
 	if getBankRequestResult.Success == true {
 		t.Error(getBankRequestResult.Msg)
@@ -155,14 +155,14 @@ func TestBranchCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Branch Obj ID
 	// --------------------------------------------------------------	
-	if createBranchObj.ID ==  uuid.Nil {
+	if createBranchObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Branch" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getBranchRequestResult := dao.GetBranch( uint64(createBranchObj.ID) )
+	getBranchRequestResult := dao.GetBranch( createBranchObj.ID )
 	
 	if getBranchRequestResult.Success == false {
 		t.Error(getBranchRequestResult.Msg)
@@ -206,7 +206,7 @@ func TestBranchCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Branch
 	// --------------------------------------------------------------	
-	deleteBranchRequestResult := dao.DeleteBranch(uint64(createBranchObj.ID))
+	deleteBranchRequestResult := dao.DeleteBranch( createBranchObj.ID )
 
 	if deleteBranchRequestResult.Success == false {
 			t.Error(deleteBranchRequestResult.Msg)
@@ -218,7 +218,7 @@ func TestBranchCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getBranchRequestResult = dao.GetBranch( uint64(createBranchObj.ID) )
+	getBranchRequestResult = dao.GetBranch( createBranchObj.ID )
 	
 	if getBranchRequestResult.Success == true {
 		t.Error(getBranchRequestResult.Msg)
@@ -260,14 +260,14 @@ func TestATMCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ATM Obj ID
 	// --------------------------------------------------------------	
-	if createATMObj.ID ==  uuid.Nil {
+	if createATMObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ATM" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getATMRequestResult := dao.GetATM( uint64(createATMObj.ID) )
+	getATMRequestResult := dao.GetATM( createATMObj.ID )
 	
 	if getATMRequestResult.Success == false {
 		t.Error(getATMRequestResult.Msg)
@@ -311,7 +311,7 @@ func TestATMCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for ATM
 	// --------------------------------------------------------------	
-	deleteATMRequestResult := dao.DeleteATM(uint64(createATMObj.ID))
+	deleteATMRequestResult := dao.DeleteATM( createATMObj.ID )
 
 	if deleteATMRequestResult.Success == false {
 			t.Error(deleteATMRequestResult.Msg)
@@ -323,7 +323,7 @@ func TestATMCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getATMRequestResult = dao.GetATM( uint64(createATMObj.ID) )
+	getATMRequestResult = dao.GetATM( createATMObj.ID )
 	
 	if getATMRequestResult.Success == true {
 		t.Error(getATMRequestResult.Msg)
@@ -373,14 +373,14 @@ func TestCustomerCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Customer Obj ID
 	// --------------------------------------------------------------	
-	if createCustomerObj.ID ==  uuid.Nil {
+	if createCustomerObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Customer" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getCustomerRequestResult := dao.GetCustomer( uint64(createCustomerObj.ID) )
+	getCustomerRequestResult := dao.GetCustomer( createCustomerObj.ID )
 	
 	if getCustomerRequestResult.Success == false {
 		t.Error(getCustomerRequestResult.Msg)
@@ -424,7 +424,7 @@ func TestCustomerCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Customer
 	// --------------------------------------------------------------	
-	deleteCustomerRequestResult := dao.DeleteCustomer(uint64(createCustomerObj.ID))
+	deleteCustomerRequestResult := dao.DeleteCustomer( createCustomerObj.ID )
 
 	if deleteCustomerRequestResult.Success == false {
 			t.Error(deleteCustomerRequestResult.Msg)
@@ -436,7 +436,7 @@ func TestCustomerCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getCustomerRequestResult = dao.GetCustomer( uint64(createCustomerObj.ID) )
+	getCustomerRequestResult = dao.GetCustomer( createCustomerObj.ID )
 	
 	if getCustomerRequestResult.Success == true {
 		t.Error(getCustomerRequestResult.Msg)
@@ -478,14 +478,14 @@ func TestKycProfileCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check KycProfile Obj ID
 	// --------------------------------------------------------------	
-	if createKycProfileObj.ID ==  uuid.Nil {
+	if createKycProfileObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for KycProfile" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getKycProfileRequestResult := dao.GetKycProfile( uint64(createKycProfileObj.ID) )
+	getKycProfileRequestResult := dao.GetKycProfile( createKycProfileObj.ID )
 	
 	if getKycProfileRequestResult.Success == false {
 		t.Error(getKycProfileRequestResult.Msg)
@@ -529,7 +529,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for KycProfile
 	// --------------------------------------------------------------	
-	deleteKycProfileRequestResult := dao.DeleteKycProfile(uint64(createKycProfileObj.ID))
+	deleteKycProfileRequestResult := dao.DeleteKycProfile( createKycProfileObj.ID )
 
 	if deleteKycProfileRequestResult.Success == false {
 			t.Error(deleteKycProfileRequestResult.Msg)
@@ -541,7 +541,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getKycProfileRequestResult = dao.GetKycProfile( uint64(createKycProfileObj.ID) )
+	getKycProfileRequestResult = dao.GetKycProfile( createKycProfileObj.ID )
 	
 	if getKycProfileRequestResult.Success == true {
 		t.Error(getKycProfileRequestResult.Msg)
@@ -584,14 +584,14 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check IdentityDocument Obj ID
 	// --------------------------------------------------------------	
-	if createIdentityDocumentObj.ID ==  uuid.Nil {
+	if createIdentityDocumentObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for IdentityDocument" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getIdentityDocumentRequestResult := dao.GetIdentityDocument( uint64(createIdentityDocumentObj.ID) )
+	getIdentityDocumentRequestResult := dao.GetIdentityDocument( createIdentityDocumentObj.ID )
 	
 	if getIdentityDocumentRequestResult.Success == false {
 		t.Error(getIdentityDocumentRequestResult.Msg)
@@ -635,7 +635,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for IdentityDocument
 	// --------------------------------------------------------------	
-	deleteIdentityDocumentRequestResult := dao.DeleteIdentityDocument(uint64(createIdentityDocumentObj.ID))
+	deleteIdentityDocumentRequestResult := dao.DeleteIdentityDocument( createIdentityDocumentObj.ID )
 
 	if deleteIdentityDocumentRequestResult.Success == false {
 			t.Error(deleteIdentityDocumentRequestResult.Msg)
@@ -647,7 +647,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getIdentityDocumentRequestResult = dao.GetIdentityDocument( uint64(createIdentityDocumentObj.ID) )
+	getIdentityDocumentRequestResult = dao.GetIdentityDocument( createIdentityDocumentObj.ID )
 	
 	if getIdentityDocumentRequestResult.Success == true {
 		t.Error(getIdentityDocumentRequestResult.Msg)
@@ -689,14 +689,14 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check RiskAssessment Obj ID
 	// --------------------------------------------------------------	
-	if createRiskAssessmentObj.ID ==  uuid.Nil {
+	if createRiskAssessmentObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for RiskAssessment" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getRiskAssessmentRequestResult := dao.GetRiskAssessment( uint64(createRiskAssessmentObj.ID) )
+	getRiskAssessmentRequestResult := dao.GetRiskAssessment( createRiskAssessmentObj.ID )
 	
 	if getRiskAssessmentRequestResult.Success == false {
 		t.Error(getRiskAssessmentRequestResult.Msg)
@@ -740,7 +740,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for RiskAssessment
 	// --------------------------------------------------------------	
-	deleteRiskAssessmentRequestResult := dao.DeleteRiskAssessment(uint64(createRiskAssessmentObj.ID))
+	deleteRiskAssessmentRequestResult := dao.DeleteRiskAssessment( createRiskAssessmentObj.ID )
 
 	if deleteRiskAssessmentRequestResult.Success == false {
 			t.Error(deleteRiskAssessmentRequestResult.Msg)
@@ -752,7 +752,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getRiskAssessmentRequestResult = dao.GetRiskAssessment( uint64(createRiskAssessmentObj.ID) )
+	getRiskAssessmentRequestResult = dao.GetRiskAssessment( createRiskAssessmentObj.ID )
 	
 	if getRiskAssessmentRequestResult.Success == true {
 		t.Error(getRiskAssessmentRequestResult.Msg)
@@ -794,14 +794,14 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ScreeningResult Obj ID
 	// --------------------------------------------------------------	
-	if createScreeningResultObj.ID ==  uuid.Nil {
+	if createScreeningResultObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ScreeningResult" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getScreeningResultRequestResult := dao.GetScreeningResult( uint64(createScreeningResultObj.ID) )
+	getScreeningResultRequestResult := dao.GetScreeningResult( createScreeningResultObj.ID )
 	
 	if getScreeningResultRequestResult.Success == false {
 		t.Error(getScreeningResultRequestResult.Msg)
@@ -845,7 +845,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for ScreeningResult
 	// --------------------------------------------------------------	
-	deleteScreeningResultRequestResult := dao.DeleteScreeningResult(uint64(createScreeningResultObj.ID))
+	deleteScreeningResultRequestResult := dao.DeleteScreeningResult( createScreeningResultObj.ID )
 
 	if deleteScreeningResultRequestResult.Success == false {
 			t.Error(deleteScreeningResultRequestResult.Msg)
@@ -857,7 +857,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getScreeningResultRequestResult = dao.GetScreeningResult( uint64(createScreeningResultObj.ID) )
+	getScreeningResultRequestResult = dao.GetScreeningResult( createScreeningResultObj.ID )
 	
 	if getScreeningResultRequestResult.Success == true {
 		t.Error(getScreeningResultRequestResult.Msg)
@@ -900,14 +900,14 @@ func TestBankingProductCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check BankingProduct Obj ID
 	// --------------------------------------------------------------	
-	if createBankingProductObj.ID ==  uuid.Nil {
+	if createBankingProductObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for BankingProduct" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getBankingProductRequestResult := dao.GetBankingProduct( uint64(createBankingProductObj.ID) )
+	getBankingProductRequestResult := dao.GetBankingProduct( createBankingProductObj.ID )
 	
 	if getBankingProductRequestResult.Success == false {
 		t.Error(getBankingProductRequestResult.Msg)
@@ -951,7 +951,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for BankingProduct
 	// --------------------------------------------------------------	
-	deleteBankingProductRequestResult := dao.DeleteBankingProduct(uint64(createBankingProductObj.ID))
+	deleteBankingProductRequestResult := dao.DeleteBankingProduct( createBankingProductObj.ID )
 
 	if deleteBankingProductRequestResult.Success == false {
 			t.Error(deleteBankingProductRequestResult.Msg)
@@ -963,7 +963,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getBankingProductRequestResult = dao.GetBankingProduct( uint64(createBankingProductObj.ID) )
+	getBankingProductRequestResult = dao.GetBankingProduct( createBankingProductObj.ID )
 	
 	if getBankingProductRequestResult.Success == true {
 		t.Error(getBankingProductRequestResult.Msg)
@@ -1011,14 +1011,14 @@ func TestAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Account Obj ID
 	// --------------------------------------------------------------	
-	if createAccountObj.ID ==  uuid.Nil {
+	if createAccountObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Account" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getAccountRequestResult := dao.GetAccount( uint64(createAccountObj.ID) )
+	getAccountRequestResult := dao.GetAccount( createAccountObj.ID )
 	
 	if getAccountRequestResult.Success == false {
 		t.Error(getAccountRequestResult.Msg)
@@ -1062,7 +1062,7 @@ func TestAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Account
 	// --------------------------------------------------------------	
-	deleteAccountRequestResult := dao.DeleteAccount(uint64(createAccountObj.ID))
+	deleteAccountRequestResult := dao.DeleteAccount( createAccountObj.ID )
 
 	if deleteAccountRequestResult.Success == false {
 			t.Error(deleteAccountRequestResult.Msg)
@@ -1074,7 +1074,7 @@ func TestAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getAccountRequestResult = dao.GetAccount( uint64(createAccountObj.ID) )
+	getAccountRequestResult = dao.GetAccount( createAccountObj.ID )
 	
 	if getAccountRequestResult.Success == true {
 		t.Error(getAccountRequestResult.Msg)
@@ -1119,14 +1119,14 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check AccountStatement Obj ID
 	// --------------------------------------------------------------	
-	if createAccountStatementObj.ID ==  uuid.Nil {
+	if createAccountStatementObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for AccountStatement" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getAccountStatementRequestResult := dao.GetAccountStatement( uint64(createAccountStatementObj.ID) )
+	getAccountStatementRequestResult := dao.GetAccountStatement( createAccountStatementObj.ID )
 	
 	if getAccountStatementRequestResult.Success == false {
 		t.Error(getAccountStatementRequestResult.Msg)
@@ -1170,7 +1170,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for AccountStatement
 	// --------------------------------------------------------------	
-	deleteAccountStatementRequestResult := dao.DeleteAccountStatement(uint64(createAccountStatementObj.ID))
+	deleteAccountStatementRequestResult := dao.DeleteAccountStatement( createAccountStatementObj.ID )
 
 	if deleteAccountStatementRequestResult.Success == false {
 			t.Error(deleteAccountStatementRequestResult.Msg)
@@ -1182,7 +1182,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getAccountStatementRequestResult = dao.GetAccountStatement( uint64(createAccountStatementObj.ID) )
+	getAccountStatementRequestResult = dao.GetAccountStatement( createAccountStatementObj.ID )
 	
 	if getAccountStatementRequestResult.Success == true {
 		t.Error(getAccountStatementRequestResult.Msg)
@@ -1229,14 +1229,14 @@ func TestTransactionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Transaction Obj ID
 	// --------------------------------------------------------------	
-	if createTransactionObj.ID ==  uuid.Nil {
+	if createTransactionObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Transaction" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getTransactionRequestResult := dao.GetTransaction( uint64(createTransactionObj.ID) )
+	getTransactionRequestResult := dao.GetTransaction( createTransactionObj.ID )
 	
 	if getTransactionRequestResult.Success == false {
 		t.Error(getTransactionRequestResult.Msg)
@@ -1280,7 +1280,7 @@ func TestTransactionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Transaction
 	// --------------------------------------------------------------	
-	deleteTransactionRequestResult := dao.DeleteTransaction(uint64(createTransactionObj.ID))
+	deleteTransactionRequestResult := dao.DeleteTransaction( createTransactionObj.ID )
 
 	if deleteTransactionRequestResult.Success == false {
 			t.Error(deleteTransactionRequestResult.Msg)
@@ -1292,7 +1292,7 @@ func TestTransactionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getTransactionRequestResult = dao.GetTransaction( uint64(createTransactionObj.ID) )
+	getTransactionRequestResult = dao.GetTransaction( createTransactionObj.ID )
 	
 	if getTransactionRequestResult.Success == true {
 		t.Error(getTransactionRequestResult.Msg)
@@ -1337,14 +1337,14 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ExternalAccount Obj ID
 	// --------------------------------------------------------------	
-	if createExternalAccountObj.ID ==  uuid.Nil {
+	if createExternalAccountObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ExternalAccount" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getExternalAccountRequestResult := dao.GetExternalAccount( uint64(createExternalAccountObj.ID) )
+	getExternalAccountRequestResult := dao.GetExternalAccount( createExternalAccountObj.ID )
 	
 	if getExternalAccountRequestResult.Success == false {
 		t.Error(getExternalAccountRequestResult.Msg)
@@ -1388,7 +1388,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for ExternalAccount
 	// --------------------------------------------------------------	
-	deleteExternalAccountRequestResult := dao.DeleteExternalAccount(uint64(createExternalAccountObj.ID))
+	deleteExternalAccountRequestResult := dao.DeleteExternalAccount( createExternalAccountObj.ID )
 
 	if deleteExternalAccountRequestResult.Success == false {
 			t.Error(deleteExternalAccountRequestResult.Msg)
@@ -1400,7 +1400,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getExternalAccountRequestResult = dao.GetExternalAccount( uint64(createExternalAccountObj.ID) )
+	getExternalAccountRequestResult = dao.GetExternalAccount( createExternalAccountObj.ID )
 	
 	if getExternalAccountRequestResult.Success == true {
 		t.Error(getExternalAccountRequestResult.Msg)
@@ -1447,14 +1447,14 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check FundsTransfer Obj ID
 	// --------------------------------------------------------------	
-	if createFundsTransferObj.ID ==  uuid.Nil {
+	if createFundsTransferObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for FundsTransfer" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getFundsTransferRequestResult := dao.GetFundsTransfer( uint64(createFundsTransferObj.ID) )
+	getFundsTransferRequestResult := dao.GetFundsTransfer( createFundsTransferObj.ID )
 	
 	if getFundsTransferRequestResult.Success == false {
 		t.Error(getFundsTransferRequestResult.Msg)
@@ -1498,7 +1498,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for FundsTransfer
 	// --------------------------------------------------------------	
-	deleteFundsTransferRequestResult := dao.DeleteFundsTransfer(uint64(createFundsTransferObj.ID))
+	deleteFundsTransferRequestResult := dao.DeleteFundsTransfer( createFundsTransferObj.ID )
 
 	if deleteFundsTransferRequestResult.Success == false {
 			t.Error(deleteFundsTransferRequestResult.Msg)
@@ -1510,7 +1510,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getFundsTransferRequestResult = dao.GetFundsTransfer( uint64(createFundsTransferObj.ID) )
+	getFundsTransferRequestResult = dao.GetFundsTransfer( createFundsTransferObj.ID )
 	
 	if getFundsTransferRequestResult.Success == true {
 		t.Error(getFundsTransferRequestResult.Msg)
@@ -1554,14 +1554,14 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check StandingInstruction Obj ID
 	// --------------------------------------------------------------	
-	if createStandingInstructionObj.ID ==  uuid.Nil {
+	if createStandingInstructionObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for StandingInstruction" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getStandingInstructionRequestResult := dao.GetStandingInstruction( uint64(createStandingInstructionObj.ID) )
+	getStandingInstructionRequestResult := dao.GetStandingInstruction( createStandingInstructionObj.ID )
 	
 	if getStandingInstructionRequestResult.Success == false {
 		t.Error(getStandingInstructionRequestResult.Msg)
@@ -1605,7 +1605,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for StandingInstruction
 	// --------------------------------------------------------------	
-	deleteStandingInstructionRequestResult := dao.DeleteStandingInstruction(uint64(createStandingInstructionObj.ID))
+	deleteStandingInstructionRequestResult := dao.DeleteStandingInstruction( createStandingInstructionObj.ID )
 
 	if deleteStandingInstructionRequestResult.Success == false {
 			t.Error(deleteStandingInstructionRequestResult.Msg)
@@ -1617,7 +1617,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getStandingInstructionRequestResult = dao.GetStandingInstruction( uint64(createStandingInstructionObj.ID) )
+	getStandingInstructionRequestResult = dao.GetStandingInstruction( createStandingInstructionObj.ID )
 	
 	if getStandingInstructionRequestResult.Success == true {
 		t.Error(getStandingInstructionRequestResult.Msg)
@@ -1663,14 +1663,14 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check PaymentCard Obj ID
 	// --------------------------------------------------------------	
-	if createPaymentCardObj.ID ==  uuid.Nil {
+	if createPaymentCardObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for PaymentCard" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getPaymentCardRequestResult := dao.GetPaymentCard( uint64(createPaymentCardObj.ID) )
+	getPaymentCardRequestResult := dao.GetPaymentCard( createPaymentCardObj.ID )
 	
 	if getPaymentCardRequestResult.Success == false {
 		t.Error(getPaymentCardRequestResult.Msg)
@@ -1714,7 +1714,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for PaymentCard
 	// --------------------------------------------------------------	
-	deletePaymentCardRequestResult := dao.DeletePaymentCard(uint64(createPaymentCardObj.ID))
+	deletePaymentCardRequestResult := dao.DeletePaymentCard( createPaymentCardObj.ID )
 
 	if deletePaymentCardRequestResult.Success == false {
 			t.Error(deletePaymentCardRequestResult.Msg)
@@ -1726,7 +1726,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getPaymentCardRequestResult = dao.GetPaymentCard( uint64(createPaymentCardObj.ID) )
+	getPaymentCardRequestResult = dao.GetPaymentCard( createPaymentCardObj.ID )
 	
 	if getPaymentCardRequestResult.Success == true {
 		t.Error(getPaymentCardRequestResult.Msg)
@@ -1777,14 +1777,14 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check LoanAccount Obj ID
 	// --------------------------------------------------------------	
-	if createLoanAccountObj.ID ==  uuid.Nil {
+	if createLoanAccountObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for LoanAccount" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getLoanAccountRequestResult := dao.GetLoanAccount( uint64(createLoanAccountObj.ID) )
+	getLoanAccountRequestResult := dao.GetLoanAccount( createLoanAccountObj.ID )
 	
 	if getLoanAccountRequestResult.Success == false {
 		t.Error(getLoanAccountRequestResult.Msg)
@@ -1828,7 +1828,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for LoanAccount
 	// --------------------------------------------------------------	
-	deleteLoanAccountRequestResult := dao.DeleteLoanAccount(uint64(createLoanAccountObj.ID))
+	deleteLoanAccountRequestResult := dao.DeleteLoanAccount( createLoanAccountObj.ID )
 
 	if deleteLoanAccountRequestResult.Success == false {
 			t.Error(deleteLoanAccountRequestResult.Msg)
@@ -1840,7 +1840,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getLoanAccountRequestResult = dao.GetLoanAccount( uint64(createLoanAccountObj.ID) )
+	getLoanAccountRequestResult = dao.GetLoanAccount( createLoanAccountObj.ID )
 	
 	if getLoanAccountRequestResult.Success == true {
 		t.Error(getLoanAccountRequestResult.Msg)
@@ -1885,14 +1885,14 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check RepaymentSchedule Obj ID
 	// --------------------------------------------------------------	
-	if createRepaymentScheduleObj.ID ==  uuid.Nil {
+	if createRepaymentScheduleObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for RepaymentSchedule" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getRepaymentScheduleRequestResult := dao.GetRepaymentSchedule( uint64(createRepaymentScheduleObj.ID) )
+	getRepaymentScheduleRequestResult := dao.GetRepaymentSchedule( createRepaymentScheduleObj.ID )
 	
 	if getRepaymentScheduleRequestResult.Success == false {
 		t.Error(getRepaymentScheduleRequestResult.Msg)
@@ -1936,7 +1936,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for RepaymentSchedule
 	// --------------------------------------------------------------	
-	deleteRepaymentScheduleRequestResult := dao.DeleteRepaymentSchedule(uint64(createRepaymentScheduleObj.ID))
+	deleteRepaymentScheduleRequestResult := dao.DeleteRepaymentSchedule( createRepaymentScheduleObj.ID )
 
 	if deleteRepaymentScheduleRequestResult.Success == false {
 			t.Error(deleteRepaymentScheduleRequestResult.Msg)
@@ -1948,7 +1948,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getRepaymentScheduleRequestResult = dao.GetRepaymentSchedule( uint64(createRepaymentScheduleObj.ID) )
+	getRepaymentScheduleRequestResult = dao.GetRepaymentSchedule( createRepaymentScheduleObj.ID )
 	
 	if getRepaymentScheduleRequestResult.Success == true {
 		t.Error(getRepaymentScheduleRequestResult.Msg)
@@ -1992,14 +1992,14 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check LoanPayment Obj ID
 	// --------------------------------------------------------------	
-	if createLoanPaymentObj.ID ==  uuid.Nil {
+	if createLoanPaymentObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for LoanPayment" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getLoanPaymentRequestResult := dao.GetLoanPayment( uint64(createLoanPaymentObj.ID) )
+	getLoanPaymentRequestResult := dao.GetLoanPayment( createLoanPaymentObj.ID )
 	
 	if getLoanPaymentRequestResult.Success == false {
 		t.Error(getLoanPaymentRequestResult.Msg)
@@ -2043,7 +2043,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for LoanPayment
 	// --------------------------------------------------------------	
-	deleteLoanPaymentRequestResult := dao.DeleteLoanPayment(uint64(createLoanPaymentObj.ID))
+	deleteLoanPaymentRequestResult := dao.DeleteLoanPayment( createLoanPaymentObj.ID )
 
 	if deleteLoanPaymentRequestResult.Success == false {
 			t.Error(deleteLoanPaymentRequestResult.Msg)
@@ -2055,7 +2055,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getLoanPaymentRequestResult = dao.GetLoanPayment( uint64(createLoanPaymentObj.ID) )
+	getLoanPaymentRequestResult = dao.GetLoanPayment( createLoanPaymentObj.ID )
 	
 	if getLoanPaymentRequestResult.Success == true {
 		t.Error(getLoanPaymentRequestResult.Msg)
@@ -2099,14 +2099,14 @@ func TestCollateralCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Collateral Obj ID
 	// --------------------------------------------------------------	
-	if createCollateralObj.ID ==  uuid.Nil {
+	if createCollateralObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Collateral" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getCollateralRequestResult := dao.GetCollateral( uint64(createCollateralObj.ID) )
+	getCollateralRequestResult := dao.GetCollateral( createCollateralObj.ID )
 	
 	if getCollateralRequestResult.Success == false {
 		t.Error(getCollateralRequestResult.Msg)
@@ -2150,7 +2150,7 @@ func TestCollateralCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Collateral
 	// --------------------------------------------------------------	
-	deleteCollateralRequestResult := dao.DeleteCollateral(uint64(createCollateralObj.ID))
+	deleteCollateralRequestResult := dao.DeleteCollateral( createCollateralObj.ID )
 
 	if deleteCollateralRequestResult.Success == false {
 			t.Error(deleteCollateralRequestResult.Msg)
@@ -2162,7 +2162,7 @@ func TestCollateralCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getCollateralRequestResult = dao.GetCollateral( uint64(createCollateralObj.ID) )
+	getCollateralRequestResult = dao.GetCollateral( createCollateralObj.ID )
 	
 	if getCollateralRequestResult.Success == true {
 		t.Error(getCollateralRequestResult.Msg)
@@ -2205,14 +2205,14 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check FeeCharge Obj ID
 	// --------------------------------------------------------------	
-	if createFeeChargeObj.ID ==  uuid.Nil {
+	if createFeeChargeObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for FeeCharge" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getFeeChargeRequestResult := dao.GetFeeCharge( uint64(createFeeChargeObj.ID) )
+	getFeeChargeRequestResult := dao.GetFeeCharge( createFeeChargeObj.ID )
 	
 	if getFeeChargeRequestResult.Success == false {
 		t.Error(getFeeChargeRequestResult.Msg)
@@ -2256,7 +2256,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for FeeCharge
 	// --------------------------------------------------------------	
-	deleteFeeChargeRequestResult := dao.DeleteFeeCharge(uint64(createFeeChargeObj.ID))
+	deleteFeeChargeRequestResult := dao.DeleteFeeCharge( createFeeChargeObj.ID )
 
 	if deleteFeeChargeRequestResult.Success == false {
 			t.Error(deleteFeeChargeRequestResult.Msg)
@@ -2268,7 +2268,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getFeeChargeRequestResult = dao.GetFeeCharge( uint64(createFeeChargeObj.ID) )
+	getFeeChargeRequestResult = dao.GetFeeCharge( createFeeChargeObj.ID )
 	
 	if getFeeChargeRequestResult.Success == true {
 		t.Error(getFeeChargeRequestResult.Msg)
@@ -2312,14 +2312,14 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ExchangeRate Obj ID
 	// --------------------------------------------------------------	
-	if createExchangeRateObj.ID ==  uuid.Nil {
+	if createExchangeRateObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ExchangeRate" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getExchangeRateRequestResult := dao.GetExchangeRate( uint64(createExchangeRateObj.ID) )
+	getExchangeRateRequestResult := dao.GetExchangeRate( createExchangeRateObj.ID )
 	
 	if getExchangeRateRequestResult.Success == false {
 		t.Error(getExchangeRateRequestResult.Msg)
@@ -2363,7 +2363,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for ExchangeRate
 	// --------------------------------------------------------------	
-	deleteExchangeRateRequestResult := dao.DeleteExchangeRate(uint64(createExchangeRateObj.ID))
+	deleteExchangeRateRequestResult := dao.DeleteExchangeRate( createExchangeRateObj.ID )
 
 	if deleteExchangeRateRequestResult.Success == false {
 			t.Error(deleteExchangeRateRequestResult.Msg)
@@ -2375,7 +2375,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getExchangeRateRequestResult = dao.GetExchangeRate( uint64(createExchangeRateObj.ID) )
+	getExchangeRateRequestResult = dao.GetExchangeRate( createExchangeRateObj.ID )
 	
 	if getExchangeRateRequestResult.Success == true {
 		t.Error(getExchangeRateRequestResult.Msg)
@@ -2421,14 +2421,14 @@ func TestFXTradeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check FXTrade Obj ID
 	// --------------------------------------------------------------	
-	if createFXTradeObj.ID ==  uuid.Nil {
+	if createFXTradeObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for FXTrade" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getFXTradeRequestResult := dao.GetFXTrade( uint64(createFXTradeObj.ID) )
+	getFXTradeRequestResult := dao.GetFXTrade( createFXTradeObj.ID )
 	
 	if getFXTradeRequestResult.Success == false {
 		t.Error(getFXTradeRequestResult.Msg)
@@ -2472,7 +2472,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for FXTrade
 	// --------------------------------------------------------------	
-	deleteFXTradeRequestResult := dao.DeleteFXTrade(uint64(createFXTradeObj.ID))
+	deleteFXTradeRequestResult := dao.DeleteFXTrade( createFXTradeObj.ID )
 
 	if deleteFXTradeRequestResult.Success == false {
 			t.Error(deleteFXTradeRequestResult.Msg)
@@ -2484,7 +2484,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getFXTradeRequestResult = dao.GetFXTrade( uint64(createFXTradeObj.ID) )
+	getFXTradeRequestResult = dao.GetFXTrade( createFXTradeObj.ID )
 	
 	if getFXTradeRequestResult.Success == true {
 		t.Error(getFXTradeRequestResult.Msg)
@@ -2527,14 +2527,14 @@ func TestDisputeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Dispute Obj ID
 	// --------------------------------------------------------------	
-	if createDisputeObj.ID ==  uuid.Nil {
+	if createDisputeObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Dispute" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getDisputeRequestResult := dao.GetDispute( uint64(createDisputeObj.ID) )
+	getDisputeRequestResult := dao.GetDispute( createDisputeObj.ID )
 	
 	if getDisputeRequestResult.Success == false {
 		t.Error(getDisputeRequestResult.Msg)
@@ -2578,7 +2578,7 @@ func TestDisputeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Dispute
 	// --------------------------------------------------------------	
-	deleteDisputeRequestResult := dao.DeleteDispute(uint64(createDisputeObj.ID))
+	deleteDisputeRequestResult := dao.DeleteDispute( createDisputeObj.ID )
 
 	if deleteDisputeRequestResult.Success == false {
 			t.Error(deleteDisputeRequestResult.Msg)
@@ -2590,7 +2590,7 @@ func TestDisputeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getDisputeRequestResult = dao.GetDispute( uint64(createDisputeObj.ID) )
+	getDisputeRequestResult = dao.GetDispute( createDisputeObj.ID )
 	
 	if getDisputeRequestResult.Success == true {
 		t.Error(getDisputeRequestResult.Msg)
@@ -2633,14 +2633,14 @@ func TestConsentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Consent Obj ID
 	// --------------------------------------------------------------	
-	if createConsentObj.ID ==  uuid.Nil {
+	if createConsentObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Consent" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getConsentRequestResult := dao.GetConsent( uint64(createConsentObj.ID) )
+	getConsentRequestResult := dao.GetConsent( createConsentObj.ID )
 	
 	if getConsentRequestResult.Success == false {
 		t.Error(getConsentRequestResult.Msg)
@@ -2684,7 +2684,7 @@ func TestConsentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for Consent
 	// --------------------------------------------------------------	
-	deleteConsentRequestResult := dao.DeleteConsent(uint64(createConsentObj.ID))
+	deleteConsentRequestResult := dao.DeleteConsent( createConsentObj.ID )
 
 	if deleteConsentRequestResult.Success == false {
 			t.Error(deleteConsentRequestResult.Msg)
@@ -2696,7 +2696,7 @@ func TestConsentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getConsentRequestResult = dao.GetConsent( uint64(createConsentObj.ID) )
+	getConsentRequestResult = dao.GetConsent( createConsentObj.ID )
 	
 	if getConsentRequestResult.Success == true {
 		t.Error(getConsentRequestResult.Msg)
@@ -2738,14 +2738,14 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ThirdPartyProvider Obj ID
 	// --------------------------------------------------------------	
-	if createThirdPartyProviderObj.ID ==  uuid.Nil {
+	if createThirdPartyProviderObj.ID == uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ThirdPartyProvider" )
 	}	
 
 	// --------------------------------------------------------------
 	// Check Get
 	// --------------------------------------------------------------	
-	getThirdPartyProviderRequestResult := dao.GetThirdPartyProvider( uint64(createThirdPartyProviderObj.ID) )
+	getThirdPartyProviderRequestResult := dao.GetThirdPartyProvider( createThirdPartyProviderObj.ID )
 	
 	if getThirdPartyProviderRequestResult.Success == false {
 		t.Error(getThirdPartyProviderRequestResult.Msg)
@@ -2789,7 +2789,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion for ThirdPartyProvider
 	// --------------------------------------------------------------	
-	deleteThirdPartyProviderRequestResult := dao.DeleteThirdPartyProvider(uint64(createThirdPartyProviderObj.ID))
+	deleteThirdPartyProviderRequestResult := dao.DeleteThirdPartyProvider( createThirdPartyProviderObj.ID )
 
 	if deleteThirdPartyProviderRequestResult.Success == false {
 			t.Error(deleteThirdPartyProviderRequestResult.Msg)
@@ -2801,7 +2801,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check deletion causes Get to fail
 	// --------------------------------------------------------------		
-	getThirdPartyProviderRequestResult = dao.GetThirdPartyProvider( uint64(createThirdPartyProviderObj.ID) )
+	getThirdPartyProviderRequestResult = dao.GetThirdPartyProvider( createThirdPartyProviderObj.ID )
 	
 	if getThirdPartyProviderRequestResult.Success == true {
 		t.Error(getThirdPartyProviderRequestResult.Msg)
