@@ -66,7 +66,12 @@ func TestBankCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getBankObj,_ := getBankRequestResult.Data (model.Bank)
+	getBankObj, ok := getBankRequestResult.Data.(model.Bank)
+
+    if !ok {
+        t.Fatalf("Expected Bank, got %T", getBankRequestResult.Data)
+    }
+
 	compareBank := cmp.Equal(createBankObj.ID, getBankObj.ID)
 	
 	if  compareBank == false	{
@@ -88,7 +93,7 @@ func TestBankCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllBankObj []model.Bank = getAllBankRequestResult.Data. ([]model.Bank)
+	var getAllBankObj []model.Bank = getAllBankRequestResult.Data.([]model.Bank)
 		
 	equalBank := cmp.Equal(createBankObj.ID, getAllBankObj[len(getAllBankObj)-1].ID)
 		
@@ -173,7 +178,12 @@ func TestBranchCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getBranchObj,_ := getBranchRequestResult.Data (model.Branch)
+	getBranchObj, ok := getBranchRequestResult.Data.(model.Branch)
+
+    if !ok {
+        t.Fatalf("Expected Branch, got %T", getBranchRequestResult.Data)
+    }
+
 	compareBranch := cmp.Equal(createBranchObj.ID, getBranchObj.ID)
 	
 	if  compareBranch == false	{
@@ -195,7 +205,7 @@ func TestBranchCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllBranchObj []model.Branch = getAllBranchRequestResult.Data. ([]model.Branch)
+	var getAllBranchObj []model.Branch = getAllBranchRequestResult.Data.([]model.Branch)
 		
 	equalBranch := cmp.Equal(createBranchObj.ID, getAllBranchObj[len(getAllBranchObj)-1].ID)
 		
@@ -278,7 +288,12 @@ func TestATMCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getATMObj,_ := getATMRequestResult.Data (model.ATM)
+	getATMObj, ok := getATMRequestResult.Data.(model.ATM)
+
+    if !ok {
+        t.Fatalf("Expected ATM, got %T", getATMRequestResult.Data)
+    }
+
 	compareATM := cmp.Equal(createATMObj.ID, getATMObj.ID)
 	
 	if  compareATM == false	{
@@ -300,7 +315,7 @@ func TestATMCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllATMObj []model.ATM = getAllATMRequestResult.Data. ([]model.ATM)
+	var getAllATMObj []model.ATM = getAllATMRequestResult.Data.([]model.ATM)
 		
 	equalATM := cmp.Equal(createATMObj.ID, getAllATMObj[len(getAllATMObj)-1].ID)
 		
@@ -391,7 +406,12 @@ func TestCustomerCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getCustomerObj,_ := getCustomerRequestResult.Data (model.Customer)
+	getCustomerObj, ok := getCustomerRequestResult.Data.(model.Customer)
+
+    if !ok {
+        t.Fatalf("Expected Customer, got %T", getCustomerRequestResult.Data)
+    }
+
 	compareCustomer := cmp.Equal(createCustomerObj.ID, getCustomerObj.ID)
 	
 	if  compareCustomer == false	{
@@ -413,7 +433,7 @@ func TestCustomerCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllCustomerObj []model.Customer = getAllCustomerRequestResult.Data. ([]model.Customer)
+	var getAllCustomerObj []model.Customer = getAllCustomerRequestResult.Data.([]model.Customer)
 		
 	equalCustomer := cmp.Equal(createCustomerObj.ID, getAllCustomerObj[len(getAllCustomerObj)-1].ID)
 		
@@ -496,7 +516,12 @@ func TestKycProfileCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getKycProfileObj,_ := getKycProfileRequestResult.Data (model.KycProfile)
+	getKycProfileObj, ok := getKycProfileRequestResult.Data.(model.KycProfile)
+
+    if !ok {
+        t.Fatalf("Expected KycProfile, got %T", getKycProfileRequestResult.Data)
+    }
+
 	compareKycProfile := cmp.Equal(createKycProfileObj.ID, getKycProfileObj.ID)
 	
 	if  compareKycProfile == false	{
@@ -518,7 +543,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllKycProfileObj []model.KycProfile = getAllKycProfileRequestResult.Data. ([]model.KycProfile)
+	var getAllKycProfileObj []model.KycProfile = getAllKycProfileRequestResult.Data.([]model.KycProfile)
 		
 	equalKycProfile := cmp.Equal(createKycProfileObj.ID, getAllKycProfileObj[len(getAllKycProfileObj)-1].ID)
 		
@@ -602,7 +627,12 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getIdentityDocumentObj,_ := getIdentityDocumentRequestResult.Data (model.IdentityDocument)
+	getIdentityDocumentObj, ok := getIdentityDocumentRequestResult.Data.(model.IdentityDocument)
+
+    if !ok {
+        t.Fatalf("Expected IdentityDocument, got %T", getIdentityDocumentRequestResult.Data)
+    }
+
 	compareIdentityDocument := cmp.Equal(createIdentityDocumentObj.ID, getIdentityDocumentObj.ID)
 	
 	if  compareIdentityDocument == false	{
@@ -624,7 +654,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllIdentityDocumentObj []model.IdentityDocument = getAllIdentityDocumentRequestResult.Data. ([]model.IdentityDocument)
+	var getAllIdentityDocumentObj []model.IdentityDocument = getAllIdentityDocumentRequestResult.Data.([]model.IdentityDocument)
 		
 	equalIdentityDocument := cmp.Equal(createIdentityDocumentObj.ID, getAllIdentityDocumentObj[len(getAllIdentityDocumentObj)-1].ID)
 		
@@ -707,7 +737,12 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getRiskAssessmentObj,_ := getRiskAssessmentRequestResult.Data (model.RiskAssessment)
+	getRiskAssessmentObj, ok := getRiskAssessmentRequestResult.Data.(model.RiskAssessment)
+
+    if !ok {
+        t.Fatalf("Expected RiskAssessment, got %T", getRiskAssessmentRequestResult.Data)
+    }
+
 	compareRiskAssessment := cmp.Equal(createRiskAssessmentObj.ID, getRiskAssessmentObj.ID)
 	
 	if  compareRiskAssessment == false	{
@@ -729,7 +764,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllRiskAssessmentObj []model.RiskAssessment = getAllRiskAssessmentRequestResult.Data. ([]model.RiskAssessment)
+	var getAllRiskAssessmentObj []model.RiskAssessment = getAllRiskAssessmentRequestResult.Data.([]model.RiskAssessment)
 		
 	equalRiskAssessment := cmp.Equal(createRiskAssessmentObj.ID, getAllRiskAssessmentObj[len(getAllRiskAssessmentObj)-1].ID)
 		
@@ -812,7 +847,12 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getScreeningResultObj,_ := getScreeningResultRequestResult.Data (model.ScreeningResult)
+	getScreeningResultObj, ok := getScreeningResultRequestResult.Data.(model.ScreeningResult)
+
+    if !ok {
+        t.Fatalf("Expected ScreeningResult, got %T", getScreeningResultRequestResult.Data)
+    }
+
 	compareScreeningResult := cmp.Equal(createScreeningResultObj.ID, getScreeningResultObj.ID)
 	
 	if  compareScreeningResult == false	{
@@ -834,7 +874,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllScreeningResultObj []model.ScreeningResult = getAllScreeningResultRequestResult.Data. ([]model.ScreeningResult)
+	var getAllScreeningResultObj []model.ScreeningResult = getAllScreeningResultRequestResult.Data.([]model.ScreeningResult)
 		
 	equalScreeningResult := cmp.Equal(createScreeningResultObj.ID, getAllScreeningResultObj[len(getAllScreeningResultObj)-1].ID)
 		
@@ -918,7 +958,12 @@ func TestBankingProductCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getBankingProductObj,_ := getBankingProductRequestResult.Data (model.BankingProduct)
+	getBankingProductObj, ok := getBankingProductRequestResult.Data.(model.BankingProduct)
+
+    if !ok {
+        t.Fatalf("Expected BankingProduct, got %T", getBankingProductRequestResult.Data)
+    }
+
 	compareBankingProduct := cmp.Equal(createBankingProductObj.ID, getBankingProductObj.ID)
 	
 	if  compareBankingProduct == false	{
@@ -940,7 +985,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllBankingProductObj []model.BankingProduct = getAllBankingProductRequestResult.Data. ([]model.BankingProduct)
+	var getAllBankingProductObj []model.BankingProduct = getAllBankingProductRequestResult.Data.([]model.BankingProduct)
 		
 	equalBankingProduct := cmp.Equal(createBankingProductObj.ID, getAllBankingProductObj[len(getAllBankingProductObj)-1].ID)
 		
@@ -1029,7 +1074,12 @@ func TestAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getAccountObj,_ := getAccountRequestResult.Data (model.Account)
+	getAccountObj, ok := getAccountRequestResult.Data.(model.Account)
+
+    if !ok {
+        t.Fatalf("Expected Account, got %T", getAccountRequestResult.Data)
+    }
+
 	compareAccount := cmp.Equal(createAccountObj.ID, getAccountObj.ID)
 	
 	if  compareAccount == false	{
@@ -1051,7 +1101,7 @@ func TestAccountCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllAccountObj []model.Account = getAllAccountRequestResult.Data. ([]model.Account)
+	var getAllAccountObj []model.Account = getAllAccountRequestResult.Data.([]model.Account)
 		
 	equalAccount := cmp.Equal(createAccountObj.ID, getAllAccountObj[len(getAllAccountObj)-1].ID)
 		
@@ -1137,7 +1187,12 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getAccountStatementObj,_ := getAccountStatementRequestResult.Data (model.AccountStatement)
+	getAccountStatementObj, ok := getAccountStatementRequestResult.Data.(model.AccountStatement)
+
+    if !ok {
+        t.Fatalf("Expected AccountStatement, got %T", getAccountStatementRequestResult.Data)
+    }
+
 	compareAccountStatement := cmp.Equal(createAccountStatementObj.ID, getAccountStatementObj.ID)
 	
 	if  compareAccountStatement == false	{
@@ -1159,7 +1214,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllAccountStatementObj []model.AccountStatement = getAllAccountStatementRequestResult.Data. ([]model.AccountStatement)
+	var getAllAccountStatementObj []model.AccountStatement = getAllAccountStatementRequestResult.Data.([]model.AccountStatement)
 		
 	equalAccountStatement := cmp.Equal(createAccountStatementObj.ID, getAllAccountStatementObj[len(getAllAccountStatementObj)-1].ID)
 		
@@ -1247,7 +1302,12 @@ func TestTransactionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getTransactionObj,_ := getTransactionRequestResult.Data (model.Transaction)
+	getTransactionObj, ok := getTransactionRequestResult.Data.(model.Transaction)
+
+    if !ok {
+        t.Fatalf("Expected Transaction, got %T", getTransactionRequestResult.Data)
+    }
+
 	compareTransaction := cmp.Equal(createTransactionObj.ID, getTransactionObj.ID)
 	
 	if  compareTransaction == false	{
@@ -1269,7 +1329,7 @@ func TestTransactionCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllTransactionObj []model.Transaction = getAllTransactionRequestResult.Data. ([]model.Transaction)
+	var getAllTransactionObj []model.Transaction = getAllTransactionRequestResult.Data.([]model.Transaction)
 		
 	equalTransaction := cmp.Equal(createTransactionObj.ID, getAllTransactionObj[len(getAllTransactionObj)-1].ID)
 		
@@ -1355,7 +1415,12 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getExternalAccountObj,_ := getExternalAccountRequestResult.Data (model.ExternalAccount)
+	getExternalAccountObj, ok := getExternalAccountRequestResult.Data.(model.ExternalAccount)
+
+    if !ok {
+        t.Fatalf("Expected ExternalAccount, got %T", getExternalAccountRequestResult.Data)
+    }
+
 	compareExternalAccount := cmp.Equal(createExternalAccountObj.ID, getExternalAccountObj.ID)
 	
 	if  compareExternalAccount == false	{
@@ -1377,7 +1442,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllExternalAccountObj []model.ExternalAccount = getAllExternalAccountRequestResult.Data. ([]model.ExternalAccount)
+	var getAllExternalAccountObj []model.ExternalAccount = getAllExternalAccountRequestResult.Data.([]model.ExternalAccount)
 		
 	equalExternalAccount := cmp.Equal(createExternalAccountObj.ID, getAllExternalAccountObj[len(getAllExternalAccountObj)-1].ID)
 		
@@ -1465,7 +1530,12 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getFundsTransferObj,_ := getFundsTransferRequestResult.Data (model.FundsTransfer)
+	getFundsTransferObj, ok := getFundsTransferRequestResult.Data.(model.FundsTransfer)
+
+    if !ok {
+        t.Fatalf("Expected FundsTransfer, got %T", getFundsTransferRequestResult.Data)
+    }
+
 	compareFundsTransfer := cmp.Equal(createFundsTransferObj.ID, getFundsTransferObj.ID)
 	
 	if  compareFundsTransfer == false	{
@@ -1487,7 +1557,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllFundsTransferObj []model.FundsTransfer = getAllFundsTransferRequestResult.Data. ([]model.FundsTransfer)
+	var getAllFundsTransferObj []model.FundsTransfer = getAllFundsTransferRequestResult.Data.([]model.FundsTransfer)
 		
 	equalFundsTransfer := cmp.Equal(createFundsTransferObj.ID, getAllFundsTransferObj[len(getAllFundsTransferObj)-1].ID)
 		
@@ -1572,7 +1642,12 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getStandingInstructionObj,_ := getStandingInstructionRequestResult.Data (model.StandingInstruction)
+	getStandingInstructionObj, ok := getStandingInstructionRequestResult.Data.(model.StandingInstruction)
+
+    if !ok {
+        t.Fatalf("Expected StandingInstruction, got %T", getStandingInstructionRequestResult.Data)
+    }
+
 	compareStandingInstruction := cmp.Equal(createStandingInstructionObj.ID, getStandingInstructionObj.ID)
 	
 	if  compareStandingInstruction == false	{
@@ -1594,7 +1669,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllStandingInstructionObj []model.StandingInstruction = getAllStandingInstructionRequestResult.Data. ([]model.StandingInstruction)
+	var getAllStandingInstructionObj []model.StandingInstruction = getAllStandingInstructionRequestResult.Data.([]model.StandingInstruction)
 		
 	equalStandingInstruction := cmp.Equal(createStandingInstructionObj.ID, getAllStandingInstructionObj[len(getAllStandingInstructionObj)-1].ID)
 		
@@ -1681,7 +1756,12 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getPaymentCardObj,_ := getPaymentCardRequestResult.Data (model.PaymentCard)
+	getPaymentCardObj, ok := getPaymentCardRequestResult.Data.(model.PaymentCard)
+
+    if !ok {
+        t.Fatalf("Expected PaymentCard, got %T", getPaymentCardRequestResult.Data)
+    }
+
 	comparePaymentCard := cmp.Equal(createPaymentCardObj.ID, getPaymentCardObj.ID)
 	
 	if  comparePaymentCard == false	{
@@ -1703,7 +1783,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllPaymentCardObj []model.PaymentCard = getAllPaymentCardRequestResult.Data. ([]model.PaymentCard)
+	var getAllPaymentCardObj []model.PaymentCard = getAllPaymentCardRequestResult.Data.([]model.PaymentCard)
 		
 	equalPaymentCard := cmp.Equal(createPaymentCardObj.ID, getAllPaymentCardObj[len(getAllPaymentCardObj)-1].ID)
 		
@@ -1795,7 +1875,12 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getLoanAccountObj,_ := getLoanAccountRequestResult.Data (model.LoanAccount)
+	getLoanAccountObj, ok := getLoanAccountRequestResult.Data.(model.LoanAccount)
+
+    if !ok {
+        t.Fatalf("Expected LoanAccount, got %T", getLoanAccountRequestResult.Data)
+    }
+
 	compareLoanAccount := cmp.Equal(createLoanAccountObj.ID, getLoanAccountObj.ID)
 	
 	if  compareLoanAccount == false	{
@@ -1817,7 +1902,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllLoanAccountObj []model.LoanAccount = getAllLoanAccountRequestResult.Data. ([]model.LoanAccount)
+	var getAllLoanAccountObj []model.LoanAccount = getAllLoanAccountRequestResult.Data.([]model.LoanAccount)
 		
 	equalLoanAccount := cmp.Equal(createLoanAccountObj.ID, getAllLoanAccountObj[len(getAllLoanAccountObj)-1].ID)
 		
@@ -1903,7 +1988,12 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getRepaymentScheduleObj,_ := getRepaymentScheduleRequestResult.Data (model.RepaymentSchedule)
+	getRepaymentScheduleObj, ok := getRepaymentScheduleRequestResult.Data.(model.RepaymentSchedule)
+
+    if !ok {
+        t.Fatalf("Expected RepaymentSchedule, got %T", getRepaymentScheduleRequestResult.Data)
+    }
+
 	compareRepaymentSchedule := cmp.Equal(createRepaymentScheduleObj.ID, getRepaymentScheduleObj.ID)
 	
 	if  compareRepaymentSchedule == false	{
@@ -1925,7 +2015,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllRepaymentScheduleObj []model.RepaymentSchedule = getAllRepaymentScheduleRequestResult.Data. ([]model.RepaymentSchedule)
+	var getAllRepaymentScheduleObj []model.RepaymentSchedule = getAllRepaymentScheduleRequestResult.Data.([]model.RepaymentSchedule)
 		
 	equalRepaymentSchedule := cmp.Equal(createRepaymentScheduleObj.ID, getAllRepaymentScheduleObj[len(getAllRepaymentScheduleObj)-1].ID)
 		
@@ -2010,7 +2100,12 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getLoanPaymentObj,_ := getLoanPaymentRequestResult.Data (model.LoanPayment)
+	getLoanPaymentObj, ok := getLoanPaymentRequestResult.Data.(model.LoanPayment)
+
+    if !ok {
+        t.Fatalf("Expected LoanPayment, got %T", getLoanPaymentRequestResult.Data)
+    }
+
 	compareLoanPayment := cmp.Equal(createLoanPaymentObj.ID, getLoanPaymentObj.ID)
 	
 	if  compareLoanPayment == false	{
@@ -2032,7 +2127,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllLoanPaymentObj []model.LoanPayment = getAllLoanPaymentRequestResult.Data. ([]model.LoanPayment)
+	var getAllLoanPaymentObj []model.LoanPayment = getAllLoanPaymentRequestResult.Data.([]model.LoanPayment)
 		
 	equalLoanPayment := cmp.Equal(createLoanPaymentObj.ID, getAllLoanPaymentObj[len(getAllLoanPaymentObj)-1].ID)
 		
@@ -2117,7 +2212,12 @@ func TestCollateralCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getCollateralObj,_ := getCollateralRequestResult.Data (model.Collateral)
+	getCollateralObj, ok := getCollateralRequestResult.Data.(model.Collateral)
+
+    if !ok {
+        t.Fatalf("Expected Collateral, got %T", getCollateralRequestResult.Data)
+    }
+
 	compareCollateral := cmp.Equal(createCollateralObj.ID, getCollateralObj.ID)
 	
 	if  compareCollateral == false	{
@@ -2139,7 +2239,7 @@ func TestCollateralCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllCollateralObj []model.Collateral = getAllCollateralRequestResult.Data. ([]model.Collateral)
+	var getAllCollateralObj []model.Collateral = getAllCollateralRequestResult.Data.([]model.Collateral)
 		
 	equalCollateral := cmp.Equal(createCollateralObj.ID, getAllCollateralObj[len(getAllCollateralObj)-1].ID)
 		
@@ -2223,7 +2323,12 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getFeeChargeObj,_ := getFeeChargeRequestResult.Data (model.FeeCharge)
+	getFeeChargeObj, ok := getFeeChargeRequestResult.Data.(model.FeeCharge)
+
+    if !ok {
+        t.Fatalf("Expected FeeCharge, got %T", getFeeChargeRequestResult.Data)
+    }
+
 	compareFeeCharge := cmp.Equal(createFeeChargeObj.ID, getFeeChargeObj.ID)
 	
 	if  compareFeeCharge == false	{
@@ -2245,7 +2350,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllFeeChargeObj []model.FeeCharge = getAllFeeChargeRequestResult.Data. ([]model.FeeCharge)
+	var getAllFeeChargeObj []model.FeeCharge = getAllFeeChargeRequestResult.Data.([]model.FeeCharge)
 		
 	equalFeeCharge := cmp.Equal(createFeeChargeObj.ID, getAllFeeChargeObj[len(getAllFeeChargeObj)-1].ID)
 		
@@ -2330,7 +2435,12 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getExchangeRateObj,_ := getExchangeRateRequestResult.Data (model.ExchangeRate)
+	getExchangeRateObj, ok := getExchangeRateRequestResult.Data.(model.ExchangeRate)
+
+    if !ok {
+        t.Fatalf("Expected ExchangeRate, got %T", getExchangeRateRequestResult.Data)
+    }
+
 	compareExchangeRate := cmp.Equal(createExchangeRateObj.ID, getExchangeRateObj.ID)
 	
 	if  compareExchangeRate == false	{
@@ -2352,7 +2462,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllExchangeRateObj []model.ExchangeRate = getAllExchangeRateRequestResult.Data. ([]model.ExchangeRate)
+	var getAllExchangeRateObj []model.ExchangeRate = getAllExchangeRateRequestResult.Data.([]model.ExchangeRate)
 		
 	equalExchangeRate := cmp.Equal(createExchangeRateObj.ID, getAllExchangeRateObj[len(getAllExchangeRateObj)-1].ID)
 		
@@ -2439,7 +2549,12 @@ func TestFXTradeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getFXTradeObj,_ := getFXTradeRequestResult.Data (model.FXTrade)
+	getFXTradeObj, ok := getFXTradeRequestResult.Data.(model.FXTrade)
+
+    if !ok {
+        t.Fatalf("Expected FXTrade, got %T", getFXTradeRequestResult.Data)
+    }
+
 	compareFXTrade := cmp.Equal(createFXTradeObj.ID, getFXTradeObj.ID)
 	
 	if  compareFXTrade == false	{
@@ -2461,7 +2576,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllFXTradeObj []model.FXTrade = getAllFXTradeRequestResult.Data. ([]model.FXTrade)
+	var getAllFXTradeObj []model.FXTrade = getAllFXTradeRequestResult.Data.([]model.FXTrade)
 		
 	equalFXTrade := cmp.Equal(createFXTradeObj.ID, getAllFXTradeObj[len(getAllFXTradeObj)-1].ID)
 		
@@ -2545,7 +2660,12 @@ func TestDisputeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getDisputeObj,_ := getDisputeRequestResult.Data (model.Dispute)
+	getDisputeObj, ok := getDisputeRequestResult.Data.(model.Dispute)
+
+    if !ok {
+        t.Fatalf("Expected Dispute, got %T", getDisputeRequestResult.Data)
+    }
+
 	compareDispute := cmp.Equal(createDisputeObj.ID, getDisputeObj.ID)
 	
 	if  compareDispute == false	{
@@ -2567,7 +2687,7 @@ func TestDisputeCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllDisputeObj []model.Dispute = getAllDisputeRequestResult.Data. ([]model.Dispute)
+	var getAllDisputeObj []model.Dispute = getAllDisputeRequestResult.Data.([]model.Dispute)
 		
 	equalDispute := cmp.Equal(createDisputeObj.ID, getAllDisputeObj[len(getAllDisputeObj)-1].ID)
 		
@@ -2651,7 +2771,12 @@ func TestConsentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getConsentObj,_ := getConsentRequestResult.Data (model.Consent)
+	getConsentObj, ok := getConsentRequestResult.Data.(model.Consent)
+
+    if !ok {
+        t.Fatalf("Expected Consent, got %T", getConsentRequestResult.Data)
+    }
+
 	compareConsent := cmp.Equal(createConsentObj.ID, getConsentObj.ID)
 	
 	if  compareConsent == false	{
@@ -2673,7 +2798,7 @@ func TestConsentCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllConsentObj []model.Consent = getAllConsentRequestResult.Data. ([]model.Consent)
+	var getAllConsentObj []model.Consent = getAllConsentRequestResult.Data.([]model.Consent)
 		
 	equalConsent := cmp.Equal(createConsentObj.ID, getAllConsentObj[len(getAllConsentObj)-1].ID)
 		
@@ -2756,7 +2881,12 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check returned struct from Get equals original created obj
 	// --------------------------------------------------------------	
-	getThirdPartyProviderObj,_ := getThirdPartyProviderRequestResult.Data (model.ThirdPartyProvider)
+	getThirdPartyProviderObj, ok := getThirdPartyProviderRequestResult.Data.(model.ThirdPartyProvider)
+
+    if !ok {
+        t.Fatalf("Expected ThirdPartyProvider, got %T", getThirdPartyProviderRequestResult.Data)
+    }
+
 	compareThirdPartyProvider := cmp.Equal(createThirdPartyProviderObj.ID, getThirdPartyProviderObj.ID)
 	
 	if  compareThirdPartyProvider == false	{
@@ -2778,7 +2908,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// Check GetAll returns an array with zero index equal 
 	// to initially created object
 	// --------------------------------------------------------------		
-	var getAllThirdPartyProviderObj []model.ThirdPartyProvider = getAllThirdPartyProviderRequestResult.Data. ([]model.ThirdPartyProvider)
+	var getAllThirdPartyProviderObj []model.ThirdPartyProvider = getAllThirdPartyProviderRequestResult.Data.([]model.ThirdPartyProvider)
 		
 	equalThirdPartyProvider := cmp.Equal(createThirdPartyProviderObj.ID, getAllThirdPartyProviderObj[len(getAllThirdPartyProviderObj)-1].ID)
 		
