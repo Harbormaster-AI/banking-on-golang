@@ -130,8 +130,8 @@ func UpdateExchangeRate(obj model.ExchangeRate)(requestResult utils.RequestResul
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateExchangeRate",
+        Msg: updateMsg,
+        Call:  "UpdateExchangeRate",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteExchangeRate(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteExchangeRate",
+            Msg: deleteMsg,
+            Call:  "DeleteExchangeRate",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignBankToExchangeRate( exchangeRateId uuid.UUID, bankId uuid.UUID )(util
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -319,8 +319,8 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignFxTrades",
+                    Msg: msg,
+                    Call:  "unassignFxTrades",
                     Data:    childObj,
                 }
 				return requestResult
@@ -375,8 +375,8 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeFxTrades",
+                                    Msg: msg,
+                                    Call:  "removeFxTrades",
                                     Data:    childObj,
                                 }
 				return requestResult

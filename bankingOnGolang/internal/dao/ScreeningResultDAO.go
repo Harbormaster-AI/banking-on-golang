@@ -130,8 +130,8 @@ func UpdateScreeningResult(obj model.ScreeningResult)(requestResult utils.Reques
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateScreeningResult",
+        Msg: updateMsg,
+        Call:  "UpdateScreeningResult",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteScreeningResult(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteScreeningResult",
+            Msg: deleteMsg,
+            Call:  "DeleteScreeningResult",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignKycProfileToScreeningResult( screeningResultId uuid.UUID, kycProfileI
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignKycProfile",
+                Msg: msg,
+                Call:  "assignKycProfile",
                 Data:    childObj,
             }
             return requestResult;

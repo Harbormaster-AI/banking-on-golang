@@ -130,8 +130,8 @@ func UpdateFXTrade(obj model.FXTrade)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateFXTrade",
+        Msg: updateMsg,
+        Call:  "UpdateFXTrade",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteFXTrade(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteFXTrade",
+            Msg: deleteMsg,
+            Call:  "DeleteFXTrade",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignCustomerToFXTrade( fXTradeId uuid.UUID, customerId uuid.UUID )(utils.
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignCustomer",
+                Msg: msg,
+                Call:  "assignCustomer",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignBankToFXTrade( fXTradeId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -413,8 +413,8 @@ func AssignExchangeRateToFXTrade( fXTradeId uuid.UUID, exchangeRateId uuid.UUID 
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignExchangeRate",
+                Msg: msg,
+                Call:  "assignExchangeRate",
                 Data:    childObj,
             }
             return requestResult;
@@ -505,8 +505,8 @@ func AssignSourceAccountToFXTrade( fXTradeId uuid.UUID, sourceAccountId uuid.UUI
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignSourceAccount",
+                Msg: msg,
+                Call:  "assignSourceAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -597,8 +597,8 @@ func AssignDestinationAccountToFXTrade( fXTradeId uuid.UUID, destinationAccountI
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignDestinationAccount",
+                Msg: msg,
+                Call:  "assignDestinationAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -689,8 +689,8 @@ func AssignTransactionToFXTrade( fXTradeId uuid.UUID, transactionId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignTransaction",
+                Msg: msg,
+                Call:  "assignTransaction",
                 Data:    childObj,
             }
             return requestResult;

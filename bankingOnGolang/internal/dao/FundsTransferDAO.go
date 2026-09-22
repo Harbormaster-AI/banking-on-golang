@@ -130,8 +130,8 @@ func UpdateFundsTransfer(obj model.FundsTransfer)(requestResult utils.RequestRes
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateFundsTransfer",
+        Msg: updateMsg,
+        Call:  "UpdateFundsTransfer",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteFundsTransfer(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteFundsTransfer",
+            Msg: deleteMsg,
+            Call:  "DeleteFundsTransfer",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignSourceAccountToFundsTransfer( fundsTransferId uuid.UUID, sourceAccoun
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignSourceAccount",
+                Msg: msg,
+                Call:  "assignSourceAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignDestinationAccountToFundsTransfer( fundsTransferId uuid.UUID, destina
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignDestinationAccount",
+                Msg: msg,
+                Call:  "assignDestinationAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -413,8 +413,8 @@ func AssignExternalBeneficiaryToFundsTransfer( fundsTransferId uuid.UUID, extern
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignExternalBeneficiary",
+                Msg: msg,
+                Call:  "assignExternalBeneficiary",
                 Data:    childObj,
             }
             return requestResult;
@@ -505,8 +505,8 @@ func AssignInitiatedByToFundsTransfer( fundsTransferId uuid.UUID, initiatedById 
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignInitiatedBy",
+                Msg: msg,
+                Call:  "assignInitiatedBy",
                 Data:    childObj,
             }
             return requestResult;
@@ -595,8 +595,8 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignTransactions",
+                    Msg: msg,
+                    Call:  "unassignTransactions",
                     Data:    childObj,
                 }
 				return requestResult
@@ -651,8 +651,8 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeTransactions",
+                                    Msg: msg,
+                                    Call:  "removeTransactions",
                                     Data:    childObj,
                                 }
 				return requestResult

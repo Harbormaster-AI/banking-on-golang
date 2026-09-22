@@ -130,8 +130,8 @@ func UpdateRepaymentSchedule(obj model.RepaymentSchedule)(requestResult utils.Re
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateRepaymentSchedule",
+        Msg: updateMsg,
+        Call:  "UpdateRepaymentSchedule",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteRepaymentSchedule(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteRepaymentSchedule",
+            Msg: deleteMsg,
+            Call:  "DeleteRepaymentSchedule",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignLoanAccountToRepaymentSchedule( repaymentScheduleId uuid.UUID, loanAc
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignLoanAccount",
+                Msg: msg,
+                Call:  "assignLoanAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignPaymentToRepaymentSchedule( repaymentScheduleId uuid.UUID, paymentId 
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignPayment",
+                Msg: msg,
+                Call:  "assignPayment",
                 Data:    childObj,
             }
             return requestResult;

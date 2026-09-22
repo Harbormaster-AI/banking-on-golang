@@ -130,8 +130,8 @@ func UpdateBankingProduct(obj model.BankingProduct)(requestResult utils.RequestR
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateBankingProduct",
+        Msg: updateMsg,
+        Call:  "UpdateBankingProduct",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteBankingProduct(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteBankingProduct",
+            Msg: deleteMsg,
+            Call:  "DeleteBankingProduct",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignBankToBankingProduct( bankingProductId uuid.UUID, bankId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -319,8 +319,8 @@ func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds []uui
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignAccounts",
+                    Msg: msg,
+                    Call:  "unassignAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -375,8 +375,8 @@ func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds [
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeAccounts",
+                                    Msg: msg,
+                                    Call:  "removeAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -433,8 +433,8 @@ func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsI
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignLoanAccounts",
+                    Msg: msg,
+                    Call:  "unassignLoanAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -489,8 +489,8 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccou
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeLoanAccounts",
+                                    Msg: msg,
+                                    Call:  "removeLoanAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -547,8 +547,8 @@ func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsI
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignPaymentCards",
+                    Msg: msg,
+                    Call:  "unassignPaymentCards",
                     Data:    childObj,
                 }
 				return requestResult
@@ -603,8 +603,8 @@ func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCa
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCards", paymentCardsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removePaymentCards",
+                                    Msg: msg,
+                                    Call:  "removePaymentCards",
                                     Data:    childObj,
                                 }
 				return requestResult

@@ -130,8 +130,8 @@ func UpdateIdentityDocument(obj model.IdentityDocument)(requestResult utils.Requ
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateIdentityDocument",
+        Msg: updateMsg,
+        Call:  "UpdateIdentityDocument",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteIdentityDocument(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteIdentityDocument",
+            Msg: deleteMsg,
+            Call:  "DeleteIdentityDocument",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignKycProfileToIdentityDocument( identityDocumentId uuid.UUID, kycProfil
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignKycProfile",
+                Msg: msg,
+                Call:  "assignKycProfile",
                 Data:    childObj,
             }
             return requestResult;

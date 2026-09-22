@@ -130,8 +130,8 @@ func UpdateThirdPartyProvider(obj model.ThirdPartyProvider)(requestResult utils.
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateThirdPartyProvider",
+        Msg: updateMsg,
+        Call:  "UpdateThirdPartyProvider",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteThirdPartyProvider(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteThirdPartyProvider",
+            Msg: deleteMsg,
+            Call:  "DeleteThirdPartyProvider",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignBankToThirdPartyProvider( thirdPartyProviderId uuid.UUID, bankId uuid
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -319,8 +319,8 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignConsents",
+                    Msg: msg,
+                    Call:  "unassignConsents",
                     Data:    childObj,
                 }
 				return requestResult
@@ -375,8 +375,8 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeConsents",
+                                    Msg: msg,
+                                    Call:  "removeConsents",
                                     Data:    childObj,
                                 }
 				return requestResult

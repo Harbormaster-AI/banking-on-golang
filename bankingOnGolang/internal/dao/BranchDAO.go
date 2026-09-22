@@ -130,8 +130,8 @@ func UpdateBranch(obj model.Branch)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateBranch",
+        Msg: updateMsg,
+        Call:  "UpdateBranch",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteBranch(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteBranch",
+            Msg: deleteMsg,
+            Call:  "DeleteBranch",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignBankToBranch( branchId uuid.UUID, bankId uuid.UUID )(utils.RequestRes
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -319,8 +319,8 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignAccounts",
+                    Msg: msg,
+                    Call:  "unassignAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -375,8 +375,8 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(uti
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeAccounts",
+                                    Msg: msg,
+                                    Call:  "removeAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -433,8 +433,8 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignLoanAccounts",
+                    Msg: msg,
+                    Call:  "unassignLoanAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -489,8 +489,8 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UU
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeLoanAccounts",
+                                    Msg: msg,
+                                    Call:  "removeLoanAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -547,8 +547,8 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestRe
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignAtms",
+                    Msg: msg,
+                    Call:  "unassignAtms",
                     Data:    childObj,
                 }
 				return requestResult
@@ -603,8 +603,8 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.Reque
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeAtms",
+                                    Msg: msg,
+                                    Call:  "removeAtms",
                                     Data:    childObj,
                                 }
 				return requestResult

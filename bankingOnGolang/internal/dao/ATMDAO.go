@@ -130,8 +130,8 @@ func UpdateATM(obj model.ATM)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateATM",
+        Msg: updateMsg,
+        Call:  "UpdateATM",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteATM(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteATM",
+            Msg: deleteMsg,
+            Call:  "DeleteATM",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignBranchToATM( aTMId uuid.UUID, branchId uuid.UUID )(utils.RequestResul
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBranch",
+                Msg: msg,
+                Call:  "assignBranch",
                 Data:    childObj,
             }
             return requestResult;

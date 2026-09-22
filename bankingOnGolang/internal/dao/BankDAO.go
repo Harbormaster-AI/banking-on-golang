@@ -130,8 +130,8 @@ func UpdateBank(obj model.Bank)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateBank",
+        Msg: updateMsg,
+        Call:  "UpdateBank",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteBank(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteBank",
+            Msg: deleteMsg,
+            Call:  "DeleteBank",
             Data:    requestResult.Data,
         }
 
@@ -227,8 +227,8 @@ func AddBranchesToBank ( bankId uuid.UUID, branchesIds []uuid.UUID )(utils.Reque
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignBranches",
+                    Msg: msg,
+                    Call:  "unassignBranches",
                     Data:    childObj,
                 }
 				return requestResult
@@ -283,8 +283,8 @@ func RemoveBranchesFromBank( bankId uuid.UUID, branchesIds []uuid.UUID )(utils.R
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Branches", branchesId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeBranches",
+                                    Msg: msg,
+                                    Call:  "removeBranches",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -341,8 +341,8 @@ func AddProductsToBank ( bankId uuid.UUID, productsIds []uuid.UUID )(utils.Reque
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignProducts",
+                    Msg: msg,
+                    Call:  "unassignProducts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -397,8 +397,8 @@ func RemoveProductsFromBank( bankId uuid.UUID, productsIds []uuid.UUID )(utils.R
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Products", productsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeProducts",
+                                    Msg: msg,
+                                    Call:  "removeProducts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -455,8 +455,8 @@ func AddCustomersToBank ( bankId uuid.UUID, customersIds []uuid.UUID )(utils.Req
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignCustomers",
+                    Msg: msg,
+                    Call:  "unassignCustomers",
                     Data:    childObj,
                 }
 				return requestResult
@@ -511,8 +511,8 @@ func RemoveCustomersFromBank( bankId uuid.UUID, customersIds []uuid.UUID )(utils
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customers", customersId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeCustomers",
+                                    Msg: msg,
+                                    Call:  "removeCustomers",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -569,8 +569,8 @@ func AddAccountsToBank ( bankId uuid.UUID, accountsIds []uuid.UUID )(utils.Reque
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignAccounts",
+                    Msg: msg,
+                    Call:  "unassignAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -625,8 +625,8 @@ func RemoveAccountsFromBank( bankId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeAccounts",
+                                    Msg: msg,
+                                    Call:  "removeAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -683,8 +683,8 @@ func AddPaymentCardsToBank ( bankId uuid.UUID, paymentCardsIds []uuid.UUID )(uti
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignPaymentCards",
+                    Msg: msg,
+                    Call:  "unassignPaymentCards",
                     Data:    childObj,
                 }
 				return requestResult
@@ -739,8 +739,8 @@ func RemovePaymentCardsFromBank( bankId uuid.UUID, paymentCardsIds []uuid.UUID )
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCards", paymentCardsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removePaymentCards",
+                                    Msg: msg,
+                                    Call:  "removePaymentCards",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -797,8 +797,8 @@ func AddLoanAccountsToBank ( bankId uuid.UUID, loanAccountsIds []uuid.UUID )(uti
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignLoanAccounts",
+                    Msg: msg,
+                    Call:  "unassignLoanAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -853,8 +853,8 @@ func RemoveLoanAccountsFromBank( bankId uuid.UUID, loanAccountsIds []uuid.UUID )
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeLoanAccounts",
+                                    Msg: msg,
+                                    Call:  "removeLoanAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -911,8 +911,8 @@ func AddExchangeRatesToBank ( bankId uuid.UUID, exchangeRatesIds []uuid.UUID )(u
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignExchangeRates",
+                    Msg: msg,
+                    Call:  "unassignExchangeRates",
                     Data:    childObj,
                 }
 				return requestResult
@@ -967,8 +967,8 @@ func RemoveExchangeRatesFromBank( bankId uuid.UUID, exchangeRatesIds []uuid.UUID
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ExchangeRates", exchangeRatesId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeExchangeRates",
+                                    Msg: msg,
+                                    Call:  "removeExchangeRates",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -1025,8 +1025,8 @@ func AddConsentsToBank ( bankId uuid.UUID, consentsIds []uuid.UUID )(utils.Reque
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignConsents",
+                    Msg: msg,
+                    Call:  "unassignConsents",
                     Data:    childObj,
                 }
 				return requestResult
@@ -1081,8 +1081,8 @@ func RemoveConsentsFromBank( bankId uuid.UUID, consentsIds []uuid.UUID )(utils.R
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeConsents",
+                                    Msg: msg,
+                                    Call:  "removeConsents",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -1139,8 +1139,8 @@ func AddThirdPartyProvidersToBank ( bankId uuid.UUID, thirdPartyProvidersIds []u
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignThirdPartyProviders",
+                    Msg: msg,
+                    Call:  "unassignThirdPartyProviders",
                     Data:    childObj,
                 }
 				return requestResult
@@ -1195,8 +1195,8 @@ func RemoveThirdPartyProvidersFromBank( bankId uuid.UUID, thirdPartyProvidersIds
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ThirdPartyProviders", thirdPartyProvidersId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeThirdPartyProviders",
+                                    Msg: msg,
+                                    Call:  "removeThirdPartyProviders",
                                     Data:    childObj,
                                 }
 				return requestResult

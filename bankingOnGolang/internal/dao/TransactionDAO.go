@@ -130,8 +130,8 @@ func UpdateTransaction(obj model.Transaction)(requestResult utils.RequestResult)
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateTransaction",
+        Msg: updateMsg,
+        Call:  "UpdateTransaction",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteTransaction(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteTransaction",
+            Msg: deleteMsg,
+            Call:  "DeleteTransaction",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignAccountToTransaction( transactionId uuid.UUID, accountId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignAccount",
+                Msg: msg,
+                Call:  "assignAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignExternalCounterpartyToTransaction( transactionId uuid.UUID, externalC
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignExternalCounterparty",
+                Msg: msg,
+                Call:  "assignExternalCounterparty",
                 Data:    childObj,
             }
             return requestResult;
@@ -413,8 +413,8 @@ func AssignPaymentCardToTransaction( transactionId uuid.UUID, paymentCardId uuid
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignPaymentCard",
+                Msg: msg,
+                Call:  "assignPaymentCard",
                 Data:    childObj,
             }
             return requestResult;
@@ -505,8 +505,8 @@ func AssignFundsTransferToTransaction( transactionId uuid.UUID, fundsTransferId 
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignFundsTransfer",
+                Msg: msg,
+                Call:  "assignFundsTransfer",
                 Data:    childObj,
             }
             return requestResult;
@@ -597,8 +597,8 @@ func AssignFxTradeToTransaction( transactionId uuid.UUID, fxTradeId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignFxTrade",
+                Msg: msg,
+                Call:  "assignFxTrade",
                 Data:    childObj,
             }
             return requestResult;
@@ -689,8 +689,8 @@ func AssignDisputeToTransaction( transactionId uuid.UUID, disputeId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignDispute",
+                Msg: msg,
+                Call:  "assignDispute",
                 Data:    childObj,
             }
             return requestResult;

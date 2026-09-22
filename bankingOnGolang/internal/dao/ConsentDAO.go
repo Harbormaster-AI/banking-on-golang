@@ -130,8 +130,8 @@ func UpdateConsent(obj model.Consent)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateConsent",
+        Msg: updateMsg,
+        Call:  "UpdateConsent",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteConsent(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteConsent",
+            Msg: deleteMsg,
+            Call:  "DeleteConsent",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignCustomerToConsent( consentId uuid.UUID, customerId uuid.UUID )(utils.
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignCustomer",
+                Msg: msg,
+                Call:  "assignCustomer",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignBankToConsent( consentId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -413,8 +413,8 @@ func AssignThirdPartyProviderToConsent( consentId uuid.UUID, thirdPartyProviderI
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignThirdPartyProvider",
+                Msg: msg,
+                Call:  "assignThirdPartyProvider",
                 Data:    childObj,
             }
             return requestResult;
@@ -503,8 +503,8 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignAuthorizedAccounts",
+                    Msg: msg,
+                    Call:  "unassignAuthorizedAccounts",
                     Data:    childObj,
                 }
 				return requestResult
@@ -559,8 +559,8 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeAuthorizedAccounts",
+                                    Msg: msg,
+                                    Call:  "removeAuthorizedAccounts",
                                     Data:    childObj,
                                 }
 				return requestResult

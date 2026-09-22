@@ -130,8 +130,8 @@ func UpdateFeeCharge(obj model.FeeCharge)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateFeeCharge",
+        Msg: updateMsg,
+        Call:  "UpdateFeeCharge",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteFeeCharge(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteFeeCharge",
+            Msg: deleteMsg,
+            Call:  "DeleteFeeCharge",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignAccountToFeeCharge( feeChargeId uuid.UUID, accountId uuid.UUID )(util
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignAccount",
+                Msg: msg,
+                Call:  "assignAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignLoanAccountToFeeCharge( feeChargeId uuid.UUID, loanAccountId uuid.UUI
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignLoanAccount",
+                Msg: msg,
+                Call:  "assignLoanAccount",
                 Data:    childObj,
             }
             return requestResult;

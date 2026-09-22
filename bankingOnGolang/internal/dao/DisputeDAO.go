@@ -130,8 +130,8 @@ func UpdateDispute(obj model.Dispute)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateDispute",
+        Msg: updateMsg,
+        Call:  "UpdateDispute",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteDispute(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteDispute",
+            Msg: deleteMsg,
+            Call:  "DeleteDispute",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignTransactionToDispute( disputeId uuid.UUID, transactionId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignTransaction",
+                Msg: msg,
+                Call:  "assignTransaction",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignCustomerToDispute( disputeId uuid.UUID, customerId uuid.UUID )(utils.
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignCustomer",
+                Msg: msg,
+                Call:  "assignCustomer",
                 Data:    childObj,
             }
             return requestResult;
@@ -413,8 +413,8 @@ func AssignAccountToDispute( disputeId uuid.UUID, accountId uuid.UUID )(utils.Re
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignAccount",
+                Msg: msg,
+                Call:  "assignAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -505,8 +505,8 @@ func AssignPaymentCardToDispute( disputeId uuid.UUID, paymentCardId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignPaymentCard",
+                Msg: msg,
+                Call:  "assignPaymentCard",
                 Data:    childObj,
             }
             return requestResult;

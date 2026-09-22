@@ -130,8 +130,8 @@ func UpdatePaymentCard(obj model.PaymentCard)(requestResult utils.RequestResult)
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdatePaymentCard",
+        Msg: updateMsg,
+        Call:  "UpdatePaymentCard",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeletePaymentCard(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeletePaymentCard",
+            Msg: deleteMsg,
+            Call:  "DeletePaymentCard",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignBankToPaymentCard( paymentCardId uuid.UUID, bankId uuid.UUID )(utils.
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBank",
+                Msg: msg,
+                Call:  "assignBank",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignAccountToPaymentCard( paymentCardId uuid.UUID, accountId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignAccount",
+                Msg: msg,
+                Call:  "assignAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -413,8 +413,8 @@ func AssignCustomerToPaymentCard( paymentCardId uuid.UUID, customerId uuid.UUID 
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignCustomer",
+                Msg: msg,
+                Call:  "assignCustomer",
                 Data:    childObj,
             }
             return requestResult;
@@ -503,8 +503,8 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignTransactions",
+                    Msg: msg,
+                    Call:  "unassignTransactions",
                     Data:    childObj,
                 }
 				return requestResult
@@ -559,8 +559,8 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeTransactions",
+                                    Msg: msg,
+                                    Call:  "removeTransactions",
                                     Data:    childObj,
                                 }
 				return requestResult

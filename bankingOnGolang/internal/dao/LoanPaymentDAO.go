@@ -130,8 +130,8 @@ func UpdateLoanPayment(obj model.LoanPayment)(requestResult utils.RequestResult)
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateLoanPayment",
+        Msg: updateMsg,
+        Call:  "UpdateLoanPayment",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteLoanPayment(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteLoanPayment",
+            Msg: deleteMsg,
+            Call:  "DeleteLoanPayment",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignLoanAccountToLoanPayment( loanPaymentId uuid.UUID, loanAccountId uuid
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignLoanAccount",
+                Msg: msg,
+                Call:  "assignLoanAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignTransactionToLoanPayment( loanPaymentId uuid.UUID, transactionId uuid
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignTransaction",
+                Msg: msg,
+                Call:  "assignTransaction",
                 Data:    childObj,
             }
             return requestResult;

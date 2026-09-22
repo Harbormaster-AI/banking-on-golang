@@ -130,8 +130,8 @@ func UpdateAccountStatement(obj model.AccountStatement)(requestResult utils.Requ
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateAccountStatement",
+        Msg: updateMsg,
+        Call:  "UpdateAccountStatement",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteAccountStatement(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteAccountStatement",
+            Msg: deleteMsg,
+            Call:  "DeleteAccountStatement",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignAccountToAccountStatement( accountStatementId uuid.UUID, accountId uu
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignAccount",
+                Msg: msg,
+                Call:  "assignAccount",
                 Data:    childObj,
             }
             return requestResult;

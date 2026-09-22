@@ -130,8 +130,8 @@ func UpdateCollateral(obj model.Collateral)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateCollateral",
+        Msg: updateMsg,
+        Call:  "UpdateCollateral",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteCollateral(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteCollateral",
+            Msg: deleteMsg,
+            Call:  "DeleteCollateral",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignLoanAccountToCollateral( collateralId uuid.UUID, loanAccountId uuid.U
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignLoanAccount",
+                Msg: msg,
+                Call:  "assignLoanAccount",
                 Data:    childObj,
             }
             return requestResult;

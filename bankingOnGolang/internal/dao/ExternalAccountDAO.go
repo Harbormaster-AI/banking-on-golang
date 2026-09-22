@@ -130,8 +130,8 @@ func UpdateExternalAccount(obj model.ExternalAccount)(requestResult utils.Reques
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateExternalAccount",
+        Msg: updateMsg,
+        Call:  "UpdateExternalAccount",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteExternalAccount(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteExternalAccount",
+            Msg: deleteMsg,
+            Call:  "DeleteExternalAccount",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignCustomerToExternalAccount( externalAccountId uuid.UUID, customerId uu
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignCustomer",
+                Msg: msg,
+                Call:  "assignCustomer",
                 Data:    childObj,
             }
             return requestResult;
@@ -319,8 +319,8 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignTransactions",
+                    Msg: msg,
+                    Call:  "unassignTransactions",
                     Data:    childObj,
                 }
 				return requestResult
@@ -375,8 +375,8 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeTransactions",
+                                    Msg: msg,
+                                    Call:  "removeTransactions",
                                     Data:    childObj,
                                 }
 				return requestResult

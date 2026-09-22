@@ -130,8 +130,8 @@ func UpdateStandingInstruction(obj model.StandingInstruction)(requestResult util
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateStandingInstruction",
+        Msg: updateMsg,
+        Call:  "UpdateStandingInstruction",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteStandingInstruction(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteStandingInstruction",
+            Msg: deleteMsg,
+            Call:  "DeleteStandingInstruction",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignAccountToStandingInstruction( standingInstructionId uuid.UUID, accoun
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignAccount",
+                Msg: msg,
+                Call:  "assignAccount",
                 Data:    childObj,
             }
             return requestResult;
@@ -321,8 +321,8 @@ func AssignBeneficiaryToStandingInstruction( standingInstructionId uuid.UUID, be
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignBeneficiary",
+                Msg: msg,
+                Call:  "assignBeneficiary",
                 Data:    childObj,
             }
             return requestResult;

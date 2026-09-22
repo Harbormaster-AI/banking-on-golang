@@ -130,8 +130,8 @@ func UpdateKycProfile(obj model.KycProfile)(requestResult utils.RequestResult){
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateKycProfile",
+        Msg: updateMsg,
+        Call:  "UpdateKycProfile",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteKycProfile(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteKycProfile",
+            Msg: deleteMsg,
+            Call:  "DeleteKycProfile",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignCustomerToKycProfile( kycProfileId uuid.UUID, customerId uuid.UUID )(
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignCustomer",
+                Msg: msg,
+                Call:  "assignCustomer",
                 Data:    childObj,
             }
             return requestResult;
@@ -319,8 +319,8 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignIdentityDocuments",
+                    Msg: msg,
+                    Call:  "unassignIdentityDocuments",
                     Data:    childObj,
                 }
 				return requestResult
@@ -375,8 +375,8 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeIdentityDocuments",
+                                    Msg: msg,
+                                    Call:  "removeIdentityDocuments",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -433,8 +433,8 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignRiskAssessments",
+                    Msg: msg,
+                    Call:  "unassignRiskAssessments",
                     Data:    childObj,
                 }
 				return requestResult
@@ -489,8 +489,8 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeRiskAssessments",
+                                    Msg: msg,
+                                    Call:  "removeRiskAssessments",
                                     Data:    childObj,
                                 }
 				return requestResult
@@ -547,8 +547,8 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 
                 requestResult = utils.RequestResult{
                     Success: false,
-                    Message: msg,
-                    Action:  "unassignScreenings",
+                    Msg: msg,
+                    Call:  "unassignScreenings",
                     Data:    childObj,
                 }
 				return requestResult
@@ -603,8 +603,8 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
                 requestResult = utils.RequestResult{
                                     Success: false,
-                                    Message: msg,
-                                    Action:  "removeScreenings",
+                                    Msg: msg,
+                                    Call:  "removeScreenings",
                                     Data:    childObj,
                                 }
 				return requestResult

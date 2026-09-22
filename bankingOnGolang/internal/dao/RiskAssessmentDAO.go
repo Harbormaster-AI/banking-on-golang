@@ -130,8 +130,8 @@ func UpdateRiskAssessment(obj model.RiskAssessment)(requestResult utils.RequestR
 
 	requestResult = utils.RequestResult{
         Success: success,
-        Message: updateMsg,
-        Action:  "UpdateRiskAssessment",
+        Msg: updateMsg,
+        Call:  "UpdateRiskAssessment",
         Data:    obj,
     }
 
@@ -175,8 +175,8 @@ func DeleteRiskAssessment(id uuid.UUID)(requestResult utils.RequestResult){
 
         requestResult = utils.RequestResult{
             Success: success,
-            Message: deleteMsg,
-            Action:  "DeleteRiskAssessment",
+            Msg: deleteMsg,
+            Call:  "DeleteRiskAssessment",
             Data:    requestResult.Data,
         }
 
@@ -229,8 +229,8 @@ func AssignKycProfileToRiskAssessment( riskAssessmentId uuid.UUID, kycProfileId 
 
             requestResult = utils.RequestResult{
                 Success: false,
-                Message: msg,
-                Action:  "assignKycProfile",
+                Msg: msg,
+                Call:  "assignKycProfile",
                 Data:    childObj,
             }
             return requestResult;
