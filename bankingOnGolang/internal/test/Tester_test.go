@@ -2395,7 +2395,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	ExchangeRateObj := model.ExchangeRate{
         BaseCurrency:"test value for BaseCurrency",
         CounterCurrency:"test value for CounterCurrency",
-        Rate:"test value",
+        Rate:decimal.Zero,
         AsOf:time.Now(),
         Source:"test value for Source",
 	}
@@ -2510,7 +2510,7 @@ func TestFXTradeCRUD(t *testing.T) {
         SettlementDate:time.Now(),
         AmountSold:model.Money{},
         AmountBought:model.Money{},
-        Rate:"test value",
+        Rate:decimal.Zero,
         Status:0,
 	}
 
