@@ -34,7 +34,7 @@ func CreateTransaction(obj model.Transaction)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a Transaction with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a Transaction", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a Transaction. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllTransaction()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all Transaction" )
+	    getAllMsg = "Retrieved all Transaction"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Transaction", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Transaction. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateTransaction(obj model.Transaction)(requestResult utils.RequestResult)
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateTransaction", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateTransaction",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteTransaction(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.Transaction)
+		obj,_ := requestResult.Data.(model.Transaction)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteTransaction(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteTransaction", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteTransaction",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignAccountToTransaction( transactionId uuid.UUID, accountId uuid.UUID )(
 			return UpdateTransaction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
-			return utils.RequestResult{false, msg, "assignAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignExternalCounterpartyToTransaction( transactionId uuid.UUID, externalC
 			return UpdateTransaction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ExternalCounterparty", externalCounterpartyId )
-			return utils.RequestResult{false, msg, "assignExternalCounterparty", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignExternalCounterparty",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -386,7 +410,14 @@ func AssignPaymentCardToTransaction( transactionId uuid.UUID, paymentCardId uuid
 			return UpdateTransaction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCard", paymentCardId )
-			return utils.RequestResult{false, msg, "assignPaymentCard", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignPaymentCard",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -471,7 +502,14 @@ func AssignFundsTransferToTransaction( transactionId uuid.UUID, fundsTransferId 
 			return UpdateTransaction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FundsTransfer", fundsTransferId )
-			return utils.RequestResult{false, msg, "assignFundsTransfer", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignFundsTransfer",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -556,7 +594,14 @@ func AssignFxTradeToTransaction( transactionId uuid.UUID, fxTradeId uuid.UUID )(
 			return UpdateTransaction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrade", fxTradeId )
-			return utils.RequestResult{false, msg, "assignFxTrade", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignFxTrade",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -641,7 +686,14 @@ func AssignDisputeToTransaction( transactionId uuid.UUID, disputeId uuid.UUID )(
 			return UpdateTransaction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Dispute", disputeId )
-			return utils.RequestResult{false, msg, "assignDispute", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignDispute",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

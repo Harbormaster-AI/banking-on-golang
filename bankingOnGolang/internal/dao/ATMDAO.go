@@ -34,7 +34,7 @@ func CreateATM(obj model.ATM)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a ATM with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a ATM", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a ATM. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllATM()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all ATM" )
+	    getAllMsg = "Retrieved all ATM"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ATM", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ATM. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateATM(obj model.ATM)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateATM", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateATM",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteATM(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.ATM so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.ATM)
+		obj,_ := requestResult.Data.(model.ATM)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteATM(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteATM", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteATM",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignBranchToATM( aTMId uuid.UUID, branchId uuid.UUID )(utils.RequestResul
 			return UpdateATM(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Branch", branchId )
-			return utils.RequestResult{false, msg, "assignBranch", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBranch",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

@@ -34,7 +34,7 @@ func CreateThirdPartyProvider(obj model.ThirdPartyProvider)(utils.RequestResult)
 	    createMsg = fmt.Sprintf( "Created a ThirdPartyProvider with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a ThirdPartyProvider", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a ThirdPartyProvider. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllThirdPartyProvider()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all ThirdPartyProvider" )
+	    getAllMsg = "Retrieved all ThirdPartyProvider"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ThirdPartyProvider", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ThirdPartyProvider. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateThirdPartyProvider(obj model.ThirdPartyProvider)(requestResult utils.
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateThirdPartyProvider", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateThirdPartyProvider",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteThirdPartyProvider(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.ThirdPartyProvider so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.ThirdPartyProvider)
+		obj,_ := requestResult.Data.(model.ThirdPartyProvider)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteThirdPartyProvider(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteThirdPartyProvider", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteThirdPartyProvider",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignBankToThirdPartyProvider( thirdPartyProviderId uuid.UUID, bankId uuid
 			return UpdateThirdPartyProvider(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
-			return utils.RequestResult{false, msg, "assignBank", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBank",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -299,7 +316,14 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
-				return utils.RequestResult{false, msg, "unassignConsents", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignConsents",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -349,7 +373,13 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
-				return utils.RequestResult{false, msg, "removeConsents", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeConsents",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

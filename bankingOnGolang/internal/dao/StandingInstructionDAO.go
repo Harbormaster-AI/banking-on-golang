@@ -34,7 +34,7 @@ func CreateStandingInstruction(obj model.StandingInstruction)(utils.RequestResul
 	    createMsg = fmt.Sprintf( "Created a StandingInstruction with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a StandingInstruction", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a StandingInstruction. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllStandingInstruction()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all StandingInstruction" )
+	    getAllMsg = "Retrieved all StandingInstruction"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all StandingInstruction", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all StandingInstruction. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateStandingInstruction(obj model.StandingInstruction)(requestResult util
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateStandingInstruction", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateStandingInstruction",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteStandingInstruction(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.StandingInstruction so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.StandingInstruction)
+		obj,_ := requestResult.Data.(model.StandingInstruction)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteStandingInstruction(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteStandingInstruction", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteStandingInstruction",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignAccountToStandingInstruction( standingInstructionId uuid.UUID, accoun
 			return UpdateStandingInstruction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
-			return utils.RequestResult{false, msg, "assignAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignBeneficiaryToStandingInstruction( standingInstructionId uuid.UUID, be
 			return UpdateStandingInstruction(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Beneficiary", beneficiaryId )
-			return utils.RequestResult{false, msg, "assignBeneficiary", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBeneficiary",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

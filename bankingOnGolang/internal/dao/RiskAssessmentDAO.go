@@ -34,7 +34,7 @@ func CreateRiskAssessment(obj model.RiskAssessment)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a RiskAssessment with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a RiskAssessment", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a RiskAssessment. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllRiskAssessment()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all RiskAssessment" )
+	    getAllMsg = "Retrieved all RiskAssessment"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all RiskAssessment", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all RiskAssessment. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateRiskAssessment(obj model.RiskAssessment)(requestResult utils.RequestR
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateRiskAssessment", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateRiskAssessment",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteRiskAssessment(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.RiskAssessment so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.RiskAssessment)
+		obj,_ := requestResult.Data.(model.RiskAssessment)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteRiskAssessment(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteRiskAssessment", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteRiskAssessment",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignKycProfileToRiskAssessment( riskAssessmentId uuid.UUID, kycProfileId 
 			return UpdateRiskAssessment(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfile", kycProfileId )
-			return utils.RequestResult{false, msg, "assignKycProfile", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignKycProfile",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

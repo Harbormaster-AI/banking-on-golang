@@ -34,7 +34,7 @@ func CreateFXTrade(obj model.FXTrade)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a FXTrade with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a FXTrade", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a FXTrade. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllFXTrade()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all FXTrade" )
+	    getAllMsg = "Retrieved all FXTrade"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all FXTrade", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all FXTrade. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateFXTrade(obj model.FXTrade)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateFXTrade", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateFXTrade",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteFXTrade(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.FXTrade)
+		obj,_ := requestResult.Data.(model.FXTrade)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteFXTrade(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteFXTrade", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteFXTrade",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignCustomerToFXTrade( fXTradeId uuid.UUID, customerId uuid.UUID )(utils.
 			return UpdateFXTrade(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
-			return utils.RequestResult{false, msg, "assignCustomer", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignCustomer",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignBankToFXTrade( fXTradeId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 			return UpdateFXTrade(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
-			return utils.RequestResult{false, msg, "assignBank", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBank",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -386,7 +410,14 @@ func AssignExchangeRateToFXTrade( fXTradeId uuid.UUID, exchangeRateId uuid.UUID 
 			return UpdateFXTrade(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ExchangeRate", exchangeRateId )
-			return utils.RequestResult{false, msg, "assignExchangeRate", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignExchangeRate",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -471,7 +502,14 @@ func AssignSourceAccountToFXTrade( fXTradeId uuid.UUID, sourceAccountId uuid.UUI
 			return UpdateFXTrade(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "SourceAccount", sourceAccountId )
-			return utils.RequestResult{false, msg, "assignSourceAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignSourceAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -556,7 +594,14 @@ func AssignDestinationAccountToFXTrade( fXTradeId uuid.UUID, destinationAccountI
 			return UpdateFXTrade(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "DestinationAccount", destinationAccountId )
-			return utils.RequestResult{false, msg, "assignDestinationAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignDestinationAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -641,7 +686,14 @@ func AssignTransactionToFXTrade( fXTradeId uuid.UUID, transactionId uuid.UUID )(
 			return UpdateFXTrade(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transaction", transactionId )
-			return utils.RequestResult{false, msg, "assignTransaction", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignTransaction",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

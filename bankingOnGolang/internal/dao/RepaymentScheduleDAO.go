@@ -34,7 +34,7 @@ func CreateRepaymentSchedule(obj model.RepaymentSchedule)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a RepaymentSchedule with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a RepaymentSchedule", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a RepaymentSchedule. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllRepaymentSchedule()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all RepaymentSchedule" )
+	    getAllMsg = "Retrieved all RepaymentSchedule"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all RepaymentSchedule", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all RepaymentSchedule. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateRepaymentSchedule(obj model.RepaymentSchedule)(requestResult utils.Re
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateRepaymentSchedule", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateRepaymentSchedule",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteRepaymentSchedule(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.RepaymentSchedule so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.RepaymentSchedule)
+		obj,_ := requestResult.Data.(model.RepaymentSchedule)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteRepaymentSchedule(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteRepaymentSchedule", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteRepaymentSchedule",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignLoanAccountToRepaymentSchedule( repaymentScheduleId uuid.UUID, loanAc
 			return UpdateRepaymentSchedule(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccount", loanAccountId )
-			return utils.RequestResult{false, msg, "assignLoanAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignLoanAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignPaymentToRepaymentSchedule( repaymentScheduleId uuid.UUID, paymentId 
 			return UpdateRepaymentSchedule(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Payment", paymentId )
-			return utils.RequestResult{false, msg, "assignPayment", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignPayment",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

@@ -34,7 +34,7 @@ func CreateKycProfile(obj model.KycProfile)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a KycProfile with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a KycProfile", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a KycProfile. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllKycProfile()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all KycProfile" )
+	    getAllMsg = "Retrieved all KycProfile"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all KycProfile", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all KycProfile. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateKycProfile(obj model.KycProfile)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateKycProfile", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateKycProfile",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteKycProfile(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.KycProfile)
+		obj,_ := requestResult.Data.(model.KycProfile)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteKycProfile(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteKycProfile", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteKycProfile",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignCustomerToKycProfile( kycProfileId uuid.UUID, customerId uuid.UUID )(
 			return UpdateKycProfile(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
-			return utils.RequestResult{false, msg, "assignCustomer", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignCustomer",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -299,7 +316,14 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
-				return utils.RequestResult{false, msg, "unassignIdentityDocuments", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignIdentityDocuments",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -349,7 +373,13 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
-				return utils.RequestResult{false, msg, "removeIdentityDocuments", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeIdentityDocuments",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -400,7 +430,14 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
-				return utils.RequestResult{false, msg, "unassignRiskAssessments", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignRiskAssessments",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -450,7 +487,13 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
-				return utils.RequestResult{false, msg, "removeRiskAssessments", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeRiskAssessments",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -501,7 +544,14 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
-				return utils.RequestResult{false, msg, "unassignScreenings", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignScreenings",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -551,7 +601,13 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
-				return utils.RequestResult{false, msg, "removeScreenings", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeScreenings",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

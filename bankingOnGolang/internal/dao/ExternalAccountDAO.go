@@ -34,7 +34,7 @@ func CreateExternalAccount(obj model.ExternalAccount)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a ExternalAccount with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a ExternalAccount", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a ExternalAccount. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllExternalAccount()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all ExternalAccount" )
+	    getAllMsg = "Retrieved all ExternalAccount"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ExternalAccount", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ExternalAccount. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateExternalAccount(obj model.ExternalAccount)(requestResult utils.Reques
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateExternalAccount", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateExternalAccount",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteExternalAccount(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.ExternalAccount so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.ExternalAccount)
+		obj,_ := requestResult.Data.(model.ExternalAccount)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteExternalAccount(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteExternalAccount", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteExternalAccount",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignCustomerToExternalAccount( externalAccountId uuid.UUID, customerId uu
 			return UpdateExternalAccount(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
-			return utils.RequestResult{false, msg, "assignCustomer", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignCustomer",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -299,7 +316,14 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
-				return utils.RequestResult{false, msg, "unassignTransactions", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignTransactions",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -349,7 +373,13 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
-				return utils.RequestResult{false, msg, "removeTransactions", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeTransactions",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

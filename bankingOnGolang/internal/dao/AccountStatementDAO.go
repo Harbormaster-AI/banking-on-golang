@@ -34,7 +34,7 @@ func CreateAccountStatement(obj model.AccountStatement)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a AccountStatement with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a AccountStatement", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a AccountStatement. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllAccountStatement()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all AccountStatement" )
+	    getAllMsg = "Retrieved all AccountStatement"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all AccountStatement", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all AccountStatement. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateAccountStatement(obj model.AccountStatement)(requestResult utils.Requ
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateAccountStatement", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateAccountStatement",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteAccountStatement(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.AccountStatement so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.AccountStatement)
+		obj,_ := requestResult.Data.(model.AccountStatement)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteAccountStatement(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteAccountStatement", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteAccountStatement",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignAccountToAccountStatement( accountStatementId uuid.UUID, accountId uu
 			return UpdateAccountStatement(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
-			return utils.RequestResult{false, msg, "assignAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

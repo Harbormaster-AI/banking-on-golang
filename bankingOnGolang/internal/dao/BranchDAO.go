@@ -34,7 +34,7 @@ func CreateBranch(obj model.Branch)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a Branch with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a Branch", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a Branch. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllBranch()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all Branch" )
+	    getAllMsg = "Retrieved all Branch"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Branch", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Branch. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateBranch(obj model.Branch)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateBranch", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateBranch",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteBranch(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.Branch)
+		obj,_ := requestResult.Data.(model.Branch)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteBranch(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteBranch", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteBranch",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignBankToBranch( branchId uuid.UUID, bankId uuid.UUID )(utils.RequestRes
 			return UpdateBranch(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
-			return utils.RequestResult{false, msg, "assignBank", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBank",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -299,7 +316,14 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
-				return utils.RequestResult{false, msg, "unassignAccounts", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignAccounts",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -349,7 +373,13 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(uti
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
-				return utils.RequestResult{false, msg, "removeAccounts", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeAccounts",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -400,7 +430,14 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
-				return utils.RequestResult{false, msg, "unassignLoanAccounts", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignLoanAccounts",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -450,7 +487,13 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UU
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
-				return utils.RequestResult{false, msg, "removeLoanAccounts", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeLoanAccounts",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -501,7 +544,14 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestRe
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )
-				return utils.RequestResult{false, msg, "unassignAtms", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignAtms",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -551,7 +601,13 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.Reque
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Atms", atmsId )
-				return utils.RequestResult{false, msg, "removeAtms", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeAtms",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

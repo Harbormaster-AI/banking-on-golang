@@ -34,7 +34,7 @@ func CreateExchangeRate(obj model.ExchangeRate)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a ExchangeRate with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a ExchangeRate", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a ExchangeRate. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllExchangeRate()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all ExchangeRate" )
+	    getAllMsg = "Retrieved all ExchangeRate"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ExchangeRate", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ExchangeRate. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateExchangeRate(obj model.ExchangeRate)(requestResult utils.RequestResul
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateExchangeRate", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateExchangeRate",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteExchangeRate(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.ExchangeRate so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.ExchangeRate)
+		obj,_ := requestResult.Data.(model.ExchangeRate)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteExchangeRate(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteExchangeRate", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteExchangeRate",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignBankToExchangeRate( exchangeRateId uuid.UUID, bankId uuid.UUID )(util
 			return UpdateExchangeRate(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
-			return utils.RequestResult{false, msg, "assignBank", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBank",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -299,7 +316,14 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
-				return utils.RequestResult{false, msg, "unassignFxTrades", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignFxTrades",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -349,7 +373,13 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
-				return utils.RequestResult{false, msg, "removeFxTrades", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeFxTrades",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

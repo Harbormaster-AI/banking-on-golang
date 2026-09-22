@@ -34,7 +34,7 @@ func CreateLoanAccount(obj model.LoanAccount)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a LoanAccount with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a LoanAccount", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a LoanAccount. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllLoanAccount()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all LoanAccount" )
+	    getAllMsg = "Retrieved all LoanAccount"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all LoanAccount", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all LoanAccount. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateLoanAccount(obj model.LoanAccount)(requestResult utils.RequestResult)
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateLoanAccount", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateLoanAccount",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteLoanAccount(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.LoanAccount)
+		obj,_ := requestResult.Data.(model.LoanAccount)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteLoanAccount(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteLoanAccount", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteLoanAccount",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignBankToLoanAccount( loanAccountId uuid.UUID, bankId uuid.UUID )(utils.
 			return UpdateLoanAccount(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
-			return utils.RequestResult{false, msg, "assignBank", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBank",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignBranchToLoanAccount( loanAccountId uuid.UUID, branchId uuid.UUID )(ut
 			return UpdateLoanAccount(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Branch", branchId )
-			return utils.RequestResult{false, msg, "assignBranch", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBranch",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -386,7 +410,14 @@ func AssignProductToLoanAccount( loanAccountId uuid.UUID, productId uuid.UUID )(
 			return UpdateLoanAccount(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Product", productId )
-			return utils.RequestResult{false, msg, "assignProduct", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignProduct",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -469,7 +500,14 @@ func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds []uuid.UU
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Borrowers", borrowersId )
-				return utils.RequestResult{false, msg, "unassignBorrowers", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignBorrowers",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -519,7 +557,13 @@ func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Borrowers", borrowersId )
-				return utils.RequestResult{false, msg, "removeBorrowers", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeBorrowers",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -570,7 +614,14 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentSched
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RepaymentSchedule", repaymentScheduleId )
-				return utils.RequestResult{false, msg, "unassignRepaymentSchedule", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignRepaymentSchedule",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -620,7 +671,13 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentS
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RepaymentSchedule", repaymentScheduleId )
-				return utils.RequestResult{false, msg, "removeRepaymentSchedule", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeRepaymentSchedule",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -671,7 +728,14 @@ func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds []uuid.UUID
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Payments", paymentsId )
-				return utils.RequestResult{false, msg, "unassignPayments", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignPayments",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -721,7 +785,13 @@ func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds []uuid.
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Payments", paymentsId )
-				return utils.RequestResult{false, msg, "removePayments", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removePayments",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -772,7 +842,14 @@ func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds []uuid.
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Collateral", collateralId )
-				return utils.RequestResult{false, msg, "unassignCollateral", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignCollateral",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -822,7 +899,13 @@ func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds []u
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Collateral", collateralId )
-				return utils.RequestResult{false, msg, "removeCollateral", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeCollateral",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 
@@ -873,7 +956,14 @@ func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds []uuid.
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FeeCharges", feeChargesId )
-				return utils.RequestResult{false, msg, "unassignFeeCharges", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignFeeCharges",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -923,7 +1013,13 @@ func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds []u
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FeeCharges", feeChargesId )
-				return utils.RequestResult{false, msg, "removeFeeCharges", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeFeeCharges",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

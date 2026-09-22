@@ -34,7 +34,7 @@ func CreateFeeCharge(obj model.FeeCharge)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a FeeCharge with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a FeeCharge", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a FeeCharge. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllFeeCharge()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all FeeCharge" )
+	    getAllMsg = "Retrieved all FeeCharge"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all FeeCharge", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all FeeCharge. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateFeeCharge(obj model.FeeCharge)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateFeeCharge", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateFeeCharge",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteFeeCharge(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.FeeCharge so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.FeeCharge)
+		obj,_ := requestResult.Data.(model.FeeCharge)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteFeeCharge(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteFeeCharge", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteFeeCharge",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignAccountToFeeCharge( feeChargeId uuid.UUID, accountId uuid.UUID )(util
 			return UpdateFeeCharge(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
-			return utils.RequestResult{false, msg, "assignAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignLoanAccountToFeeCharge( feeChargeId uuid.UUID, loanAccountId uuid.UUI
 			return UpdateFeeCharge(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccount", loanAccountId )
-			return utils.RequestResult{false, msg, "assignLoanAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignLoanAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

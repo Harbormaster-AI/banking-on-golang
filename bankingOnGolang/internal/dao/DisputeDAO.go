@@ -34,7 +34,7 @@ func CreateDispute(obj model.Dispute)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a Dispute with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a Dispute", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a Dispute. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllDispute()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all Dispute" )
+	    getAllMsg = "Retrieved all Dispute"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Dispute", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Dispute. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateDispute(obj model.Dispute)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateDispute", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateDispute",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteDispute(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.Dispute)
+		obj,_ := requestResult.Data.(model.Dispute)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteDispute(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteDispute", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteDispute",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignTransactionToDispute( disputeId uuid.UUID, transactionId uuid.UUID )(
 			return UpdateDispute(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transaction", transactionId )
-			return utils.RequestResult{false, msg, "assignTransaction", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignTransaction",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignCustomerToDispute( disputeId uuid.UUID, customerId uuid.UUID )(utils.
 			return UpdateDispute(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
-			return utils.RequestResult{false, msg, "assignCustomer", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignCustomer",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -386,7 +410,14 @@ func AssignAccountToDispute( disputeId uuid.UUID, accountId uuid.UUID )(utils.Re
 			return UpdateDispute(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
-			return utils.RequestResult{false, msg, "assignAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -471,7 +502,14 @@ func AssignPaymentCardToDispute( disputeId uuid.UUID, paymentCardId uuid.UUID )(
 			return UpdateDispute(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCard", paymentCardId )
-			return utils.RequestResult{false, msg, "assignPaymentCard", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignPaymentCard",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

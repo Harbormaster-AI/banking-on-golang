@@ -34,7 +34,7 @@ func CreateCollateral(obj model.Collateral)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a Collateral with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a Collateral", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a Collateral. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllCollateral()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all Collateral" )
+	    getAllMsg = "Retrieved all Collateral"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Collateral", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Collateral. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateCollateral(obj model.Collateral)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateCollateral", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateCollateral",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteCollateral(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.Collateral so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.Collateral)
+		obj,_ := requestResult.Data.(model.Collateral)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteCollateral(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteCollateral", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteCollateral",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignLoanAccountToCollateral( collateralId uuid.UUID, loanAccountId uuid.U
 			return UpdateCollateral(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccount", loanAccountId )
-			return utils.RequestResult{false, msg, "assignLoanAccount", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignLoanAccount",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

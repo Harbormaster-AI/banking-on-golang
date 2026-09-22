@@ -34,7 +34,7 @@ func CreateScreeningResult(obj model.ScreeningResult)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a ScreeningResult with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a ScreeningResult", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a ScreeningResult. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllScreeningResult()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all ScreeningResult" )
+	    getAllMsg = "Retrieved all ScreeningResult"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ScreeningResult", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all ScreeningResult. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateScreeningResult(obj model.ScreeningResult)(requestResult utils.Reques
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateScreeningResult", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateScreeningResult",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteScreeningResult(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.ScreeningResult so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.ScreeningResult)
+		obj,_ := requestResult.Data.(model.ScreeningResult)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteScreeningResult(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteScreeningResult", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteScreeningResult",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignKycProfileToScreeningResult( screeningResultId uuid.UUID, kycProfileI
 			return UpdateScreeningResult(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfile", kycProfileId )
-			return utils.RequestResult{false, msg, "assignKycProfile", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignKycProfile",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult

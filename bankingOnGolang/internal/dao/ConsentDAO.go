@@ -34,7 +34,7 @@ func CreateConsent(obj model.Consent)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a Consent with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a Consent", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a Consent. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllConsent()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all Consent" )
+	    getAllMsg = "Retrieved all Consent"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Consent", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all Consent. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateConsent(obj model.Consent)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateConsent", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateConsent",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteConsent(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.Consent)
+		obj,_ := requestResult.Data.(model.Consent)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteConsent(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteConsent", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteConsent",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignCustomerToConsent( consentId uuid.UUID, customerId uuid.UUID )(utils.
 			return UpdateConsent(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
-			return utils.RequestResult{false, msg, "assignCustomer", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignCustomer",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -301,7 +318,14 @@ func AssignBankToConsent( consentId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 			return UpdateConsent(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
-			return utils.RequestResult{false, msg, "assignBank", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignBank",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -386,7 +410,14 @@ func AssignThirdPartyProviderToConsent( consentId uuid.UUID, thirdPartyProviderI
 			return UpdateConsent(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ThirdPartyProvider", thirdPartyProviderId )
-			return utils.RequestResult{false, msg, "assignThirdPartyProvider", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignThirdPartyProvider",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -469,7 +500,14 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
-				return utils.RequestResult{false, msg, "unassignAuthorizedAccounts", childObj}
+
+                requestResult = utils.RequestResult{
+                    Success: false,
+                    Message: msg,
+                    Action:  "unassignAuthorizedAccounts",
+                    Data:    childObj,
+                }
+				return requestResult
 			}
 		}
 
@@ -519,7 +557,13 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
-				return utils.RequestResult{false, msg, "removeAuthorizedAccounts", childObj}
+                requestResult = utils.RequestResult{
+                                    Success: false,
+                                    Message: msg,
+                                    Action:  "removeAuthorizedAccounts",
+                                    Data:    childObj,
+                                }
+				return requestResult
 			}
 		}
 

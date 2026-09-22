@@ -34,7 +34,7 @@ func CreateIdentityDocument(obj model.IdentityDocument)(utils.RequestResult){
 	    createMsg = fmt.Sprintf( "Created a IdentityDocument with ID=%v", obj.ID )
 	    success = true
 	} else {
-		createMsg = fmt.Sprintf( "Failed trying to create a IdentityDocument", result )
+		createMsg = fmt.Sprintf( "Failed trying to create a IdentityDocument. Result: %s", result )
 		success = false
 	}
 
@@ -94,10 +94,10 @@ func GetAllIdentityDocument()(requestResult utils.RequestResult){
 	result := utils.GetDB().Find(&objs).Error // find all
 
 	if result == nil {
-	    getAllMsg = fmt.Sprintf( "Retrieved all IdentityDocument" )
+	    getAllMsg = "Retrieved all IdentityDocument"
 	    success = true
 	} else {
-		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all IdentityDocument", result )
+		getAllMsg = fmt.Sprintf( "Failed trying to retrieve all IdentityDocument. Result: %s", result )
 		success = false
 	}
 
@@ -128,7 +128,12 @@ func UpdateIdentityDocument(obj model.IdentityDocument)(requestResult utils.Requ
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, updateMsg, "UpdateIdentityDocument", obj}
+	requestResult = utils.RequestResult{
+        Success: success,
+        Message: updateMsg,
+        Action:  "UpdateIdentityDocument",
+        Data:    obj,
+    }
 
 	return requestResult
 }
@@ -153,7 +158,7 @@ func DeleteIdentityDocument(id uuid.UUID)(requestResult utils.RequestResult){
 		// Need to cast the interface to a model.IdentityDocument so the ORM can figure
 		// out which table to deal with
 		//----------------------------------------------------------------------------
-		obj,_ := requestResult.Data. (model.IdentityDocument)
+		obj,_ := requestResult.Data.(model.IdentityDocument)
 
 		//----------------------------------------------------------------------------
 		// Make call to the ORM to delete
@@ -168,7 +173,12 @@ func DeleteIdentityDocument(id uuid.UUID)(requestResult utils.RequestResult){
 			success = false
 		}
 
-		requestResult = utils.RequestResult{success, deleteMsg, "DeleteIdentityDocument", requestResult.Data}
+        requestResult = utils.RequestResult{
+            Success: success,
+            Message: deleteMsg,
+            Action:  "DeleteIdentityDocument",
+            Data:    requestResult.Data,
+        }
 
 	}
 
@@ -216,7 +226,14 @@ func AssignKycProfileToIdentityDocument( identityDocumentId uuid.UUID, kycProfil
 			return UpdateIdentityDocument(parentObj)
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfile", kycProfileId )
-			return utils.RequestResult{false, msg, "assignKycProfile", childObj}
+
+            requestResult = utils.RequestResult{
+                Success: false,
+                Message: msg,
+                Action:  "assignKycProfile",
+                Data:    childObj,
+            }
+            return requestResult;
 		}
 	} else {
 		return parentRequestResult
