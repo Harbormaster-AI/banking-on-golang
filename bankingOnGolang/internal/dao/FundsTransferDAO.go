@@ -596,6 +596,13 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Transactions").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append Transactions association from FundsTransfer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
 
@@ -651,7 +658,13 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
 				// remove TransactionObj from the Transactions array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Transactions").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove Transactions association from FundsTransfer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
 

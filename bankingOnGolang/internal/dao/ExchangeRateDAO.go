@@ -323,6 +323,13 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FxTrades").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("FxTrades").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append FxTrades association from ExchangeRate: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
 
@@ -378,7 +385,13 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 				// remove FXTradeObj from the FxTrades array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FxTrades").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("FxTrades").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove FxTrades association from ExchangeRate: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
 

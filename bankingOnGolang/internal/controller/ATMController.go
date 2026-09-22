@@ -34,7 +34,9 @@ func CreateATM(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -64,7 +66,9 @@ func GetATM(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 
@@ -83,7 +87,9 @@ func GetAllATM(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -111,7 +117,9 @@ func UpdateATM(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -140,7 +148,9 @@ func DeleteATM(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(requestResult)
 	
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -169,7 +179,9 @@ func AssignBranchToATM(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -198,8 +210,9 @@ func UnassignBranchFromATM( w http.ResponseWriter, r *http.Request ) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 

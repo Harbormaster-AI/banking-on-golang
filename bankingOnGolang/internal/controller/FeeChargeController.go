@@ -34,7 +34,9 @@ func CreateFeeCharge(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -64,7 +66,9 @@ func GetFeeCharge(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 
@@ -83,7 +87,9 @@ func GetAllFeeCharge(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -111,7 +117,9 @@ func UpdateFeeCharge(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -140,7 +148,9 @@ func DeleteFeeCharge(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(requestResult)
 	
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -169,7 +179,9 @@ func AssignAccountToFeeCharge(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -198,8 +210,9 @@ func UnassignAccountFromFeeCharge( w http.ResponseWriter, r *http.Request ) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -228,7 +241,9 @@ func AssignLoanAccountToFeeCharge(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -257,8 +272,9 @@ func UnassignLoanAccountFromFeeCharge( w http.ResponseWriter, r *http.Request ) 
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 

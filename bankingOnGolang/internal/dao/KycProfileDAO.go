@@ -323,6 +323,13 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("IdentityDocuments").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append IdentityDocuments association from KycProfile: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
 
@@ -378,7 +385,13 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 				// remove IdentityDocumentObj from the IdentityDocuments array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("IdentityDocuments").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove IdentityDocuments association from KycProfile: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "IdentityDocuments", identityDocumentsId )
 
@@ -436,6 +449,13 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("RiskAssessments").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("RiskAssessments").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append RiskAssessments association from KycProfile: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
 
@@ -491,7 +511,13 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 				// remove RiskAssessmentObj from the RiskAssessments array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("RiskAssessments").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("RiskAssessments").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove RiskAssessments association from KycProfile: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "RiskAssessments", riskAssessmentsId )
 
@@ -549,6 +575,13 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Screenings").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Screenings").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append Screenings association from KycProfile: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
 
@@ -604,7 +637,13 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 				// remove ScreeningResultObj from the Screenings array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Screenings").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Screenings").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove Screenings association from KycProfile: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Screenings", screeningsId )
 

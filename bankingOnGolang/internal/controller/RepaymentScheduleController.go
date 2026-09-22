@@ -34,7 +34,9 @@ func CreateRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -64,7 +66,9 @@ func GetRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 
@@ -83,7 +87,9 @@ func GetAllRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -111,7 +117,9 @@ func UpdateRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -140,7 +148,9 @@ func DeleteRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(requestResult)
 	
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -169,7 +179,9 @@ func AssignLoanAccountToRepaymentSchedule(w http.ResponseWriter, r *http.Request
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -198,8 +210,9 @@ func UnassignLoanAccountFromRepaymentSchedule( w http.ResponseWriter, r *http.Re
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -228,7 +241,9 @@ func AssignPaymentToRepaymentSchedule(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -257,8 +272,9 @@ func UnassignPaymentFromRepaymentSchedule( w http.ResponseWriter, r *http.Reques
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 

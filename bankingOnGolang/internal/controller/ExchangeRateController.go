@@ -34,7 +34,9 @@ func CreateExchangeRate(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -64,7 +66,9 @@ func GetExchangeRate(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 
@@ -83,7 +87,9 @@ func GetAllExchangeRate(w http.ResponseWriter, r *http.Request) {
 	res,_ := json.Marshal(requestResult)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -111,7 +117,9 @@ func UpdateExchangeRate(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -140,7 +148,9 @@ func DeleteExchangeRate(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(requestResult)
 	
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -169,7 +179,9 @@ func AssignBankToExchangeRate(w http.ResponseWriter, r *http.Request) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -198,8 +210,9 @@ func UnassignBankFromExchangeRate( w http.ResponseWriter, r *http.Request ) {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
-
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 
@@ -228,7 +241,9 @@ func AddFxTradesToExchangeRate(w http.ResponseWriter, r *http.Request)  {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 
 	// ----------------------------------------------------------------------------
@@ -257,6 +272,8 @@ func RemoveFxTradesFromExchangeRate(w http.ResponseWriter, r *http.Request)  {
 	// ----------------------------------------------------------------------------
 	res, _ := json.Marshal(requestResult)
 	w.WriteHeader(http.StatusOK)
-	w.Write(res)	
+	if _, err := w.Write(res); err != nil {
+        log.Printf("Failed to write response: %v", err)
+    }
 }
 		

@@ -125,6 +125,36 @@ func ParseBody(r *http.Request, x interface{}) {
 // Handler to AutoMigrate schema to gorm for each model struct
 //----------------------------------------------------------------------------
 func AutoMigrate() {
+if err := GetDB().AutoMigrate(
+        &model.Bank{},
+    &model.Branch{},
+    &model.ATM{},
+    &model.Customer{},
+    &model.KycProfile{},
+    &model.IdentityDocument{},
+    &model.RiskAssessment{},
+    &model.ScreeningResult{},
+    &model.BankingProduct{},
+    &model.Account{},
+    &model.AccountStatement{},
+    &model.Transaction{},
+    &model.ExternalAccount{},
+    &model.FundsTransfer{},
+    &model.StandingInstruction{},
+    &model.PaymentCard{},
+    &model.LoanAccount{},
+    &model.RepaymentSchedule{},
+    &model.LoanPayment{},
+    &model.Collateral{},
+    &model.FeeCharge{},
+    &model.ExchangeRate{},
+    &model.FXTrade{},
+    &model.Dispute{},
+    &model.Consent{},
+    &model.ThirdPartyProvider{},
+); err != nil {
+    log.Fatal(err)
+}
     GetDB().AutoMigrate(&model.Bank{})
     GetDB().AutoMigrate(&model.Branch{})
     GetDB().AutoMigrate(&model.ATM{})

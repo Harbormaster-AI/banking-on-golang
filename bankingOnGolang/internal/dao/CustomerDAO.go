@@ -323,6 +323,13 @@ func AddAccountsToCustomer ( customerId uuid.UUID, accountsIds []uuid.UUID )(uti
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Accounts").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Accounts").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append Accounts association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
 
@@ -378,7 +385,13 @@ func RemoveAccountsFromCustomer( customerId uuid.UUID, accountsIds []uuid.UUID )
 				// remove AccountObj from the Accounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Accounts").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Accounts").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove Accounts association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
 
@@ -436,6 +449,13 @@ func AddLoanAccountsToCustomer ( customerId uuid.UUID, loanAccountsIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("LoanAccounts").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append LoanAccounts association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
 
@@ -491,7 +511,13 @@ func RemoveLoanAccountsFromCustomer( customerId uuid.UUID, loanAccountsIds []uui
 				// remove LoanAccountObj from the LoanAccounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("LoanAccounts").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove LoanAccounts association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
 
@@ -549,6 +575,13 @@ func AddPaymentCardsToCustomer ( customerId uuid.UUID, paymentCardsIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("PaymentCards").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("PaymentCards").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append PaymentCards association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCards", paymentCardsId )
 
@@ -604,7 +637,13 @@ func RemovePaymentCardsFromCustomer( customerId uuid.UUID, paymentCardsIds []uui
 				// remove PaymentCardObj from the PaymentCards array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("PaymentCards").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("PaymentCards").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove PaymentCards association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCards", paymentCardsId )
 
@@ -662,6 +701,13 @@ func AddExternalAccountsToCustomer ( customerId uuid.UUID, externalAccountsIds [
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("ExternalAccounts").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("ExternalAccounts").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append ExternalAccounts association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ExternalAccounts", externalAccountsId )
 
@@ -717,7 +763,13 @@ func RemoveExternalAccountsFromCustomer( customerId uuid.UUID, externalAccountsI
 				// remove ExternalAccountObj from the ExternalAccounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("ExternalAccounts").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("ExternalAccounts").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove ExternalAccounts association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ExternalAccounts", externalAccountsId )
 
@@ -775,6 +827,13 @@ func AddFundsTransfersToCustomer ( customerId uuid.UUID, fundsTransfersIds []uui
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FundsTransfers").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("FundsTransfers").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append FundsTransfers association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FundsTransfers", fundsTransfersId )
 
@@ -830,7 +889,13 @@ func RemoveFundsTransfersFromCustomer( customerId uuid.UUID, fundsTransfersIds [
 				// remove FundsTransferObj from the FundsTransfers array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FundsTransfers").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("FundsTransfers").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove FundsTransfers association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FundsTransfers", fundsTransfersId )
 
@@ -888,6 +953,13 @@ func AddDisputesToCustomer ( customerId uuid.UUID, disputesIds []uuid.UUID )(uti
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Disputes").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Disputes").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append Disputes association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Disputes", disputesId )
 
@@ -943,7 +1015,13 @@ func RemoveDisputesFromCustomer( customerId uuid.UUID, disputesIds []uuid.UUID )
 				// remove DisputeObj from the Disputes array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Disputes").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Disputes").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove Disputes association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Disputes", disputesId )
 
@@ -1001,6 +1079,13 @@ func AddKycProfilesToCustomer ( customerId uuid.UUID, kycProfilesIds []uuid.UUID
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("KycProfiles").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("KycProfiles").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append KycProfiles association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfiles", kycProfilesId )
 
@@ -1056,7 +1141,13 @@ func RemoveKycProfilesFromCustomer( customerId uuid.UUID, kycProfilesIds []uuid.
 				// remove KycProfileObj from the KycProfiles array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("KycProfiles").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("KycProfiles").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove KycProfiles association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfiles", kycProfilesId )
 
@@ -1114,6 +1205,13 @@ func AddConsentsToCustomer ( customerId uuid.UUID, consentsIds []uuid.UUID )(uti
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Consents").Append( &childObj )
 
+                if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Consents").
+                    Append(&childObj); err != nil {
+                        log.Printf("Failed to append Consents association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
 
@@ -1169,7 +1267,13 @@ func RemoveConsentsFromCustomer( customerId uuid.UUID, consentsIds []uuid.UUID )
 				// remove ConsentObj from the Consents array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Consents").Delete( &childObj )
-
+				if err := utils.GetDB().
+                    Model(&parentObj).
+                    Association("Consents").
+                    Delete(&childObj); err != nil {
+                        log.Printf("Failed to remove Consents association from Customer: %v", err)
+                        return err
+                }
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
 
