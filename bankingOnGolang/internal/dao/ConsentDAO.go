@@ -37,7 +37,12 @@ func CreateConsent(obj model.Consent)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateConsent", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateConsent",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetConsent(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetConsent", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetConsent",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllConsent()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllConsent", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllConsent",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -495,7 +511,7 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignAuthorizedAccounts",
+                    Call:       "addAuthorizedAccountsToConsent",
                     Data:       childObj,
                 }
 			}
@@ -547,10 +563,11 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeAuthorizedAccounts",
+                    Call:       "removeAuthorizedAccountsFromConsent",
                     Data:       childObj,
                 }
 			}

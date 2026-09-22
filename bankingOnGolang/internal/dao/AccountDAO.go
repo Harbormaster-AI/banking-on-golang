@@ -37,7 +37,12 @@ func CreateAccount(obj model.Account)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateAccount", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateAccount",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetAccount(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetAccount", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetAccount",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllAccount()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllAccount", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllAccount",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -495,7 +511,7 @@ func AddOwnersToAccount ( accountId uuid.UUID, ownersIds []uuid.UUID )(utils.Req
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignOwners",
+                    Call:       "addOwnersToAccount",
                     Data:       childObj,
                 }
 			}
@@ -547,10 +563,11 @@ func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds []uuid.UUID )(utils
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Owners", ownersId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeOwners",
+                    Call:       "removeOwnersFromAccount",
                     Data:       childObj,
                 }
 			}
@@ -607,7 +624,7 @@ func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds []uuid.UUID
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignTransactions",
+                    Call:       "addTransactionsToAccount",
                     Data:       childObj,
                 }
 			}
@@ -659,10 +676,11 @@ func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds []uuid.
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeTransactions",
+                    Call:       "removeTransactionsFromAccount",
                     Data:       childObj,
                 }
 			}
@@ -719,7 +737,7 @@ func AddStatementsToAccount ( accountId uuid.UUID, statementsIds []uuid.UUID )(u
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignStatements",
+                    Call:       "addStatementsToAccount",
                     Data:       childObj,
                 }
 			}
@@ -771,10 +789,11 @@ func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds []uuid.UUID
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Statements", statementsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeStatements",
+                    Call:       "removeStatementsFromAccount",
                     Data:       childObj,
                 }
 			}
@@ -831,7 +850,7 @@ func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstruction
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignStandingInstructions",
+                    Call:       "addStandingInstructionsToAccount",
                     Data:       childObj,
                 }
 			}
@@ -883,10 +902,11 @@ func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstruc
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "StandingInstructions", standingInstructionsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeStandingInstructions",
+                    Call:       "removeStandingInstructionsFromAccount",
                     Data:       childObj,
                 }
 			}
@@ -943,7 +963,7 @@ func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds []uuid.UUID )(u
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignFeeCharges",
+                    Call:       "addFeeChargesToAccount",
                     Data:       childObj,
                 }
 			}
@@ -995,10 +1015,11 @@ func RemoveFeeChargesFromAccount( accountId uuid.UUID, feeChargesIds []uuid.UUID
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FeeCharges", feeChargesId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeFeeCharges",
+                    Call:       "removeFeeChargesFromAccount",
                     Data:       childObj,
                 }
 			}

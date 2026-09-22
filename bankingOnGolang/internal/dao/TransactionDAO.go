@@ -37,7 +37,12 @@ func CreateTransaction(obj model.Transaction)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateTransaction", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateTransaction",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetTransaction(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetTransaction", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetTransaction",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllTransaction()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllTransaction", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllTransaction",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

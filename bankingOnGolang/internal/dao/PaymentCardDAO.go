@@ -37,7 +37,12 @@ func CreatePaymentCard(obj model.PaymentCard)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreatePaymentCard", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreatePaymentCard",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetPaymentCard(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetPaymentCard", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetPaymentCard",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllPaymentCard()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllPaymentCard", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllPaymentCard",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -495,7 +511,7 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignTransactions",
+                    Call:       "addTransactionsToPaymentCard",
                     Data:       childObj,
                 }
 			}
@@ -547,10 +563,11 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeTransactions",
+                    Call:       "removeTransactionsFromPaymentCard",
                     Data:       childObj,
                 }
 			}

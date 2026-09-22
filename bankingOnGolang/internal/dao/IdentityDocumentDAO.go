@@ -37,7 +37,12 @@ func CreateIdentityDocument(obj model.IdentityDocument)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateIdentityDocument", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateIdentityDocument",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetIdentityDocument(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetIdentityDocument", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetIdentityDocument",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllIdentityDocument()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllIdentityDocument", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllIdentityDocument",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

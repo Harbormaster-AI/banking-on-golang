@@ -37,7 +37,12 @@ func CreateDispute(obj model.Dispute)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateDispute", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateDispute",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetDispute(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetDispute", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetDispute",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllDispute()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllDispute", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllDispute",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

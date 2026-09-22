@@ -37,7 +37,12 @@ func CreateExternalAccount(obj model.ExternalAccount)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateExternalAccount", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateExternalAccount",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetExternalAccount(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetExternalAccount", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetExternalAccount",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllExternalAccount()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllExternalAccount", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllExternalAccount",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -313,7 +329,7 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignTransactions",
+                    Call:       "addTransactionsToExternalAccount",
                     Data:       childObj,
                 }
 			}
@@ -365,10 +381,11 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeTransactions",
+                    Call:       "removeTransactionsFromExternalAccount",
                     Data:       childObj,
                 }
 			}

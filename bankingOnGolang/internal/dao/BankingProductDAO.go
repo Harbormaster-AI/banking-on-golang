@@ -37,7 +37,12 @@ func CreateBankingProduct(obj model.BankingProduct)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateBankingProduct", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateBankingProduct",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetBankingProduct(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetBankingProduct", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetBankingProduct",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllBankingProduct()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllBankingProduct", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllBankingProduct",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -313,7 +329,7 @@ func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds []uui
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignAccounts",
+                    Call:       "addAccountsToBankingProduct",
                     Data:       childObj,
                 }
 			}
@@ -365,10 +381,11 @@ func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds [
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeAccounts",
+                    Call:       "removeAccountsFromBankingProduct",
                     Data:       childObj,
                 }
 			}
@@ -425,7 +442,7 @@ func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsI
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignLoanAccounts",
+                    Call:       "addLoanAccountsToBankingProduct",
                     Data:       childObj,
                 }
 			}
@@ -477,10 +494,11 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccou
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeLoanAccounts",
+                    Call:       "removeLoanAccountsFromBankingProduct",
                     Data:       childObj,
                 }
 			}
@@ -537,7 +555,7 @@ func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsI
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignPaymentCards",
+                    Call:       "addPaymentCardsToBankingProduct",
                     Data:       childObj,
                 }
 			}
@@ -589,10 +607,11 @@ func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCa
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCards", paymentCardsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removePaymentCards",
+                    Call:       "removePaymentCardsFromBankingProduct",
                     Data:       childObj,
                 }
 			}

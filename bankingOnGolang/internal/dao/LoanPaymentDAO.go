@@ -37,7 +37,12 @@ func CreateLoanPayment(obj model.LoanPayment)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateLoanPayment", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateLoanPayment",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetLoanPayment(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetLoanPayment", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetLoanPayment",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllLoanPayment()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllLoanPayment", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllLoanPayment",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

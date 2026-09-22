@@ -37,7 +37,12 @@ func CreateScreeningResult(obj model.ScreeningResult)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateScreeningResult", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateScreeningResult",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetScreeningResult(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetScreeningResult", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetScreeningResult",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllScreeningResult()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllScreeningResult", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllScreeningResult",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

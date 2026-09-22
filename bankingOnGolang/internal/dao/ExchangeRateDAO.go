@@ -37,7 +37,12 @@ func CreateExchangeRate(obj model.ExchangeRate)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateExchangeRate", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateExchangeRate",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetExchangeRate(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetExchangeRate", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetExchangeRate",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllExchangeRate()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllExchangeRate", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllExchangeRate",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -313,7 +329,7 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignFxTrades",
+                    Call:       "addFxTradesToExchangeRate",
                     Data:       childObj,
                 }
 			}
@@ -365,10 +381,11 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeFxTrades",
+                    Call:       "removeFxTradesFromExchangeRate",
                     Data:       childObj,
                 }
 			}

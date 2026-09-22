@@ -37,7 +37,12 @@ func CreateAccountStatement(obj model.AccountStatement)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateAccountStatement", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateAccountStatement",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetAccountStatement(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetAccountStatement", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetAccountStatement",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllAccountStatement()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllAccountStatement", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllAccountStatement",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

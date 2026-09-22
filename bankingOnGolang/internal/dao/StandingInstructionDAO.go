@@ -37,7 +37,12 @@ func CreateStandingInstruction(obj model.StandingInstruction)(utils.RequestResul
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateStandingInstruction", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateStandingInstruction",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetStandingInstruction(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetStandingInstruction", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetStandingInstruction",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllStandingInstruction()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllStandingInstruction", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllStandingInstruction",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

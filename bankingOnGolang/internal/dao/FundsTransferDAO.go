@@ -37,7 +37,12 @@ func CreateFundsTransfer(obj model.FundsTransfer)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateFundsTransfer", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateFundsTransfer",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetFundsTransfer(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetFundsTransfer", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetFundsTransfer",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllFundsTransfer()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllFundsTransfer", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllFundsTransfer",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -586,7 +602,7 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignTransactions",
+                    Call:       "addTransactionsToFundsTransfer",
                     Data:       childObj,
                 }
 			}
@@ -638,10 +654,11 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeTransactions",
+                    Call:       "removeTransactionsFromFundsTransfer",
                     Data:       childObj,
                 }
 			}

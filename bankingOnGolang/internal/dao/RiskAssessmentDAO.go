@@ -37,7 +37,12 @@ func CreateRiskAssessment(obj model.RiskAssessment)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateRiskAssessment", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateRiskAssessment",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetRiskAssessment(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetRiskAssessment", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetRiskAssessment",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllRiskAssessment()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllRiskAssessment", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllRiskAssessment",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

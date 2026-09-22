@@ -37,7 +37,12 @@ func CreateATM(obj model.ATM)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateATM", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateATM",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetATM(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetATM", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetATM",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllATM()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllATM", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllATM",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

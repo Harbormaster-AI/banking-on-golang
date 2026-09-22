@@ -37,7 +37,12 @@ func CreateThirdPartyProvider(obj model.ThirdPartyProvider)(utils.RequestResult)
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateThirdPartyProvider", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateThirdPartyProvider",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetThirdPartyProvider(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetThirdPartyProvider", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetThirdPartyProvider",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllThirdPartyProvider()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllThirdPartyProvider", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllThirdPartyProvider",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -313,7 +329,7 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignConsents",
+                    Call:       "addConsentsToThirdPartyProvider",
                     Data:       childObj,
                 }
 			}
@@ -365,10 +381,11 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeConsents",
+                    Call:       "removeConsentsFromThirdPartyProvider",
                     Data:       childObj,
                 }
 			}

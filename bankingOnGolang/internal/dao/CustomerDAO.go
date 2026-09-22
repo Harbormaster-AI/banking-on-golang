@@ -37,7 +37,12 @@ func CreateCustomer(obj model.Customer)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateCustomer", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateCustomer",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetCustomer(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetCustomer", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetCustomer",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllCustomer()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllCustomer", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllCustomer",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -313,7 +329,7 @@ func AddAccountsToCustomer ( customerId uuid.UUID, accountsIds []uuid.UUID )(uti
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignAccounts",
+                    Call:       "addAccountsToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -365,10 +381,11 @@ func RemoveAccountsFromCustomer( customerId uuid.UUID, accountsIds []uuid.UUID )
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Accounts", accountsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeAccounts",
+                    Call:       "removeAccountsFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -425,7 +442,7 @@ func AddLoanAccountsToCustomer ( customerId uuid.UUID, loanAccountsIds []uuid.UU
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignLoanAccounts",
+                    Call:       "addLoanAccountsToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -477,10 +494,11 @@ func RemoveLoanAccountsFromCustomer( customerId uuid.UUID, loanAccountsIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "LoanAccounts", loanAccountsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeLoanAccounts",
+                    Call:       "removeLoanAccountsFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -537,7 +555,7 @@ func AddPaymentCardsToCustomer ( customerId uuid.UUID, paymentCardsIds []uuid.UU
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignPaymentCards",
+                    Call:       "addPaymentCardsToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -589,10 +607,11 @@ func RemovePaymentCardsFromCustomer( customerId uuid.UUID, paymentCardsIds []uui
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "PaymentCards", paymentCardsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removePaymentCards",
+                    Call:       "removePaymentCardsFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -649,7 +668,7 @@ func AddExternalAccountsToCustomer ( customerId uuid.UUID, externalAccountsIds [
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignExternalAccounts",
+                    Call:       "addExternalAccountsToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -701,10 +720,11 @@ func RemoveExternalAccountsFromCustomer( customerId uuid.UUID, externalAccountsI
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ExternalAccounts", externalAccountsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeExternalAccounts",
+                    Call:       "removeExternalAccountsFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -761,7 +781,7 @@ func AddFundsTransfersToCustomer ( customerId uuid.UUID, fundsTransfersIds []uui
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignFundsTransfers",
+                    Call:       "addFundsTransfersToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -813,10 +833,11 @@ func RemoveFundsTransfersFromCustomer( customerId uuid.UUID, fundsTransfersIds [
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FundsTransfers", fundsTransfersId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeFundsTransfers",
+                    Call:       "removeFundsTransfersFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -873,7 +894,7 @@ func AddDisputesToCustomer ( customerId uuid.UUID, disputesIds []uuid.UUID )(uti
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignDisputes",
+                    Call:       "addDisputesToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -925,10 +946,11 @@ func RemoveDisputesFromCustomer( customerId uuid.UUID, disputesIds []uuid.UUID )
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Disputes", disputesId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeDisputes",
+                    Call:       "removeDisputesFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -985,7 +1007,7 @@ func AddKycProfilesToCustomer ( customerId uuid.UUID, kycProfilesIds []uuid.UUID
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignKycProfiles",
+                    Call:       "addKycProfilesToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -1037,10 +1059,11 @@ func RemoveKycProfilesFromCustomer( customerId uuid.UUID, kycProfilesIds []uuid.
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfiles", kycProfilesId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeKycProfiles",
+                    Call:       "removeKycProfilesFromCustomer",
                     Data:       childObj,
                 }
 			}
@@ -1097,7 +1120,7 @@ func AddConsentsToCustomer ( customerId uuid.UUID, consentsIds []uuid.UUID )(uti
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "unassignConsents",
+                    Call:       "addConsentsToCustomer",
                     Data:       childObj,
                 }
 			}
@@ -1149,10 +1172,11 @@ func RemoveConsentsFromCustomer( customerId uuid.UUID, consentsIds []uuid.UUID )
 
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
+
                 return utils.RequestResult{
                     Success:    false,
                     Msg:        msg,
-                    Call:       "removeConsents",
+                    Call:       "removeConsentsFromCustomer",
                     Data:       childObj,
                 }
 			}

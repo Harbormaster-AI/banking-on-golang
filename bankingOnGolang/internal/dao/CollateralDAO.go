@@ -37,7 +37,12 @@ func CreateCollateral(obj model.Collateral)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateCollateral", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateCollateral",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetCollateral(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetCollateral", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetCollateral",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllCollateral()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllCollateral", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllCollateral",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

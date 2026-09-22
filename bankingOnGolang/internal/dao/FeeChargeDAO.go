@@ -37,7 +37,12 @@ func CreateFeeCharge(obj model.FeeCharge)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateFeeCharge", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateFeeCharge",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetFeeCharge(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetFeeCharge", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetFeeCharge",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllFeeCharge()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllFeeCharge", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllFeeCharge",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

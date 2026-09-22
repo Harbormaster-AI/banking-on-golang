@@ -37,7 +37,12 @@ func CreateFXTrade(obj model.FXTrade)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateFXTrade", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateFXTrade",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetFXTrade(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetFXTrade", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetFXTrade",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllFXTrade()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllFXTrade", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllFXTrade",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------

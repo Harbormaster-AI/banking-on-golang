@@ -37,7 +37,12 @@ func CreateRepaymentSchedule(obj model.RepaymentSchedule)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, createMsg, "CreateRepaymentSchedule", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        createMsg,
+        Call:       "CreateRepaymentSchedule",
+        Data:       obj,
+    }
 }
 
 
@@ -69,7 +74,12 @@ func GetRepaymentSchedule(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getMsg, "GetRepaymentSchedule", obj}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getMsg,
+        Call:       "GetRepaymentSchedule",
+        Data:       obj,
+    }
 
 }
 
@@ -97,7 +107,13 @@ func GetAllRepaymentSchedule()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	return utils.RequestResult{success, getAllMsg, "GetAllRepaymentSchedule", objs}
+    return utils.RequestResult{
+        Success:    success,
+        Msg:        getAllMsg,
+        Call:       "GetAllRepaymentSchedule",
+        Data:       objs,
+    }
+
 }
 
 //----------------------------------------------------------------------------
