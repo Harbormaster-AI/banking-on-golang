@@ -2,37 +2,7 @@
 package model
 
 import (
-    "time"
+#declareImports(${classObject})
 )
 
-//==============================================================
-// Customer Declaration
-//==============================================================
-type Customer struct {
-    BaseModel
-     FirstName            string
-    LastName            string
-    LegalName            string
-    DateOfBirth            time.Time
-    TaxId            string
-    Email            string
-    Phone            string
-    Address            Address
-    BankId         *uint
-    Bank           *Bank `gorm:"foreignKey:BankId"`
-     Accounts           []Account `gorm:"foreignKey:AccountsFromCustomerId"`
-     LoanAccounts           []LoanAccount `gorm:"foreignKey:LoanAccountsFromCustomerId"`
-     PaymentCards           []PaymentCard `gorm:"foreignKey:PaymentCardsFromCustomerId"`
-     ExternalAccounts           []ExternalAccount `gorm:"foreignKey:ExternalAccountsFromCustomerId"`
-     FundsTransfers           []FundsTransfer `gorm:"foreignKey:FundsTransfersFromCustomerId"`
-     Disputes           []Dispute `gorm:"foreignKey:DisputesFromCustomerId"`
-     KycProfiles           []KycProfile `gorm:"foreignKey:KycProfilesFromCustomerId"`
-     Consents           []Consent `gorm:"foreignKey:ConsentsFromCustomerId"`
-    CustomerType            CustomerType
-    RiskRating            RiskRating
-    KycStatus            KycStatus
-
-// parent associations as their child
-
-}
-
+#declareStruct($classObject)

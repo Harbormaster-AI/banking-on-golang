@@ -2,21 +2,7 @@
 package model
 
 import (
-    "time"
+#declareImports(${classObject})
 )
 
-//==============================================================
-// ScreeningResult Declaration
-//==============================================================
-type ScreeningResult struct {
-    BaseModel
-     ScreeningDate            time.Time
-    Provider            string
-    KycProfileId         *uint
-    KycProfile           *KycProfile `gorm:"foreignKey:KycProfileId"`
-    Outcome            ScreeningOutcome
-
-// parent associations as their child
-
-}
-
+#declareStruct($classObject)

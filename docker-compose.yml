@@ -2,19 +2,14 @@ version: "3.9"
 
 services:
   db:
-    image:      MYSQL_USER: root
-      MYSQL_PASSWORD: letmein2
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-      MYSQL_ROOT_PASSWORD:  letmein2
-      MYSQL_DATABASE: appDB
-    ports:
+    image:    ports:
       - #DockerComposeDBPorts()
     volumes:
       - ./db:/docker-entrypoint-initdb.d
 
   platform:
     image: theharbormaster/banking-on-golang:latest    ports:
-      - "4000:4000
+      - "8080:8080
 "
     depends_on:
       - db
