@@ -11,7 +11,7 @@ import (
 type LoanPayment struct {
     BaseModel
      PaymentReference            string
-    Amount            Money
+    Amount        Money `gorm:"embedded;embeddedPrefix:loanPayment_amount"`
     PaymentDate            time.Time
     LoanAccountId         *uint
     LoanAccount           *LoanAccount `gorm:"foreignKey:LoanAccountId"`

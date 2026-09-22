@@ -10,7 +10,7 @@ import (
 type ATM struct {
     BaseModel
      TerminalId            string
-    Location            Address
+    Location        Address `gorm:"embedded;embeddedPrefix:aTM_location"`
     BranchId         *uint
     Branch           *Branch `gorm:"foreignKey:BranchId"`
     Status            ATMStatus

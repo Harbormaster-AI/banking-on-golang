@@ -13,8 +13,8 @@ type AccountStatement struct {
      StatementNumber            string
     PeriodStart            time.Time
     PeriodEnd            time.Time
-    OpeningBalance            Money
-    ClosingBalance            Money
+    OpeningBalance        Money `gorm:"embedded;embeddedPrefix:accountStatement_openingBalance"`
+    ClosingBalance        Money `gorm:"embedded;embeddedPrefix:accountStatement_closingBalance"`
     AccountId         *uint
     Account           *Account `gorm:"foreignKey:AccountId"`
     DeliveryMethod            StatementDeliveryMethod

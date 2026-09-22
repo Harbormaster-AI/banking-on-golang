@@ -11,7 +11,7 @@ import (
 type StandingInstruction struct {
     BaseModel
      InstructionId            string
-    Amount            Money
+    Amount        Money `gorm:"embedded;embeddedPrefix:standingInstruction_amount"`
     NextExecutionDate            time.Time
     AccountId         *uint
     Account           *Account `gorm:"foreignKey:AccountId"`

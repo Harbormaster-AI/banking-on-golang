@@ -11,7 +11,7 @@ type Bank struct {
     BaseModel
      Name            string
     LegalName            string
-    SwiftBic            BIC
+    SwiftBic        BIC `gorm:"embedded;embeddedPrefix:bank_swiftBic"`
     HeadquartersCountry            string
     Website            string
      Branches           []Branch `gorm:"foreignKey:BranchesFromBankId"`

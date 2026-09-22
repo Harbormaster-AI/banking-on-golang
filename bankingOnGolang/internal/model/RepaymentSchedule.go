@@ -12,9 +12,9 @@ type RepaymentSchedule struct {
     BaseModel
      InstallmentNumber            int32
     DueDate            time.Time
-    PrincipalDue            Money
-    InterestDue            Money
-    TotalDue            Money
+    PrincipalDue        Money `gorm:"embedded;embeddedPrefix:repaymentSchedule_principalDue"`
+    InterestDue        Money `gorm:"embedded;embeddedPrefix:repaymentSchedule_interestDue"`
+    TotalDue        Money `gorm:"embedded;embeddedPrefix:repaymentSchedule_totalDue"`
     LoanAccountId         *uint
     LoanAccount           *LoanAccount `gorm:"foreignKey:LoanAccountId"`
     PaymentId         *uint

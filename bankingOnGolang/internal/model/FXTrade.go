@@ -14,8 +14,8 @@ type FXTrade struct {
      TradeReference            string
     TradeDate            time.Time
     SettlementDate            time.Time
-    AmountSold            Money
-    AmountBought            Money
+    AmountSold        Money `gorm:"embedded;embeddedPrefix:fXTrade_amountSold"`
+    AmountBought        Money `gorm:"embedded;embeddedPrefix:fXTrade_amountBought"`
     Rate            decimal.Decimal
     CustomerId         *uint
     Customer           *Customer `gorm:"foreignKey:CustomerId"`

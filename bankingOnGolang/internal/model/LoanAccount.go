@@ -11,9 +11,9 @@ import (
 type LoanAccount struct {
     BaseModel
      LoanNumber            string
-    PrincipalAmount            Money
-    OutstandingPrincipal            Money
-    InterestRate            Percentage
+    PrincipalAmount        Money `gorm:"embedded;embeddedPrefix:loanAccount_principalAmount"`
+    OutstandingPrincipal        Money `gorm:"embedded;embeddedPrefix:loanAccount_outstandingPrincipal"`
+    InterestRate        Percentage `gorm:"embedded;embeddedPrefix:loanAccount_interestRate"`
     OriginationDate            time.Time
     MaturityDate            time.Time
     PaymentDayOfMonth            int32

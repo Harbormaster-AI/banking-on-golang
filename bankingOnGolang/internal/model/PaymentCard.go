@@ -9,7 +9,7 @@ import (
 //==============================================================
 type PaymentCard struct {
     BaseModel
-     CardNumber            CardPAN
+     CardNumber        CardPAN `gorm:"embedded;embeddedPrefix:paymentCard_cardNumber"`
     EmbossedName            string
     ExpiryMonth            int32
     ExpiryYear            int32

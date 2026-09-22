@@ -10,9 +10,9 @@ import (
 type ExternalAccount struct {
     BaseModel
      Name            string
-    Iban            IBAN
-    AccountNumber            AccountNumber
-    Bic            BIC
+    Iban        IBAN `gorm:"embedded;embeddedPrefix:externalAccount_iban"`
+    AccountNumber        AccountNumber `gorm:"embedded;embeddedPrefix:externalAccount_accountNumber"`
+    Bic        BIC `gorm:"embedded;embeddedPrefix:externalAccount_bic"`
     BankName            string
     Country            string
     CustomerId         *uint

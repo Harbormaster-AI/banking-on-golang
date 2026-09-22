@@ -12,7 +12,7 @@ type Transaction struct {
     BaseModel
      BookingDate            time.Time
     ValueDate            time.Time
-    Amount            Money
+    Amount        Money `gorm:"embedded;embeddedPrefix:transaction_amount"`
     Description            string
     AccountId         *uint
     Account           *Account `gorm:"foreignKey:AccountId"`

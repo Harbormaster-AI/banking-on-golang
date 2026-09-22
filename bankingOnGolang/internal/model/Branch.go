@@ -11,7 +11,7 @@ type Branch struct {
     BaseModel
      Name            string
     BranchCode            string
-    Address            Address
+    Address        Address `gorm:"embedded;embeddedPrefix:branch_address"`
     Phone            string
     OpeningHours            string
     BankId         *uint

@@ -17,7 +17,7 @@ type Customer struct {
     TaxId            string
     Email            string
     Phone            string
-    Address            Address
+    Address        Address `gorm:"embedded;embeddedPrefix:customer_address"`
     BankId         *uint
     Bank           *Bank `gorm:"foreignKey:BankId"`
      Accounts           []Account `gorm:"foreignKey:AccountsFromCustomerId"`

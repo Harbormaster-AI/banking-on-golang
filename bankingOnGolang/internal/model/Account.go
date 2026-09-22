@@ -10,8 +10,8 @@ import (
 //==============================================================
 type Account struct {
     BaseModel
-     AccountNumber            AccountNumber
-    Iban            IBAN
+     AccountNumber        AccountNumber `gorm:"embedded;embeddedPrefix:account_accountNumber"`
+    Iban        IBAN `gorm:"embedded;embeddedPrefix:account_iban"`
     AccountName            string
     Currency            string
     OpenedOn            time.Time

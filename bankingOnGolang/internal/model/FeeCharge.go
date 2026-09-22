@@ -11,7 +11,7 @@ import (
 type FeeCharge struct {
     BaseModel
      FeeCode            string
-    Amount            Money
+    Amount        Money `gorm:"embedded;embeddedPrefix:feeCharge_amount"`
     AppliedOn            time.Time
     AccountId         *uint
     Account           *Account `gorm:"foreignKey:AccountId"`
