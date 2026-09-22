@@ -51,7 +51,7 @@ func InitializeEnvironment() {
 	//----------------------------------------------------------------------------
 
     var dsn string
-    switch dbVersion := os.Getenv("DB_VERSION"); dbVersion {
+    switch dbVersion := os.Getenv("DB_TYPE"); dbVersion {
 	    case "postgres":
 		    // example: host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
 		    dsn = fmt.Sprintf( "host=%s user=%s password=%s dbname=%s port=%s %s", 
