@@ -5,8 +5,9 @@ import (
     ConsentDAO "bankingOnGolang/internal/dao"
     "bankingOnGolang/internal/model"
     "bankingOnGolang/internal/utils"
-	"net/http"
-	 "encoding/json"
+    "net/http"
+    "encoding/json"
+    "log"
 )
 
 // ----------------------------------------------------------------------------
