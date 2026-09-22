@@ -24,18 +24,13 @@ import (
 
 }
 
- Name is value
-type AccountNumber     string
+ type AccountNumber string
 
- Name is value
-type IBAN     string
+ type IBAN string
 
- Name is value
-type BIC     string
+ type BIC string
 
- Name is value
-type CardPAN     string
+ type CardPAN string
 
- Name is value
-type Percentage     decimal.Decimal
+ type Percentage decimal.Decimal
 
