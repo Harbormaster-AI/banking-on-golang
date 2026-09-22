@@ -24,4 +24,8 @@ import (
 
 }
 
- type AccountNumber  type IBAN  type BIC  type CardPAN  type Percentage 
+ type AccountNumber 
+ type IBAN 
+ type BIC 
+ type CardPAN 
+ type Percentage 
