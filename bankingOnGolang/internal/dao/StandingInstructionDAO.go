@@ -163,7 +163,7 @@ func DeleteStandingInstruction(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetStandingInstruction(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.StandingInstruction so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignAccountToStandingInstruction( standingInstructionId uuid.UUID, accoun
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetStandingInstruction(standingInstructionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.StandingInstruction so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignAccountFromStandingInstruction(standingInstructionId uuid.UUID)(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetStandingInstruction(standingInstructionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.StandingInstruction so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignBeneficiaryToStandingInstruction( standingInstructionId uuid.UUID, be
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetStandingInstruction(standingInstructionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.StandingInstruction so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignBeneficiaryFromStandingInstruction(standingInstructionId uuid.UUID)
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetStandingInstruction(standingInstructionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.StandingInstruction so the ORM can figure
 		// out which table to deal with

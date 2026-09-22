@@ -163,7 +163,7 @@ func DeleteBranch(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetBranch(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToBranch( branchId uuid.UUID, bankId uuid.UUID )(utils.RequestRes
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromBranch(branchId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -411,7 +411,7 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -467,7 +467,7 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UU
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -524,7 +524,7 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestRe
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with
@@ -580,7 +580,7 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.Reque
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBranch(branchId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Branch so the ORM can figure
 		// out which table to deal with

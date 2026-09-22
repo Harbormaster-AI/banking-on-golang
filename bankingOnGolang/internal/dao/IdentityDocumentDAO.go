@@ -163,7 +163,7 @@ func DeleteIdentityDocument(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetIdentityDocument(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.IdentityDocument so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignKycProfileToIdentityDocument( identityDocumentId uuid.UUID, kycProfil
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetIdentityDocument(identityDocumentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.IdentityDocument so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignKycProfileFromIdentityDocument(identityDocumentId uuid.UUID)(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetIdentityDocument(identityDocumentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.IdentityDocument so the ORM can figure
 		// out which table to deal with

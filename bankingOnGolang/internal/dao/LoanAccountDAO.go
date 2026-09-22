@@ -163,7 +163,7 @@ func DeleteLoanAccount(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetLoanAccount(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToLoanAccount( loanAccountId uuid.UUID, bankId uuid.UUID )(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromLoanAccount(loanAccountId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignBranchToLoanAccount( loanAccountId uuid.UUID, branchId uuid.UUID )(ut
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignBranchFromLoanAccount(loanAccountId uuid.UUID)(utils.RequestResult)
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignProductToLoanAccount( loanAccountId uuid.UUID, productId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignProductFromLoanAccount(loanAccountId uuid.UUID)(utils.RequestResult
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -480,7 +480,7 @@ func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds []uuid.UU
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -536,7 +536,7 @@ func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -593,7 +593,7 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentSched
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -649,7 +649,7 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentS
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -706,7 +706,7 @@ func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds []uuid.UUID
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -762,7 +762,7 @@ func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds []uuid.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -819,7 +819,7 @@ func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds []uuid.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -875,7 +875,7 @@ func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds []u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -932,7 +932,7 @@ func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds []uuid.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with
@@ -988,7 +988,7 @@ func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds []u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanAccount(loanAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanAccount so the ORM can figure
 		// out which table to deal with

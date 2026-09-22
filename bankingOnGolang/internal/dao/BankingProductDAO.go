@@ -163,7 +163,7 @@ func DeleteBankingProduct(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetBankingProduct(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToBankingProduct( bankingProductId uuid.UUID, bankId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromBankingProduct(bankingProductId uuid.UUID)(utils.RequestRes
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds [
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -411,7 +411,7 @@ func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -467,7 +467,7 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccou
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -524,7 +524,7 @@ func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with
@@ -580,7 +580,7 @@ func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCa
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBankingProduct(bankingProductId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.BankingProduct so the ORM can figure
 		// out which table to deal with

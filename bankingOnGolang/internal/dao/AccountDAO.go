@@ -163,7 +163,7 @@ func DeleteAccount(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetAccount(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToAccount( accountId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromAccount(accountId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignBranchToAccount( accountId uuid.UUID, branchId uuid.UUID )(utils.Requ
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignBranchFromAccount(accountId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignProductToAccount( accountId uuid.UUID, productId uuid.UUID )(utils.Re
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignProductFromAccount(accountId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -480,7 +480,7 @@ func AddOwnersToAccount ( accountId uuid.UUID, ownersIds []uuid.UUID )(utils.Req
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -536,7 +536,7 @@ func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds []uuid.UUID )(utils
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -593,7 +593,7 @@ func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds []uuid.UUID
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -649,7 +649,7 @@ func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds []uuid.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -706,7 +706,7 @@ func AddStatementsToAccount ( accountId uuid.UUID, statementsIds []uuid.UUID )(u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -762,7 +762,7 @@ func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds []uuid.UUID
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -819,7 +819,7 @@ func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstruction
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -875,7 +875,7 @@ func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstruc
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -932,7 +932,7 @@ func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds []uuid.UUID )(u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with
@@ -988,7 +988,7 @@ func RemoveFeeChargesFromAccount( accountId uuid.UUID, feeChargesIds []uuid.UUID
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccount(accountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Account so the ORM can figure
 		// out which table to deal with

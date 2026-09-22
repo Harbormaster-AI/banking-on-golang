@@ -163,7 +163,7 @@ func DeleteFXTrade(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetFXTrade(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignCustomerToFXTrade( fXTradeId uuid.UUID, customerId uuid.UUID )(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignCustomerFromFXTrade(fXTradeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignBankToFXTrade( fXTradeId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignBankFromFXTrade(fXTradeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignExchangeRateToFXTrade( fXTradeId uuid.UUID, exchangeRateId uuid.UUID 
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignExchangeRateFromFXTrade(fXTradeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -479,7 +479,7 @@ func AssignSourceAccountToFXTrade( fXTradeId uuid.UUID, sourceAccountId uuid.UUI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -532,7 +532,7 @@ func UnassignSourceAccountFromFXTrade(fXTradeId uuid.UUID)(utils.RequestResult) 
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -570,7 +570,7 @@ func AssignDestinationAccountToFXTrade( fXTradeId uuid.UUID, destinationAccountI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -623,7 +623,7 @@ func UnassignDestinationAccountFromFXTrade(fXTradeId uuid.UUID)(utils.RequestRes
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -661,7 +661,7 @@ func AssignTransactionToFXTrade( fXTradeId uuid.UUID, transactionId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with
@@ -714,7 +714,7 @@ func UnassignTransactionFromFXTrade(fXTradeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFXTrade(fXTradeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FXTrade so the ORM can figure
 		// out which table to deal with

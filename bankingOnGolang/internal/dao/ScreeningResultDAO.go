@@ -163,7 +163,7 @@ func DeleteScreeningResult(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetScreeningResult(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ScreeningResult so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignKycProfileToScreeningResult( screeningResultId uuid.UUID, kycProfileI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetScreeningResult(screeningResultId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ScreeningResult so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignKycProfileFromScreeningResult(screeningResultId uuid.UUID)(utils.Re
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetScreeningResult(screeningResultId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ScreeningResult so the ORM can figure
 		// out which table to deal with

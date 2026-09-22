@@ -163,7 +163,7 @@ func DeleteBank(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetBank(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -207,7 +207,7 @@ func AddBranchesToBank ( bankId uuid.UUID, branchesIds []uuid.UUID )(utils.Reque
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -263,7 +263,7 @@ func RemoveBranchesFromBank( bankId uuid.UUID, branchesIds []uuid.UUID )(utils.R
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -320,7 +320,7 @@ func AddProductsToBank ( bankId uuid.UUID, productsIds []uuid.UUID )(utils.Reque
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -376,7 +376,7 @@ func RemoveProductsFromBank( bankId uuid.UUID, productsIds []uuid.UUID )(utils.R
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -433,7 +433,7 @@ func AddCustomersToBank ( bankId uuid.UUID, customersIds []uuid.UUID )(utils.Req
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -489,7 +489,7 @@ func RemoveCustomersFromBank( bankId uuid.UUID, customersIds []uuid.UUID )(utils
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -546,7 +546,7 @@ func AddAccountsToBank ( bankId uuid.UUID, accountsIds []uuid.UUID )(utils.Reque
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -602,7 +602,7 @@ func RemoveAccountsFromBank( bankId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -659,7 +659,7 @@ func AddPaymentCardsToBank ( bankId uuid.UUID, paymentCardsIds []uuid.UUID )(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -715,7 +715,7 @@ func RemovePaymentCardsFromBank( bankId uuid.UUID, paymentCardsIds []uuid.UUID )
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -772,7 +772,7 @@ func AddLoanAccountsToBank ( bankId uuid.UUID, loanAccountsIds []uuid.UUID )(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -828,7 +828,7 @@ func RemoveLoanAccountsFromBank( bankId uuid.UUID, loanAccountsIds []uuid.UUID )
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -885,7 +885,7 @@ func AddExchangeRatesToBank ( bankId uuid.UUID, exchangeRatesIds []uuid.UUID )(u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -941,7 +941,7 @@ func RemoveExchangeRatesFromBank( bankId uuid.UUID, exchangeRatesIds []uuid.UUID
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -998,7 +998,7 @@ func AddConsentsToBank ( bankId uuid.UUID, consentsIds []uuid.UUID )(utils.Reque
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -1054,7 +1054,7 @@ func RemoveConsentsFromBank( bankId uuid.UUID, consentsIds []uuid.UUID )(utils.R
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -1111,7 +1111,7 @@ func AddThirdPartyProvidersToBank ( bankId uuid.UUID, thirdPartyProvidersIds []u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with
@@ -1167,7 +1167,7 @@ func RemoveThirdPartyProvidersFromBank( bankId uuid.UUID, thirdPartyProvidersIds
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetBank(bankId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Bank so the ORM can figure
 		// out which table to deal with

@@ -163,7 +163,7 @@ func DeletePaymentCard(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetPaymentCard(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToPaymentCard( paymentCardId uuid.UUID, bankId uuid.UUID )(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromPaymentCard(paymentCardId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignAccountToPaymentCard( paymentCardId uuid.UUID, accountId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignAccountFromPaymentCard(paymentCardId uuid.UUID)(utils.RequestResult
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignCustomerToPaymentCard( paymentCardId uuid.UUID, customerId uuid.UUID 
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignCustomerFromPaymentCard(paymentCardId uuid.UUID)(utils.RequestResul
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -480,7 +480,7 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with
@@ -536,7 +536,7 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetPaymentCard(paymentCardId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.PaymentCard so the ORM can figure
 		// out which table to deal with

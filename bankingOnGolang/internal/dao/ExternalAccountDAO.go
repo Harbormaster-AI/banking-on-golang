@@ -163,7 +163,7 @@ func DeleteExternalAccount(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetExternalAccount(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExternalAccount so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignCustomerToExternalAccount( externalAccountId uuid.UUID, customerId uu
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExternalAccount(externalAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExternalAccount so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignCustomerFromExternalAccount(externalAccountId uuid.UUID)(utils.Requ
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExternalAccount(externalAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExternalAccount so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExternalAccount(externalAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExternalAccount so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExternalAccount(externalAccountId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExternalAccount so the ORM can figure
 		// out which table to deal with

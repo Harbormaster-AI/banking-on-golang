@@ -163,7 +163,7 @@ func DeleteDispute(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetDispute(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignTransactionToDispute( disputeId uuid.UUID, transactionId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignTransactionFromDispute(disputeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignCustomerToDispute( disputeId uuid.UUID, customerId uuid.UUID )(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignCustomerFromDispute(disputeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignAccountToDispute( disputeId uuid.UUID, accountId uuid.UUID )(utils.Re
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignAccountFromDispute(disputeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -479,7 +479,7 @@ func AssignPaymentCardToDispute( disputeId uuid.UUID, paymentCardId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with
@@ -532,7 +532,7 @@ func UnassignPaymentCardFromDispute(disputeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetDispute(disputeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Dispute so the ORM can figure
 		// out which table to deal with

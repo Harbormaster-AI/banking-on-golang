@@ -163,7 +163,7 @@ func DeleteLoanPayment(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetLoanPayment(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanPayment so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignLoanAccountToLoanPayment( loanPaymentId uuid.UUID, loanAccountId uuid
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanPayment(loanPaymentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanPayment so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignLoanAccountFromLoanPayment(loanPaymentId uuid.UUID)(utils.RequestRe
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanPayment(loanPaymentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanPayment so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignTransactionToLoanPayment( loanPaymentId uuid.UUID, transactionId uuid
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanPayment(loanPaymentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanPayment so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignTransactionFromLoanPayment(loanPaymentId uuid.UUID)(utils.RequestRe
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetLoanPayment(loanPaymentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.LoanPayment so the ORM can figure
 		// out which table to deal with

@@ -163,7 +163,7 @@ func DeleteCollateral(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetCollateral(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Collateral so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignLoanAccountToCollateral( collateralId uuid.UUID, loanAccountId uuid.U
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCollateral(collateralId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Collateral so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignLoanAccountFromCollateral(collateralId uuid.UUID)(utils.RequestResu
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCollateral(collateralId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Collateral so the ORM can figure
 		// out which table to deal with

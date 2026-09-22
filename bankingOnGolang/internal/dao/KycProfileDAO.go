@@ -163,7 +163,7 @@ func DeleteKycProfile(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetKycProfile(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignCustomerToKycProfile( kycProfileId uuid.UUID, customerId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignCustomerFromKycProfile(kycProfileId uuid.UUID)(utils.RequestResult)
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -411,7 +411,7 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -467,7 +467,7 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -524,7 +524,7 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with
@@ -580,7 +580,7 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetKycProfile(kycProfileId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.KycProfile so the ORM can figure
 		// out which table to deal with

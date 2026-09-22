@@ -1,38 +1,9 @@
 package router
 
 import (
-
-    BankController "bankingOnGolang/internal/controller"
-    BranchController "bankingOnGolang/internal/controller"
-    ATMController "bankingOnGolang/internal/controller"
-    CustomerController "bankingOnGolang/internal/controller"
-    KycProfileController "bankingOnGolang/internal/controller"
-    IdentityDocumentController "bankingOnGolang/internal/controller"
-    RiskAssessmentController "bankingOnGolang/internal/controller"
-    ScreeningResultController "bankingOnGolang/internal/controller"
-    BankingProductController "bankingOnGolang/internal/controller"
-    AccountController "bankingOnGolang/internal/controller"
-    AccountStatementController "bankingOnGolang/internal/controller"
-    TransactionController "bankingOnGolang/internal/controller"
-    ExternalAccountController "bankingOnGolang/internal/controller"
-    FundsTransferController "bankingOnGolang/internal/controller"
-    StandingInstructionController "bankingOnGolang/internal/controller"
-    PaymentCardController "bankingOnGolang/internal/controller"
-    LoanAccountController "bankingOnGolang/internal/controller"
-    RepaymentScheduleController "bankingOnGolang/internal/controller"
-    LoanPaymentController "bankingOnGolang/internal/controller"
-    CollateralController "bankingOnGolang/internal/controller"
-    FeeChargeController "bankingOnGolang/internal/controller"
-    ExchangeRateController "bankingOnGolang/internal/controller"
-    FXTradeController "bankingOnGolang/internal/controller"
-    DisputeController "bankingOnGolang/internal/controller"
-    ConsentController "bankingOnGolang/internal/controller"
-    ThirdPartyProviderController "bankingOnGolang/internal/controller"
+    "bankingOnGolang/internal/controller"
     jsonResponseFormatter "bankingOnGolang/internal/response"
     "github.com/gorilla/mux"
-
-    PulseIndicatorController__ "bankingOnGolang/internal/controller"
-
 )
 
 // Router is exported and used in main.go

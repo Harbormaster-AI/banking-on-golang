@@ -163,7 +163,7 @@ func DeleteConsent(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetConsent(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignCustomerToConsent( consentId uuid.UUID, customerId uuid.UUID )(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignCustomerFromConsent(consentId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignBankToConsent( consentId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignBankFromConsent(consentId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignThirdPartyProviderToConsent( consentId uuid.UUID, thirdPartyProviderI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignThirdPartyProviderFromConsent(consentId uuid.UUID)(utils.RequestRes
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -480,7 +480,7 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with
@@ -536,7 +536,7 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetConsent(consentId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Consent so the ORM can figure
 		// out which table to deal with

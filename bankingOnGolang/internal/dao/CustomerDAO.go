@@ -163,7 +163,7 @@ func DeleteCustomer(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetCustomer(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToCustomer( customerId uuid.UUID, bankId uuid.UUID )(utils.Reques
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromCustomer(customerId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddAccountsToCustomer ( customerId uuid.UUID, accountsIds []uuid.UUID )(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveAccountsFromCustomer( customerId uuid.UUID, accountsIds []uuid.UUID )
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -411,7 +411,7 @@ func AddLoanAccountsToCustomer ( customerId uuid.UUID, loanAccountsIds []uuid.UU
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -467,7 +467,7 @@ func RemoveLoanAccountsFromCustomer( customerId uuid.UUID, loanAccountsIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -524,7 +524,7 @@ func AddPaymentCardsToCustomer ( customerId uuid.UUID, paymentCardsIds []uuid.UU
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -580,7 +580,7 @@ func RemovePaymentCardsFromCustomer( customerId uuid.UUID, paymentCardsIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -637,7 +637,7 @@ func AddExternalAccountsToCustomer ( customerId uuid.UUID, externalAccountsIds [
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -693,7 +693,7 @@ func RemoveExternalAccountsFromCustomer( customerId uuid.UUID, externalAccountsI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -750,7 +750,7 @@ func AddFundsTransfersToCustomer ( customerId uuid.UUID, fundsTransfersIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -806,7 +806,7 @@ func RemoveFundsTransfersFromCustomer( customerId uuid.UUID, fundsTransfersIds [
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -863,7 +863,7 @@ func AddDisputesToCustomer ( customerId uuid.UUID, disputesIds []uuid.UUID )(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -919,7 +919,7 @@ func RemoveDisputesFromCustomer( customerId uuid.UUID, disputesIds []uuid.UUID )
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -976,7 +976,7 @@ func AddKycProfilesToCustomer ( customerId uuid.UUID, kycProfilesIds []uuid.UUID
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -1032,7 +1032,7 @@ func RemoveKycProfilesFromCustomer( customerId uuid.UUID, kycProfilesIds []uuid.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -1089,7 +1089,7 @@ func AddConsentsToCustomer ( customerId uuid.UUID, consentsIds []uuid.UUID )(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with
@@ -1145,7 +1145,7 @@ func RemoveConsentsFromCustomer( customerId uuid.UUID, consentsIds []uuid.UUID )
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetCustomer(customerId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Customer so the ORM can figure
 		// out which table to deal with

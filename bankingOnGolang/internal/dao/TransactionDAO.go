@@ -163,7 +163,7 @@ func DeleteTransaction(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetTransaction(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignAccountToTransaction( transactionId uuid.UUID, accountId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignAccountFromTransaction(transactionId uuid.UUID)(utils.RequestResult
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignExternalCounterpartyToTransaction( transactionId uuid.UUID, externalC
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignExternalCounterpartyFromTransaction(transactionId uuid.UUID)(utils.
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignPaymentCardToTransaction( transactionId uuid.UUID, paymentCardId uuid
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignPaymentCardFromTransaction(transactionId uuid.UUID)(utils.RequestRe
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -479,7 +479,7 @@ func AssignFundsTransferToTransaction( transactionId uuid.UUID, fundsTransferId 
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -532,7 +532,7 @@ func UnassignFundsTransferFromTransaction(transactionId uuid.UUID)(utils.Request
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -570,7 +570,7 @@ func AssignFxTradeToTransaction( transactionId uuid.UUID, fxTradeId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -623,7 +623,7 @@ func UnassignFxTradeFromTransaction(transactionId uuid.UUID)(utils.RequestResult
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -661,7 +661,7 @@ func AssignDisputeToTransaction( transactionId uuid.UUID, disputeId uuid.UUID )(
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with
@@ -714,7 +714,7 @@ func UnassignDisputeFromTransaction(transactionId uuid.UUID)(utils.RequestResult
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetTransaction(transactionId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.Transaction so the ORM can figure
 		// out which table to deal with

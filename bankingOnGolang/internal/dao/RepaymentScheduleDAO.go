@@ -163,7 +163,7 @@ func DeleteRepaymentSchedule(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetRepaymentSchedule(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.RepaymentSchedule so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignLoanAccountToRepaymentSchedule( repaymentScheduleId uuid.UUID, loanAc
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetRepaymentSchedule(repaymentScheduleId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.RepaymentSchedule so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignLoanAccountFromRepaymentSchedule(repaymentScheduleId uuid.UUID)(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetRepaymentSchedule(repaymentScheduleId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.RepaymentSchedule so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignPaymentToRepaymentSchedule( repaymentScheduleId uuid.UUID, paymentId 
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetRepaymentSchedule(repaymentScheduleId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.RepaymentSchedule so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignPaymentFromRepaymentSchedule(repaymentScheduleId uuid.UUID)(utils.R
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetRepaymentSchedule(repaymentScheduleId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.RepaymentSchedule so the ORM can figure
 		// out which table to deal with

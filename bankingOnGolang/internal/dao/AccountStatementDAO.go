@@ -163,7 +163,7 @@ func DeleteAccountStatement(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetAccountStatement(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.AccountStatement so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignAccountToAccountStatement( accountStatementId uuid.UUID, accountId uu
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccountStatement(accountStatementId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.AccountStatement so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignAccountFromAccountStatement(accountStatementId uuid.UUID)(utils.Req
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetAccountStatement(accountStatementId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.AccountStatement so the ORM can figure
 		// out which table to deal with

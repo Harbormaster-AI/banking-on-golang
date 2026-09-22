@@ -163,7 +163,7 @@ func DeleteFeeCharge(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetFeeCharge(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FeeCharge so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignAccountToFeeCharge( feeChargeId uuid.UUID, accountId uuid.UUID )(util
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFeeCharge(feeChargeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FeeCharge so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignAccountFromFeeCharge(feeChargeId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFeeCharge(feeChargeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FeeCharge so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignLoanAccountToFeeCharge( feeChargeId uuid.UUID, loanAccountId uuid.UUI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFeeCharge(feeChargeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FeeCharge so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignLoanAccountFromFeeCharge(feeChargeId uuid.UUID)(utils.RequestResult
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFeeCharge(feeChargeId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FeeCharge so the ORM can figure
 		// out which table to deal with

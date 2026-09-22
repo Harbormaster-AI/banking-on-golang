@@ -163,7 +163,7 @@ func DeleteATM(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetATM(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ATM so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBranchToATM( aTMId uuid.UUID, branchId uuid.UUID )(utils.RequestResul
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetATM(aTMId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ATM so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBranchFromATM(aTMId uuid.UUID)(utils.RequestResult) {
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetATM(aTMId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ATM so the ORM can figure
 		// out which table to deal with

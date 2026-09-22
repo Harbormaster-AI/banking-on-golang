@@ -163,7 +163,7 @@ func DeleteExchangeRate(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetExchangeRate(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExchangeRate so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToExchangeRate( exchangeRateId uuid.UUID, bankId uuid.UUID )(util
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExchangeRate(exchangeRateId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExchangeRate so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromExchangeRate(exchangeRateId uuid.UUID)(utils.RequestResult)
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExchangeRate(exchangeRateId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExchangeRate so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExchangeRate(exchangeRateId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExchangeRate so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetExchangeRate(exchangeRateId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ExchangeRate so the ORM can figure
 		// out which table to deal with

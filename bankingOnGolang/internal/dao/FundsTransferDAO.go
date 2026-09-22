@@ -163,7 +163,7 @@ func DeleteFundsTransfer(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetFundsTransfer(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignSourceAccountToFundsTransfer( fundsTransferId uuid.UUID, sourceAccoun
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignSourceAccountFromFundsTransfer(fundsTransferId uuid.UUID)(utils.Req
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -297,7 +297,7 @@ func AssignDestinationAccountToFundsTransfer( fundsTransferId uuid.UUID, destina
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -350,7 +350,7 @@ func UnassignDestinationAccountFromFundsTransfer(fundsTransferId uuid.UUID)(util
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -388,7 +388,7 @@ func AssignExternalBeneficiaryToFundsTransfer( fundsTransferId uuid.UUID, extern
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -441,7 +441,7 @@ func UnassignExternalBeneficiaryFromFundsTransfer(fundsTransferId uuid.UUID)(uti
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -479,7 +479,7 @@ func AssignInitiatedByToFundsTransfer( fundsTransferId uuid.UUID, initiatedById 
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -532,7 +532,7 @@ func UnassignInitiatedByFromFundsTransfer(fundsTransferId uuid.UUID)(utils.Reque
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -571,7 +571,7 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with
@@ -627,7 +627,7 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetFundsTransfer(fundsTransferId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.FundsTransfer so the ORM can figure
 		// out which table to deal with

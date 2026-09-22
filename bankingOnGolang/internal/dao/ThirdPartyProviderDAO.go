@@ -163,7 +163,7 @@ func DeleteThirdPartyProvider(id uuid.UUID)(requestResult utils.RequestResult){
 	//----------------------------------------------------------------------------
 	requestResult = GetThirdPartyProvider(id)
 
-	if requestResult.Success == true {
+	if requestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ThirdPartyProvider so the ORM can figure
 		// out which table to deal with
@@ -206,7 +206,7 @@ func AssignBankToThirdPartyProvider( thirdPartyProviderId uuid.UUID, bankId uuid
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetThirdPartyProvider(thirdPartyProviderId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ThirdPartyProvider so the ORM can figure
 		// out which table to deal with
@@ -259,7 +259,7 @@ func UnassignBankFromThirdPartyProvider(thirdPartyProviderId uuid.UUID)(utils.Re
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetThirdPartyProvider(thirdPartyProviderId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ThirdPartyProvider so the ORM can figure
 		// out which table to deal with
@@ -298,7 +298,7 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetThirdPartyProvider(thirdPartyProviderId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ThirdPartyProvider so the ORM can figure
 		// out which table to deal with
@@ -354,7 +354,7 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 	//----------------------------------------------------------------------------
 	parentRequestResult := GetThirdPartyProvider(thirdPartyProviderId)
 
-	if parentRequestResult.Success == true {
+	if parentRequestResult.Success {
 		//----------------------------------------------------------------------------
 		// Need to cast the interface to a model.ThirdPartyProvider so the ORM can figure
 		// out which table to deal with
