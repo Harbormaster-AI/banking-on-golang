@@ -323,16 +323,12 @@ func AddAccountsToBranch ( branchId uuid.UUID, accountsIds []uuid.UUID )(utils.R
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Accounts").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Accounts").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addAccountsToBranch",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Accounts").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addAccountsToBranch",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -390,16 +386,12 @@ func RemoveAccountsFromBranch( branchId uuid.UUID, accountsIds []uuid.UUID )(uti
 				// remove AccountObj from the Accounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Accounts").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Accounts").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeAccountsFromBranch",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Accounts").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeAccountsFromBranch",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -459,16 +451,12 @@ func AddLoanAccountsToBranch ( branchId uuid.UUID, loanAccountsIds []uuid.UUID )
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("LoanAccounts").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addLoanAccountsToBranch",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addLoanAccountsToBranch",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -526,16 +514,12 @@ func RemoveLoanAccountsFromBranch( branchId uuid.UUID, loanAccountsIds []uuid.UU
 				// remove LoanAccountObj from the LoanAccounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("LoanAccounts").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeLoanAccountsFromBranch",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeLoanAccountsFromBranch",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -595,16 +579,12 @@ func AddAtmsToBranch ( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.RequestRe
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Atms").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Atms").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addAtmsToBranch",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Atms").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addAtmsToBranch",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -662,16 +642,12 @@ func RemoveAtmsFromBranch( branchId uuid.UUID, atmsIds []uuid.UUID )(utils.Reque
 				// remove ATMObj from the Atms array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Atms").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Atms").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeAtmsFromBranch",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Atms").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeAtmsFromBranch",
+                        Data:    nil,
                     }
                 }
 			} else {

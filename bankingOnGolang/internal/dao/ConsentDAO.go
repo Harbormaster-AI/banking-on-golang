@@ -505,16 +505,12 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("AuthorizedAccounts").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("AuthorizedAccounts").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addAuthorizedAccountsToConsent",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("AuthorizedAccounts").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addAuthorizedAccountsToConsent",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -572,16 +568,12 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 				// remove AccountObj from the AuthorizedAccounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("AuthorizedAccounts").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("AuthorizedAccounts").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeAuthorizedAccountsFromConsent",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("AuthorizedAccounts").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeAuthorizedAccountsFromConsent",
+                        Data:    nil,
                     }
                 }
 			} else {

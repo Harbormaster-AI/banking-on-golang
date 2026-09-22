@@ -323,16 +323,12 @@ func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds []uui
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Accounts").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Accounts").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addAccountsToBankingProduct",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Accounts").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addAccountsToBankingProduct",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -390,16 +386,12 @@ func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds [
 				// remove AccountObj from the Accounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Accounts").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Accounts").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeAccountsFromBankingProduct",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Accounts").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeAccountsFromBankingProduct",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -459,16 +451,12 @@ func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsI
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("LoanAccounts").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addLoanAccountsToBankingProduct",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addLoanAccountsToBankingProduct",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -526,16 +514,12 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccou
 				// remove LoanAccountObj from the LoanAccounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("LoanAccounts").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeLoanAccountsFromBankingProduct",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeLoanAccountsFromBankingProduct",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -595,16 +579,12 @@ func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsI
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("PaymentCards").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("PaymentCards").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addPaymentCardsToBankingProduct",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("PaymentCards").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addPaymentCardsToBankingProduct",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -662,16 +642,12 @@ func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCa
 				// remove PaymentCardObj from the PaymentCards array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("PaymentCards").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("PaymentCards").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removePaymentCardsFromBankingProduct",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("PaymentCards").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removePaymentCardsFromBankingProduct",
+                        Data:    nil,
                     }
                 }
 			} else {

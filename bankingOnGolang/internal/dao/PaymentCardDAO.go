@@ -505,16 +505,12 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Transactions").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addTransactionsToPaymentCard",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Transactions").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addTransactionsToPaymentCard",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -572,16 +568,12 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 				// remove TransactionObj from the Transactions array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Transactions").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeTransactionsFromPaymentCard",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Transactions").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeTransactionsFromPaymentCard",
+                        Data:    nil,
                     }
                 }
 			} else {

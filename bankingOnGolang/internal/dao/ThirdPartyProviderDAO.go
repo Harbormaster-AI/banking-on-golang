@@ -323,16 +323,12 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Consents").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Consents").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addConsentsToThirdPartyProvider",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Consents").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addConsentsToThirdPartyProvider",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -390,16 +386,12 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 				// remove ConsentObj from the Consents array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Consents").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Consents").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeConsentsFromThirdPartyProvider",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Consents").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeConsentsFromThirdPartyProvider",
+                        Data:    nil,
                     }
                 }
 			} else {

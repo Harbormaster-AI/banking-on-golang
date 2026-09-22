@@ -505,16 +505,12 @@ func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Borrowers").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Borrowers").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addBorrowersToLoanAccount",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Borrowers").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addBorrowersToLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -572,16 +568,12 @@ func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds []uui
 				// remove CustomerObj from the Borrowers array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Borrowers").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Borrowers").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeBorrowersFromLoanAccount",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Borrowers").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeBorrowersFromLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -641,16 +633,12 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentSched
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("RepaymentSchedule").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addRepaymentScheduleToLoanAccount",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addRepaymentScheduleToLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -708,16 +696,12 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentS
 				// remove RepaymentScheduleObj from the RepaymentSchedule array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("RepaymentSchedule").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeRepaymentScheduleFromLoanAccount",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeRepaymentScheduleFromLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -777,16 +761,12 @@ func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds []uuid.UUID
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Payments").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Payments").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addPaymentsToLoanAccount",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Payments").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addPaymentsToLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -844,16 +824,12 @@ func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds []uuid.
 				// remove LoanPaymentObj from the Payments array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Payments").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Payments").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removePaymentsFromLoanAccount",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Payments").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removePaymentsFromLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -913,16 +889,12 @@ func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds []uuid.
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Collateral").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Collateral").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addCollateralToLoanAccount",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Collateral").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addCollateralToLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -980,16 +952,12 @@ func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds []u
 				// remove CollateralObj from the Collateral array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Collateral").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Collateral").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeCollateralFromLoanAccount",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Collateral").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeCollateralFromLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -1049,16 +1017,12 @@ func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds []uuid.
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FeeCharges").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("FeeCharges").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addFeeChargesToLoanAccount",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("FeeCharges").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addFeeChargesToLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -1116,16 +1080,12 @@ func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds []u
 				// remove FeeChargeObj from the FeeCharges array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FeeCharges").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("FeeCharges").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeFeeChargesFromLoanAccount",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("FeeCharges").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeFeeChargesFromLoanAccount",
+                        Data:    nil,
                     }
                 }
 			} else {

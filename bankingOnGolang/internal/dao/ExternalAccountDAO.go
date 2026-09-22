@@ -323,16 +323,12 @@ func AddTransactionsToExternalAccount ( externalAccountId uuid.UUID, transaction
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Transactions").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addTransactionsToExternalAccount",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Transactions").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addTransactionsToExternalAccount",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -390,16 +386,12 @@ func RemoveTransactionsFromExternalAccount( externalAccountId uuid.UUID, transac
 				// remove TransactionObj from the Transactions array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Transactions").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeTransactionsFromExternalAccount",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Transactions").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeTransactionsFromExternalAccount",
+                        Data:    nil,
                     }
                 }
 			} else {

@@ -323,16 +323,12 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("IdentityDocuments").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addIdentityDocumentsToKycProfile",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addIdentityDocumentsToKycProfile",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -390,16 +386,12 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 				// remove IdentityDocumentObj from the IdentityDocuments array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("IdentityDocuments").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeIdentityDocumentsFromKycProfile",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeIdentityDocumentsFromKycProfile",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -459,16 +451,12 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("RiskAssessments").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("RiskAssessments").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addRiskAssessmentsToKycProfile",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("RiskAssessments").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addRiskAssessmentsToKycProfile",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -526,16 +514,12 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 				// remove RiskAssessmentObj from the RiskAssessments array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("RiskAssessments").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("RiskAssessments").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeRiskAssessmentsFromKycProfile",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("RiskAssessments").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeRiskAssessmentsFromKycProfile",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -595,16 +579,12 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Screenings").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Screenings").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addScreeningsToKycProfile",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Screenings").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addScreeningsToKycProfile",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -662,16 +642,12 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 				// remove ScreeningResultObj from the Screenings array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Screenings").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Screenings").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeScreeningsFromKycProfile",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Screenings").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeScreeningsFromKycProfile",
+                        Data:    nil,
                     }
                 }
 			} else {

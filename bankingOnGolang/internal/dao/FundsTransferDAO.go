@@ -596,16 +596,12 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Transactions").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addTransactionsToFundsTransfer",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("Transactions").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addTransactionsToFundsTransfer",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -663,16 +659,12 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
 				// remove TransactionObj from the Transactions array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("Transactions").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("Transactions").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeTransactionsFromFundsTransfer",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("Transactions").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeTransactionsFromFundsTransfer",
+                        Data:    nil,
                     }
                 }
 			} else {

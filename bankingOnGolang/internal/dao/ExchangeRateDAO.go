@@ -323,16 +323,12 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FxTrades").Append( &childObj )
 
-                if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("FxTrades").
-                    Append(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "addFxTradesToExchangeRate",
-                            Data:    nil,
-                        }
+                if err := utils.GetDB().Model(&parentObj).Association("FxTrades").Append(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "addFxTradesToExchangeRate",
+                        Data:    nil,
                     }
                 }
 			} else {
@@ -390,16 +386,12 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 				// remove FXTradeObj from the FxTrades array, but wont delete it from db
 				//----------------------------------------------------------------------------
 				utils.GetDB().Model(&parentObj).Association("FxTrades").Delete( &childObj )
-				if err := utils.GetDB().
-                    Model(&parentObj).
-                    Association("FxTrades").
-                    Delete(&childObj); err != nil {
-                        return utils.RequestResult{
-                            Success: false,
-                            Msg:     err.Error(),
-                            Call:    "removeFxTradesFromExchangeRate",
-                            Data:    nil,
-                        }
+				if err := utils.GetDB().Model(&parentObj).Association("FxTrades").Delete(&childObj); err != nil {
+                    return utils.RequestResult {
+                        Success: false,
+                        Msg:     err.Error(),
+                        Call:    "removeFxTradesFromExchangeRate",
+                        Data:    nil,
                     }
                 }
 			} else {
