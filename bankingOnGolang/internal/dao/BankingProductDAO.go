@@ -321,8 +321,6 @@ func AddAccountsToBankingProduct ( bankingProductId uuid.UUID, accountsIds []uui
 				//----------------------------------------------------------------------------
 				// append to the Accounts using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Accounts").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Accounts").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -385,7 +383,6 @@ func RemoveAccountsFromBankingProduct( bankingProductId uuid.UUID, accountsIds [
 				//----------------------------------------------------------------------------
 				// remove AccountObj from the Accounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Accounts").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Accounts").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -449,8 +446,6 @@ func AddLoanAccountsToBankingProduct ( bankingProductId uuid.UUID, loanAccountsI
 				//----------------------------------------------------------------------------
 				// append to the LoanAccounts using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("LoanAccounts").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -513,7 +508,6 @@ func RemoveLoanAccountsFromBankingProduct( bankingProductId uuid.UUID, loanAccou
 				//----------------------------------------------------------------------------
 				// remove LoanAccountObj from the LoanAccounts array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("LoanAccounts").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -577,8 +571,6 @@ func AddPaymentCardsToBankingProduct ( bankingProductId uuid.UUID, paymentCardsI
 				//----------------------------------------------------------------------------
 				// append to the PaymentCards using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("PaymentCards").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("PaymentCards").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -641,7 +633,6 @@ func RemovePaymentCardsFromBankingProduct( bankingProductId uuid.UUID, paymentCa
 				//----------------------------------------------------------------------------
 				// remove PaymentCardObj from the PaymentCards array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("PaymentCards").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("PaymentCards").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,

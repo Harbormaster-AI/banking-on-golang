@@ -321,8 +321,6 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 				//----------------------------------------------------------------------------
 				// append to the Consents using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Consents").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Consents").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -385,7 +383,6 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 				//----------------------------------------------------------------------------
 				// remove ConsentObj from the Consents array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Consents").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Consents").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,

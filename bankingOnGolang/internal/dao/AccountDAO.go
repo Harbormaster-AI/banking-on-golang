@@ -503,8 +503,6 @@ func AddOwnersToAccount ( accountId uuid.UUID, ownersIds []uuid.UUID )(utils.Req
 				//----------------------------------------------------------------------------
 				// append to the Owners using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Owners").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Owners").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -567,7 +565,6 @@ func RemoveOwnersFromAccount( accountId uuid.UUID, ownersIds []uuid.UUID )(utils
 				//----------------------------------------------------------------------------
 				// remove CustomerObj from the Owners array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Owners").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Owners").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -631,8 +628,6 @@ func AddTransactionsToAccount ( accountId uuid.UUID, transactionsIds []uuid.UUID
 				//----------------------------------------------------------------------------
 				// append to the Transactions using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Transactions").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Transactions").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -695,7 +690,6 @@ func RemoveTransactionsFromAccount( accountId uuid.UUID, transactionsIds []uuid.
 				//----------------------------------------------------------------------------
 				// remove TransactionObj from the Transactions array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Transactions").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Transactions").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -759,8 +753,6 @@ func AddStatementsToAccount ( accountId uuid.UUID, statementsIds []uuid.UUID )(u
 				//----------------------------------------------------------------------------
 				// append to the Statements using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Statements").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Statements").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -823,7 +815,6 @@ func RemoveStatementsFromAccount( accountId uuid.UUID, statementsIds []uuid.UUID
 				//----------------------------------------------------------------------------
 				// remove AccountStatementObj from the Statements array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Statements").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Statements").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -887,8 +878,6 @@ func AddStandingInstructionsToAccount ( accountId uuid.UUID, standingInstruction
 				//----------------------------------------------------------------------------
 				// append to the StandingInstructions using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("StandingInstructions").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("StandingInstructions").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -951,7 +940,6 @@ func RemoveStandingInstructionsFromAccount( accountId uuid.UUID, standingInstruc
 				//----------------------------------------------------------------------------
 				// remove StandingInstructionObj from the StandingInstructions array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("StandingInstructions").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("StandingInstructions").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -1015,8 +1003,6 @@ func AddFeeChargesToAccount ( accountId uuid.UUID, feeChargesIds []uuid.UUID )(u
 				//----------------------------------------------------------------------------
 				// append to the FeeCharges using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("FeeCharges").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("FeeCharges").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -1079,7 +1065,6 @@ func RemoveFeeChargesFromAccount( accountId uuid.UUID, feeChargesIds []uuid.UUID
 				//----------------------------------------------------------------------------
 				// remove FeeChargeObj from the FeeCharges array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("FeeCharges").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("FeeCharges").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,

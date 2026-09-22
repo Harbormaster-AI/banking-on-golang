@@ -594,8 +594,6 @@ func AddTransactionsToFundsTransfer ( fundsTransferId uuid.UUID, transactionsIds
 				//----------------------------------------------------------------------------
 				// append to the Transactions using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Transactions").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Transactions").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -658,7 +656,6 @@ func RemoveTransactionsFromFundsTransfer( fundsTransferId uuid.UUID, transaction
 				//----------------------------------------------------------------------------
 				// remove TransactionObj from the Transactions array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Transactions").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Transactions").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,

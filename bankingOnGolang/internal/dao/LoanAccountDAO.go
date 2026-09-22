@@ -503,8 +503,6 @@ func AddBorrowersToLoanAccount ( loanAccountId uuid.UUID, borrowersIds []uuid.UU
 				//----------------------------------------------------------------------------
 				// append to the Borrowers using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Borrowers").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Borrowers").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -567,7 +565,6 @@ func RemoveBorrowersFromLoanAccount( loanAccountId uuid.UUID, borrowersIds []uui
 				//----------------------------------------------------------------------------
 				// remove CustomerObj from the Borrowers array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Borrowers").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Borrowers").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -631,8 +628,6 @@ func AddRepaymentScheduleToLoanAccount ( loanAccountId uuid.UUID, repaymentSched
 				//----------------------------------------------------------------------------
 				// append to the RepaymentSchedule using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -695,7 +690,6 @@ func RemoveRepaymentScheduleFromLoanAccount( loanAccountId uuid.UUID, repaymentS
 				//----------------------------------------------------------------------------
 				// remove RepaymentScheduleObj from the RepaymentSchedule array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("RepaymentSchedule").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -759,8 +753,6 @@ func AddPaymentsToLoanAccount ( loanAccountId uuid.UUID, paymentsIds []uuid.UUID
 				//----------------------------------------------------------------------------
 				// append to the Payments using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Payments").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Payments").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -823,7 +815,6 @@ func RemovePaymentsFromLoanAccount( loanAccountId uuid.UUID, paymentsIds []uuid.
 				//----------------------------------------------------------------------------
 				// remove LoanPaymentObj from the Payments array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Payments").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Payments").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -887,8 +878,6 @@ func AddCollateralToLoanAccount ( loanAccountId uuid.UUID, collateralIds []uuid.
 				//----------------------------------------------------------------------------
 				// append to the Collateral using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Collateral").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Collateral").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -951,7 +940,6 @@ func RemoveCollateralFromLoanAccount( loanAccountId uuid.UUID, collateralIds []u
 				//----------------------------------------------------------------------------
 				// remove CollateralObj from the Collateral array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Collateral").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Collateral").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -1015,8 +1003,6 @@ func AddFeeChargesToLoanAccount ( loanAccountId uuid.UUID, feeChargesIds []uuid.
 				//----------------------------------------------------------------------------
 				// append to the FeeCharges using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("FeeCharges").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("FeeCharges").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -1079,7 +1065,6 @@ func RemoveFeeChargesFromLoanAccount( loanAccountId uuid.UUID, feeChargesIds []u
 				//----------------------------------------------------------------------------
 				// remove FeeChargeObj from the FeeCharges array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("FeeCharges").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("FeeCharges").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,

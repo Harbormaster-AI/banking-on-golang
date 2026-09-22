@@ -321,8 +321,6 @@ func AddIdentityDocumentsToKycProfile ( kycProfileId uuid.UUID, identityDocument
 				//----------------------------------------------------------------------------
 				// append to the IdentityDocuments using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -385,7 +383,6 @@ func RemoveIdentityDocumentsFromKycProfile( kycProfileId uuid.UUID, identityDocu
 				//----------------------------------------------------------------------------
 				// remove IdentityDocumentObj from the IdentityDocuments array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("IdentityDocuments").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -449,8 +446,6 @@ func AddRiskAssessmentsToKycProfile ( kycProfileId uuid.UUID, riskAssessmentsIds
 				//----------------------------------------------------------------------------
 				// append to the RiskAssessments using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("RiskAssessments").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("RiskAssessments").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -513,7 +508,6 @@ func RemoveRiskAssessmentsFromKycProfile( kycProfileId uuid.UUID, riskAssessment
 				//----------------------------------------------------------------------------
 				// remove RiskAssessmentObj from the RiskAssessments array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("RiskAssessments").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("RiskAssessments").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -577,8 +571,6 @@ func AddScreeningsToKycProfile ( kycProfileId uuid.UUID, screeningsIds []uuid.UU
 				//----------------------------------------------------------------------------
 				// append to the Screenings using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Screenings").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("Screenings").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -641,7 +633,6 @@ func RemoveScreeningsFromKycProfile( kycProfileId uuid.UUID, screeningsIds []uui
 				//----------------------------------------------------------------------------
 				// remove ScreeningResultObj from the Screenings array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("Screenings").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("Screenings").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,

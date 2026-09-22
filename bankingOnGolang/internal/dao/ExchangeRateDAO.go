@@ -321,8 +321,6 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 				//----------------------------------------------------------------------------
 				// append to the FxTrades using the gorm mechanism
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("FxTrades").Append( &childObj )
-
                 if err := utils.GetDB().Model(&parentObj).Association("FxTrades").Append(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
@@ -385,7 +383,6 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 				//----------------------------------------------------------------------------
 				// remove FXTradeObj from the FxTrades array, but wont delete it from db
 				//----------------------------------------------------------------------------
-				utils.GetDB().Model(&parentObj).Association("FxTrades").Delete( &childObj )
 				if err := utils.GetDB().Model(&parentObj).Association("FxTrades").Delete(&childObj); err != nil {
                     return utils.RequestResult {
                         Success: false,
