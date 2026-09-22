@@ -6,6 +6,7 @@ import (
 	"bankingOnGolang/internal/model"
 	"bankingOnGolang/internal/utils"
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/uuid"
 	"fmt"
 )
 
@@ -47,7 +48,7 @@ func TestBankCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Bank Obj ID
 	// --------------------------------------------------------------	
-	if createBankObj.ID == 0 {
+	if createBankObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Bank" )
 	}	
 
@@ -154,7 +155,7 @@ func TestBranchCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Branch Obj ID
 	// --------------------------------------------------------------	
-	if createBranchObj.ID == 0 {
+	if createBranchObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Branch" )
 	}	
 
@@ -259,7 +260,7 @@ func TestATMCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ATM Obj ID
 	// --------------------------------------------------------------	
-	if createATMObj.ID == 0 {
+	if createATMObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ATM" )
 	}	
 
@@ -372,7 +373,7 @@ func TestCustomerCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Customer Obj ID
 	// --------------------------------------------------------------	
-	if createCustomerObj.ID == 0 {
+	if createCustomerObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Customer" )
 	}	
 
@@ -477,7 +478,7 @@ func TestKycProfileCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check KycProfile Obj ID
 	// --------------------------------------------------------------	
-	if createKycProfileObj.ID == 0 {
+	if createKycProfileObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for KycProfile" )
 	}	
 
@@ -583,7 +584,7 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check IdentityDocument Obj ID
 	// --------------------------------------------------------------	
-	if createIdentityDocumentObj.ID == 0 {
+	if createIdentityDocumentObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for IdentityDocument" )
 	}	
 
@@ -688,7 +689,7 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check RiskAssessment Obj ID
 	// --------------------------------------------------------------	
-	if createRiskAssessmentObj.ID == 0 {
+	if createRiskAssessmentObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for RiskAssessment" )
 	}	
 
@@ -793,7 +794,7 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ScreeningResult Obj ID
 	// --------------------------------------------------------------	
-	if createScreeningResultObj.ID == 0 {
+	if createScreeningResultObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ScreeningResult" )
 	}	
 
@@ -899,7 +900,7 @@ func TestBankingProductCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check BankingProduct Obj ID
 	// --------------------------------------------------------------	
-	if createBankingProductObj.ID == 0 {
+	if createBankingProductObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for BankingProduct" )
 	}	
 
@@ -1010,7 +1011,7 @@ func TestAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Account Obj ID
 	// --------------------------------------------------------------	
-	if createAccountObj.ID == 0 {
+	if createAccountObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Account" )
 	}	
 
@@ -1118,7 +1119,7 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check AccountStatement Obj ID
 	// --------------------------------------------------------------	
-	if createAccountStatementObj.ID == 0 {
+	if createAccountStatementObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for AccountStatement" )
 	}	
 
@@ -1228,7 +1229,7 @@ func TestTransactionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Transaction Obj ID
 	// --------------------------------------------------------------	
-	if createTransactionObj.ID == 0 {
+	if createTransactionObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Transaction" )
 	}	
 
@@ -1336,7 +1337,7 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ExternalAccount Obj ID
 	// --------------------------------------------------------------	
-	if createExternalAccountObj.ID == 0 {
+	if createExternalAccountObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ExternalAccount" )
 	}	
 
@@ -1446,7 +1447,7 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check FundsTransfer Obj ID
 	// --------------------------------------------------------------	
-	if createFundsTransferObj.ID == 0 {
+	if createFundsTransferObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for FundsTransfer" )
 	}	
 
@@ -1553,7 +1554,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check StandingInstruction Obj ID
 	// --------------------------------------------------------------	
-	if createStandingInstructionObj.ID == 0 {
+	if createStandingInstructionObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for StandingInstruction" )
 	}	
 
@@ -1662,7 +1663,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check PaymentCard Obj ID
 	// --------------------------------------------------------------	
-	if createPaymentCardObj.ID == 0 {
+	if createPaymentCardObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for PaymentCard" )
 	}	
 
@@ -1776,7 +1777,7 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check LoanAccount Obj ID
 	// --------------------------------------------------------------	
-	if createLoanAccountObj.ID == 0 {
+	if createLoanAccountObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for LoanAccount" )
 	}	
 
@@ -1884,7 +1885,7 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check RepaymentSchedule Obj ID
 	// --------------------------------------------------------------	
-	if createRepaymentScheduleObj.ID == 0 {
+	if createRepaymentScheduleObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for RepaymentSchedule" )
 	}	
 
@@ -1991,7 +1992,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check LoanPayment Obj ID
 	// --------------------------------------------------------------	
-	if createLoanPaymentObj.ID == 0 {
+	if createLoanPaymentObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for LoanPayment" )
 	}	
 
@@ -2098,7 +2099,7 @@ func TestCollateralCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Collateral Obj ID
 	// --------------------------------------------------------------	
-	if createCollateralObj.ID == 0 {
+	if createCollateralObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Collateral" )
 	}	
 
@@ -2204,7 +2205,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check FeeCharge Obj ID
 	// --------------------------------------------------------------	
-	if createFeeChargeObj.ID == 0 {
+	if createFeeChargeObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for FeeCharge" )
 	}	
 
@@ -2311,7 +2312,7 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ExchangeRate Obj ID
 	// --------------------------------------------------------------	
-	if createExchangeRateObj.ID == 0 {
+	if createExchangeRateObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ExchangeRate" )
 	}	
 
@@ -2420,7 +2421,7 @@ func TestFXTradeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check FXTrade Obj ID
 	// --------------------------------------------------------------	
-	if createFXTradeObj.ID == 0 {
+	if createFXTradeObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for FXTrade" )
 	}	
 
@@ -2526,7 +2527,7 @@ func TestDisputeCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Dispute Obj ID
 	// --------------------------------------------------------------	
-	if createDisputeObj.ID == 0 {
+	if createDisputeObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Dispute" )
 	}	
 
@@ -2632,7 +2633,7 @@ func TestConsentCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check Consent Obj ID
 	// --------------------------------------------------------------	
-	if createConsentObj.ID == 0 {
+	if createConsentObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for Consent" )
 	}	
 
@@ -2737,7 +2738,7 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// --------------------------------------------------------------
 	// Check ThirdPartyProvider Obj ID
 	// --------------------------------------------------------------	
-	if createThirdPartyProviderObj.ID == 0 {
+	if createThirdPartyProviderObj.ID ==  uuid.Nil {
 	    t.Error( "The ORM failed to assign and ID for ThirdPartyProvider" )
 	}	
 
