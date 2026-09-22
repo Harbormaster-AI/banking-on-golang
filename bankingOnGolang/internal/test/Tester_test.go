@@ -22,7 +22,7 @@ func TestBankCRUD(t *testing.T) {
 	BankObj := model.Bank{
         Name:"test value for Name",
         LegalName:"test value for LegalName",
-        SwiftBic:new(BIC),
+        SwiftBic:BIC,
         HeadquartersCountry:"test value for HeadquartersCountry",
         Website:"test value for Website",
 	}
@@ -129,7 +129,7 @@ func TestBranchCRUD(t *testing.T) {
 	BranchObj := model.Branch{
         Name:"test value for Name",
         BranchCode:"test value for BranchCode",
-        Address:new(Address),
+        Address:Address,
         Phone:"test value for Phone",
         OpeningHours:"test value for OpeningHours",
 	}
@@ -235,7 +235,7 @@ func TestATMCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	ATMObj := model.ATM{
         TerminalId:"test value for TerminalId",
-        Location:new(Address),
+        Location:Address,
         Status:0,
 	}
 
@@ -346,7 +346,7 @@ func TestCustomerCRUD(t *testing.T) {
         TaxId:"test value for TaxId",
         Email:"test value for Email",
         Phone:"test value for Phone",
-        Address:new(Address),
+        Address:Address,
         CustomerType:0,
         RiskRating:0,
         KycStatus:0,
@@ -979,8 +979,8 @@ func TestAccountCRUD(t *testing.T) {
 	// Test CRUD for Account
 	//----------------------------------------------------------------------------
 	AccountObj := model.Account{
-        AccountNumber:new(AccountNumber),
-        Iban:new(IBAN),
+        AccountNumber:AccountNumber,
+        Iban:IBAN,
         AccountName:"test value for AccountName",
         Currency:"test value for Currency",
         OpenedOn:time.Now(),
@@ -1093,8 +1093,8 @@ func TestAccountStatementCRUD(t *testing.T) {
         StatementNumber:"test value for StatementNumber",
         PeriodStart:time.Now(),
         PeriodEnd:time.Now(),
-        OpeningBalance:new(Money),
-        ClosingBalance:new(Money),
+        OpeningBalance:Money,
+        ClosingBalance:Money,
         DeliveryMethod:0,
 	}
 
@@ -1200,7 +1200,7 @@ func TestTransactionCRUD(t *testing.T) {
 	TransactionObj := model.Transaction{
         BookingDate:time.Now(),
         ValueDate:time.Now(),
-        Amount:new(Money),
+        Amount:Money,
         Description:"test value for Description",
         Direction:0,
         TransactionType:0,
@@ -1309,9 +1309,9 @@ func TestExternalAccountCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	ExternalAccountObj := model.ExternalAccount{
         Name:"test value for Name",
-        Iban:new(IBAN),
-        AccountNumber:new(AccountNumber),
-        Bic:new(BIC),
+        Iban:IBAN,
+        AccountNumber:AccountNumber,
+        Bic:BIC,
         BankName:"test value for BankName",
         Country:"test value for Country",
 	}
@@ -1417,11 +1417,11 @@ func TestFundsTransferCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	FundsTransferObj := model.FundsTransfer{
         TransferReference:"test value for TransferReference",
-        Amount:new(Money),
+        Amount:Money,
         RequestedDate:time.Now(),
         ExecutionDate:time.Now(),
         Purpose:"test value for Purpose",
-        FeeAmount:new(Money),
+        FeeAmount:Money,
         Method:0,
         Status:0,
 	}
@@ -1527,7 +1527,7 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	StandingInstructionObj := model.StandingInstruction{
         InstructionId:"test value for InstructionId",
-        Amount:new(Money),
+        Amount:Money,
         NextExecutionDate:time.Now(),
         Frequency:0,
         Status:0,
@@ -1633,7 +1633,7 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// Test CRUD for PaymentCard
 	//----------------------------------------------------------------------------
 	PaymentCardObj := model.PaymentCard{
-        CardNumber:new(CardPAN),
+        CardNumber:CardPAN,
         EmbossedName:"test value for EmbossedName",
         ExpiryMonth:100,
         ExpiryYear:100,
@@ -1743,9 +1743,9 @@ func TestLoanAccountCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	LoanAccountObj := model.LoanAccount{
         LoanNumber:"test value for LoanNumber",
-        PrincipalAmount:new(Money),
-        OutstandingPrincipal:new(Money),
-        InterestRate:new(Percentage),
+        PrincipalAmount:Money,
+        OutstandingPrincipal:Money,
+        InterestRate:Percentage,
         OriginationDate:time.Now(),
         MaturityDate:time.Now(),
         PaymentDayOfMonth:100,
@@ -1858,9 +1858,9 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	RepaymentScheduleObj := model.RepaymentSchedule{
         InstallmentNumber:100,
         DueDate:time.Now(),
-        PrincipalDue:new(Money),
-        InterestDue:new(Money),
-        TotalDue:new(Money),
+        PrincipalDue:Money,
+        InterestDue:Money,
+        TotalDue:Money,
         Status:0,
 	}
 
@@ -1965,7 +1965,7 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	LoanPaymentObj := model.LoanPayment{
         PaymentReference:"test value for PaymentReference",
-        Amount:new(Money),
+        Amount:Money,
         PaymentDate:time.Now(),
         Method:0,
         Status:0,
@@ -2072,9 +2072,9 @@ func TestCollateralCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	CollateralObj := model.Collateral{
         CollateralIdentifier:"test value for CollateralIdentifier",
-        AppraisedValue:new(Money),
+        AppraisedValue:Money,
         Description:"test value for Description",
-        Location:new(Address),
+        Location:Address,
         CollateralType:0,
 	}
 
@@ -2179,7 +2179,7 @@ func TestFeeChargeCRUD(t *testing.T) {
 	//----------------------------------------------------------------------------
 	FeeChargeObj := model.FeeCharge{
         FeeCode:"test value for FeeCode",
-        Amount:new(Money),
+        Amount:Money,
         AppliedOn:time.Now(),
         FeeType:0,
 	}
@@ -2394,8 +2394,8 @@ func TestFXTradeCRUD(t *testing.T) {
         TradeReference:"test value for TradeReference",
         TradeDate:time.Now(),
         SettlementDate:time.Now(),
-        AmountSold:new(Money),
-        AmountBought:new(Money),
+        AmountSold:Money,
+        AmountBought:Money,
         Rate:"test value",
         Status:0,
 	}
