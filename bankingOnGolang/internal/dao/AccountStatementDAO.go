@@ -21,7 +21,6 @@ func CreateAccountStatement(obj model.AccountStatement)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreateAccountStatement(obj model.AccountStatement)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreateAccountStatement", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreateAccountStatement", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetAccountStatement(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetAccountStatement(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetAccountStatement", obj}
+	return utils.RequestResult{success, getMsg, "GetAccountStatement", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllAccountStatement()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllAccountStatement", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllAccountStatement", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdateAccountStatement(obj model.AccountStatement)(requestResult utils.Requ
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdateAccountStatement",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdateAccountStatement",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeleteAccountStatement(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeleteAccountStatement",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeleteAccountStatement",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignAccountToAccountStatement( accountStatementId uuid.UUID, accountId uu
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignAccount",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignAccount",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult

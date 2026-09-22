@@ -21,7 +21,6 @@ func CreateStandingInstruction(obj model.StandingInstruction)(utils.RequestResul
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreateStandingInstruction(obj model.StandingInstruction)(utils.RequestResul
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreateStandingInstruction", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreateStandingInstruction", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetStandingInstruction(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetStandingInstruction(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetStandingInstruction", obj}
+	return utils.RequestResult{success, getMsg, "GetStandingInstruction", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllStandingInstruction()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllStandingInstruction", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllStandingInstruction", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdateStandingInstruction(obj model.StandingInstruction)(requestResult util
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdateStandingInstruction",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdateStandingInstruction",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeleteStandingInstruction(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeleteStandingInstruction",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeleteStandingInstruction",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignAccountToStandingInstruction( standingInstructionId uuid.UUID, accoun
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignAccount",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignAccount",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -319,13 +312,12 @@ func AssignBeneficiaryToStandingInstruction( standingInstructionId uuid.UUID, be
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Beneficiary", beneficiaryId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignBeneficiary",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignBeneficiary",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult

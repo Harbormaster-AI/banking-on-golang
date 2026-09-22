@@ -21,7 +21,6 @@ func CreateIdentityDocument(obj model.IdentityDocument)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreateIdentityDocument(obj model.IdentityDocument)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreateIdentityDocument", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreateIdentityDocument", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetIdentityDocument(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetIdentityDocument(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetIdentityDocument", obj}
+	return utils.RequestResult{success, getMsg, "GetIdentityDocument", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllIdentityDocument()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllIdentityDocument", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllIdentityDocument", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdateIdentityDocument(obj model.IdentityDocument)(requestResult utils.Requ
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdateIdentityDocument",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdateIdentityDocument",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeleteIdentityDocument(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeleteIdentityDocument",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeleteIdentityDocument",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignKycProfileToIdentityDocument( identityDocumentId uuid.UUID, kycProfil
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "KycProfile", kycProfileId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignKycProfile",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignKycProfile",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult

@@ -21,7 +21,6 @@ func CreateConsent(obj model.Consent)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreateConsent(obj model.Consent)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreateConsent", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreateConsent", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetConsent(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetConsent(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetConsent", obj}
+	return utils.RequestResult{success, getMsg, "GetConsent", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllConsent()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllConsent", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllConsent", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdateConsent(obj model.Consent)(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdateConsent",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdateConsent",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeleteConsent(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeleteConsent",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeleteConsent",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignCustomerToConsent( consentId uuid.UUID, customerId uuid.UUID )(utils.
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignCustomer",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignCustomer",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -319,13 +312,12 @@ func AssignBankToConsent( consentId uuid.UUID, bankId uuid.UUID )(utils.RequestR
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignBank",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignBank",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -411,13 +403,12 @@ func AssignThirdPartyProviderToConsent( consentId uuid.UUID, thirdPartyProviderI
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "ThirdPartyProvider", thirdPartyProviderId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignThirdPartyProvider",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignThirdPartyProvider",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -502,10 +493,10 @@ func AddAuthorizedAccountsToConsent ( consentId uuid.UUID, authorizedAccountsIds
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
 
                 return utils.RequestResult{
-                    Success: false,
-                    Msg: msg,
-                    Call:  "unassignAuthorizedAccounts",
-                    Data:    childObj,
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "unassignAuthorizedAccounts",
+                    Data:       childObj,
                 }
 			}
 		}
@@ -557,11 +548,11 @@ func RemoveAuthorizedAccountsFromConsent( consentId uuid.UUID, authorizedAccount
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "AuthorizedAccounts", authorizedAccountsId )
                 return utils.RequestResult{
-                                    Success: false,
-                                    Msg: msg,
-                                    Call:  "removeAuthorizedAccounts",
-                                    Data:    childObj,
-                                }
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "removeAuthorizedAccounts",
+                    Data:       childObj,
+                }
 			}
 		}
 

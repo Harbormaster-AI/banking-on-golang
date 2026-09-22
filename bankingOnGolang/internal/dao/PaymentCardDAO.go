@@ -21,7 +21,6 @@ func CreatePaymentCard(obj model.PaymentCard)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreatePaymentCard(obj model.PaymentCard)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreatePaymentCard", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreatePaymentCard", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetPaymentCard(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetPaymentCard(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetPaymentCard", obj}
+	return utils.RequestResult{success, getMsg, "GetPaymentCard", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllPaymentCard()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllPaymentCard", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllPaymentCard", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdatePaymentCard(obj model.PaymentCard)(requestResult utils.RequestResult)
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdatePaymentCard",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdatePaymentCard",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeletePaymentCard(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeletePaymentCard",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeletePaymentCard",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignBankToPaymentCard( paymentCardId uuid.UUID, bankId uuid.UUID )(utils.
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignBank",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignBank",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -319,13 +312,12 @@ func AssignAccountToPaymentCard( paymentCardId uuid.UUID, accountId uuid.UUID )(
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Account", accountId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignAccount",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignAccount",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -411,13 +403,12 @@ func AssignCustomerToPaymentCard( paymentCardId uuid.UUID, customerId uuid.UUID 
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Customer", customerId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignCustomer",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignCustomer",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -502,10 +493,10 @@ func AddTransactionsToPaymentCard ( paymentCardId uuid.UUID, transactionsIds []u
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
 
                 return utils.RequestResult{
-                    Success: false,
-                    Msg: msg,
-                    Call:  "unassignTransactions",
-                    Data:    childObj,
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "unassignTransactions",
+                    Data:       childObj,
                 }
 			}
 		}
@@ -557,11 +548,11 @@ func RemoveTransactionsFromPaymentCard( paymentCardId uuid.UUID, transactionsIds
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Transactions", transactionsId )
                 return utils.RequestResult{
-                                    Success: false,
-                                    Msg: msg,
-                                    Call:  "removeTransactions",
-                                    Data:    childObj,
-                                }
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "removeTransactions",
+                    Data:       childObj,
+                }
 			}
 		}
 

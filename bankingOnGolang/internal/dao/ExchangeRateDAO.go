@@ -21,7 +21,6 @@ func CreateExchangeRate(obj model.ExchangeRate)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreateExchangeRate(obj model.ExchangeRate)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreateExchangeRate", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreateExchangeRate", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetExchangeRate(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetExchangeRate(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetExchangeRate", obj}
+	return utils.RequestResult{success, getMsg, "GetExchangeRate", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllExchangeRate()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllExchangeRate", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllExchangeRate", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdateExchangeRate(obj model.ExchangeRate)(requestResult utils.RequestResul
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdateExchangeRate",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdateExchangeRate",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeleteExchangeRate(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeleteExchangeRate",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeleteExchangeRate",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignBankToExchangeRate( exchangeRateId uuid.UUID, bankId uuid.UUID )(util
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignBank",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignBank",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -318,10 +311,10 @@ func AddFxTradesToExchangeRate ( exchangeRateId uuid.UUID, fxTradesIds []uuid.UU
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
 
                 return utils.RequestResult{
-                    Success: false,
-                    Msg: msg,
-                    Call:  "unassignFxTrades",
-                    Data:    childObj,
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "unassignFxTrades",
+                    Data:       childObj,
                 }
 			}
 		}
@@ -373,11 +366,11 @@ func RemoveFxTradesFromExchangeRate( exchangeRateId uuid.UUID, fxTradesIds []uui
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "FxTrades", fxTradesId )
                 return utils.RequestResult{
-                                    Success: false,
-                                    Msg: msg,
-                                    Call:  "removeFxTrades",
-                                    Data:    childObj,
-                                }
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "removeFxTrades",
+                    Data:       childObj,
+                }
 			}
 		}
 

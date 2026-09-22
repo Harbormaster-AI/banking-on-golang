@@ -21,7 +21,6 @@ func CreateThirdPartyProvider(obj model.ThirdPartyProvider)(utils.RequestResult)
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var createMsg string
 	var success bool
 
@@ -38,8 +37,7 @@ func CreateThirdPartyProvider(obj model.ThirdPartyProvider)(utils.RequestResult)
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, createMsg, "CreateThirdPartyProvider", obj}
-	return requestResult
+	return utils.RequestResult{success, createMsg, "CreateThirdPartyProvider", obj}
 }
 
 
@@ -50,7 +48,6 @@ func GetThirdPartyProvider(id uuid.UUID)(utils.RequestResult){
 	//----------------------------------------------------------------------------
 	// variable initialization
 	//----------------------------------------------------------------------------
-	var requestResult utils.RequestResult
 	var getMsg string
 	var success bool
 
@@ -72,9 +69,8 @@ func GetThirdPartyProvider(id uuid.UUID)(utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getMsg, "GetThirdPartyProvider", obj}
+	return utils.RequestResult{success, getMsg, "GetThirdPartyProvider", obj}
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -101,8 +97,7 @@ func GetAllThirdPartyProvider()(requestResult utils.RequestResult){
 		success = false
 	}
 
-	requestResult = utils.RequestResult{success, getAllMsg, "GetAllThirdPartyProvider", objs}
-	return requestResult
+	return utils.RequestResult{success, getAllMsg, "GetAllThirdPartyProvider", objs}
 }
 
 //----------------------------------------------------------------------------
@@ -128,14 +123,13 @@ func UpdateThirdPartyProvider(obj model.ThirdPartyProvider)(requestResult utils.
 		success = false
 	}
 
-	requestResult = utils.RequestResult{
-        Success: success,
-        Msg: updateMsg,
-        Call:  "UpdateThirdPartyProvider",
-        Data:    obj,
+	return utils.RequestResult{
+        Success:    success,
+        Msg:        updateMsg,
+        Call:       "UpdateThirdPartyProvider",
+        Data:       obj,
     }
 
-	return requestResult
 }
 
 //----------------------------------------------------------------------------
@@ -174,10 +168,10 @@ func DeleteThirdPartyProvider(id uuid.UUID)(requestResult utils.RequestResult){
 		}
 
         requestResult = utils.RequestResult{
-            Success: success,
-            Msg: deleteMsg,
-            Call:  "DeleteThirdPartyProvider",
-            Data:    requestResult.Data,
+            Success:    success,
+            Msg:        deleteMsg,
+            Call:       "DeleteThirdPartyProvider",
+            Data:       requestResult.Data,
         }
 
 	}
@@ -227,13 +221,12 @@ func AssignBankToThirdPartyProvider( thirdPartyProviderId uuid.UUID, bankId uuid
 		} else {
 			msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Bank", bankId )
 
-            requestResult = utils.RequestResult{
-                Success: false,
-                Msg: msg,
-                Call:  "assignBank",
-                Data:    childObj,
+            return utils.RequestResult{
+                        Success:    false,
+                        Msg:        msg,
+                        Call:       "assignBank",
+                        Data:       childObj,
             }
-            return requestResult;
 		}
 	} else {
 		return parentRequestResult
@@ -318,10 +311,10 @@ func AddConsentsToThirdPartyProvider ( thirdPartyProviderId uuid.UUID, consentsI
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
 
                 return utils.RequestResult{
-                    Success: false,
-                    Msg: msg,
-                    Call:  "unassignConsents",
-                    Data:    childObj,
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "unassignConsents",
+                    Data:       childObj,
                 }
 			}
 		}
@@ -373,11 +366,11 @@ func RemoveConsentsFromThirdPartyProvider( thirdPartyProviderId uuid.UUID, conse
 			} else {
 				msg := fmt.Sprintf( "Failed trying to read %s using ID=%v", "Consents", consentsId )
                 return utils.RequestResult{
-                                    Success: false,
-                                    Msg: msg,
-                                    Call:  "removeConsents",
-                                    Data:    childObj,
-                                }
+                    Success:    false,
+                    Msg:        msg,
+                    Call:       "removeConsents",
+                    Data:       childObj,
+                }
 			}
 		}
 
