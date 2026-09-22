@@ -8,7 +8,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/uuid"
 	"fmt"
-#declareRequiredImportsOnce( $classes )
+    "github.com/shopspring/decimal"
+    "time"
 )
 
 func init() {
@@ -23,7 +24,11 @@ func TestBankCRUD(t *testing.T) {
 	// Test CRUD for Bank
 	//----------------------------------------------------------------------------
 	BankObj := model.Bank{
-#defaultTestStructOutput(${class})
+        Name:"test value for Name",
+        LegalName:"test value for LegalName",
+        SwiftBic:model.BIC{},
+        HeadquartersCountry:"test value for HeadquartersCountry",
+        Website:"test value for Website",
 	}
 
 	// --------------------------------------------------------------
@@ -131,7 +136,11 @@ func TestBranchCRUD(t *testing.T) {
 	// Test CRUD for Branch
 	//----------------------------------------------------------------------------
 	BranchObj := model.Branch{
-#defaultTestStructOutput(${class})
+        Name:"test value for Name",
+        BranchCode:"test value for BranchCode",
+        Address:model.Address{},
+        Phone:"test value for Phone",
+        OpeningHours:"test value for OpeningHours",
 	}
 
 	// --------------------------------------------------------------
@@ -239,7 +248,9 @@ func TestATMCRUD(t *testing.T) {
 	// Test CRUD for ATM
 	//----------------------------------------------------------------------------
 	ATMObj := model.ATM{
-#defaultTestStructOutput(${class})
+        TerminalId:"test value for TerminalId",
+        Location:model.Address{},
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -347,7 +358,17 @@ func TestCustomerCRUD(t *testing.T) {
 	// Test CRUD for Customer
 	//----------------------------------------------------------------------------
 	CustomerObj := model.Customer{
-#defaultTestStructOutput(${class})
+        FirstName:"test value for FirstName",
+        LastName:"test value for LastName",
+        LegalName:"test value for LegalName",
+        DateOfBirth:time.Now(),
+        TaxId:"test value for TaxId",
+        Email:"test value for Email",
+        Phone:"test value for Phone",
+        Address:model.Address{},
+        CustomerType:0,
+        RiskRating:0,
+        KycStatus:0,
 	}
 
 	// --------------------------------------------------------------
@@ -455,7 +476,9 @@ func TestKycProfileCRUD(t *testing.T) {
 	// Test CRUD for KycProfile
 	//----------------------------------------------------------------------------
 	KycProfileObj := model.KycProfile{
-#defaultTestStructOutput(${class})
+        ProfileId:"test value for ProfileId",
+        LastReviewedOn:time.Now(),
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -563,7 +586,10 @@ func TestIdentityDocumentCRUD(t *testing.T) {
 	// Test CRUD for IdentityDocument
 	//----------------------------------------------------------------------------
 	IdentityDocumentObj := model.IdentityDocument{
-#defaultTestStructOutput(${class})
+        DocumentNumber:"test value for DocumentNumber",
+        IssuingCountry:"test value for IssuingCountry",
+        ExpirationDate:time.Now(),
+        DocumentType:0,
 	}
 
 	// --------------------------------------------------------------
@@ -671,7 +697,9 @@ func TestRiskAssessmentCRUD(t *testing.T) {
 	// Test CRUD for RiskAssessment
 	//----------------------------------------------------------------------------
 	RiskAssessmentObj := model.RiskAssessment{
-#defaultTestStructOutput(${class})
+        Score:100,
+        AssessedOn:time.Now(),
+        Rating:0,
 	}
 
 	// --------------------------------------------------------------
@@ -779,7 +807,9 @@ func TestScreeningResultCRUD(t *testing.T) {
 	// Test CRUD for ScreeningResult
 	//----------------------------------------------------------------------------
 	ScreeningResultObj := model.ScreeningResult{
-#defaultTestStructOutput(${class})
+        ScreeningDate:time.Now(),
+        Provider:"test value for Provider",
+        Outcome:0,
 	}
 
 	// --------------------------------------------------------------
@@ -887,7 +917,10 @@ func TestBankingProductCRUD(t *testing.T) {
 	// Test CRUD for BankingProduct
 	//----------------------------------------------------------------------------
 	BankingProductObj := model.BankingProduct{
-#defaultTestStructOutput(${class})
+        ProductCode:"test value for ProductCode",
+        Name:"test value for Name",
+        Description:"test value for Description",
+        ProductCategory:0,
 	}
 
 	// --------------------------------------------------------------
@@ -995,7 +1028,15 @@ func TestAccountCRUD(t *testing.T) {
 	// Test CRUD for Account
 	//----------------------------------------------------------------------------
 	AccountObj := model.Account{
-#defaultTestStructOutput(${class})
+        AccountNumber:model.AccountNumber{},
+        Iban:model.IBAN{},
+        AccountName:"test value for AccountName",
+        Currency:"test value for Currency",
+        OpenedOn:time.Now(),
+        ClosedOn:time.Now(),
+        AccountType:0,
+        OwnershipType:0,
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1103,7 +1144,12 @@ func TestAccountStatementCRUD(t *testing.T) {
 	// Test CRUD for AccountStatement
 	//----------------------------------------------------------------------------
 	AccountStatementObj := model.AccountStatement{
-#defaultTestStructOutput(${class})
+        StatementNumber:"test value for StatementNumber",
+        PeriodStart:time.Now(),
+        PeriodEnd:time.Now(),
+        OpeningBalance:model.Money{},
+        ClosingBalance:model.Money{},
+        DeliveryMethod:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1211,7 +1257,14 @@ func TestTransactionCRUD(t *testing.T) {
 	// Test CRUD for Transaction
 	//----------------------------------------------------------------------------
 	TransactionObj := model.Transaction{
-#defaultTestStructOutput(${class})
+        BookingDate:time.Now(),
+        ValueDate:time.Now(),
+        Amount:model.Money{},
+        Description:"test value for Description",
+        Direction:0,
+        TransactionType:0,
+        Status:0,
+        Channel:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1319,7 +1372,12 @@ func TestExternalAccountCRUD(t *testing.T) {
 	// Test CRUD for ExternalAccount
 	//----------------------------------------------------------------------------
 	ExternalAccountObj := model.ExternalAccount{
-#defaultTestStructOutput(${class})
+        Name:"test value for Name",
+        Iban:model.IBAN{},
+        AccountNumber:model.AccountNumber{},
+        Bic:model.BIC{},
+        BankName:"test value for BankName",
+        Country:"test value for Country",
 	}
 
 	// --------------------------------------------------------------
@@ -1427,7 +1485,14 @@ func TestFundsTransferCRUD(t *testing.T) {
 	// Test CRUD for FundsTransfer
 	//----------------------------------------------------------------------------
 	FundsTransferObj := model.FundsTransfer{
-#defaultTestStructOutput(${class})
+        TransferReference:"test value for TransferReference",
+        Amount:model.Money{},
+        RequestedDate:time.Now(),
+        ExecutionDate:time.Now(),
+        Purpose:"test value for Purpose",
+        FeeAmount:model.Money{},
+        Method:0,
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1535,7 +1600,11 @@ func TestStandingInstructionCRUD(t *testing.T) {
 	// Test CRUD for StandingInstruction
 	//----------------------------------------------------------------------------
 	StandingInstructionObj := model.StandingInstruction{
-#defaultTestStructOutput(${class})
+        InstructionId:"test value for InstructionId",
+        Amount:model.Money{},
+        NextExecutionDate:time.Now(),
+        Frequency:0,
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1643,7 +1712,13 @@ func TestPaymentCardCRUD(t *testing.T) {
 	// Test CRUD for PaymentCard
 	//----------------------------------------------------------------------------
 	PaymentCardObj := model.PaymentCard{
-#defaultTestStructOutput(${class})
+        CardNumber:model.CardPAN{},
+        EmbossedName:"test value for EmbossedName",
+        ExpiryMonth:100,
+        ExpiryYear:100,
+        CardType:0,
+        CardStatus:0,
+        Network:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1751,7 +1826,18 @@ func TestLoanAccountCRUD(t *testing.T) {
 	// Test CRUD for LoanAccount
 	//----------------------------------------------------------------------------
 	LoanAccountObj := model.LoanAccount{
-#defaultTestStructOutput(${class})
+        LoanNumber:"test value for LoanNumber",
+        PrincipalAmount:model.Money{},
+        OutstandingPrincipal:model.Money{},
+        InterestRate:model.Percentage{},
+        OriginationDate:time.Now(),
+        MaturityDate:time.Now(),
+        PaymentDayOfMonth:100,
+        Currency:"test value for Currency",
+        LoanType:0,
+        RateType:0,
+        Compounding:0,
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1859,7 +1945,12 @@ func TestRepaymentScheduleCRUD(t *testing.T) {
 	// Test CRUD for RepaymentSchedule
 	//----------------------------------------------------------------------------
 	RepaymentScheduleObj := model.RepaymentSchedule{
-#defaultTestStructOutput(${class})
+        InstallmentNumber:100,
+        DueDate:time.Now(),
+        PrincipalDue:model.Money{},
+        InterestDue:model.Money{},
+        TotalDue:model.Money{},
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -1967,7 +2058,11 @@ func TestLoanPaymentCRUD(t *testing.T) {
 	// Test CRUD for LoanPayment
 	//----------------------------------------------------------------------------
 	LoanPaymentObj := model.LoanPayment{
-#defaultTestStructOutput(${class})
+        PaymentReference:"test value for PaymentReference",
+        Amount:model.Money{},
+        PaymentDate:time.Now(),
+        Method:0,
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2075,7 +2170,11 @@ func TestCollateralCRUD(t *testing.T) {
 	// Test CRUD for Collateral
 	//----------------------------------------------------------------------------
 	CollateralObj := model.Collateral{
-#defaultTestStructOutput(${class})
+        CollateralIdentifier:"test value for CollateralIdentifier",
+        AppraisedValue:model.Money{},
+        Description:"test value for Description",
+        Location:model.Address{},
+        CollateralType:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2183,7 +2282,10 @@ func TestFeeChargeCRUD(t *testing.T) {
 	// Test CRUD for FeeCharge
 	//----------------------------------------------------------------------------
 	FeeChargeObj := model.FeeCharge{
-#defaultTestStructOutput(${class})
+        FeeCode:"test value for FeeCode",
+        Amount:model.Money{},
+        AppliedOn:time.Now(),
+        FeeType:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2291,7 +2393,11 @@ func TestExchangeRateCRUD(t *testing.T) {
 	// Test CRUD for ExchangeRate
 	//----------------------------------------------------------------------------
 	ExchangeRateObj := model.ExchangeRate{
-#defaultTestStructOutput(${class})
+        BaseCurrency:"test value for BaseCurrency",
+        CounterCurrency:"test value for CounterCurrency",
+        Rate:"test value",
+        AsOf:time.Now(),
+        Source:"test value for Source",
 	}
 
 	// --------------------------------------------------------------
@@ -2399,7 +2505,13 @@ func TestFXTradeCRUD(t *testing.T) {
 	// Test CRUD for FXTrade
 	//----------------------------------------------------------------------------
 	FXTradeObj := model.FXTrade{
-#defaultTestStructOutput(${class})
+        TradeReference:"test value for TradeReference",
+        TradeDate:time.Now(),
+        SettlementDate:time.Now(),
+        AmountSold:model.Money{},
+        AmountBought:model.Money{},
+        Rate:"test value",
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2507,7 +2619,10 @@ func TestDisputeCRUD(t *testing.T) {
 	// Test CRUD for Dispute
 	//----------------------------------------------------------------------------
 	DisputeObj := model.Dispute{
-#defaultTestStructOutput(${class})
+        DisputeReference:"test value for DisputeReference",
+        RaisedOn:time.Now(),
+        Reason:"test value for Reason",
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2615,7 +2730,10 @@ func TestConsentCRUD(t *testing.T) {
 	// Test CRUD for Consent
 	//----------------------------------------------------------------------------
 	ConsentObj := model.Consent{
-#defaultTestStructOutput(${class})
+        GrantedOn:time.Now(),
+        ExpiresOn:time.Now(),
+        ConsentType:0,
+        Status:0,
 	}
 
 	// --------------------------------------------------------------
@@ -2723,7 +2841,9 @@ func TestThirdPartyProviderCRUD(t *testing.T) {
 	// Test CRUD for ThirdPartyProvider
 	//----------------------------------------------------------------------------
 	ThirdPartyProviderObj := model.ThirdPartyProvider{
-#defaultTestStructOutput(${class})
+        Name:"test value for Name",
+        RegistrationId:"test value for RegistrationId",
+        Website:"test value for Website",
 	}
 
 	// --------------------------------------------------------------

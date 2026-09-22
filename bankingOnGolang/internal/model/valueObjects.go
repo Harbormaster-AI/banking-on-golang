@@ -2,34 +2,60 @@
 package model
 
 import (
-#declareRequiredImportsOnce( $valueObjects )
+    "github.com/shopspring/decimal"
 )
 
 type Money struct {
-#declareStructFields( $valueObject )
+     Amount            decimal.Decimal
+    Currency            string
+
+// parent associations as their child
+
 }
 
 type Address struct {
-#declareStructFields( $valueObject )
+     Street            string
+    City            string
+    State            string
+    PostalCode            string
+    Country            string
+
+// parent associations as their child
+
 }
 
 type AccountNumber struct {
-#declareStructFields( $valueObject )
+     Value            string
+
+// parent associations as their child
+
 }
 
 type IBAN struct {
-#declareStructFields( $valueObject )
+     Value            string
+
+// parent associations as their child
+
 }
 
 type BIC struct {
-#declareStructFields( $valueObject )
+     Value            string
+
+// parent associations as their child
+
 }
 
 type CardPAN struct {
-#declareStructFields( $valueObject )
+     Value            string
+
+// parent associations as their child
+
 }
 
 type Percentage struct {
-#declareStructFields( $valueObject )
+     Value            decimal.Decimal
+
+// parent associations as their child
+
 }
 

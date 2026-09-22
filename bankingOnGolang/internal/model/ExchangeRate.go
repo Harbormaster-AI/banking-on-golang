@@ -2,7 +2,25 @@
 package model
 
 import (
-#declareImports(${classObject})
+    "time"
+    "github.com/shopspring/decimal"
 )
 
-#declareStruct($classObject)
+//==============================================================
+// ExchangeRate Declaration
+//==============================================================
+type ExchangeRate struct {
+    BaseModel
+     BaseCurrency            string
+    CounterCurrency            string
+    Rate            decimal.Decimal
+    AsOf            time.Time
+    Source            string
+    BankId         *uint
+    Bank           *Bank `gorm:"foreignKey:BankId"`
+     FxTrades           []FXTrade `gorm:"foreignKey:FxTradesFromExchangeRateId"`
+
+// parent associations as their child
+
+}
+
