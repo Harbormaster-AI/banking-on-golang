@@ -1,0 +1,750 @@
+name: Apollo Delivery Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      gitHubToken:
+        description: Token to securely access APIs and other capabilities on behalf of the caller
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+      dockerHost:
+        description: Docker registry host
+        required: false
+        default: ""
+        type: string
+
+      dockerOrg:
+        description: Docker organization
+        required: false
+        default: ""
+        type: string
+
+      dockerRepository:
+        description: Docker repository
+        required: false
+        default: ""
+        type: string
+
+      dockerUsername:
+        description: Docker username
+        required: false
+        default: ""
+        type: string
+
+      dockerPassword:
+        description: Docker password
+        required: false
+        default: ""
+        type: string
+
+      dockerTag:
+        description: Docker image tag
+        required: false
+        default: latest
+        type: string
+
+      saveDockerImage:
+        description: Save Docker image as artifact
+        required: false
+        default: "FALSE"
+        type: string
+
+
+env:
+
+  RESULT_URL:                 ${{ inputs.resultUrl }}
+  ACTION_TO_CALL:             ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER:   ${{ inputs.certificationIdentifier }}
+  APP_NAME:                   ${{ inputs.appName }}
+
+  REGISTRY_HOST:              ${{ inputs.dockerHost }}
+  REGISTRY_ORG:               ${{ inputs.dockerOrg }}
+  REGISTRY_REPOSITORY:        ${{ inputs.dockerRepository }}
+  REGISTRY_USERNAME:          ${{ inputs.dockerUsername }}
+  REGISTRY_PASSWORD:          ${{ inputs.dockerPassword }}
+  REGISTRY_TAG:               ${{ inputs.dockerTag }}
+
+
+jobs:
+
+  delivery-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###############################################################################
+      # Checkout source
+      #
+      # Checkout is required for the verification/reporting infrastructure and
+      # Dockerfile, but the application itself comes from the Build artifact.
+      ###############################################################################
+
+      - name: Checkout Source
+
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+
+      ###############################################################################
+      # Announce start of delivery verification
+      ###############################################################################
+
+      - name: Delivery Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "DELIVERY" \
+            "STARTING_DELIVERY" \
+            0 \
+            "Apollo delivery verification starting..." \
+            ""
+
+
+      ###############################################################################
+      # Download Apollo Build Artifact
+      #
+      # IMPORTANT:
+      #
+      # The artifact contains the COMPLETE BUILT APPLICATION at its root.
+      #
+      # It already contains:
+      #
+      #   dist/
+      #   node_modules/
+      #   package.json
+      #   package-lock.json
+      #   Dockerfile
+      #
+      # Nothing is installed, compiled, generated, or rebuilt here.
+      ###############################################################################
+
+      - name: Download Build Artifact
+
+        uses: actions/download-artifact@v4
+
+        with:
+          name: packaged-application
+
+
+      ###############################################################################
+      # Verify Build Artifact
+      ###############################################################################
+
+      - name: Verify Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+
+          ###########################################################################
+          # dist
+          ###########################################################################
+
+          if [ -d "dist" ]; then
+
+            SCORE=$((SCORE + 3))
+
+            post_pass \
+              "DELIVERY" \
+              "VERIFY_DIST" \
+              3 \
+              "Compiled Apollo application found." \
+              "VERIFY_DIST: dist/"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "VERIFY_DIST" \
+              0 \
+              "Compiled Apollo application not found." \
+              "VERIFY_DIST: dist/ missing."
+
+            post_terminate_delivery
+
+          fi
+
+
+          ###########################################################################
+          # node_modules
+          ###########################################################################
+
+          if [ -d "node_modules" ]; then
+
+            SCORE=$((SCORE + 3))
+
+            post_pass \
+              "DELIVERY" \
+              "VERIFY_NODE_MODULES" \
+              3 \
+              "Node dependencies found in build artifact." \
+              "VERIFY_NODE_MODULES: node_modules/"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "VERIFY_NODE_MODULES" \
+              0 \
+              "Node dependencies not found in build artifact." \
+              "VERIFY_NODE_MODULES: node_modules/ missing."
+
+            post_terminate_delivery
+
+          fi
+
+
+          ###########################################################################
+          # package.json
+          ###########################################################################
+
+          if [ -f "package.json" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "DELIVERY" \
+              "VERIFY_PACKAGE" \
+              2 \
+              "package.json found in build artifact." \
+              "VERIFY_PACKAGE: package.json"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "VERIFY_PACKAGE" \
+              0 \
+              "package.json not found in build artifact." \
+              ""
+
+            post_terminate_delivery
+
+          fi
+
+
+          ###########################################################################
+          # Dockerfile
+          ###########################################################################
+
+          if [ -f "Dockerfile" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "DELIVERY" \
+              "VERIFY_DOCKERFILE" \
+              2 \
+              "Dockerfile located." \
+              "VERIFY_DOCKERFILE: Dockerfile exists."
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "VERIFY_DOCKERFILE" \
+              0 \
+              "Dockerfile not found." \
+              ""
+
+            post_terminate_delivery
+
+          fi
+
+
+          post_result \
+            "DELIVERY" \
+            "VERIFY_BUILD_ARTIFACT" \
+            "PASSED" \
+            0 \
+            "Build artifact validation complete (${SCORE}/10)."
+
+
+      ###############################################################################
+      # Set up Docker
+      ###############################################################################
+
+      - name: Setting up Docker
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "DELIVERY" \
+            "SETTING_UP_DOCKER" \
+            0 \
+            "Setting up Docker..." \
+            ""
+
+
+      - name: Set up Docker Buildx
+
+        uses: docker/setup-buildx-action@v3
+
+
+      ###############################################################################
+      # Docker Login
+      ###############################################################################
+
+      - name: Logging into Docker
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "DELIVERY" \
+            "DOCKER_LOGIN" \
+            0 \
+            "Logging into Docker..." \
+            ""
+
+
+      - name: Log in to Docker Hub
+
+        id: docker_login
+
+        continue-on-error: true
+
+        uses: docker/login-action@v3
+
+        with:
+
+          username: ${{ inputs.dockerUsername }}
+          password: ${{ inputs.dockerPassword }}
+
+
+      ###############################################################################
+      # Report Docker Login
+      ###############################################################################
+
+      - name: Report Docker Login
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ "${{ steps.docker_login.outcome }}" = "success" ]; then
+
+            post_pass \
+              "DELIVERY" \
+              "DOCKER_LOGIN" \
+              10 \
+              "Successfully authenticated with Docker registry." \
+              ""
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "DOCKER_LOGIN" \
+              0 \
+              "Unable to authenticate with Docker registry." \
+              "Verify the registry URL, username and password."
+
+            post_terminate_delivery
+
+          fi
+
+
+      ###############################################################################
+      # Build Apollo Docker Image
+      #
+      # IMPORTANT:
+      #
+      # This is NOT an application build.
+      #
+      # The application was already compiled during Build Verification.
+      #
+      # docker build merely packages the existing artifact into an OCI image.
+      ###############################################################################
+
+      - name: Build Docker Image
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Packaging pre-built Apollo application into Docker image..."
+
+          docker build \
+            --progress=plain \
+            -t "${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}" \
+            .
+
+          if [ $? -eq 0 ]; then
+
+            post_pass \
+              "DELIVERY" \
+              "DOCKER_BUILD" \
+              20 \
+              "Apollo Docker image built successfully from the verified artifact." \
+              "DOCKER_BUILD: ${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "DOCKER_BUILD" \
+              0 \
+              "Apollo Docker image build failed." \
+              "DOCKER_BUILD: Docker build failed."
+
+            post_terminate_delivery
+
+          fi
+
+
+      ###############################################################################
+      # Verify Docker Image
+      ###############################################################################
+
+      - name: Verify Docker Image
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          IMAGE=$(docker images -q \
+            "${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}")
+
+          if [ -n "$IMAGE" ]; then
+
+            post_pass \
+              "DELIVERY" \
+              "VERIFY_IMAGE" \
+              15 \
+              "Docker image verified." \
+              "VERIFY_IMAGE: ${IMAGE}"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "VERIFY_IMAGE" \
+              0 \
+              "Docker image missing." \
+              "VERIFY_IMAGE: Image not found."
+
+            post_terminate_delivery
+
+          fi
+
+
+      ###############################################################################
+      # Run Apollo Container
+      #
+      # Apollo listens on port 4000 inside the container.
+      # Port 4000 is used on the GitHub runner.
+      ###############################################################################
+
+      - name: Run Docker Container
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          docker run -d \
+            --name ${APP_NAME} \
+            -p 4000:4000 \
+            "${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+          if [ $? -eq 0 ]; then
+
+            post_pass \
+              "DELIVERY" \
+              "RUN_CONTAINER" \
+              20 \
+              "Apollo container ${APP_NAME} started." \
+              "RUN_CONTAINER: ${APP_NAME}"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "RUN_CONTAINER" \
+              0 \
+              "Unable to start Apollo container ${APP_NAME}." \
+              "RUN_CONTAINER: docker run failed."
+
+            post_terminate_delivery
+
+          fi
+
+
+      ###############################################################################
+      # Verify Apollo Runtime
+      #
+      # Apollo is verified by executing an actual GraphQL query.
+      #
+      # We do not merely test that port 4000 is open.
+      ###############################################################################
+
+      - name: Verify Container Health
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          for i in {1..30}; do
+
+            RESPONSE=$(curl \
+              --silent \
+              --show-error \
+              --write-out "%{http_code}" \
+              --output graphql-response.json \
+              -X POST \
+              -H "Content-Type: application/json" \
+              -d '{"query":"{ health }"}' \
+              http://localhost:4000/ \
+              || true)
+
+            if [ "$RESPONSE" = "200" ]; then
+
+              if grep -q '"health"' graphql-response.json \
+                 && grep -q '"OK"' graphql-response.json; then
+
+                post_pass \
+                  "DELIVERY" \
+                  "CONTAINER_HEALTH" \
+                  15 \
+                  "Apollo container GraphQL health check passed." \
+                  "CONTAINER_HEALTH: $(cat graphql-response.json)"
+
+                exit 0
+
+              fi
+
+            fi
+
+            sleep 2
+
+          done
+
+
+          LOG=$(docker logs ${APP_NAME} 2>&1 | tail -20 | tr '\n' ' ')
+
+          RESPONSE_BODY=$(cat graphql-response.json 2>/dev/null || true)
+
+          post_fail \
+            "DELIVERY" \
+            "CONTAINER_HEALTH" \
+            0 \
+            "Apollo container failed GraphQL health check." \
+            "HTTP ${RESPONSE}: ${RESPONSE_BODY} LOG: ${LOG}"
+
+          post_terminate_delivery
+
+
+      ###############################################################################
+      # Push Apollo Docker Image
+      ###############################################################################
+
+      - name: Push Image
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if docker push \
+            ${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}; then
+
+            post_pass \
+              "DELIVERY" \
+              "PUBLISH_IMAGE" \
+              15 \
+              "Apollo Docker image published successfully." \
+              "PUBLISH_IMAGE: ${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+          else
+
+            post_fail \
+              "DELIVERY" \
+              "PUBLISH_IMAGE" \
+              0 \
+              "Apollo Docker image publication failed." \
+              "PUBLISH_IMAGE: Unable to push ${{ inputs.dockerRepository }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+            post_terminate_delivery
+
+          fi
+
+
+      ###############################################################################
+      # Store Docker Image
+      ###############################################################################
+
+      - name: Store Docker Image
+
+        shell: bash
+
+        run: |
+
+          if [ "${{ inputs.saveDockerImage }}" = "TRUE" ]; then
+
+            docker save \
+              ${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }} \
+              -o ${APP_NAME}.tar
+
+          fi
+
+
+      - name: Upload Docker Image
+
+        if: ${{ inputs.saveDockerImage == 'TRUE' }}
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: docker-image
+
+          path: ${APP_NAME}.tar
+
+
+      ###############################################################################
+      # Cleanup
+      ###############################################################################
+
+      - name: Cleanup
+
+        if: always()
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          ###########################################################################
+          # Stop Apollo container
+          ###########################################################################
+
+          docker stop ${APP_NAME} >/dev/null 2>&1 || true
+
+
+          ###########################################################################
+          # Remove Apollo container
+          ###########################################################################
+
+          docker rm ${APP_NAME} >/dev/null 2>&1 || true
+
+
+          ###########################################################################
+          # Logout
+          ###########################################################################
+
+          docker logout ${{ inputs.dockerHost }} >/dev/null 2>&1 || true
+
+
+          post_pass \
+            "DELIVERY" \
+            "CLEANUP" \
+            0 \
+            "Apollo container stopped and removed locally." \
+            "CLEANUP: Docker resources cleaned up."
+
+
+      ###############################################################################
+      # Delete Verification Branch
+      ###############################################################################
+
+      - name: Delete Verification Branch
+
+        if: always()
+
+        env:
+
+          GH_TOKEN: ${{ inputs.gitHubToken }}
+
+        run: |
+
+          curl -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ inputs.gitHubToken }}" \
+            https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ inputs.branch }}
+
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        if: always()
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_delivery false

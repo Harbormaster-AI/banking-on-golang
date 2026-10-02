@@ -1,0 +1,516 @@
+name: ASP.NET 10 Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+
+env:
+
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  APPLICATION_DLL: Api.dll
+  ARTIFACT_DIRECTORY: packaged-application
+  BUILD_DIRECTORY: bin/Release/net10.0
+
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ${{ inputs.appName }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d ${{ inputs.appName }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+
+      ###########################################################################
+      # Checkout source
+      #
+      # The runtime verification needs the repository for the reporting
+      # infrastructure. The application itself is started from the packaged
+      # build artifact produced by Build Verification.
+      ###########################################################################
+
+      - name: Checkout Source
+
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+
+      ###########################################################################
+      # Download pre-built ASP.NET artifact
+      #
+      # IMPORTANT:
+      # Do NOT run dotnet restore, dotnet build, or dotnet test here.
+      #
+      # Build Verification has already built and validated Api.csproj and
+      # uploaded bin/Release/net10.0 as packaged-application.
+      #
+      # The artifact contains the contents of BUILD_DIRECTORY, so download it
+      # into a dedicated runtime directory.
+      ###########################################################################
+
+      - name: Download Build Artifact
+
+        uses: actions/download-artifact@v4
+
+        with:
+          name: packaged-application
+          path: packaged-application
+
+      ###########################################################################
+      # Show artifact contents
+      ###########################################################################
+
+      - name: List Workspace Contents
+        shell: bash
+        run: |
+          echo "========================================"
+          echo "WORKSPACE CONTENTS"
+          echo "========================================"
+          
+          echo "GitHub workspace:"
+          echo "${GITHUB_WORKSPACE}"
+          
+          echo ""
+          echo "Top-level contents:"
+          ls -la
+          
+          echo ""
+          echo "All workspace files:"
+          find . -type f -print
+          
+          echo "========================================"
+
+      ###########################################################################
+      # Show artifact
+      ###########################################################################
+
+      - name: Show Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "ASP.NET runtime artifact:"
+          find packaged-application -maxdepth 3 -type f | sort
+
+
+      ###########################################################################
+      # Announce runtime verification
+      ###########################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "RUNTIME" \
+            "STARTING_RUNTIME" \
+            0 \
+            "ASP.NET 10 runtime verification starting..." \
+            ""
+
+
+      ###########################################################################
+      # Verify packaged ASP.NET application
+      #
+      # Because Build Verification uploads the contents of
+      # bin/Release/net10.0, the runtime artifact should contain the application
+      # DLL, runtimeconfig.json, and deps.json.
+      ###########################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          APPLICATION_PATH="${APPLICATION_DLL}"
+          RUNTIME_CONFIG="${ARTIFACT_DIRECTORY}/${APPLICATION_DLL%.dll}.runtimeconfig.json"
+          DEPS_FILE="${ARTIFACT_DIRECTORY}/${APPLICATION_DLL%.dll}.deps.json"
+
+          if [ ! -f "${ARTIFACT_DIRECTORY}/${APPLICATION_DLL}" ]; then
+
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "ASP.NET application artifact not found." \
+              "VERIFY_ARTIFACT: ${ARTIFACT_DIRECTORY}/${APPLICATION_DLL}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+          if [ ! -f "${RUNTIME_CONFIG}" ]; then
+
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_RUNTIMECONFIG" \
+              0 \
+              "ASP.NET runtime configuration file not found." \
+              "VERIFY_RUNTIMECONFIG: ${RUNTIME_CONFIG}"
+
+            post_terminate_runtime true
+
+          fi
+
+          if [ ! -f "${DEPS_FILE}" ]; then
+
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_DEPS" \
+              0 \
+              "ASP.NET dependency manifest not found." \
+              "VERIFY_DEPS: ${DEPS_FILE}"
+
+            post_terminate_runtime true
+
+          fi
+
+          echo "APPLICATION_DLL=${APPLICATION_DLL}" >> "$GITHUB_ENV"
+          echo "ARTIFACT_DIRECTORY=${ARTIFACT_DIRECTORY}" >> "$GITHUB_ENV"
+
+          post_pass \
+            "RUNTIME" \
+            "VERIFY_ARTIFACT" \
+            10 \
+            "ASP.NET application runtime artifact located and required runtime files verified." \
+            "VERIFY_ARTIFACT: ${ARTIFACT_DIRECTORY}/${APPLICATION_DLL}"
+
+
+      ###########################################################################
+      # Verify application entry point
+      ###########################################################################
+
+      - name: Verify Application Entry Point
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -s "${ARTIFACT_DIRECTORY}/${APPLICATION_DLL}" ]; then
+
+            post_pass \
+              "RUNTIME" \
+              "APPLICATION_ENTRY_POINT" \
+              10 \
+              "ASP.NET application entry point verified." \
+              "APPLICATION_ENTRY_POINT: ${ARTIFACT_DIRECTORY}/${APPLICATION_DLL}"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "APPLICATION_ENTRY_POINT" \
+              0 \
+              "ASP.NET application entry point is missing or empty." \
+              "APPLICATION_ENTRY_POINT: ${ARTIFACT_DIRECTORY}/${APPLICATION_DLL}"
+
+            post_terminate_runtime true
+
+          fi
+
+
+      ###########################################################################
+      # Start ASP.NET application
+      #
+      # The runtime verification executes the already-built application directly
+      # from the packaged artifact. No source compilation occurs here.
+      ###########################################################################
+
+      - name: Start ASP.NET Application
+
+        shell: bash
+        env:
+          DB_USER_NAME: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: hmTest
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_TYPE: postgres
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Starting ASP.NET application from:"
+          echo "${ARTIFACT_DIRECTORY}"
+          
+          cd "${ARTIFACT_DIRECTORY}"
+          
+          dotnet "./${APPLICATION_DLL}" \
+            --urls "http://127.0.0.1:8080" \
+            > runtime.log 2>&1 &
+            
+          APP_PID=$!
+          
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+          
+          sleep 3
+          
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+            post_pass \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              20 \
+              "ASP.NET application process started." \
+              "START_APPLICATION: PID ${APP_PID}"
+          else
+            post_fail \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              0 \
+              "ASP.NET application failed to start." \
+              "$(cat runtime.log 2>/dev/null || true)"
+          
+            post_terminate_runtime true
+
+          fi
+
+          echo "========== RUNTIME LOG =========="
+          cat runtime.log 2>/dev/null || true
+          
+          echo "========== LISTENING PORTS =========="
+          ss -ltnp 2>/dev/null || true
+
+      ###########################################################################
+      # Wait for application
+      #
+      # A running process alone does not prove that ASP.NET has completed
+      # startup. Wait until the HTTP listener responds.
+      #
+      # Accept any HTTP response because an API may legitimately return 404
+      # for the root path. A TCP-connected HTTP response proves that Kestrel
+      # is listening and the application is processing requests.
+      ###########################################################################
+
+      - name: Wait For Startup
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "RUNTIME" \
+            "WAITING_FOR_APP" \
+            0 \
+            "Waiting for ASP.NET application to respond." \
+            ""
+
+          RESPONSE=""
+        
+          for i in {1..30}; do
+          
+              RESPONSE=$(curl \
+                --silent \
+                --show-error \
+                --write-out "%{http_code}" \
+                --output /dev/null \
+                --connect-timeout 1 \
+                --max-time 3 \
+                http://127.0.0.1:8080/ \
+                2>/dev/null || true)
+            
+            echo "Startup attempt ${i}: HTTP ${RESPONSE}"
+            
+            if [ "$RESPONSE" -ge 100 ] 2>/dev/null && [ "$RESPONSE" -lt 600 ] 2>/dev/null; then
+            
+              post_pass \
+                "RUNTIME" \
+                "APPLICATION_STARTED" \
+                20 \
+                "ASP.NET application started successfully and is responding to HTTP requests." \
+                "HTTP ${RESPONSE}"
+              
+              exit 0
+            
+            fi
+            
+            sleep 2
+          
+          done
+
+          post_fail \
+            "RUNTIME" \
+            "APPLICATION_STARTED" \
+            0 \
+            "ASP.NET application failed to respond to HTTP requests." \
+            "APPLICATION_STARTED: HTTP ${RESPONSE}"
+
+          post_terminate_runtime true
+
+
+      ###########################################################################
+      # Smoke Test
+      #
+      # The root URL is used as a generic HTTP smoke test. For an API, a 404
+      # response is still evidence that Kestrel and the ASP.NET request pipeline
+      # are alive. The test therefore validates HTTP reachability rather than
+      # assuming that "/" is a business endpoint.
+      ###########################################################################
+
+      - name: Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          RESPONSE=$(curl \
+            --silent \
+            --show-error \
+            --write-out "%{http_code}" \
+            --output smoke.out \
+            --max-time 10 \
+            http://127.0.0.1:8080/ 2>/dev/null || true)
+
+          DETAILS="$(cat smoke.out 2>/dev/null || true)"
+
+          if [[ "$RESPONSE" =~ ^[1-5][0-9][0-9]$ ]]; then
+
+            echo "$DETAILS"
+          
+            post_pass \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              30 \
+              "ASP.NET HTTP smoke test passed." \
+              "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+          else
+          
+            echo "$DETAILS"
+            
+            post_fail \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              0 \
+              "ASP.NET HTTP smoke test failed." \
+              "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Verify runtime process
+      ###########################################################################
+
+      - name: Verify Runtime Process
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -n "${APP_PID:-}" ] && ps -p "${APP_PID}" > /dev/null 2>&1; then
+
+            post_pass \
+              "RUNTIME" \
+              "RUNTIME_PROCESS" \
+              10 \
+              "ASP.NET application process remains running after smoke test." \
+              "RUNTIME_PROCESS: PID ${APP_PID}"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "RUNTIME_PROCESS" \
+              0 \
+              "ASP.NET application process is no longer running." \
+              "RUNTIME_PROCESS: PID ${APP_PID:-unknown}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+
+        if: always()
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -n "${APP_PID:-}" ]; then
+            kill "${APP_PID}" 2>/dev/null || true
+          fi
+
+          post_terminate_runtime false

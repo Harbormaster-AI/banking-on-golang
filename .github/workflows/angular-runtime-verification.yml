@@ -1,0 +1,465 @@
+name: Angular Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+
+env:
+
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout source
+      #
+      # We need the repository because the runtime verification uses the
+      # application's configuration and reporting infrastructure.
+      ###########################################################################
+
+      - name: Checkout Source
+
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+
+      ###########################################################################
+      # Download pre-built Angular artifact
+      #
+      # IMPORTANT:
+      # Do NOT run npm install or npm run build here.
+      #
+      # The build verification workflow has already built and validated the
+      # application and uploaded BUILD_DIRECTORY as packaged-application.
+      ###########################################################################
+
+      - name: Download Build Artifact
+
+        uses: actions/download-artifact@v4
+
+        with:
+          name: packaged-application
+
+
+      ###########################################################################
+      # Show artifact
+      ###########################################################################
+
+      - name: Show Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Runtime artifact:"
+          find . -maxdepth 5 -type f | sort
+
+
+      ###########################################################################
+      # Announce runtime verification
+      ###########################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "RUNTIME" \
+            "STARTING_RUNTIME" \
+            0 \
+            "Angular runtime verification starting..." \
+            ""
+
+
+      ###########################################################################
+      # Locate Angular application
+      ###########################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          INDEX_FILE=$(find . \
+            -type f \
+            -name "index.html" \
+            | head -1)
+
+          if [ -z "$INDEX_FILE" ]; then
+
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "No Angular application artifact found." \
+              "VERIFY_ARTIFACT: Unable to locate index.html."
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+          echo "INDEX_FILE=${INDEX_FILE}" >> "$GITHUB_ENV"
+
+          APP_DIRECTORY=$(dirname "$INDEX_FILE")
+
+          echo "APP_DIRECTORY=${APP_DIRECTORY}" >> "$GITHUB_ENV"
+
+          post_pass \
+            "RUNTIME" \
+            "VERIFY_ARTIFACT" \
+            10 \
+            "Angular application artifact located." \
+            "VERIFY_ARTIFACT: ${INDEX_FILE}"
+
+
+      ###########################################################################
+      # Verify index.html
+      ###########################################################################
+
+      - name: Verify Application Entry Point
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -s "$INDEX_FILE" ]; then
+
+            post_pass \
+              "RUNTIME" \
+              "INDEX_HTML" \
+              10 \
+              "Angular application entry point verified." \
+              "INDEX_HTML: ${INDEX_FILE}"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "INDEX_HTML" \
+              0 \
+              "Angular application entry point is empty." \
+              "INDEX_HTML: ${INDEX_FILE}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Start static web server
+      #
+      # The Angular build produces static files. There is no Angular runtime
+      # process comparable to Spring Boot.
+      #
+      # Python's HTTP server is sufficient for runtime verification.
+      ###########################################################################
+
+      - name: Start Angular Application
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Starting Angular application from:"
+          echo "$APP_DIRECTORY"
+
+          cd "$APP_DIRECTORY"
+
+          python3 -m http.server 8080 \
+            --bind 127.0.0.1 \
+            > runtime.log 2>&1 &
+
+          APP_PID=$!
+
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+
+          sleep 3
+
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+
+            post_pass \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              20 \
+              "Angular application started." \
+              "START_APPLICATION: PID ${APP_PID}"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              0 \
+              "Angular application failed to start." \
+              "$(cat runtime.log)"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Wait for application
+      ###########################################################################
+
+      - name: Wait For Startup
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "RUNTIME" \
+            "WAITING_FOR_APP" \
+            0 \
+            "Waiting for Angular application to respond." \
+            ""
+
+          for i in {1..30}; do
+
+            RESPONSE=$(curl \
+              --silent \
+              --write-out "%{http_code}" \
+              --output /dev/null \
+              http://127.0.0.1:8080/)
+
+            if [ "$RESPONSE" = "200" ]; then
+
+              post_pass \
+                "RUNTIME" \
+                "APPLICATION_STARTED" \
+                20 \
+                "Angular application started successfully." \
+                "HTTP ${RESPONSE}"
+
+              exit 0
+
+            fi
+
+            sleep 2
+
+          done
+
+          post_fail \
+            "RUNTIME" \
+            "APPLICATION_STARTED" \
+            0 \
+            "Angular application failed to respond." \
+            "APPLICATION_STARTED: HTTP ${RESPONSE}"
+
+          post_terminate_runtime "RUNTIME"
+
+
+      ###########################################################################
+      # Smoke Test
+      ###########################################################################
+
+      - name: Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          RESPONSE=$(curl \
+            --silent \
+            --write-out "%{http_code}" \
+            --output smoke.out \
+            http://127.0.0.1:8080/)
+
+          if [ "$RESPONSE" = "200" ]; then
+
+            post_pass \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              30 \
+              "Angular smoke test passed." \
+              "$(cat smoke.out)"
+
+          else
+
+            DETAILS=$(cat smoke.out)
+
+            post_fail \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              0 \
+              "Angular smoke test failed." \
+              "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Verify application assets
+      ###########################################################################
+
+      - name: Verify Application Assets
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+          if find "$APP_DIRECTORY" \
+              -type f \
+              -name "*.js" \
+              -print -quit | grep -q .; then
+
+            SCORE=$((SCORE + 4))
+
+            post_pass \
+              "RUNTIME" \
+              "JAVASCRIPT_ASSETS" \
+              4 \
+              "JavaScript assets found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "JAVASCRIPT_ASSETS" \
+              0 \
+              "No JavaScript assets found." \
+              ""
+
+          fi
+
+
+          if find "$APP_DIRECTORY" \
+              -type f \
+              -name "*.css" \
+              -print -quit | grep -q .; then
+
+            SCORE=$((SCORE + 3))
+
+            post_pass \
+              "RUNTIME" \
+              "CSS_ASSETS" \
+              3 \
+              "CSS assets found." \
+              ""
+
+          else
+
+            post_warning \
+              "RUNTIME" \
+              "CSS_ASSETS" \
+              0 \
+              "No CSS assets found." \
+              ""
+
+          fi
+
+
+          if find "$APP_DIRECTORY" \
+              -type f \
+              -name "index.html" \
+              -print -quit | grep -q .; then
+
+            SCORE=$((SCORE + 3))
+
+            post_pass \
+              "RUNTIME" \
+              "INDEX_ASSET" \
+              3 \
+              "index.html found." \
+              ""
+
+          fi
+
+
+          post_result \
+            "RUNTIME" \
+            "APPLICATION_ASSETS" \
+            "PASSED" \
+            0 \
+            "Application asset validation complete (${SCORE}/10)."
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -n "${APP_PID:-}" ]; then
+            kill "${APP_PID}" 2>/dev/null || true
+          fi
+
+          post_terminate_runtime false

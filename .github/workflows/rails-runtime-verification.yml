@@ -1,0 +1,849 @@
+name: Ruby on Rails Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification identifier
+        required: true
+        type: string
+
+      appName:
+        description: Rails application name
+        required: true
+        type: string
+
+
+env:
+
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout source
+      #
+      # The repository is required for the reporting infrastructure and
+      # application metadata.
+      ###########################################################################
+
+      - name: Checkout Verification Scripts
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: true
+
+      ###############################################################################
+      # Determine Ruby Version
+      ###############################################################################
+
+      - name: Determine Ruby Version
+
+        shell: bash
+
+        run: |
+
+          RUBY_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "$RUBY_VERSION" ]; then
+              RUBY_VERSION="3.4.5"
+          fi
+
+          echo "RUBY_VERSION=${RUBY_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Ruby ${RUBY_VERSION}"
+
+      ###########################################################################
+      # Setup Ruby
+      #
+      # The runtime verification executes the pre-built Rails application.
+      # Ruby/Bundler must therefore be available on the verification runner.
+      ###########################################################################
+
+      - name: Setup Ruby
+
+        uses: ruby/setup-ruby@v1
+
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: false
+
+
+
+      ###########################################################################
+      # Download pre-built Rails artifact
+      #
+      # IMPORTANT:
+      # Do NOT run bundle install or rebuild the application here.
+      #
+      # Build Verification has already built and validated the application
+      # and uploaded RAILS_APP_DIRECTORY as packaged-application.
+      ###########################################################################
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: packaged-application
+
+      ###########################################################################
+      # Verify Bundled Gems
+      ###########################################################################
+
+      - name: Verify Bundled Gems
+        shell: bash
+        run: |
+          echo "=== PUMA GEM DIRECTORY ==="
+          ls -la vendor/bundle/ruby/3.4.0/gems/puma-8.0.2/bin || true
+          
+          echo "=== PUMA EXECUTABLES ==="
+          find vendor/bundle/ruby/3.4.0 -type f \( -name puma -o -name pumactl \) -print || true
+          
+          echo "=== BUNDLE EXECUTABLE DIRECTORY ==="
+          ls -la vendor/bundle/ruby/3.4.0/bin || true
+          
+          echo "=== PUMA GEM EXECUTABLES FROM RUBYGEMS ==="
+          bundle exec ruby -e \
+          'puts Gem::Specification.find_by_name("puma").executables' || true
+          
+          echo "=== PUMA VERSION ==="
+          bundle exec puma --version || true
+
+      ###########################################################################
+      # Show artifact
+      ###########################################################################
+
+      - name: Show Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          echo "=== DOWNLOADED ARTIFACT ==="
+          
+          pwd
+          
+          echo "--- Application directories ---"
+          find . -maxdepth 3 -type d | sort
+          
+          echo "--- Bundler config ---"
+          find . -path "*/.bundle/config" -print
+          
+          echo "--- Rails gem ---"
+          find . -type d -name "rails-8.1.3.1" -print
+          
+          echo "--- vendor/bundle ---"
+          find . -maxdepth 5 -type d -path "*/vendor/bundle" -print
+
+      ###########################################################################
+      # Announce runtime verification
+      ###########################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          post_pass \
+            "RUNTIME" \
+            "STARTING_RUNTIME" \
+            0 \
+            "Ruby on Rails runtime verification starting..." \
+            ""
+
+
+      ###########################################################################
+      # Verify Rails application artifact
+      ###########################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          SCORE=0
+
+          if [ -f "Gemfile" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "GEMFILE" \
+              2 \
+              "Rails Gemfile found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "GEMFILE" \
+              0 \
+              "Rails Gemfile not found." \
+              ""
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          if [ -f "config/environment.rb" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "RAILS_ENVIRONMENT" \
+              2 \
+              "Rails environment configuration found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "RAILS_ENVIRONMENT" \
+              0 \
+              "config/environment.rb not found." \
+              ""
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          if [ -f "config/application.rb" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "RAILS_APPLICATION" \
+              2 \
+              "Rails application configuration found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "RAILS_APPLICATION" \
+              0 \
+              "config/application.rb not found." \
+              ""
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          if [ -f "config/puma.rb" ]; then
+
+            SCORE=$((SCORE + 1))
+
+            post_pass \
+              "RUNTIME" \
+              "PUMA_CONFIGURATION" \
+              1 \
+              "Puma configuration found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "PUMA_CONFIGURATION" \
+              0 \
+              "config/puma.rb not found." \
+              ""
+
+          fi
+
+
+          if [ -f "bin/rails" ]; then
+
+            SCORE=$((SCORE + 1))
+
+            post_pass \
+              "RUNTIME" \
+              "RAILS_EXECUTABLE" \
+              1 \
+              "Rails executable found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "RAILS_EXECUTABLE" \
+              0 \
+              "bin/rails not found." \
+              ""
+
+          fi
+
+
+          if [ -f "config/routes.rb" ]; then
+
+            SCORE=$((SCORE + 1))
+
+            post_pass \
+              "RUNTIME" \
+              "ROUTES_CONFIGURATION" \
+              1 \
+              "Rails routes configuration found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "ROUTES_CONFIGURATION" \
+              0 \
+              "config/routes.rb not found." \
+              ""
+
+          fi
+
+
+          if [ -f "Rakefile" ]; then
+
+            SCORE=$((SCORE + 1))
+
+            post_pass \
+              "RUNTIME" \
+              "RAKEFILE" \
+              1 \
+              "Rails Rakefile found." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "RAKEFILE" \
+              0 \
+              "Rakefile not found." \
+              ""
+
+          fi
+
+
+          post_result \
+            "RUNTIME" \
+            "RAILS_ARTIFACT" \
+            "PASSED" \
+            0 \
+            "Rails application artifact validation complete (${SCORE}/10)."
+
+      ###########################################################################
+      # Configure PostgreSQL runtime
+      ###########################################################################
+
+      - name: Configure PostgreSQL Runtime
+
+        shell: bash
+
+        run: |
+          
+          echo "RAILS_ENV=harbormaster_test" >> "$GITHUB_ENV"
+          echo "PGHOST=127.0.0.1" >> "$GITHUB_ENV"
+          echo "PGPORT=5432" >> "$GITHUB_ENV"
+          echo "PGUSER=postgres" >> "$GITHUB_ENV"
+          echo "PGPASSWORD=postgres" >> "$GITHUB_ENV"
+          echo "PGDATABASE=rails_test" >> "$GITHUB_ENV"
+          echo "SECRET_KEY_BASE=$(ruby -rsecurerandom -e 'puts SecureRandom.hex(64)')" >> "$GITHUB_ENV"
+
+      ################################################################
+      ## Verify Rails Application
+      ################################################################
+
+      - name: Verify Rails Application
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          echo "=== RUNTIME DATABASE CONFIG ==="
+          pwd
+          ls -l config/database.yml
+          cat config/database.yml
+          
+          echo "=== RAILS ENV ==="
+          echo "RAILS_ENV=${RAILS_ENV}"
+          
+          ruby bin/rails runner \
+            "puts 'Rails application initialized successfully.'"
+
+          if [ $? -eq 0 ]; then
+
+            post_pass \
+              "RUNTIME" \
+              "RAILS_INITIALIZATION" \
+              10 \
+              "Rails application initialized successfully." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "RAILS_INITIALIZATION" \
+              0 \
+              "Rails application failed to initialize." \
+              ""
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+      ###########################################################################
+      # Verify PostgreSQL runtime dependency
+      #
+      # Runtime verification uses PostgreSQL as the standardized database
+      # environment for executing the generated Rails application.
+      #
+      # This is intentionally NOT part of Build Verification.
+      ###########################################################################
+
+      - name: Verify PostgreSQL Runtime
+
+        shell: bash
+
+        run: |
+          
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+          
+          echo "Verifying PostgreSQL runtime dependency..."
+          
+          #######################################################################
+          # Verify pg gem
+          #######################################################################
+          
+          if bundle info pg > pg-info.log 2>&1; then
+          
+            echo "PostgreSQL adapter (pg) is available."
+          
+            cat pg-info.log
+          
+          else
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_POSTGRESQL" \
+              0 \
+              "PostgreSQL adapter (pg) is not available." \
+              "$(cat pg-info.log)"
+          
+            post_terminate_runtime "RUNTIME"
+          
+          fi
+          
+          #######################################################################
+          # Verify Rails database connectivity
+          #######################################################################
+          
+          if bundle exec rails runner \
+              'ActiveRecord::Base.connection.execute("SELECT 1")' \
+              > postgres-connection.log 2>&1; then
+          
+            echo "Rails successfully connected to PostgreSQL."
+          
+            post_pass \
+              "RUNTIME" \
+              "VERIFY_POSTGRESQL" \
+              10 \
+              "PostgreSQL runtime database connection verified." \
+              "VERIFY_POSTGRESQL: Rails successfully connected to PostgreSQL."
+          
+          else
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_POSTGRESQL" \
+              0 \
+              "Rails failed to connect to PostgreSQL." \
+              "$(cat postgres-connection.log)"
+          
+            post_terminate_runtime "RUNTIME"
+          
+          fi
+
+      ###########################################################################
+      # Start Rails application
+      #
+      # The runtime verification executes the generated Rails application.
+      # Puma is the Rails application server.
+      ###########################################################################
+
+      - name: Start Rails Application
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          echo "Starting Ruby on Rails application from:"
+          echo "${GITHUB_WORKSPACE}"
+
+          ruby bin/rails server \
+            --binding=127.0.0.1 \
+            --port=3000 \
+            > runtime.log 2>&1 &
+
+          APP_PID=$!
+
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+
+          sleep 5
+
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+
+            post_pass \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              20 \
+              "Ruby on Rails application started." \
+              "START_APPLICATION: PID ${APP_PID}"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              0 \
+              "Ruby on Rails application failed to start." \
+              "$(cat runtime.log)"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+      ###########################################################################
+      # Wait for application
+      ###########################################################################
+
+      - name: Wait For Startup
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          post_pass \
+            "RUNTIME" \
+            "WAITING_FOR_APP" \
+            0 \
+            "Waiting for Ruby on Rails application to respond." \
+            ""
+
+          RESPONSE="000"
+
+          for i in {1..30}; do
+
+            RESPONSE=$(curl \
+              --silent \
+              --write-out "%{http_code}" \
+              --output /dev/null \
+              http://127.0.0.1:3000/ \
+              || true)
+
+            echo "Health check ${i}/30: HTTP ${RESPONSE}"
+
+            if [ "$RESPONSE" != "000" ]; then
+
+              post_pass \
+                "RUNTIME" \
+                "APPLICATION_STARTED" \
+                20 \
+                "Ruby on Rails application started successfully and responded." \
+                "APPLICATION_STARTED: HTTP ${RESPONSE}"
+
+              exit 0
+
+            fi
+
+            sleep 2
+
+          done
+
+          post_fail \
+            "RUNTIME" \
+            "APPLICATION_STARTED" \
+            0 \
+            "Ruby on Rails application failed to respond." \
+            "APPLICATION_STARTED: No HTTP response after 30 attempts. Last HTTP status: ${RESPONSE}"
+
+          post_terminate_runtime "RUNTIME"
+
+
+      ###########################################################################
+      # Smoke Test
+      ###########################################################################
+
+      - name: Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          RESPONSE=$(curl \
+            --silent \
+            --write-out "%{http_code}" \
+            --output smoke.out \
+            http://127.0.0.1:3000/)
+
+          if [ "$RESPONSE" = "200" ]; then
+
+            post_pass \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              30 \
+              "Ruby on Rails smoke test passed." \
+              "$(cat smoke.out)"
+
+          else
+
+            DETAILS=$(cat smoke.out)
+
+            post_fail \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              0 \
+              "Ruby on Rails smoke test failed." \
+              "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Verify Rails runtime
+      ###########################################################################
+
+      - name: Verify Rails Runtime
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          SCORE=0
+
+          if [ -f "config/environment.rb" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "ENVIRONMENT_RB" \
+              2 \
+              "Rails environment.rb verified." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "ENVIRONMENT_RB" \
+              0 \
+              "Rails environment.rb not found." \
+              ""
+
+          fi
+
+
+          if [ -f "config/application.rb" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "APPLICATION_RB" \
+              2 \
+              "Rails application.rb verified." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "APPLICATION_RB" \
+              0 \
+              "Rails application.rb not found." \
+              ""
+
+          fi
+
+
+          if [ -f "config/routes.rb" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "ROUTES_RB" \
+              2 \
+              "Rails routes.rb verified." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "ROUTES_RB" \
+              0 \
+              "Rails routes.rb not found." \
+              ""
+
+          fi
+
+
+          if [ -d "app/controllers" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "CONTROLLERS" \
+              2 \
+              "Rails controllers directory verified." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "CONTROLLERS" \
+              0 \
+              "Rails controllers directory not found." \
+              ""
+
+          fi
+
+
+          if [ -d "app/models" ]; then
+
+            SCORE=$((SCORE + 1))
+
+            post_pass \
+              "RUNTIME" \
+              "MODELS" \
+              1 \
+              "Rails models directory verified." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "MODELS" \
+              0 \
+              "Rails models directory not found." \
+              ""
+
+          fi
+
+
+          if [ -d "app/views" ]; then
+
+            SCORE=$((SCORE + 1))
+
+            post_pass \
+              "RUNTIME" \
+              "VIEWS" \
+              1 \
+              "Rails views directory verified." \
+              ""
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "VIEWS" \
+              0 \
+              "Rails views directory not found." \
+              ""
+
+          fi
+
+
+          post_result \
+            "RUNTIME" \
+            "RAILS_RUNTIME" \
+            "PASSED" \
+            0 \
+            "Ruby on Rails runtime validation complete (${SCORE}/10)."
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          if [ -n "${APP_PID:-}" ]; then
+            kill "${APP_PID}" 2>/dev/null || true
+          fi
+
+          post_terminate_runtime false

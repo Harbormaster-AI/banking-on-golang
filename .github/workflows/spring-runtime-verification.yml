@@ -1,0 +1,428 @@
+name: Spring Boot Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+      languageVersion:
+        description: The core language version of the system
+        required: false
+        default: "11"
+        type: string
+
+      languageName:
+        description: The core language of the system
+        required: false
+        default: "11"
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  HM_EXIT_WORKFLOW: "false"
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    services:
+
+      mysql:
+
+        image: mysql:8.4
+
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: harbormaster
+
+        ports:
+          - 3307:3306
+
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5      
+
+    steps:
+
+      ###########################################################################
+      #   Checkout source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit (not app branch)
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f .hm-verification-overlay/.github/actions/common/report.sh .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+        ###########################################################################
+        #   Download pre-built artifact
+        ###########################################################################
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: packaged-application
+
+      - name: Show JAR Files
+
+        shell: bash
+
+        run: |
+          
+          find -name "*.jar"
+
+      ####################################################################
+      # Determine Java Version
+      ####################################################################
+
+      - name: Determine Java Version
+
+        shell: bash
+
+        run: |
+
+          ####################################################################
+          # Default Java Version
+          ####################################################################
+
+          JAVA_VERSION=${{ inputs.languageVersion }}
+
+          ####################################################################
+          # Maven
+          ####################################################################
+
+          if [ "$BUILD_SYSTEM" = "gradle" ]; then
+
+            JAVA_VERSION=${{ inputs.languageVersion }}
+
+          fi
+
+          echo "JAVA_VERSION=${JAVA_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Java ${JAVA_VERSION}"
+
+      ###############################################################################
+      # Set up and verify the Java version
+      ###############################################################################
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Verify Java Version
+        run: |
+          java -version
+          javac -version
+
+      ###########################################################################
+      #   Announce start of runtime verification
+      ###########################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          post_pass \
+                        "RUNTIME" \
+                        "STARTING_RUNTIME" \
+                        0 \
+                        "Runtime verification starting..." \
+                        "" 
+
+      ###########################################################################
+      #   Locate the JAR.
+      ###########################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          PACKAGE=$(find  \
+              -type f \
+              -name "*.jar" \
+              ! -name "*.original" \
+              ! -name "*-plain.jar" \
+              ! -name "*sources.jar" \
+              ! -name "*javadoc.jar" \
+              | head -1)
+          
+          if [ -z "$PACKAGE" ]; then
+          
+              post_fail \
+                  "RUNTIME" \
+                  "VERIFY_ARTIFACT" \
+                  0 \
+                  "No application artifact found." \
+                  "VERIFY_ARTIFACT: Unable to locate downloaded jar."
+          
+              post_terminate_runtime "RUNTIME"
+          
+          fi
+          
+          post_pass \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              10 \
+              "Artifact located." \
+              "VERIFY_ARTIFACT: $(basename "$JAR")"    
+
+      ###########################################################################
+      #   Launch Spring Boot
+      ###########################################################################
+
+      - name: Start Application
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          PACKAGE=$(find  \
+              -type f \
+              -name "*.jar" \
+              ! -name "*.original" \
+              ! -name "*-plain.jar" \
+              ! -name "*sources.jar" \
+              ! -name "*javadoc.jar" \
+              | head -1)
+
+          until mysqladmin ping \
+            -h127.0.0.1 \
+            -P3307 \
+            -uroot \
+            -proot \
+            --silent
+            do
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+          
+          ###########################################################################
+          # declare as env var to use in later steps
+          ###########################################################################          
+          echo "PACKAGE=${PACKAGE}" >> "$GITHUB_ENV"
+          
+          echo "Starting $PACKAGE"
+
+          export JAVA_TOOL_OPTIONS="-Xmx4g"
+  
+          java \
+            -XX:+HeapDumpOnOutOfMemoryError \
+            -XX:HeapDumpPath=./heapdump.hprof \
+            -Ddebug  \
+            -Dserver.port=8080 \
+            -Dspring.datasource.url=jdbc:mysql://localhost:3307/harbormaster \
+            -Dspring.datasource.username=root \
+            -Dspring.datasource.password=root \
+            -Dhm.security.authentication=none \
+            -jar \
+            "$PACKAGE" > runtime.log 2>&1 &
+          APP_PID=$!
+          
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+          
+          sleep 30
+          
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+          
+              post_pass \
+                  "RUNTIME" \
+                  "START_APPLICATION" \
+                  30 \
+                  "Application started." \
+                  "START_APPLICATION: PID ${APP_PID}"
+          
+          else
+          
+              post_fail \
+                  "RUNTIME" \
+                  "START_APPLICATION" \
+                  0 \
+                  "Application failed to start." \
+                  "$(tail -20 runtime.log)"
+          
+              post_terminate_runtime
+          
+          fi
+
+      ###########################################################################
+      #   Wait Until Spring Boot starts
+      ###########################################################################
+
+      - name: Wait For Startup
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          post_pass \
+              "RUNTIME" \
+              "WAITING_FOR_APP" \
+              0 \
+              "Waiting for system to start." \
+              ""
+          
+          MAX_ATTEMPTS=30
+          ATTEMPT=1
+          
+          while [ "$ATTEMPT" -le "$MAX_ATTEMPTS" ]; do
+          
+            if curl --fail --silent \
+              http://localhost:8080/actuator/health > /tmp/health.json 2>/dev/null; then
+              
+              echo "Runtime verification passed."
+              cat /tmp/health.json
+              exit 0
+            fi
+            
+            if ! kill -0 "$APP_PID" 2>/dev/null; then
+              echo "Application terminated during startup."
+              cat runtime.log
+              exit 1
+            fi
+            
+            sleep 2
+            ATTEMPT=$((ATTEMPT + 1))
+          
+          done
+          
+          echo "Application did not become healthy."
+          cat runtime.log
+                    
+          post_fail \
+              "RUNTIME" \
+              "APPLICATION_START" \
+              0 \
+              "Application failed to start." \
+              "${MESSAGE}"
+          
+          post_terminate_runtime
+
+
+      ###############################################################################
+      # Smoke Test
+      ###############################################################################
+
+      - name: Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          RESPONSE=$(curl \
+              --silent \
+              --write-out "%{http_code}" \
+              --output smoke.out \
+              http://localhost:8080/)
+
+          if [ "$RESPONSE" = "200" ]; then
+
+              post_pass \
+                  "RUNTIME" \
+                  "SMOKE_TEST" \
+                  30 \
+                  "Smoke test passed." \
+                  "$(cat smoke.out)"
+
+          else
+
+              DETAILS=$(cat smoke.out)
+
+              post_fail \
+                  "RUNTIME" \
+                  "SMOKE_TEST" \
+                  0 \
+                  "Smoke test failed." \
+                  "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+              post_terminate_runtime
+
+          fi
+          
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+          source .github/actions/common/report.sh
+      
+          post_terminate_runtime false

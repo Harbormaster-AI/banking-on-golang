@@ -1,0 +1,577 @@
+name: Apollo Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+      languageVersion:
+        description: Node.js version
+        required: false
+        default: "22.22.3"
+        type: string
+
+
+env:
+
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###############################################################################
+      # Checkout source
+      ###############################################################################
+
+      - name: Checkout Source
+
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+
+      ###############################################################################
+      # Download pre-built Apollo artifact
+      #
+      # IMPORTANT:
+      # The Build Verification has already:
+      #
+      #   - installed npm dependencies
+      #   - compiled TypeScript
+      #   - created dist/
+      #   - validated the build
+      #
+      # Therefore Runtime Verification MUST NOT:
+      #
+      #   - run npm install
+      #   - run npm ci
+      #   - run npm run build
+      #   - regenerate anything
+      #
+      # The artifact contains the complete runnable application at its root.
+      ###############################################################################
+
+      - name: Download Build Artifact
+
+        uses: actions/download-artifact@v4
+
+        with:
+          name: packaged-application
+
+
+      ###############################################################################
+      # Show artifact
+      ###############################################################################
+
+      - name: Show Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Runtime artifact:"
+          find . -maxdepth 5 -type f | sort
+
+
+      ###############################################################################
+      # Announce runtime verification
+      ###############################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "RUNTIME" \
+            "STARTING_RUNTIME" \
+            0 \
+            "Apollo runtime verification starting..." \
+            ""
+
+
+      ###############################################################################
+      # Determine Node.js Version
+      ###############################################################################
+
+      - name: Determine Node.js Version
+
+        shell: bash
+
+        run: |
+
+          NODE_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "$NODE_VERSION" ]; then
+              NODE_VERSION="22.22.3"
+          fi
+
+          echo "NODE_VERSION=${NODE_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Node.js ${NODE_VERSION}"
+
+
+      ###############################################################################
+      # Setup Node.js
+      ###############################################################################
+
+      - name: Setup Node.js
+
+        uses: actions/setup-node@v4
+
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+
+      ###############################################################################
+      # Verify Node.js
+      ###############################################################################
+
+      - name: Verify Node.js Version
+
+        shell: bash
+
+        run: |
+
+          node --version
+          npm --version
+
+
+      ###############################################################################
+      # Verify Runtime Artifact
+      #
+      # Everything is expected at the root of the artifact.
+      ###############################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+
+          ###########################################################################
+          # package.json
+          ###########################################################################
+
+          if [ -f "package.json" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "PACKAGE_JSON" \
+              2 \
+              "package.json found in runtime artifact."
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "PACKAGE_JSON" \
+              0 \
+              "package.json not found in runtime artifact."
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          ###########################################################################
+          # node_modules
+          ###########################################################################
+
+          if [ -d "node_modules" ]; then
+
+            SCORE=$((SCORE + 3))
+
+            post_pass \
+              "RUNTIME" \
+              "NODE_MODULES" \
+              3 \
+              "node_modules found in runtime artifact."
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "NODE_MODULES" \
+              0 \
+              "node_modules not found in runtime artifact."
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          ###########################################################################
+          # dist
+          ###########################################################################
+
+          if [ -d "dist" ]; then
+
+            SCORE=$((SCORE + 2))
+
+            post_pass \
+              "RUNTIME" \
+              "DIST_DIRECTORY" \
+              2 \
+              "Compiled dist directory found."
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "DIST_DIRECTORY" \
+              0 \
+              "dist directory not found in runtime artifact."
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          ###########################################################################
+          # server.js
+          ###########################################################################
+
+          if [ -f "dist/server.js" ]; then
+
+            SCORE=$((SCORE + 3))
+
+            post_pass \
+              "RUNTIME" \
+              "SERVER_ENTRY_POINT" \
+              3 \
+              "Compiled Apollo server entry point found." \
+              "SERVER_ENTRY_POINT: dist/server.js"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "SERVER_ENTRY_POINT" \
+              0 \
+              "dist/server.js not found."
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          post_result \
+            "RUNTIME" \
+            "VERIFY_ARTIFACT" \
+            "PASSED" \
+            0 \
+            "Apollo runtime artifact validation complete (${SCORE}/10)."
+
+
+      ###############################################################################
+      # Start Apollo Application
+      #
+      # IMPORTANT:
+      # We execute the already-compiled application.
+      #
+      # No npm install.
+      # No npm build.
+      # No generation.
+      ###############################################################################
+
+      - name: Start Apollo Application
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Starting Apollo application from artifact root."
+
+          node dist/server.js \
+            > runtime.log 2>&1 &
+
+          APP_PID=$!
+
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+
+          sleep 10
+
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+
+            post_pass \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              20 \
+              "Apollo application started." \
+              "START_APPLICATION: PID ${APP_PID}"
+
+          else
+
+            cat runtime.log
+
+            post_fail \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              0 \
+              "Apollo application failed to start." \
+              "$(cat runtime.log)"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###############################################################################
+      # Wait For Apollo
+      ###############################################################################
+
+      - name: Wait For Startup
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "RUNTIME" \
+            "WAITING_FOR_APP" \
+            0 \
+            "Waiting for Apollo application to respond." \
+            ""
+
+          echo "Checking port 4000..."
+          ss -lntp | grep ':4000' || true
+
+          for i in {1..30}; do
+
+            RESPONSE=$(curl \
+              --silent \
+              --write-out "%{http_code}" \
+              --output /dev/null \
+              http://127.0.0.1:4000/)
+
+            if [ "$RESPONSE" != "000" ]; then
+
+              post_pass \
+                "RUNTIME" \
+                "APPLICATION_STARTED" \
+                20 \
+                "Apollo application is responding." \
+                "HTTP ${RESPONSE}"
+
+              exit 0
+
+            fi
+
+            sleep 2
+
+          done
+
+
+          cat runtime.log
+
+          post_fail \
+            "RUNTIME" \
+            "APPLICATION_STARTED" \
+            0 \
+            "Apollo application failed to respond." \
+            "APPLICATION_STARTED: HTTP ${RESPONSE}"
+
+          post_terminate_runtime "RUNTIME"
+
+
+      ###############################################################################
+      # GraphQL Smoke Test
+      #
+      # This is the important Apollo-specific runtime test.
+      #
+      # We don't merely test that port 4000 is open.
+      # We execute a real GraphQL operation against the generated Apollo server.
+      ###############################################################################
+
+      - name: GraphQL Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+
+          ###########################################################################
+          # Execute health query
+          ###########################################################################
+
+          RESPONSE=$(curl \
+            --silent \
+            --show-error \
+            --write-out "%{http_code}" \
+            --output graphql-response.json \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"query":"{ health }"}' \
+            http://127.0.0.1:4000/)
+
+
+          echo "HTTP Response: ${RESPONSE}"
+          echo "GraphQL Response:"
+          cat graphql-response.json
+
+
+          ###########################################################################
+          # Verify HTTP response
+          ###########################################################################
+
+          if [ "$RESPONSE" != "200" ]; then
+
+            post_fail \
+              "RUNTIME" \
+              "GRAPHQL_SMOKE_TEST" \
+              0 \
+              "Apollo GraphQL request failed." \
+              "HTTP ${RESPONSE}: $(cat graphql-response.json)"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+          ###########################################################################
+          # Verify GraphQL result
+          ###########################################################################
+
+          if grep -q '"health"' graphql-response.json \
+             && grep -q '"OK"' graphql-response.json; then
+
+            post_pass \
+              "RUNTIME" \
+              "GRAPHQL_SMOKE_TEST" \
+              30 \
+              "Apollo GraphQL smoke test passed." \
+              "$(cat graphql-response.json)"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "GRAPHQL_SMOKE_TEST" \
+              0 \
+              "Apollo GraphQL smoke test returned an unexpected response." \
+              "$(cat graphql-response.json)"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###############################################################################
+      # Verify Runtime Process
+      ###############################################################################
+
+      - name: Verify Application Process
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -n "${APP_PID:-}" ] && \
+             ps -p "${APP_PID}" > /dev/null 2>&1; then
+
+            post_pass \
+              "RUNTIME" \
+              "APPLICATION_PROCESS" \
+              10 \
+              "Apollo application process remains running." \
+              "PID ${APP_PID}"
+
+          else
+
+            post_fail \
+              "RUNTIME" \
+              "APPLICATION_PROCESS" \
+              0 \
+              "Apollo application process is no longer running." \
+              ""
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -n "${APP_PID:-}" ]; then
+            kill "${APP_PID}" 2>/dev/null || true
+          fi
+
+          post_terminate_runtime false

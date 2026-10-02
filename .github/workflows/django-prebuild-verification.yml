@@ -1,0 +1,678 @@
+name: Django Pre-Build Verification
+
+on:
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageName:
+        description: The core language of the system
+        required: false
+        default: "Python"
+        type: string
+
+      languageVersion:
+        description: Python version
+        required: true
+        type: string
+
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  HM_EXIT_WORKFLOW: "false"
+
+
+# Required for COMMIT_FORMATTED_SOURCE.
+permissions:
+  contents: write
+
+
+jobs:
+
+  pre-build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: true
+
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+
+          cp -f \
+            .hm-verification-overlay/.github/actions/common/report.sh \
+            .github/actions/common/report.sh
+
+          chmod +x .github/actions/common/report.sh
+
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checked out successfully."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checkout failed."
+
+            post_terminate_prebuild
+
+          fi
+
+
+      ###########################################################################
+      # Determine Django Application Directory
+      ###########################################################################
+
+      - name: Determine Django Application Directory
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d "${APP_NAME}" ] && [ -f "${APP_NAME}/manage.py" ]; then
+
+            APP_DIR="${APP_NAME}"
+
+          elif find . -maxdepth 2 -name "manage.py" -print -quit | grep -q .; then
+
+            APP_DIR="$(dirname "$(find . -maxdepth 2 -name "manage.py" -print -quit)")"
+
+            if [ "${APP_DIR}" = "." ]; then
+              APP_DIR="."
+            fi
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "DJANGO_APPLICATION" \
+              0 \
+              "Could not locate Django application sources." \
+              "Expected ./${APP_NAME}/manage.py or a manage.py in the repository."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "APP_DIR=${APP_DIR}" >> "$GITHUB_ENV"
+
+          echo "Resolved APP_DIR=${APP_DIR}"
+
+
+      ###########################################################################
+      # Determine Python Version
+      ###########################################################################
+
+      - name: Determine Python Version
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          PYTHON_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "${PYTHON_VERSION}" ]; then
+
+            if [ -f "${APP_DIR}/.python-version" ]; then
+
+              PYTHON_VERSION="$(cat "${APP_DIR}/.python-version" | tr -d '[:space:]')"
+
+            elif [ -f "${APP_DIR}/runtime.txt" ]; then
+
+              PYTHON_VERSION="$(cat "${APP_DIR}/runtime.txt" | tr -d '[:space:]')"
+
+            else
+
+              PYTHON_VERSION="3.13"
+
+            fi
+
+          fi
+
+          echo "PYTHON_VERSION=${PYTHON_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Application: ${APP_NAME}"
+          echo "Python version: ${PYTHON_VERSION}"
+          echo "Language: ${LANGUAGE_NAME}"
+
+
+      ###########################################################################
+      # Setup Python
+      ###########################################################################
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+
+      ###########################################################################
+      # Verify Python
+      ###########################################################################
+
+      - name: Verify Python
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Installed Python:"
+          python --version
+
+          echo ""
+          echo "Python information:"
+          python -c "import sys; print(sys.version)"
+
+          echo ""
+          echo "Pip:"
+          python -m pip --version
+
+
+      ###########################################################################
+      # Verify Files
+      ###########################################################################
+
+      - name: Verify Files
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          MISSING_FILES=""
+
+          if [ ! -f "manage.py" ]; then
+            MISSING_FILES="${MISSING_FILES} manage.py"
+          fi
+
+          if [ ! -f "settings.py" ] && \
+             ! find . -maxdepth 3 -type f \
+               -path "*/settings.py" \
+               -print -quit | grep -q .; then
+            MISSING_FILES="${MISSING_FILES} settings.py"
+          fi
+
+          if [ -n "${MISSING_FILES}" ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              0 \
+              "Required Django files were not found." \
+              "Missing:${MISSING_FILES}"
+
+            post_terminate_prebuild
+
+          else
+
+            post_pass \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              5 \
+              "Django application files verified." \
+              "manage.py and Django settings files were found."
+
+          fi
+
+
+      ###########################################################################
+      # Verify Directories
+      ###########################################################################
+
+      - name: Verify Directories
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+          
+          MISSING_FILES=""
+          
+          if [ ! -f "manage.py" ]; then
+            MISSING_FILES="${MISSING_FILES} manage.py"
+          fi
+          
+          SETTINGS_FILE="$(find . -maxdepth 4 -type f \
+            -name "settings.py" \
+            -print -quit)"
+          
+          if [ -z "${SETTINGS_FILE}" ]; then
+            MISSING_FILES="${MISSING_FILES} settings.py"
+          fi
+          
+          if [ -n "${MISSING_FILES}" ]; then          
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              0 \
+              "Required Django files were not found." \
+              "Missing:${MISSING_FILES}"
+          
+              post_terminate_prebuild          
+          else          
+            post_pass \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              5 \
+              "Django application files verified." \
+              "manage.py and settings.py were found."
+          
+          fi
+
+      ###########################################################################
+      # Setup Black
+      ###########################################################################
+
+      - name: Setup Black
+        shell: bash
+        run: |
+          python -m pip install --disable-pip-version-check \
+            black==25.9.0
+
+
+      ###########################################################################
+      # Format Code
+      ###########################################################################
+
+      - name: Format Code
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Running Black formatter..."
+
+          black .
+          RC=$?
+          
+          if [ "$RC" -ne 0 ] && [ "$RC" -ne 1 ]; then
+            echo "Black formatter failed with exit code ${RC}."
+            exit "$RC"
+          fi
+
+          echo "Checking for remaining Black formatting issues..."
+
+          if ! black --check . 2>&1 | tee black-analysis.log; then
+
+            MESSAGE=$(tail -30 black-analysis.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              0 \
+              "Black found remaining formatting issues." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          else
+
+            post_pass \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              15 \
+              "Django source formatting completed successfully." \
+              "Black completed with no remaining formatting violations."
+
+          fi
+
+      ###############################################################################
+      # Package and Upload formatted source
+      ###############################################################################
+
+      - name: Package Formatted Source
+        shell: bash
+        run: |
+          set -e
+          
+          echo "Packaging formatted source..."
+          
+          tar \
+            --exclude='.git' \
+            -czf /tmp/formatted-source.tar.gz \
+            .
+          
+          echo "Formatted source packaged:"
+          ls -lh /tmp/formatted-source.tar.gz
+
+      - name: Upload Formatted Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatted-source
+          path: /tmp/formatted-source.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+      ###########################################################################
+      # Commit Formatted Source
+      ###########################################################################
+
+      - name: Commit Formatted Source
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Checking for formatted source changes..."
+
+          git status --short
+
+          #######################################################################
+          # Generated source exists up to this point, so stage all files.
+          #######################################################################
+
+          git add -- .
+
+          echo "Files staged for commit:"
+
+          git diff --cached --name-status
+
+          if git diff --cached --quiet; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "No formatted source changes require committing." \
+              "No Python source changes were produced by formatting."
+
+            exit 0
+
+          fi
+
+          #######################################################################
+          # Configure commit identity
+          #######################################################################
+
+          git config user.name "HarborMaster Verification"
+          git config user.email "dev@harbormaster.net"
+
+          #######################################################################
+          # Determine target branch
+          #######################################################################
+
+          TARGET_BRANCH="${{ inputs.branch }}"
+
+          if [ -z "${TARGET_BRANCH}" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+
+          echo "Target branch: ${TARGET_BRANCH}"
+
+          #######################################################################
+          # Ensure the local branch corresponds to the source branch.
+          #######################################################################
+
+          git fetch origin "${TARGET_BRANCH}"
+
+          git checkout -B "${TARGET_BRANCH}" \
+            "origin/${TARGET_BRANCH}"
+
+          #######################################################################
+          # Re-stage all files after checkout.
+          #######################################################################
+
+          git add -- .
+
+          echo "Final staged files:"
+
+          git diff --cached --name-status
+
+          #######################################################################
+          # Commit
+          #######################################################################
+
+          if ! git commit -m "chore: format generated Django source"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to commit formatted Django source."
+
+            post_terminate_prebuild
+
+          fi
+
+          COMMIT_SHA=$(git rev-parse HEAD)
+
+          echo "Created commit: ${COMMIT_SHA}"
+
+          #######################################################################
+          # Push explicitly to the source branch.
+          #######################################################################
+
+          if git push origin \
+              "HEAD:${TARGET_BRANCH}"; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              5 \
+              "Formatted Django source committed successfully." \
+              "Commit ${COMMIT_SHA} pushed to ${TARGET_BRANCH}."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to push formatted Django source." \
+              "GitHub rejected the push to ${TARGET_BRANCH}."
+
+            post_terminate_prebuild
+
+          fi
+
+
+      ###########################################################################
+      # Static Analysis
+      ###########################################################################
+
+      - name: Setup Ruff
+        shell: bash
+        run: |
+          python -m pip install --disable-pip-version-check \
+            ruff==0.13.2
+
+
+      - name: Static Analysis
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Running Ruff static analysis..."
+
+          if ! ruff check . 2>&1 | tee ruff-analysis.log; then
+
+            post_fail \
+              "Static Analysis" \
+              "Ruff found remaining violations. See the Ruff output above."
+
+            post_terminate_build
+
+          else
+
+            post_pass \
+              "PRE_BUILD" \
+              "STATIC_ANALYSIS" \
+              25 \
+              "Django static analysis completed successfully." \
+              "Ruff completed with no remaining violations."
+
+          fi
+
+
+      ###########################################################################
+      # Setup Trivy
+      ###########################################################################
+
+      - name: Setup Trivy
+        uses: aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514
+        with:
+          version: v0.74.0
+          cache: true
+
+
+      ###########################################################################
+      # Security Check
+      ###########################################################################
+
+      - name: Security Check
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Resolving Django dependencies for security scanning..."
+
+          if [ -f "requirements.txt" ]; then
+
+            python -m pip install -r requirements.txt
+
+          elif [ -f "pyproject.toml" ]; then
+
+            if [ -f "uv.lock" ]; then
+              python -m pip install uv
+              uv sync
+            elif [ -f "poetry.lock" ]; then
+              python -m pip install poetry
+              poetry install --no-interaction
+            fi
+
+          fi
+
+          echo "Running Trivy vulnerability scan..."
+
+          if ! trivy fs . \
+            --scanners vuln \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --format table \
+            --exit-code 1 \
+            2>&1 | tee trivy-security.log; then
+
+            MESSAGE=$(tail -30 trivy-security.log | tr '\n' ' ')
+
+            post_fail \
+              "Security Check" \
+              "Trivy vulnerability scan failed: ${MESSAGE}"
+
+            post_terminate_build
+
+          else
+
+            post_pass \
+              "PRE_BUILD" \
+              "SECURITY_CHECK" \
+              40 \
+              "Django security check completed successfully." \
+              "Trivy found no HIGH or CRITICAL vulnerabilities."
+
+          fi
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_prebuild false

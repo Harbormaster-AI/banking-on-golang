@@ -1,0 +1,791 @@
+name: Ruby on Rails Build Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageVersion:
+        description: Ruby version
+        required: false
+        default: "3.4.5"
+        type: string
+
+      languageName:
+        description: Core language of the system
+        required: false
+        default: "Ruby"
+        type: string
+
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  RAILS_APP_DIRECTORY: ${{ inputs.appName }}
+
+jobs:
+
+  build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###############################################################################
+      # Checkout Source
+      ###############################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+
+
+      ###############################################################################
+      # Load Reporting Library
+      ###############################################################################
+
+      - name: Make report.sh executable
+        run: chmod +x ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+
+      ###############################################################################
+      # Verify Checkout
+      ###############################################################################
+
+      - name: Verify Checkout
+
+        shell: bash
+
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+              post_pass \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checked out successfully."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checkout failed."
+
+              post_terminate_build
+
+          fi
+
+
+      ###############################################################################
+      # Determine Ruby Version
+      ###############################################################################
+
+      - name: Determine Ruby Version
+
+        shell: bash
+
+        run: |
+
+          RUBY_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "$RUBY_VERSION" ]; then
+              RUBY_VERSION="3.4.5"
+          fi
+
+          echo "RUBY_VERSION=${RUBY_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Ruby ${RUBY_VERSION}"
+
+
+      ###############################################################################
+      # Setup Ruby
+      ###############################################################################
+
+      - name: Setup Ruby
+
+        uses: ruby/setup-ruby@v1
+
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: false
+
+
+      ###############################################################################
+      # Verify Ruby and Bundler
+      ###############################################################################
+
+      - name: Verify Ruby Version
+
+        shell: bash
+
+        run: |
+
+          ruby --version
+          gem --version
+          bundle --version
+
+
+      ###############################################################################
+      # Determine Rails Application Directory
+      ###############################################################################
+      - name: Determine Rails Application Directory
+
+        shell: bash
+
+        run: |
+          
+          RAILS_APP_DIRECTORY="${{ inputs.appName }}"
+          
+          if [ ! -d "$RAILS_APP_DIRECTORY" ]; then
+          
+              echo "Rails application directory not found: $RAILS_APP_DIRECTORY"
+              exit 1
+          
+          fi
+          
+          echo "RAILS_APP_DIRECTORY=${RAILS_APP_DIRECTORY}" >> "$GITHUB_ENV"
+          
+          echo "Rails application directory: ${RAILS_APP_DIRECTORY}"
+
+      ###############################################################################
+      # Expected Files
+      ###############################################################################
+
+      - name: Expected Files
+        working-directory: ${{ env.RAILS_APP_DIRECTORY }}
+        shell: bash
+
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          SCORE=0
+
+          ###########################################################################
+          # Gemfile
+          ###########################################################################
+
+          if [ -f "Gemfile" ]; then
+
+              SCORE=$((SCORE + 3))
+
+              post_pass \
+                  "BUILD" \
+                  "GEMFILE" \
+                  3 \
+                  "Gemfile located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "GEMFILE" \
+                  0 \
+                  "Gemfile not found."
+
+          fi
+
+
+          ###########################################################################
+          # Application
+          ###########################################################################
+
+          if [ -f "config/application.rb" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "APPLICATION_RB" \
+                  2 \
+                  "Rails application configuration located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "APPLICATION_RB" \
+                  0 \
+                  "config/application.rb not found."
+
+          fi
+
+
+          ###########################################################################
+          # Environment
+          ###########################################################################
+
+          if [ -f "config/environment.rb" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "ENVIRONMENT_RB" \
+                  1 \
+                  "Rails environment located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "ENVIRONMENT_RB" \
+                  0 \
+                  "config/environment.rb not found."
+
+          fi
+
+
+          ###########################################################################
+          # Routes
+          ###########################################################################
+
+          if [ -f "config/routes.rb" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "ROUTES_RB" \
+                  1 \
+                  "Rails routes configuration located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "ROUTES_RB" \
+                  0 \
+                  "config/routes.rb not found."
+
+          fi
+
+
+          ###########################################################################
+          # Application Record
+          ###########################################################################
+
+          if [ -f "app/models/application_record.rb" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "APPLICATION_RECORD" \
+                  1 \
+                  "ApplicationRecord located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "APPLICATION_RECORD" \
+                  0 \
+                  "app/models/application_record.rb not found."
+
+          fi
+
+
+          ###########################################################################
+          # database.yml
+          ###########################################################################
+
+          if [ -f "config/database.yml" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "DATABASE_CONFIGURATION" \
+                  2 \
+                  "Rails database configuration located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "DATABASE_CONFIGURATION" \
+                  0 \
+                  "config/database.yml not found."
+
+              post_terminate_build
+
+          fi
+          
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          post_result \
+              "BUILD" \
+              "EXPECTED_FILES" \
+              "PASSED" \
+              0 \
+              "Expected files validation complete (${SCORE}/10)."
+
+
+      ###############################################################################
+      # Directory Structure
+      ###############################################################################
+
+      - name: Directory Structure
+
+        shell: bash
+        working-directory: ${{ env.RAILS_APP_DIRECTORY }}
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          SCORE=0
+
+
+          ###########################################################################
+          # app
+          ###########################################################################
+
+          if [ -d "app" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "APP_DIRECTORY" \
+                  2 \
+                  "Rails app directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "APP_DIRECTORY" \
+                  0 \
+                  "Missing mandatory app directory."
+
+          fi
+
+
+          ###########################################################################
+          # config
+          ###########################################################################
+
+          if [ -d "config" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "CONFIG_DIRECTORY" \
+                  2 \
+                  "Rails config directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "CONFIG_DIRECTORY" \
+                  0 \
+                  "Missing mandatory config directory."
+
+          fi
+
+
+          ###########################################################################
+          # models
+          ###########################################################################
+
+          if [ -d "app/models" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "MODELS_DIRECTORY" \
+                  2 \
+                  "Rails models directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "MODELS_DIRECTORY" \
+                  0 \
+                  "Missing models directory."
+
+          fi
+
+
+          ###########################################################################
+          # controllers
+          ###########################################################################
+
+          if [ -d "app/controllers" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "CONTROLLERS_DIRECTORY" \
+                  1 \
+                  "Rails controllers directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "CONTROLLERS_DIRECTORY" \
+                  0 \
+                  "Controllers directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # views
+          ###########################################################################
+
+          if [ -d "app/views" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "VIEWS_DIRECTORY" \
+                  1 \
+                  "Rails views directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "VIEWS_DIRECTORY" \
+                  0 \
+                  "Views directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # db
+          ###########################################################################
+
+          if [ -d "db" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "DB_DIRECTORY" \
+                  1 \
+                  "Rails database directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "DB_DIRECTORY" \
+                  0 \
+                  "Database directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # test
+          ###########################################################################
+
+          if [ -d "test" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "TEST_DIRECTORY" \
+                  1 \
+                  "Rails test directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "TEST_DIRECTORY" \
+                  0 \
+                  "Test directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          if [ "$SCORE" -ge 7 ]; then
+              STATUS="PASSED"
+          else
+              STATUS="FAILED"
+          fi
+
+          post_result \
+              "BUILD" \
+              "DIRECTORY_STRUCTURE" \
+              "${STATUS}" \
+              0 \
+              "Directory structure validation complete (${SCORE}/10)."
+
+
+      ###############################################################################
+      # Dependency Validation
+      ###############################################################################
+
+      - name: Dependency Validation
+
+        shell: bash
+        working-directory: ${{ env.RAILS_APP_DIRECTORY }}
+
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          ###############################################################################
+          # Install Ruby dependencies into the application artifact
+          #
+          # IMPORTANT:
+          # Gems are installed under vendor/bundle so that they are included
+          # in the packaged-application artifact and are available during
+          # Runtime Verification.
+          ###############################################################################
+
+          mkdir -p vendor/bundle
+  
+          if bundle config set --local path vendor/bundle && \
+             bundle install --jobs 4 --retry 3 \
+               > dependency-validation.log 2>&1; then
+
+              bundle info rails
+          
+              cat dependency-validation.log
+          
+              echo "=== BUNDLER CONFIG ==="
+              cat .bundle/config
+              
+              echo "=== PostgreSQL GEM ==="
+              find vendor/bundle -type d -name "pg-*" -print
+                          
+              echo "=== BUNDLER CONFIG LIST ==="              
+              bundle config list
+              
+              post_pass \
+                  "BUILD" \
+                  "BUNDLE_DEPENDENCY_INSTALL" \
+                  10 \
+                  "Ruby dependencies installed successfully into the application artifact."
+
+          else
+
+              cat dependency-validation.log
+          
+              MESSAGE=$(tail -20 dependency-validation.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "BUNDLE_DEPENDENCY_INSTALL" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Rails Configuration Validation
+      ###############################################################################
+
+      - name: Rails Configuration Validation
+
+        shell: bash
+        working-directory: ${{ env.RAILS_APP_DIRECTORY }}
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          ###########################################################################
+          # Rails Application Initialization
+          ###########################################################################
+
+          if bundle exec rails runner "puts Rails.application.class.name" \
+              > rails-application.log 2>&1; then
+
+              cat rails-application.log
+              post_pass \
+                  "BUILD" \
+                  "RAILS_INIT" \
+                  5 \
+                  "Rails application initialized successfully."
+
+          else
+
+              cat rails-application.log
+              MESSAGE=$(tail -20 rails-application.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "RAILS_INIT" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+          ###########################################################################
+          # Rails Version
+          ###########################################################################
+
+          if bundle exec rails --version > rails-version.log 2>&1; then
+
+              cat rails-version.log
+
+              post_pass \
+                  "BUILD" \
+                  "RAILS_VERSION" \
+                  5 \
+                  "Rails is available."
+
+          else
+
+              MESSAGE=$(tail -20 rails-version.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "RAILS_VERSION" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Validate Rails Application Artifact
+      ###############################################################################
+
+      - name: Validate Build Artifact
+
+        shell: bash
+        working-directory: ${{ env.RAILS_APP_DIRECTORY }}
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          ###########################################################################
+          # Rails application files
+          ###########################################################################
+
+          REQUIRED_FILES=(
+              "Gemfile"
+              "Gemfile.lock"
+              "config/application.rb"
+              "config/environment.rb"
+              "config/routes.rb"
+              "app/models/application_record.rb"
+              "app/controllers/application_controller.rb"
+          )
+
+          for FILE in "${REQUIRED_FILES[@]}"; do
+
+              if [ ! -f "$FILE" ]; then
+
+                  post_fail \
+                      "BUILD" \
+                      "BUILD_ARTIFACT" \
+                      0 \
+                      "Required Rails file not found: ${FILE}"
+
+                  post_terminate_build
+
+              fi
+
+          done
+          
+          if [ ! -d "vendor/bundle" ]; then
+            
+            post_fail \
+              "BUILD" \
+              "BUILD_ARTIFACT" \
+              0 \
+              "Bundled Ruby dependencies not found in application artifact."
+
+            post_terminate_build
+  
+          fi          
+
+            find vendor/bundle -maxdepth 4 -type d | sort | head -50
+
+      ###############################################################################
+      # Upload Rails Build Artifact
+      ###############################################################################
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaged-application
+          path: ${{ env.RAILS_APP_DIRECTORY }}
+          include-hidden-files: true
+          retention-days: 1
+
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          post_terminate_build false

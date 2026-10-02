@@ -1,0 +1,768 @@
+name: Spring Boot Pre-Build Verification
+
+on:
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageName:
+        description: Core language
+        required: false
+        default: "Java"
+        type: string
+
+      languageVersion:
+        description: Java version
+        required: true
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  HM_EXIT_WORKFLOW: "false"
+
+permissions:
+  contents: write
+
+
+jobs:
+
+  pre-build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: true
+
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+
+          cp -f \
+            .hm-verification-overlay/.github/actions/common/report.sh \
+            .github/actions/common/report.sh
+
+          chmod +x .github/actions/common/report.sh
+
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checked out successfully."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checkout failed."
+
+            post_terminate_prebuild
+
+          fi
+
+
+      ###########################################################################
+      # Determine Spring Boot Application Directory
+      ###########################################################################
+
+      - name: Determine Spring Boot Application Directory
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d "${APP_NAME}" ] && {
+              [ -f "${APP_NAME}/pom.xml" ] ||
+              [ -f "${APP_NAME}/build.gradle" ] ||
+              [ -f "${APP_NAME}/build.gradle.kts" ];
+          }; then
+
+            APP_DIR="${APP_NAME}"
+
+          elif [ -f "pom.xml" ] ||
+               [ -f "build.gradle" ] ||
+               [ -f "build.gradle.kts" ]; then
+
+            APP_DIR="."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "SPRING_BOOT_APPLICATION" \
+              0 \
+              "Could not locate Spring Boot application sources." \
+              "Expected ./${APP_NAME} or a Maven/Gradle build file."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "APP_DIR=${APP_DIR}" >> "$GITHUB_ENV"
+
+          echo "Resolved APP_DIR=${APP_DIR}"
+
+
+      ###########################################################################
+      # Determine Java Version
+      ###########################################################################
+
+      - name: Determine Java Version
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          JAVA_VERSION="${{ inputs.languageVersion }}"
+
+          echo "JAVA_VERSION=${JAVA_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Java ${JAVA_VERSION}"
+
+
+      ###########################################################################
+      # Setup Java
+      ###########################################################################
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+
+      ###########################################################################
+      # Verify Java
+      ###########################################################################
+
+      - name: Verify Java
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Java version:"
+          java -version
+
+          echo ""
+          echo "Java compiler:"
+          javac -version
+
+
+      ###########################################################################
+      # Locate Build System
+      ###########################################################################
+
+      - name: Locate Spring Boot Build System
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          BUILD_TOOL=""
+
+          if [ -f "pom.xml" ]; then
+            BUILD_TOOL="maven"
+
+          elif [ -f "build.gradle" ] ||
+               [ -f "build.gradle.kts" ]; then
+            BUILD_TOOL="gradle"
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "LOCATE_BUILD_SYSTEM" \
+              0 \
+              "No Maven or Gradle build file was found."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "BUILD_TOOL=${BUILD_TOOL}" >> "$GITHUB_ENV"
+
+          echo "Using build tool: ${BUILD_TOOL}"
+
+
+      ###########################################################################
+      # Verify Files
+      ###########################################################################
+
+      - name: Verify Files
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          if [ "${BUILD_TOOL}" = "maven" ]; then
+
+            if [ ! -f "pom.xml" ]; then
+
+              post_fail \
+                "PRE_BUILD" \
+                "VERIFY_FILES" \
+                0 \
+                "pom.xml was not found."
+
+              post_terminate_prebuild
+
+            fi
+
+          elif [ "${BUILD_TOOL}" = "gradle" ]; then
+
+            if [ ! -f "build.gradle" ] &&
+               [ ! -f "build.gradle.kts" ]; then
+
+              post_fail \
+                "PRE_BUILD" \
+                "VERIFY_FILES" \
+                0 \
+                "Gradle build file was not found."
+
+              post_terminate_prebuild
+
+            fi
+
+          fi
+
+          JAVA_SOURCE_COUNT=$(
+            find . \
+              -type f \
+              -name "*.java" \
+              -not -path "*/build/*" \
+              -not -path "*/target/*" |
+            wc -l
+          )
+
+          if [ "${JAVA_SOURCE_COUNT}" -eq 0 ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              0 \
+              "No Java source files were found."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "VERIFY_FILES" \
+            5 \
+            "Spring Boot project files verified." \
+            "Found ${JAVA_SOURCE_COUNT} Java source file(s)."
+
+
+      ###########################################################################
+      # Verify Directories
+      ###########################################################################
+
+      - name: Verify Directories
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          if [ ! -d "src" ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_DIRECTORIES" \
+              0 \
+              "Spring Boot src directory was not found."
+
+            post_terminate_prebuild
+
+          fi
+
+          if [ ! -d "src/main" ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_DIRECTORIES" \
+              0 \
+              "Spring Boot src/main directory was not found."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "VERIFY_DIRECTORIES" \
+            5 \
+            "Spring Boot directory structure verified."
+
+
+      ###########################################################################
+      # Format Code
+      ###########################################################################
+
+      - name: Format Code
+        id: format_code
+        shell: bash
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          set -euo pipefail
+          
+          cd "${APP_DIR}"
+          
+          echo "Running Spring Boot source formatter..."
+          
+          if [ -x "./mvnw" ]; then
+            ./mvnw --no-transfer-progress spotless:apply
+          elif command -v mvn >/dev/null 2>&1; then
+            mvn --no-transfer-progress spotless:apply
+          else
+            echo "ERROR: Neither Maven Wrapper (./mvnw) nor Maven (mvn) is available."
+            exit 1
+          fi
+          
+          echo "Verifying formatted source..."
+          
+          if [ -x "./mvnw" ]; then
+            ./mvnw spotless:check
+          else
+            mvn spotless:check
+          fi
+
+          if [ "$?" -ne 0 ]; then
+
+            cat spotless-check.log
+
+            post_fail \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              0 \
+              "Java source is not formatted." \
+              "Spotless detected remaining formatting changes."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "FORMAT_CODE" \
+            15 \
+            "Spring Boot source formatting completed successfully." \
+            "Spotless completed with no remaining formatting changes."
+
+
+      ###########################################################################
+      # Commit Formatted Source
+      ###########################################################################
+
+      - name: Commit Formatted Source
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Checking for formatted source changes..."
+
+          git status --short
+
+          #######################################################################
+          # Only Java source files are committed.
+          #
+          # DO NOT use git add -A.
+          #######################################################################
+
+          git add -- '*.java'
+
+          echo "Files staged for commit:"
+
+          git diff --cached --name-status
+
+          if git diff --cached --quiet; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "No formatted source changes require committing." \
+              "No Java source changes were produced by formatting."
+
+            exit 0
+
+          fi
+
+          #######################################################################
+          # Configure commit identity
+          #######################################################################
+
+          git config user.name "HarborMaster Verification"
+          git config user.email "dev@harbormaster.net"
+
+
+          #######################################################################
+          # Determine target branch
+          #######################################################################
+
+          TARGET_BRANCH="${{ inputs.branch }}"
+
+          if [ -z "${TARGET_BRANCH}" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+
+          echo "Target branch: ${TARGET_BRANCH}"
+
+
+          #######################################################################
+          # Synchronize with source branch
+          #######################################################################
+
+          git fetch origin "${TARGET_BRANCH}"
+
+          git checkout -B "${TARGET_BRANCH}" \
+            "origin/${TARGET_BRANCH}"
+
+
+          #######################################################################
+          # Re-stage only Java source
+          #######################################################################
+
+          git add -- '*.java'
+
+          echo "Final staged files:"
+
+          git diff --cached --name-status
+
+
+          #######################################################################
+          # Commit
+          #######################################################################
+
+          if ! git commit \
+              -m "chore: format generated Spring Boot source"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to commit formatted Spring Boot source."
+
+            post_terminate_prebuild
+
+          fi
+
+          COMMIT_SHA=$(git rev-parse HEAD)
+
+          echo "Created commit: ${COMMIT_SHA}"
+
+
+          #######################################################################
+          # Push
+          #######################################################################
+
+          if git push origin \
+              "HEAD:${TARGET_BRANCH}"; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              5 \
+              "Formatted Spring Boot source committed successfully." \
+              "Commit ${COMMIT_SHA} pushed to ${TARGET_BRANCH}."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to push formatted Spring Boot source." \
+              "GitHub rejected the push to ${TARGET_BRANCH}."
+
+            post_terminate_prebuild
+
+          fi
+
+      ###############################################################################
+      # Package and Upload formatted source
+      ###############################################################################
+
+      - name: Package Formatted Source
+        shell: bash
+        run: |
+          set -e
+          
+          echo "Packaging formatted source..."
+          
+          tar \
+            --exclude='.git' \
+            -czf /tmp/formatted-source.tar.gz \
+            .
+          
+          echo "Formatted source packaged:"
+          ls -lh /tmp/formatted-source.tar.gz
+
+      - name: Upload Formatted Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatted-source
+          path: /tmp/formatted-source.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+
+      ###########################################################################
+      # Static Analysis
+      ###########################################################################
+
+      - name: Static Analysis
+        shell: bash
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          cd "${APP_DIR}"
+                    
+          if [ "${BUILD_TOOL}" = "maven" ]; then
+          
+            echo "Running Checkstyle..."
+          
+            if [ -x "./mvnw" ]; then
+              MVN="./mvnw"
+            else
+              MVN="mvn"
+            fi
+            
+            if ! ${MVN} --no-transfer-progress checkstyle:check \
+                > checkstyle.log 2>&1; then
+          
+              echo "===== CHECKSTYLE RESULT  ====="
+              cat target/checkstyle-result.xml
+          
+              echo "===== CHECKSTYLE MAVEN OUTPUT ====="
+              cat checkstyle.log
+  
+              MESSAGE=$(tail -30 checkstyle.log | tr '\n' ' ')
+  
+              post_fail \
+                "PRE_BUILD" \
+                "CHECKSTYLE" \
+                0 \
+                "Checkstyle failed." \
+                "${MESSAGE}"
+          
+              post_terminate_prebuild
+          
+            fi
+          
+            echo "Running SpotBugs..."
+          
+            if ! ${MVN} spotbugs:check \
+                > spotbugs.log 2>&1; then
+          
+              cat spotbugs.log
+          
+              MESSAGE=$(tail -30 spotbugs.log | tr '\n' ' ')
+          
+              post_fail \
+                "PRE_BUILD" \
+                "SPOTBUGS" \
+                0 \
+                "SpotBugs failed." \
+                "${MESSAGE}"
+          
+              post_terminate_prebuild
+          
+            fi
+          
+          else
+          
+            echo "Running Checkstyle..."
+          
+            if ! ./gradlew checkstyleMain \
+                > checkstyle.log 2>&1; then
+          
+              cat checkstyle.log
+          
+              MESSAGE=$(tail -30 checkstyle.log | tr '\n' ' ')
+          
+              post_fail \
+                "PRE_BUILD" \
+                "CHECKSTYLE" \
+                0 \
+                "Checkstyle failed." \
+                "${MESSAGE}"
+          
+              post_terminate_prebuild
+          
+            fi
+          
+            echo "Running SpotBugs..."
+          
+            if ! ./gradlew spotbugsMain \
+                > spotbugs.log 2>&1; then
+          
+              cat spotbugs.log
+          
+              MESSAGE=$(tail -30 spotbugs.log | tr '\n' ' ')
+          
+              post_fail \
+                "PRE_BUILD" \
+                "SPOTBUGS" \
+                0 \
+                "SpotBugs failed." \
+                "${MESSAGE}"
+          
+              post_terminate_prebuild
+          
+            fi
+          
+          fi
+          
+          post_pass \
+            "PRE_BUILD" \
+            "STATIC_ANALYSIS" \
+            15 \
+            "Spring Boot static analysis completed successfully." \
+            "Checkstyle and SpotBugs completed successfully."
+
+        ###########################################################################
+        # Setup Trivy
+        ###########################################################################
+      - name: Setup Trivy
+        uses: aquasecurity/setup-trivy@v0.2.6
+
+
+        ###########################################################################
+        # Security Check
+        ###########################################################################
+
+      - name: Security Check
+        shell: bash
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          set -o pipefail
+          
+          echo "Running Trivy vulnerability scan..."
+          
+          if ! trivy fs . \
+              --scanners vuln \
+              --severity HIGH,CRITICAL \
+              --ignore-unfixed \
+              --format table \
+              --exit-code 1 \
+              2>&1 | tee trivy-security.log; then
+          
+            MESSAGE=$(tail -30 trivy-security.log | tr '\n' ' ')
+          
+            post_fail \
+              "Security Check" \
+              "Trivy vulnerability scan failed: ${MESSAGE}"
+          
+            post_terminate_build
+          fi
+          
+          echo "Trivy vulnerability scan passed."
+          post_pass \
+            "PRE_BUILD" \
+            "DEPENDENCY_SECURITY" \
+            10 \
+            "Spring Boot dependency security check completed successfully."
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_prebuild false

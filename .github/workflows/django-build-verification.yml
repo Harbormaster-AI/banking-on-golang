@@ -1,0 +1,381 @@
+name: Django Build Verification
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+      appName:
+        description: Application Name
+        required: true
+        type: string
+      languageVersion:
+        description: Python version
+        required: false
+        default: "3.13"
+        type: string
+      languageName:
+        description: Core language of the system
+        required: false
+        default: "Python"
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+  build-verification:
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+      ###############################################################################
+      # Checkout Source
+      ###############################################################################
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+
+      ###############################################################################
+      # Load Reporting Library
+      ###############################################################################
+      - name: Make report.sh executable
+        run: chmod +x .github/actions/common/report.sh
+
+      ###############################################################################
+      # Verify Checkout
+      ###############################################################################
+      - name: Verify Checkout
+        shell: bash
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+              post_pass "BUILD" "CHECKOUT_SOURCE" 0 "Repository checked out successfully."
+          else
+              post_fail "BUILD" "CHECKOUT_SOURCE" 0 "Repository checkout failed."
+              post_terminate_build
+          fi
+
+      ###############################################################################
+      # Determine Python Version
+      ###############################################################################
+      - name: Determine Python Version
+        shell: bash
+        run: |
+          PYTHON_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "$PYTHON_VERSION" ]; then
+              PYTHON_VERSION="3.13"
+          fi
+
+          echo "PYTHON_VERSION=${PYTHON_VERSION}" >> "$GITHUB_ENV"
+          echo "Using Python ${PYTHON_VERSION}"
+
+      ###############################################################################
+      # Setup Python
+      ###############################################################################
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      ###############################################################################
+      # Verify Python and pip
+      ###############################################################################
+      - name: Verify Python Version
+        shell: bash
+        run: |
+          python --version
+          python -m pip --version
+
+      ###############################################################################
+      # Determine Application Directory
+      ###############################################################################
+      - name: Determine Application Directory
+        shell: bash
+        run: |
+          APP_DIRECTORY="${{ inputs.appName }}"
+          echo "APP_DIRECTORY=${APP_DIRECTORY}" >> "$GITHUB_ENV"
+          
+          if [ -d "$APP_DIRECTORY" ]; then
+              echo "Application directory: $APP_DIRECTORY"
+          else
+              echo "Application directory not found: $APP_DIRECTORY"
+              exit 1
+          fi
+
+      ###############################################################################
+      # Expected Files
+      ###############################################################################
+      - name: Expected Files
+        shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+          SCORE=0
+
+          if [ -f "manage.py" ]; then
+              SCORE=$((SCORE + 2))
+              post_pass "BUILD" "MANAGE_PY" 2 "manage.py located."
+          else
+              post_fail "BUILD" "MANAGE_PY" 0 "manage.py not found."
+          fi
+
+          if [ -f "requirements.txt" ]; then
+              SCORE=$((SCORE + 2))
+              post_pass "BUILD" "REQUIREMENTS_TXT" 2 "requirements.txt located."
+          else
+              post_fail "BUILD" "REQUIREMENTS_TXT" 0 "requirements.txt not found."
+          fi
+
+          if [ -f "mainsite/settings.py" ]; then
+              SCORE=$((SCORE + 2))
+              post_pass "BUILD" "DJANGO_SETTINGS" 2 "mainsite/settings.py located."
+          else
+              post_fail "BUILD" "DJANGO_SETTINGS" 0 "mainsite/settings.py not found."
+          fi
+
+          if [ -f "mainsite/wsgi.py" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "DJANGO_WSGI" 1 "mainsite/wsgi.py located."
+          else
+              post_fail "BUILD" "DJANGO_WSGI" 0 "mainsite/wsgi.py not found."
+          fi
+
+          if [ -f "apps.py" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "DJANGO_APPS" 1 "apps.py located."
+          else
+              post_warning "BUILD" "DJANGO_APPS" 0 "apps.py not found."
+          fi
+
+          if [ -f "Dockerfile" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "DOCKERFILE" 1 "Dockerfile located."
+          else
+              post_warning "BUILD" "DOCKERFILE" 0 "Dockerfile not found."
+          fi
+
+          if [ -f "mainsite/__init__.py" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "PYTHON_PACKAGE" 1 "mainsite Python package located."
+          else
+              post_fail "BUILD" "PYTHON_PACKAGE" 0 "mainsite/__init__.py not found."
+          fi
+
+          post_result "BUILD" "EXPECTED_FILES" "PASSED" 0 "Expected files validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Django Directory Structure
+      ###############################################################################
+      - name: Directory Structure
+        shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+          SCORE=0
+
+          if [ -d "mainsite" ]; then
+              SCORE=$((SCORE + 2))
+              post_pass "BUILD" "MAINSITE_DIRECTORY" 2 "mainsite directory exists."
+          else
+              post_fail "BUILD" "MAINSITE_DIRECTORY" 0 "Missing mandatory mainsite directory."
+          fi
+
+          if [ -d "models" ]; then
+              SCORE=$((SCORE + 2))
+              post_pass "BUILD" "MODELS_DIRECTORY" 2 "models directory exists."
+          else
+              post_warning "BUILD" "MODELS_DIRECTORY" 0 "models directory not found."
+          fi
+
+          if [ -d "views" ]; then
+              SCORE=$((SCORE + 2))
+              post_pass "BUILD" "VIEWS_DIRECTORY" 2 "views directory exists."
+          else
+              post_warning "BUILD" "VIEWS_DIRECTORY" 0 "views directory not found."
+          fi
+
+          if [ -d "urls" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "URLS_DIRECTORY" 1 "urls directory exists."
+          else
+              post_warning "BUILD" "URLS_DIRECTORY" 0 "urls directory not found."
+          fi
+
+          if [ -d "delegates" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "DELEGATES_DIRECTORY" 1 "delegates directory exists."
+          else
+              post_warning "BUILD" "DELEGATES_DIRECTORY" 0 "delegates directory not found."
+          fi
+
+          if [ -d "tests" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "TESTS_DIRECTORY" 1 "tests directory exists."
+          else
+              post_warning "BUILD" "TESTS_DIRECTORY" 0 "tests directory not found."
+          fi
+
+          if [ -d "exceptions" ]; then
+              SCORE=$((SCORE + 1))
+              post_pass "BUILD" "EXCEPTIONS_DIRECTORY" 1 "exceptions directory exists."
+          else
+              post_warning "BUILD" "EXCEPTIONS_DIRECTORY" 0 "exceptions directory not found."
+          fi
+
+          if [ "$SCORE" -ge 7 ]; then
+              STATUS="PASSED"
+          else
+              STATUS="FAILED"
+          fi
+
+          post_result "BUILD" "DIRECTORY_STRUCTURE" "${STATUS}" 0 "Django directory structure validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Python / Django Configuration Validation
+      ###############################################################################
+      - name: Django Configuration Validation
+        shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+          SCORE=0
+
+          if python --version > python-version.log 2>&1; then
+              SCORE=$((SCORE + 5))
+              post_pass "BUILD" "PYTHON_RUNTIME" 5 "Python runtime is available."
+          else
+              MESSAGE=$(tail -20 python-version.log | tr '' ' ')
+              post_fail "BUILD" "PYTHON_RUNTIME" 0 "${MESSAGE}"
+              post_terminate_build
+          fi
+
+          if [ -f "mainsite/settings.py" ] && [ -f "mainsite/wsgi.py" ]; then
+              SCORE=$((SCORE + 5))
+              post_pass "BUILD" "DJANGO_CONFIGURATION" 5 "Django main-site configuration is present."
+          else
+              post_fail "BUILD" "DJANGO_CONFIGURATION" 0 "Required Django configuration is missing."
+              post_terminate_build
+          fi
+
+      ###############################################################################
+      # Dependency Validation
+      ###############################################################################
+      - name: Dependency Validation
+        shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          if [ ! -f "requirements.txt" ]; then
+              post_fail "BUILD" "REQUIREMENTS_TXT" 0 "requirements.txt not found."
+              post_terminate_build
+          fi
+
+          python -m pip install --upgrade pip > pip-upgrade.log 2>&1
+
+          if python -m pip install --no-cache-dir -r requirements.txt > dependency-validation.log 2>&1; then
+              post_pass "BUILD" "PYTHON_DEPENDENCY_INSTALL" 10 "Python dependency installation completed successfully."
+          else
+              MESSAGE=$(tail -30 dependency-validation.log | tr '' ' ')
+              post_fail "BUILD" "PYTHON_DEPENDENCY_INSTALL" 0 "${MESSAGE}"
+              post_terminate_build
+          fi
+
+      ###############################################################################
+      # Execute Django Build Validation
+      ###############################################################################
+      - name: Execute Build
+        shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+
+          export PYTHONPATH="${GITHUB_WORKSPACE}:${PYTHONPATH}"
+          
+          if python manage.py check > build.log 2>&1; then
+              cat build.log
+
+              post_pass "BUILD" "DJANGO_BUILD" 40 "Django system check completed successfully."
+          else
+              cat build.log
+              MESSAGE=$(tail -30 build.log | tr '' ' ')
+  
+              post_fail "BUILD" "DJANGO_BUILD" 0 "${MESSAGE}"
+  
+              post_terminate_build
+          fi
+
+      ###############################################################################
+      # Prepare Build Artifact
+      ###############################################################################
+      - name: Prepare Build Artifact
+        shell: bash
+        run: |
+          source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+    
+          if [ -f "${APP_DIRECTORY}/manage.py" ]; then
+              FILE_COUNT=$(find "${APP_DIRECTORY}" -type f | wc -l)
+              TOTAL_SIZE=$(du -sh "${APP_DIRECTORY}" | cut -f1)
+    
+              post_pass \
+                "BUILD" \
+                "BUILD_ARTIFACT" \
+                20 \
+                "Django application artifact successfully prepared." \
+                "BUILD_ARTIFACT: ${FILE_COUNT} files (${TOTAL_SIZE})."
+          else
+              post_fail \
+                "BUILD" \
+                "BUILD_ARTIFACT" \
+                0 \
+                "Django build artifact does not contain manage.py."
+              post_terminate_build
+          fi
+
+      ###############################################################################
+      # Upload Django Build Artifact
+      ###############################################################################
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaged-application
+          path: ${{ env.APP_DIRECTORY }}
+          retention-days: 1
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+      - name: Terminate Verification
+        shell: bash
+        run: |
+            source ${GITHUB_WORKSPACE}/.github/actions/common/report.sh
+            post_terminate_build false

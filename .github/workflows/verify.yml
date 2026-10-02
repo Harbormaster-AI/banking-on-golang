@@ -1,0 +1,685 @@
+name: Harbormaster Verification
+run-name: >
+  Verification ${{ inputs.projectName }}
+
+on:
+  workflow_dispatch:
+
+    inputs:
+
+      technology:
+        description: Technology to verify (spring, go, angular, etc.)
+        required: true
+        type: string
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: ubuntu-latest
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      repository:
+        description: "App repo (owner/name). Empty = this repo / temp verification branch."
+        required: false
+        default: ""
+        type: string
+
+      gitHubToken:
+        description: Token to securely access APIs and other capabilities on behalf of the caller
+        required: true
+        type: string
+
+      projectName:
+        description: Name of project verifying
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageName:
+        description: The core language  of the system
+        required: false
+        default: ""
+        type: string
+
+      languageVersion:
+        description: The core language version of the system
+        required: true
+        type: string
+
+      dockerHost:
+        description: Docker registry host
+        required: false
+        default: ""
+        type: string
+
+      dockerOrg:
+        description: Docker organization
+        required: false
+        default: ""
+        type: string
+
+      dockerRepository:
+        description: Docker repository
+        required: false
+        default: ""
+        type: string
+
+      dockerUsername:
+        description: Docker username
+        required: false
+        default: ""
+        type: string
+
+      dockerPassword:
+        description: Docker password
+        required: false
+        default: ""
+        type: string
+
+      dockerTag:
+        description: Docker image tag
+        required: false
+        default: latest
+        type: string
+
+      awsAccessKey:
+        description: AWS access key (used when workflow secret is unavailable)
+        required: false
+        default: ""
+        type: string
+
+      awsSecretKey:
+        description: AWS secret key (used when workflow secret is unavailable)
+        required: false
+        default: ""
+        type: string
+
+      awsRegion:
+        description: AWS region (used when workflow secret is unavailable)
+        required: false
+        default: ""
+        type: string
+
+      deployToCloud:
+        description: Whether to run Terraform cloud deploy after delivery
+        required: false
+        default: true
+        type: boolean
+
+      destinationRepoOwner:
+        description: The owner of the final commit of the formatted source code
+        required: false
+        default: ""
+        type: string
+
+      destinationRepository:
+        description: Where to finally commit the source code
+        required: false
+        default: ""
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+###############################################################################
+# Spring Boot
+###############################################################################
+
+jobs:
+
+  spring-prebuild:
+
+    if: ${{ contains(fromJSON('["spring","springboot","spring-boot"]'), inputs.technology) }}
+
+    uses: ./.github/workflows/spring-prebuild-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  spring-build:
+
+    if: ${{ contains(fromJSON('["spring","springboot","spring-boot"]'), inputs.technology) }}
+
+    needs: spring-prebuild
+
+    uses: ./.github/workflows/spring-build-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  spring-runtime:
+
+    if: ${{ contains(fromJSON('["spring","springboot","spring-boot"]'), inputs.technology) }}
+
+    needs: spring-build
+
+    uses: ./.github/workflows/spring-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  go-prebuild:
+
+    if: ${{ contains(fromJSON('["go","golang"]'), inputs.technology) }}
+
+    uses: ./.github/workflows/go-prebuild-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  go-build:
+
+    if: ${{ contains(fromJSON('["go","golang"]'), inputs.technology) }}
+
+    needs: go-prebuild
+
+    uses: ./.github/workflows/go-build-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  go-runtime:
+
+    if: ${{ contains(fromJSON('["go","golang"]'), inputs.technology) }}
+
+    needs: go-build
+
+    uses: ./.github/workflows/go-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  go-delivery:
+
+    if: ${{ contains(fromJSON('["go","golang"]'), inputs.technology) }}
+
+    needs: go-runtime
+
+    uses: ./.github/workflows/go-delivery-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      branch: ${{ inputs.branch }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerHost:                ${{ inputs.dockerHost }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerUsername:            ${{ inputs.dockerUsername }}
+      dockerPassword:            ${{ inputs.dockerPassword }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+
+  node-frontend-prebuild:
+
+    if: (contains(fromJSON('["react","REACT","React"]'), inputs.technology) )
+      ||
+        (contains(fromJSON('["angular","Angular"]'), inputs.technology) )
+      ||
+        (contains(fromJSON('["ApolloGraphQL","Apollo"]'), inputs.technology) )
+
+    uses: ./.github/workflows/node-frontend-prebuild-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+      technology: ${{ inputs.technology }}
+
+  angular-build:
+
+    if: ${{ contains(fromJSON('["angular", "Angular"]'), inputs.technology) }}
+
+    needs: node-frontend-prebuild
+
+    uses: ./.github/workflows/angular-build-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  angular-runtime:
+
+    if: ${{ contains(fromJSON('["angular"]'), inputs.technology) }}
+
+    needs: angular-build
+
+    uses: ./.github/workflows/angular-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+
+  angular-delivery:
+
+    if: ${{ contains(fromJSON('["angular2"]'), inputs.technology) }}
+
+
+    needs: angular-runtime
+
+    uses: ./.github/workflows/angular-delivery-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerHost:                ${{ inputs.dockerHost }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerUsername:            ${{ inputs.dockerUsername }}
+      dockerPassword:            ${{ inputs.dockerPassword }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+
+  django-prebuild:
+
+    if: ${{ contains(fromJSON('["django"]'), inputs.technology) }}
+
+    uses: ./.github/workflows/django-prebuild-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  django-build:
+
+    if: ${{ contains(fromJSON('["django"]'), inputs.technology) }}
+
+    needs: django-prebuild
+
+    uses: ./.github/workflows/django-build-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  django-runtime:
+
+    if: ${{ contains(fromJSON('["django"]'), inputs.technology) }}
+
+    needs: django-build
+
+    uses: ./.github/workflows/django-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+
+  django-delivery:
+
+    if: ${{ contains(fromJSON('["django2"]'), inputs.technology) }}
+
+
+    needs: django-runtime
+
+    uses: ./.github/workflows/django-delivery-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerHost:                ${{ inputs.dockerHost }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerUsername:            ${{ inputs.dockerUsername }}
+      dockerPassword:            ${{ inputs.dockerPassword }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+
+  rails-prebuild:
+
+    if: ${{ contains(fromJSON('["rails","rubyonrails"]'), inputs.technology) }}
+
+    uses: ./.github/workflows/rails-prebuild-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  rails-build:
+
+    if: ${{ contains(fromJSON('["rails","rubyonrails"]'), inputs.technology) }}
+
+    needs: rails-prebuild
+
+    uses: ./.github/workflows/rails-build-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  rails-runtime:
+
+    if: ${{ contains(fromJSON('["rails","rubyonrails"]'), inputs.technology) }}
+
+    needs: rails-build
+
+    uses: ./.github/workflows/rails-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+
+  rails-delivery:
+
+    if: ${{ contains(fromJSON('["rails2","rubyonrails2"]'), inputs.technology) }}
+
+    needs: rails-runtime
+
+    uses: ./.github/workflows/rails-delivery-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerHost:                ${{ inputs.dockerHost }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerUsername:            ${{ inputs.dockerUsername }}
+      dockerPassword:            ${{ inputs.dockerPassword }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+
+  apollo-build:
+
+    if: ${{ contains(fromJSON('["ApolloGraphQL","Apollo"]'), inputs.technology) }}
+
+    uses: ./.github/workflows/apollo-build-verification.yml
+
+    needs: node-frontend-prebuild
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  apollo-runtime:
+
+    if: ${{ contains(fromJSON('["ApolloGraphQL","Apollo"]'), inputs.technology) }}
+
+    needs: apollo-build
+
+    uses: ./.github/workflows/apollo-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+
+  apollo-delivery:
+
+    if: ${{ contains(fromJSON('["ApolloGraphQL2","Apollo2"]'), inputs.technology) }}
+
+    needs: apollo-runtime
+
+    uses: ./.github/workflows/apollo-delivery-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerHost:                ${{ inputs.dockerHost }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerUsername:            ${{ inputs.dockerUsername }}
+      dockerPassword:            ${{ inputs.dockerPassword }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+
+  aspdotnet-prebuild:
+
+    if: ${{ contains(fromJSON('["ASPDotNet","DotNet"]'), inputs.technology) }}
+
+    uses: ./.github/workflows/aspdotnet-prebuild-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  aspdotnet-build:
+
+    if: ${{ contains(fromJSON('["ASPDotNet","DotNet"]'), inputs.technology) }}
+
+    needs: aspdotnet-prebuild
+
+    uses: ./.github/workflows/aspdotnet-build-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+      languageName: ${{ inputs.languageName }}
+      languageVersion: ${{ inputs.languageVersion }}
+
+  aspdotnet-runtime:
+
+    if: ${{ contains(fromJSON('["ASPDotNet","DotNet"]'), inputs.technology) }}
+
+    needs: aspdotnet-build
+
+    uses: ./.github/workflows/aspdotnet-runtime-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      branch: ${{ inputs.branch }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      appName: ${{ inputs.appName }}
+
+  delivery:
+
+    if: >
+      always() &&
+      (
+        (needs.spring-runtime.result == 'success') || (needs.aspdotnet-runtime.result == 'success')
+        || (needs.angular-runtime.result == 'success') || (needs.apollo-runtime.result == 'success')
+        || (needs.django-runtime.result == 'success') || (needs.rails-runtime.result == 'success')
+      
+      )
+
+    needs: [spring-runtime, go-runtime, aspdotnet-runtime, angular-runtime, apollo-runtime, django-runtime, rails-runtime]
+
+    uses: ./.github/workflows/delivery-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerHost:                ${{ inputs.dockerHost }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerUsername:            ${{ inputs.dockerUsername }}
+      dockerPassword:            ${{ inputs.dockerPassword }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+      deployToCloud:             ${{ inputs.deployToCloud }}
+
+  publish:
+
+    if: ${{ always() && (needs.delivery.result == 'success' || needs.go-delivery.result == 'success') }}
+
+    needs: [delivery, go-delivery]
+
+    uses: ./.github/workflows/publish-verification.yml
+
+    with:
+      runner: ${{ inputs.runner }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      destinationRepository:     ${{ inputs.destinationRepository }}
+      destinationRepoOwner:     ${{ inputs.destinationRepoOwner }}
+
+  cloud:
+
+    if: ${{ !always() && inputs.deployToCloud && needs.delivery.result == 'success' }}
+
+    needs: publish
+
+    uses: ./.github/workflows/cloud-verification.yml
+    secrets: inherit
+
+    with:
+      runner: ${{ inputs.runner }}
+      repository: ${{ inputs.repository }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      certificationIdentifier:   ${{ inputs.certificationIdentifier }}
+      appName:                   ${{ inputs.appName }}
+      dockerOrg:                 ${{ inputs.dockerOrg }}
+      dockerRepository:          ${{ inputs.dockerRepository }}
+      dockerTag:                 ${{ inputs.dockerTag }}
+      awsAccessKey:              ${{ inputs.awsAccessKey }}
+      awsSecretKey:              ${{ inputs.awsSecretKey }}
+      awsRegion:                 ${{ inputs.awsRegion }}

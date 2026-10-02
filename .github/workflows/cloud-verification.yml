@@ -1,0 +1,220 @@
+name: Cloud Verification
+
+# Called by verify.yml after delivery.
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      # Optional: verify an external app repo (owner/name). Empty = this repo / temp branch.
+      repository:
+        description: "App repo (owner/name). Empty = workflow repo / temp verification branch."
+        required: false
+        default: ""
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      gitHubToken:
+        description: Token to securely access APIs and other capabilities on behalf of the caller
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+      # Kept for verify.yml interface compatibility (not used by terraform.sh today).
+      dockerOrg:
+        description: Docker organization
+        required: false
+        default: ""
+        type: string
+
+      dockerRepository:
+        description: Docker repository
+        required: false
+        default: ""
+        type: string
+
+      dockerTag:
+        description: Docker image tag
+        required: false
+        default: latest
+        type: string
+
+      awsAccessKey:
+        description: AWS access key (used when secret is unavailable)
+        required: false
+        default: ""
+        type: string
+
+      awsSecretKey:
+        description: AWS secret key (used when secret is unavailable)
+        required: false
+        default: ""
+        type: string
+
+      awsRegion:
+        description: AWS region (used when secret is unavailable)
+        required: false
+        default: ""
+        type: string
+
+# Used by report.sh when posting progress to HarborMaster.
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+jobs:
+  cloud-verification:
+    runs-on: ${{ inputs.runner }}
+    permissions:
+      contents: read
+
+    steps:
+      ###########################################################################
+      # Checkout app branch (terraform/ lives here).
+      ###########################################################################
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository != '' && inputs.repository || github.repository }}
+          ref: ${{ inputs.branch }}
+          # -----------------------------------------------------------------
+          # Checkout token options (keep both; enable ONE):
+          #
+          # (A) ORIGINAL — same-repo uses GITHUB_TOKEN; external repo uses
+          #     inputs.gitHubToken. Requires a valid PAT when repository is set.
+          #     Failed for us when PAT was bad/expired ("terminal prompts disabled").
+          #
+          token: ${{ inputs.repository != '' && inputs.gitHubToken || github.token }}
+          #
+          # (B) ACTIVE — always use GITHUB_TOKEN. Works for public app repos
+          #     (e.g. Harbormaster-AI/banking-on-springboot) during Cloud Only /
+          #     ROSA tests without depending on a personal PAT.
+          # -----------------------------------------------------------------
+#          token: ${{ github.token }}
+
+      ###########################################################################
+      # report.sh from verification workflow commit (not from app branch).
+      ###########################################################################
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f .hm-verification-overlay/.github/actions/common/report.sh .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+      ###########################################################################
+      # Run app terraform/terraform.sh (destroy is manual).
+      ###########################################################################
+      - name: Deploy to Cloud
+        shell: bash
+        timeout-minutes: 60
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID != '' && secrets.AWS_ACCESS_KEY_ID || inputs.awsAccessKey }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' && secrets.AWS_SECRET_ACCESS_KEY || inputs.awsSecretKey }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION != '' && secrets.AWS_DEFAULT_REGION || inputs.awsRegion }}
+          # Generated apps often expect these Terraform variables for the AWS provider.
+          TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID != '' && secrets.AWS_ACCESS_KEY_ID || inputs.awsAccessKey }}
+          TF_VAR_aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' && secrets.AWS_SECRET_ACCESS_KEY || inputs.awsSecretKey }}
+        run: |
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "CLOUD" \
+            "DEPLOY_TO_CLOUD_START" \
+            0 \
+            "Deploying to cloud with application terraform.sh..." \
+            ""
+
+          if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ] || [ -z "${AWS_DEFAULT_REGION}" ]; then
+            post_fail \
+              "CLOUD" \
+              "DEPLOY_TO_CLOUD" \
+              0 \
+              "AWS credentials or region are missing." \
+              "Set AWS secrets (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION) or pass awsAccessKey/awsSecretKey/awsRegion inputs."
+            post_terminate_cloud
+          fi
+
+          if [ ! -f terraform/terraform.sh ]; then
+            post_fail \
+              "CLOUD" \
+              "DEPLOY_TO_CLOUD" \
+              0 \
+              "terraform/terraform.sh not found." \
+              "Expected ./terraform/terraform.sh in the checked-out project."
+            post_terminate_cloud
+          fi
+
+          cd terraform
+          chmod +x terraform.sh
+          # -E keeps AWS_*/TF_VAR_* for plan; sudo covers apt/usr/local if script lacks it
+          sudo -E ./terraform.sh install
+
+          post_pass \
+            "CLOUD" \
+            "DEPLOY_TO_CLOUD" \
+            20 \
+            "Terraform cloud deploy completed." \
+            "DEPLOY_TO_CLOUD: application ./terraform/terraform.sh"
+
+      ###########################################################################
+      # HarborMaster temp-branch cleanup (only when verifying a branch on this repo).
+      ###########################################################################
+      - name: Delete Verification Branch
+        if: ${{ always() && inputs.repository == '' && inputs.branch != '' }}
+        run: |
+          curl -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ inputs.gitHubToken }}" \
+            "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ inputs.branch }}"
+
+      ###########################################################################
+      # Tell HarborMaster the cloud verification tier is finished.
+      ###########################################################################
+      - name: Terminate Verification
+        shell: bash
+        run: |
+          source .github/actions/common/report.sh
+          post_terminate_cloud false

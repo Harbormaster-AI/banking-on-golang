@@ -1,0 +1,773 @@
+name: Node Frontend Pre-Build Verification
+
+on:
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      technology:
+        description: Frontend technology
+        required: true
+        default: "ANGULAR"
+        type: string
+
+      languageVersion:
+        description: Node.js version
+        required: false
+        default: "22.22.3"
+        type: string
+
+      languageName:
+        description: Core language of the system
+        required: false
+        default: "TypeScript"
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  TECHNOLOGY: ${{ inputs.technology }}
+  HM_EXIT_WORKFLOW: "false"
+
+
+permissions:
+  contents: write
+
+
+jobs:
+
+  pre-build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: true
+
+
+      ###########################################################################
+      # Overlay verification report.sh
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+
+          mkdir -p .github/actions/common
+
+          cp -f \
+            .hm-verification-overlay/.github/actions/common/report.sh \
+            .github/actions/common/report.sh
+
+          chmod +x .github/actions/common/report.sh
+
+      ###########################################################################
+      # Normalize Technology as a capitalized env var
+      ###########################################################################
+
+      - name: Normalize technology
+        shell: bash
+        run: |
+          echo "TECHNOLOGY=${TECHNOLOGY^^}" >> "$GITHUB_ENV"
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checked out successfully."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checkout failed."
+
+            post_terminate_prebuild
+
+          fi
+
+
+      ###########################################################################
+      # Determine Frontend Application Directory
+      ###########################################################################
+
+      - name: Determine Frontend Application Directory
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d "${APP_NAME}" ] && \
+             [ -f "${APP_NAME}/package.json" ]; then
+
+            APP_DIR="${APP_NAME}"
+
+          elif find . -maxdepth 2 \
+              -type f \
+              -name "package.json" \
+              -not -path "*/node_modules/*" \
+              -print -quit | grep -q .; then
+
+            APP_DIR=$(
+              dirname "$(
+                find . -maxdepth 2 \
+                  -type f \
+                  -name "package.json" \
+                  -not -path "*/node_modules/*" |
+                sort |
+                head -1
+              )"
+            )
+
+            if [ "${APP_DIR}" = "." ]; then
+              APP_DIR="."
+            fi
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "FRONTEND_APPLICATION" \
+              0 \
+              "Could not locate frontend application sources." \
+              "Expected ./${APP_NAME}/package.json or a package.json in the repository."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "APP_DIR=${APP_DIR}" >> "$GITHUB_ENV"
+
+          echo "Resolved APP_DIR=${APP_DIR}"
+
+
+      ###########################################################################
+      # Determine Node.js Version
+      ###########################################################################
+
+      - name: Determine Node.js Version
+        shell: bash
+        run: |
+
+          NODE_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "${NODE_VERSION}" ]; then
+            NODE_VERSION="22.22.3"
+          fi
+
+          echo "NODE_VERSION=${NODE_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Technology: ${TECHNOLOGY}"
+          echo "Technology version: ${{ inputs.technologyVersion }}"
+          echo "Node.js version: ${NODE_VERSION}"
+
+
+      ###########################################################################
+      # Setup Node.js
+      ###########################################################################
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: ${{ env.APP_DIR }}/package-lock.json
+
+
+      ###########################################################################
+      # Verify Node.js
+      ###########################################################################
+
+      - name: Verify Node.js
+        shell: bash
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+
+          echo "Node.js:"
+          node --version
+
+          echo "npm:"
+          npm --version
+
+
+      ###########################################################################
+      # Verify Files
+      ###########################################################################
+
+      - name: Verify Files
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          if [ ! -f "package.json" ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              0 \
+              "package.json was not found."
+
+            post_terminate_prebuild
+
+          fi
+
+          case "${TECHNOLOGY}" in
+
+            ANGULAR)
+
+              if [ ! -f "angular.json" ]; then
+
+                post_fail \
+                  "PRE_BUILD" \
+                  "VERIFY_FILES" \
+                  0 \
+                  "Angular application is missing angular.json."
+
+                post_terminate_prebuild
+
+              fi
+
+              ;;
+
+            REACT)
+
+              if [ ! -f "tsconfig.json" ] && \
+                 [ ! -f "tsconfig.app.json" ]; then
+
+                post_fail \
+                  "PRE_BUILD" \
+                  "VERIFY_FILES" \
+                  0 \
+                  "React application does not contain a TypeScript configuration."
+
+                post_terminate_prebuild
+
+              fi
+
+              ;;
+
+            APOLLOGRAPHQL)
+            
+              if [ ! -f "tsconfig.json" ]; then
+              
+              post_fail \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              0 \
+              "Apollo GraphQL application is missing tsconfig.json."
+              
+              post_terminate_prebuild
+              
+              fi
+              
+              ;;
+            *)
+
+              post_fail \
+                "PRE_BUILD" \
+                "VERIFY_FILES" \
+                0 \
+                "Unsupported frontend technology: ${TECHNOLOGY}"
+
+              post_terminate_prebuild
+
+              ;;
+
+          esac
+
+          post_pass \
+            "PRE_BUILD" \
+            "VERIFY_FILES" \
+            5 \
+            "Frontend project files verified." \
+            "${TECHNOLOGY} project structure is valid."
+
+
+      ###########################################################################
+      # Verify Directories
+      ###########################################################################
+
+      - name: Verify Directories
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+          
+          if [ ! -d "src" ]; then
+        
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_DIRECTORIES" \
+              0 \
+              "Frontend source directory was not found." \
+              "Expected ./src."
+          
+            post_terminate_prebuild
+          
+          else
+        
+            post_pass \
+              "PRE_BUILD" \
+              "VERIFY_DIRECTORIES" \
+              5 \
+              "Frontend directory structure verified."
+          
+          fi
+
+
+      ###########################################################################
+      # Install Formatting Tooling
+      ###########################################################################
+
+      - name: Install Formatting Tooling
+        shell: bash
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+
+          if ! npm list --depth=0 prettier >/dev/null 2>&1; then
+            npm install --no-save prettier
+          fi
+
+
+      ###########################################################################
+      # Format Code
+      ###########################################################################
+
+      - name: Format Code
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Running Prettier..."
+
+          if ! npx prettier \
+              --write \
+              "**/*.{ts,tsx,js,jsx,json,css,scss,html,graphql,gql}"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              0 \
+              "Frontend code formatting failed."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "Checking for remaining formatting violations..."
+
+          if ! npx prettier \
+              --check \
+              "**/*.{ts,tsx,js,jsx,json,css,scss,html,graphql,gql}"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              0 \
+              "Frontend source is not formatted." \
+              "Prettier detected remaining formatting changes."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "FORMAT_CODE" \
+            15 \
+            "Frontend source formatting completed successfully." \
+            "Prettier completed with no remaining formatting changes."
+
+
+      ###########################################################################
+      # Commit Formatted Source
+      ###########################################################################
+
+      - name: Commit Formatted Source
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Checking for formatted source changes..."
+
+          git status --short
+
+          git add -- .
+
+          echo "Files staged for commit:"
+
+          git diff --cached --name-status
+
+          if git diff --cached --quiet; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "No formatted source changes require committing." \
+              "No source changes were produced by formatting."
+
+            exit 0
+
+          fi
+
+          git config user.name "HarborMaster Verification"
+          git config user.email "dev@harbormaster.net"
+
+          TARGET_BRANCH="${{ inputs.branch }}"
+
+          if [ -z "${TARGET_BRANCH}" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+
+          echo "Target branch: ${TARGET_BRANCH}"
+
+          git fetch origin "${TARGET_BRANCH}"
+
+          git checkout -B "${TARGET_BRANCH}" \
+            "origin/${TARGET_BRANCH}"
+
+          git add -- .
+
+          echo "Final staged files:"
+
+          git diff --cached --name-status
+
+          if ! git commit \
+              -m "chore: format generated ${TECHNOLOGY} source"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to commit formatted ${TECHNOLOGY} source."
+
+            post_terminate_prebuild
+
+          fi
+
+          COMMIT_SHA=$(git rev-parse HEAD)
+
+          echo "Created commit: ${COMMIT_SHA}"
+
+          if git push origin \
+              "HEAD:${TARGET_BRANCH}"; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              5 \
+              "Formatted ${TECHNOLOGY} source committed successfully." \
+              "Commit ${COMMIT_SHA} pushed to ${TARGET_BRANCH}."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to push formatted ${TECHNOLOGY} source." \
+              "GitHub rejected the push to ${TARGET_BRANCH}."
+
+            post_terminate_prebuild
+
+          fi
+
+      ###############################################################################
+      # Package and Upload formatted source
+      ###############################################################################
+
+      - name: Package Formatted Source
+        shell: bash
+        run: |
+          set -e
+          
+          echo "Packaging formatted source..."
+          
+          tar \
+            --exclude='.git' \
+            -czf /tmp/formatted-source.tar.gz \
+            .
+          
+          echo "Formatted source packaged:"
+          ls -lh /tmp/formatted-source.tar.gz
+
+      - name: Upload Formatted Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatted-source
+          path: /tmp/formatted-source.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+      ###########################################################################
+      # Static Analysis
+      ###########################################################################
+
+      - name: Static Analysis
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Installing project dependencies..."
+
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+          echo "Running TypeScript / frontend static analysis..."
+
+          if [ "${TECHNOLOGY}" = "ANGULAR" ]; then
+
+            if npm run lint --if-present \
+                > frontend-analysis.log 2>&1; then
+
+              cat frontend-analysis.log
+
+            else
+
+              cat frontend-analysis.log
+
+              MESSAGE=$(tail -30 frontend-analysis.log | tr '\n' ' ')
+
+              post_fail \
+                "PRE_BUILD" \
+                "STATIC_ANALYSIS" \
+                0 \
+                "Angular static analysis failed." \
+                "${MESSAGE}"
+
+              post_terminate_prebuild
+
+            fi
+
+          elif [ "${TECHNOLOGY}" = "REACT" ]; then
+
+            if npm run lint --if-present \
+                > frontend-analysis.log 2>&1; then
+
+              cat frontend-analysis.log
+
+            else
+
+              cat frontend-analysis.log
+
+              MESSAGE=$(tail -30 frontend-analysis.log | tr '\n' ' ')
+
+              post_fail \
+                "PRE_BUILD" \
+                "STATIC_ANALYSIS" \
+                0 \
+                "React static analysis failed." \
+                "${MESSAGE}"
+
+              post_terminate_prebuild
+
+            fi
+          
+          elif [ "${TECHNOLOGY}" = "APOLLOGRAPHQL" ]; then
+        
+            if npm run lint --if-present \
+              > frontend-analysis.log 2>&1; then
+            
+              cat frontend-analysis.log
+          
+            else
+            
+              cat frontend-analysis.log
+            
+              MESSAGE=$(tail -30 frontend-analysis.log | tr '\n' ' ')
+            
+              post_fail \
+                "PRE_BUILD" \
+                "STATIC_ANALYSIS" \
+                0 \
+                "Apollo GraphQL static analysis failed." \
+                "${MESSAGE}"
+                
+                post_terminate_prebuild          
+            
+            fi
+
+          fi
+
+          if npm run typecheck --if-present \
+              > typecheck.log 2>&1; then
+
+            cat typecheck.log
+
+          else
+
+            cat typecheck.log
+
+            MESSAGE=$(tail -30 typecheck.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "STATIC_ANALYSIS" \
+              0 \
+              "TypeScript static analysis failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "STATIC_ANALYSIS" \
+            15 \
+            "Frontend static analysis completed successfully." \
+            "Linting and TypeScript analysis completed."
+
+
+      ###########################################################################
+      # Setup Trivy
+      ###########################################################################
+
+      - name: Setup Trivy
+        uses: aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514
+        with:
+          version: v0.74.0
+          cache: true
+
+      ###########################################################################
+      # Security Check
+      ###########################################################################
+
+      - name: Security Check
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Running Trivy vulnerability scan..."
+
+          if ! trivy fs . \
+              --scanners vuln,secret \
+              --severity HIGH,CRITICAL \
+              --ignore-unfixed \
+              --format table \
+              --exit-code 1 \
+              2>&1 | tee trivy-security.log; then
+
+            MESSAGE=$(tail -30 trivy-security.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "SECURITY_CHECK" \
+              0 \
+              "Frontend security scan failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          else
+
+            post_pass \
+              "PRE_BUILD" \
+              "SECURITY_CHECK" \
+              10 \
+              "Frontend security check completed successfully." \
+              "Trivy found no HIGH or CRITICAL vulnerabilities."
+
+          fi
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_prebuild false

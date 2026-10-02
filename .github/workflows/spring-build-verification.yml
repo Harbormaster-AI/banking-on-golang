@@ -1,0 +1,867 @@
+name: Spring Boot Build Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageVersion:
+        description: The core language version of the system
+        required: false
+        default: ""
+        type: string
+
+      languageName:
+        description: The core language of the system
+        required: false
+        default: ""
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+jobs:
+
+  build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit (not app branch)
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f .hm-verification-overlay/.github/actions/common/report.sh .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          if [ -d ".git" ]; then
+          
+              post_pass \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checked out successfully."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checkout failed."
+          
+              post_terminate_build
+          
+          fi
+
+        ###########################################################################
+        #   Determine if maven or gradle is in use
+        ###########################################################################
+      - name: Determine Build System
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+          
+          if [ -f "pom.xml" ]; then
+
+              echo "BUILD_SYSTEM=maven" >> $GITHUB_ENV
+              echo "BUILD_DIRECTORY=target" >> $GITHUB_ENV
+              BUILD_DIRECTORY="target"
+          
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+
+              echo "BUILD_SYSTEM=gradle" >> $GITHUB_ENV
+              echo "BUILD_DIRECTORY=build/libs" >> $GITHUB_ENV
+              BUILD_DIRECTORY="build/libs"
+                      
+          else
+
+              echo "Unknown build system."
+              post_terminate_build
+
+          fi
+      ####################################################################
+      # Determine Java Version
+      ####################################################################
+
+      - name: Determine Java Version
+
+        shell: bash
+
+        run: |
+
+          ####################################################################
+          # Default Java Version
+          ####################################################################
+
+          JAVA_VERSION=${{ inputs.languageVersion }}
+
+          ####################################################################
+          # Maven
+          ####################################################################
+
+          if [ "$BUILD_SYSTEM" = "gradle" ]; then
+
+            JAVA_VERSION=${{ inputs.languageVersion }}
+
+          fi
+
+          echo "JAVA_VERSION=${JAVA_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Java ${JAVA_VERSION}"
+
+      ###############################################################################
+      # Set up and verify the Java version
+      ###############################################################################
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Verify Java Version
+        run: |
+          java -version
+          javac -version
+
+      ###############################################################################
+      # Expected Files
+      ###############################################################################
+
+      - name: Expected Files
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          SCORE=0
+          
+          ###########################################################################
+          # Build File
+          ###########################################################################
+          
+          if [[ -f pom.xml || -f build.gradle || -f build.gradle.kts ]]; then
+          
+              SCORE=$((SCORE + 3))
+          
+              post_pass \
+                  "BUILD" \
+                  "BUILD_FILE" \
+                  3 \
+                  "Build file located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "BUILD_FILE" \
+                  0 \
+                  "No pom.xml, build.gradle or build.gradle.kts found."
+          
+          fi
+          
+          ###########################################################################
+          # Dockerfile
+          ###########################################################################
+          
+          if [[ -f Dockerfile ]]; then
+          
+              SCORE=$((SCORE + 2))
+          
+              post_pass \
+                  "BUILD" \
+                  "DOCKERFILE" \
+                  2 \
+                  "Dockerfile located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "DOCKERFILE" \
+                  0 \
+                  "Dockerfile not found."
+          
+          fi
+          
+          ###########################################################################
+          # Spring Boot Configuration
+          ###########################################################################
+          
+          if [[ \
+              -f src/main/resources/application.properties || \
+              -f src/main/resources/application.yml || \
+              -f src/main/resources/application.yaml \
+             ]]; then
+          
+              SCORE=$((SCORE + 2))
+          
+              post_pass \
+                  "BUILD" \
+                  "SPRING_CONFIGURATION" \
+                  2 \
+                  "Spring Boot configuration located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "SPRING_CONFIGURATION" \
+                  0 \
+                  "No Spring Boot configuration found."
+          
+          fi
+          
+          ###########################################################################
+          # Java Sources
+          ###########################################################################
+          echo "Current directory:"
+          pwd
+          
+          if [ -n "$(find src/main/java -type f -name '*.java' -print -quit)" ]; then
+          
+              SCORE=$((SCORE + 3))
+          
+              post_pass \
+                  "BUILD" \
+                  "JAVA_SOURCE" \
+                  3 \
+                  "Java source files located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "JAVA_SOURCE" \
+                  0 \
+                  "No Java source files found."
+          
+          fi
+          
+          ###########################################################################
+          # Summary
+          ###########################################################################
+          
+          post_result \
+              "BUILD" \
+              "EXPECTED_FILES" \
+              "PASSED" \
+              0 \
+              "Expected files validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Directory Structure
+      ###############################################################################
+
+      - name: Directory Structure
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+          ###########################################################################
+          # src/main/java
+          ###########################################################################
+
+          if find . -type d -path "*/src/main/java" | grep -q .; then
+
+              SCORE=$((SCORE + 6))
+
+              post_pass \
+                  "BUILD" \
+                  "SRC_MAIN_JAVA" \
+                  6 \
+                  "src/main/java directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "SRC_MAIN_JAVA" \
+                  0 \
+                  "Missing mandatory src/main/java directory."
+
+          fi
+
+          ###########################################################################
+          # src/main/resources
+          ###########################################################################
+
+          if find . -type d -path "*/src/main/resources" | grep -q .; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "SRC_MAIN_RESOURCES" \
+                  2 \
+                  "src/main/resources directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "SRC_MAIN_RESOURCES" \
+                  0 \
+                  "Missing src/main/resources directory."
+
+          fi
+
+          ###########################################################################
+          # src/test
+          ###########################################################################
+
+          if find . -type d -path "*/src/test" | grep -q .; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "SRC_TEST" \
+                  1 \
+                  "src/test directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "SRC_TEST" \
+                  0 \
+                  "Missing src/test directory."
+
+          fi
+
+          ###########################################################################
+          # src/main/kotlin (optional)
+          ###########################################################################
+
+          if find . -type d -path "*/src/main/kotlin" | grep -q .; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "SRC_MAIN_KOTLIN" \
+                  1 \
+                  "src/main/kotlin directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "SRC_MAIN_KOTLIN" \
+                  0 \
+                  "Optional Kotlin source directory not found."
+
+          fi
+
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          if [ "$SCORE" -gt 7 ]; then
+
+              STATUS="PASSED"
+
+          else
+
+              STATUS="FAILED"
+
+          fi
+
+          post_result \
+              "BUILD" \
+              "DIRECTORY_STRUCTURE" \
+              "${STATUS}" \
+              0 \
+              "Directory structure validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Build Validation
+      ###############################################################################
+
+      - name: Build Validation
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          ###########################################################################
+          # Maven Project
+          ###########################################################################
+
+          if [ -f "pom.xml" ]; then
+
+              echo "Detected Maven project."
+
+              mvn validate -e
+  
+              mvn -B validate > build-validation.log 2>&1
+          
+              tail -10 build-validation.log
+  
+              if [ $? -eq 0 ]; then
+
+                  post_pass \
+                      "BUILD" \
+                      "MAVEN_VALIDATE" \
+                      10 \
+                      "Maven validate completed successfully."
+
+              else
+                 
+                  tail -10 build-validation.log
+          
+                  MESSAGE=$(tail -10 build-validation.log | tr '\n' ' ')
+                  post_fail \
+                      "BUILD" \
+                      "MAVEN_VALIDATE" \
+                      0 \
+                       "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+
+          ###########################################################################
+          # Gradle Project
+          ###########################################################################
+
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+
+              echo "Detected Gradle project."
+
+              if [ -f "./gradlew" ]; then
+
+                  chmod +x ./gradlew
+
+                  BUILD_CMD="./gradlew"
+
+              else
+
+                  BUILD_CMD="gradle"
+
+              fi
+
+              if ${BUILD_CMD} help --scan; then
+
+                  post_pass \
+                      "BUILD" \
+                      "GRADLE_VALIDATE" \
+                      10 \
+                      "Gradle validation completed successfully."
+
+              else
+
+                  post_fail \
+                      "BUILD" \
+                      "GRADLE_VALIDATE" \
+                      0 \
+                      "Gradle validation failed."
+
+                  post_terminate_build
+
+              fi
+
+          ###########################################################################
+          # Unknown Build System
+          ###########################################################################
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "BUILD_VALIDATION" \
+                  0 \
+                  "Unable to determine build system."
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Dependency Validation
+      ###############################################################################
+
+      - name: Dependency Validation
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          ###########################################################################
+          # Maven
+          ###########################################################################
+
+          if [ -f "pom.xml" ]; then
+
+              echo "Detected Maven project."
+
+              if mvn -B dependency:analyze > dependency-validation.log 2>&1; then
+
+                  post_pass \
+                      "BUILD" \
+                      "MAVEN_DEPENDENCY_ANALYZE" \
+                      10 \
+                      "Dependency analysis completed successfully."
+
+              else
+
+                  MESSAGE=$(tail -20 dependency-validation.log | tr '\n' ' ')
+
+                  post_fail \
+                      "BUILD" \
+                      "MAVEN_DEPENDENCY_ANALYZE" \
+                      0 \
+                      "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+
+          ###########################################################################
+          # Gradle
+          ###########################################################################
+
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+
+              echo "Detected Gradle project."
+
+              if [ -f "./gradlew" ]; then
+
+                  chmod +x ./gradlew
+                  BUILD_CMD="./gradlew"
+              else
+                  BUILD_CMD="gradle"
+              fi
+
+              ${BUILD_CMD} \
+                  --write-verification-metadata sha256 \
+                  help > dependency-validation.log 2>&1
+
+              if [ $? -eq 0 ]; then
+
+                  post_pass \
+                      "BUILD" \
+                      "GRADLE_DEPENDENCY_VERIFY" \
+                      10 \
+                      "Dependency verification completed successfully."
+
+              else
+
+                  MESSAGE=$(tail -20 dependency-validation.log | tr '\n' ' ')
+
+                  post_fail \
+                      "BUILD" \
+                      "GRADLE_DEPENDENCY_VERIFY" \
+                      0 \
+                      "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+
+          ###########################################################################
+          # Unknown Build System
+          ###########################################################################
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "DEPENDENCY_VALIDATION" \
+                  0 \
+                  "Unable to determine build system."
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Execute Build
+      ###############################################################################
+
+      - name: Execute Build
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          ###########################################################################
+          # Maven
+          ###########################################################################
+
+          if [ -f "pom.xml" ]; then 
+
+              if mvn -B clean package -DskipTests > build.log 2>&1; then
+
+                  post_pass \
+                      "BUILD" \
+                      "MAVEN_PACKAGE" \
+                      40 \
+                      "Application built successfully."
+
+              else
+
+                  MESSAGE=$(tail -20 build.log | tr '\n' ' ')
+
+                  post_fail \
+                      "BUILD" \
+                      "MAVEN_PACKAGE" \
+                      0 \
+                      "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+
+          ###########################################################################
+          # Gradle
+          ###########################################################################
+
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+
+              if [ -f "./gradlew" ]; then
+                  chmod +x ./gradlew
+                  BUILD_CMD="./gradlew"
+              else
+                  BUILD_CMD="gradle"
+              fi
+
+              if ${BUILD_CMD} build > build.log 2>&1; then          
+
+                  post_pass \
+                      "BUILD" \
+                      "GRADLE_BUILD" \
+                      40 \
+                      "Application built successfully."
+
+              else
+
+                  MESSAGE=$(tail -20 build.log | tr '\n' ' ')
+
+                  post_fail \
+                      "BUILD" \
+                      "GRADLE_BUILD" \
+                      0 \
+                      "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "EXECUTE_BUILD" \
+                  0 \
+                  "Unable to determine build system."
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Validate Package
+      ###############################################################################
+
+      - name: Validate Package
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+          
+          echo "PWD=$(pwd)"
+          echo "BUILD_DIRECTORY='${BUILD_DIRECTORY}'"
+          
+          ls -la
+          
+          if [ -d "${BUILD_DIRECTORY}" ]; then
+          echo "Contents of ${BUILD_DIRECTORY}:"
+          ls -la "${BUILD_DIRECTORY}"
+          else
+          echo "${BUILD_DIRECTORY} does not exist."
+          fi
+
+          PACKAGE=$(find "${BUILD_DIRECTORY}" \
+              -type f \
+              -name "*.jar" \
+              ! -name "*.original" \
+              ! -name "*-plain.jar" \
+              ! -name "*sources.jar" \
+              ! -name "*javadoc.jar" \
+              | head -1)
+          
+          ###########################################################################
+          # declare as env var to use in later steps
+          ###########################################################################
+          
+          echo "PACKAGE=${PACKAGE}" >> "$GITHUB_ENV"
+
+          ###########################################################################
+          # Validate Package Exists
+          ###########################################################################
+
+          if [ -z "$PACKAGE" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "PACKAGE_VALIDATION" \
+                  0 \
+                  "No packaged artifact found." \
+                  "PACKAGE_VALIDATION: No JAR file exists in the expected output directory."
+              
+              post_terminate_build
+
+          fi
+
+          ###########################################################################
+          # Validate Package Size
+          ###########################################################################
+
+          if [ ! -s "$PACKAGE" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "PACKAGE_VALIDATION" \
+                  0 \
+                  "Packaged artifact is empty." \
+                  "PACKAGE_VALIDATION: ${PACKAGE} exists but has a size of zero bytes."
+
+              post_terminate_build
+
+          fi
+          
+          ###########################################################################
+          # Gather Information
+          ###########################################################################
+
+          FILE_NAME=$(basename "$PACKAGE")
+          FILE_SIZE=$(stat -c%s "$PACKAGE")
+
+          post_pass \
+              "BUILD" \
+              "PACKAGE_VALIDATION" \
+              20 \
+              "Packaged artifact successfully validated." \
+              "PACKAGE_VALIDATION: ${FILE_NAME} (${FILE_SIZE} bytes) was successfully created."
+          
+      ###############################################################################
+      # Upload Packages - to be used by subsequent validation workflows
+      ###############################################################################
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaged-application
+          path: |
+            target/*.jar
+          retention-days: 1
+            
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+          source .github/actions/common/report.sh
+          
+          post_terminate_build false
+          

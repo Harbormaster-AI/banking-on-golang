@@ -1,0 +1,49 @@
+  {
+    "name": "application",
+    "options": [
+      {
+        "name": "name",
+        "value": "demo",
+        "required": "true",
+        "description": "app display name",
+        "type": "input"
+      },
+      {
+        "name": "description",
+        "value": "a demonstration app",
+        "required": "false",
+        "description": "app description",
+        "type": "input"
+      },
+      {
+        "name": "author",
+        "value": "your_name_here",
+        "required": "false",
+        "description": "app's author",
+        "type": "input"
+      },
+      {
+        "name": "company name",
+        "value": "Global Bank",
+        "required": "true",
+        "modifiable": "false",
+        "description": "your company name",
+        "type": "input"
+      },
+      {
+        "name": "version",
+        "value": "1.0.0",
+        "required": "true",
+        "description": "app version",
+        "type": "input"
+      },
+      {
+        "name": "package name",
+        "value": "com.globalbank",
+        "modifiable": "false",
+        "required": "true",
+        "description": "package prefix to apply(com.xyz format)",
+        "type": "input"
+      }
+    ]
+  }

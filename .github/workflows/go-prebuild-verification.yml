@@ -1,0 +1,616 @@
+name: Go Pre-Build Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageName:
+        description: The core language of the system
+        required: false
+        default: "Go"
+        type: string
+
+      languageVersion:
+        description: The core language version of the system
+        required: true
+        type: string
+
+
+env:
+
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  HM_EXIT_WORKFLOW: "true"
+
+jobs:
+
+  pre-build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f \
+            .hm-verification-overlay/.github/actions/common/report.sh \
+            .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checked out successfully."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checkout failed."
+
+            post_terminate_prebuild
+
+          fi
+
+      ###########################################################################
+      # Determine Go Application Directory
+      ###########################################################################
+
+      - name: Determine Go Application Directory
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d "${APP_NAME}" ] && {
+              [ -f "${APP_NAME}/go.mod" ] ||
+              [ -f "${APP_NAME}/main.go" ] ||
+              [ -d "${APP_NAME}/internal" ];
+          }; then
+
+            APP_DIR="${APP_NAME}"
+
+          elif [ -f "go.mod" ] ||
+               [ -f "main.go" ] ||
+               [ -d "internal" ]; then
+
+            APP_DIR="."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "GO_APPLICATION" \
+              0 \
+              "Could not locate Go application sources." \
+              "Expected ./${APP_NAME} or Go sources at repository root."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "APP_DIR=${APP_DIR}" >> "$GITHUB_ENV"
+
+          echo "Resolved APP_DIR=${APP_DIR}"
+
+      ###########################################################################
+      # Determine Go Version
+      ###########################################################################
+
+      - name: Determine Go Version
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          GO_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -f "${APP_DIR}/go.mod" ]; then
+
+            PARSED_VERSION=$(
+              grep -E '^go [0-9]+\.[0-9]+(\.[0-9]+)?' \
+                "${APP_DIR}/go.mod" |
+              head -1 |
+              awk '{print $2}'
+            )
+
+            if [ -n "${PARSED_VERSION}" ]; then
+              GO_VERSION="${PARSED_VERSION}"
+            fi
+
+          fi
+
+          echo "GO_VERSION=${GO_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Go ${GO_VERSION}"
+
+      ###########################################################################
+      # Setup Go
+      ###########################################################################
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
+
+
+      ###########################################################################
+      # Format Code
+      ###########################################################################
+
+      - name: Format Code
+        shell: bash
+        run: |
+        
+          source .github/actions/common/report.sh
+          
+          cd "${APP_DIR}"
+          
+          echo "Running gofmt..."
+          
+          while IFS= read -r -d '' file; do
+        
+            echo "Formatting: ${file}"
+        
+            FIRST_HASH=$(sha256sum "${file}" | awk '{print $1}')
+        
+            gofmt -w "${file}"
+          
+            SECOND_HASH=$(sha256sum "${file}" | awk '{print $1}')
+          
+            gofmt -w "${file}"
+          
+            THIRD_HASH=$(sha256sum "${file}" | awk '{print $1}')
+          
+            if [ "${SECOND_HASH}" != "${THIRD_HASH}" ]; then
+          
+                echo "gofmt is not stable for: ${file}"
+              
+              gofmt -d "${file}"
+            
+              post_fail \
+                "PRE_BUILD" \
+                "FORMAT_CODE" \
+                0 \
+                "gofmt is not stable for file." \
+                "${file}"
+            
+              post_terminate_prebuild
+          
+            fi
+          
+          done < <(find . -type f -name '*.go' -print0)
+          
+          post_pass \
+            "PRE_BUILD" \
+            "FORMAT_CODE" \
+            15 \
+            "Go source formatting completed successfully." \
+            "All Go source files are gofmt compliant."
+
+      ###########################################################################
+      # Commit Formatted Source
+      ###########################################################################
+
+      - name: Commit Formatted Source
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Checking for formatted source changes..."
+
+          git status --short
+
+          #######################################################################
+          # Only source/configuration files affected by formatting are eligible.
+          #
+          # DO NOT use git add -A.
+          #
+          # This prevents verification artifacts such as:
+          #   bin/
+          #   obj/
+          #   test results
+          #   logs
+          #   temporary files
+          #
+          # from entering the source commit.
+          #######################################################################
+
+          git add -- '*.go'
+
+          #######################################################################
+          # Show exactly what will be committed.
+          #######################################################################
+
+          echo "Files staged for commit:"
+
+          git diff --cached --name-status
+
+          if git diff --cached --quiet; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "No formatted source changes require committing." \
+              "No C# source changes were produced by formatting."
+
+            exit 0
+
+          fi
+
+          #######################################################################
+          # Configure commit identity
+          #######################################################################
+
+          git config user.name "HarborMaster Verification"
+          git config user.email "dev@harbormaster.net"
+
+          #######################################################################
+          # Determine target branch
+          #######################################################################
+
+          TARGET_BRANCH="${{ inputs.branch }}"
+
+          if [ -z "${TARGET_BRANCH}" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+
+          echo "Target branch: ${TARGET_BRANCH}"
+
+          #######################################################################
+          # Ensure the local branch corresponds to the source branch.
+          #######################################################################
+
+          git fetch origin "${TARGET_BRANCH}"
+
+          git checkout -B "${TARGET_BRANCH}" \
+            "origin/${TARGET_BRANCH}"
+
+          #######################################################################
+          # Re-stage only formatted C# source after checkout.
+          #######################################################################
+
+          git add -- '*.go'
+
+          echo "Final staged files:"
+
+          git diff --cached --name-status
+
+          #######################################################################
+          # Commit
+          #######################################################################
+
+          if ! git commit -m "chore: format generated ASP.NET source"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to commit formatted ASP.NET source."
+
+            post_terminate_prebuild
+
+          fi
+
+          COMMIT_SHA=$(git rev-parse HEAD)
+
+          echo "Created commit: ${COMMIT_SHA}"
+
+          #######################################################################
+          # Push explicitly to the source branch.
+          #######################################################################
+
+          if git push origin \
+              "HEAD:${TARGET_BRANCH}"; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              5 \
+              "Formatted ASP.NET source committed successfully." \
+              "Commit ${COMMIT_SHA} pushed to ${TARGET_BRANCH}."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to push formatted ASP.NET source." \
+              "GitHub rejected the push to ${TARGET_BRANCH}."
+
+            post_terminate_prebuild
+
+          fi
+
+      ###############################################################################
+      # Package and Upload formatted source
+      ###############################################################################
+
+      - name: Package Formatted Source
+        shell: bash
+        run: |
+          set -e
+          
+          echo "Packaging formatted source..."
+          
+          tar \
+            --exclude='.git' \
+            -czf /tmp/formatted-source.tar.gz \
+            .
+          
+          echo "Formatted source packaged:"
+          ls -lh /tmp/formatted-source.tar.gz
+
+      - name: Upload Formatted Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatted-source
+          path: /tmp/formatted-source.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+      ###########################################################################
+      # Static Analysis
+      ###########################################################################
+
+      - name: Static Analysis
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          if [ ! -f go.mod ]; then
+            echo "go.mod not found. Initializing Go module..."
+          
+            # Module path for go mod init. Root layouts often import "demo/..." etc.
+            MODULE_NAME="${APP_NAME}"
+          
+            if [ "${APP_DIR}" = "." ]; then
+              INFERRED=$(grep -RhoE '"[a-zA-Z0-9._-]+/internal/' --include='*.go' . 2>/dev/null | head -1 | sed -E 's/^"([^/]+)\/.*/\1/' || true)
+              if [ -n "${INFERRED}" ]; then
+                  MODULE_NAME="${INFERRED}"
+              fi
+            fi
+            
+            go mod init "${MODULE_NAME}"
+            go mod edit \
+              -require=github.com/google/go-cmp@v0.7.0 \
+              -require=github.com/google/uuid@v1.6.0 \
+              -require=github.com/gorilla/mux@v1.8.1 \
+              -require=github.com/joho/godotenv@v1.5.1 \
+              -require=github.com/shopspring/decimal@v1.4.0 \
+              -require=gorm.io/driver/mysql@v1.6.0 \
+              -require=gorm.io/gorm@v1.31.2 \
+              -require=golang.org/x/text@v0.42.0
+                      
+            go mod tidy          
+          
+          fi
+  
+          echo "Running go vet..."
+
+          if ! go vet ./... > go-vet.log 2>&1; then
+
+            cat go-vet.log
+
+            MESSAGE=$(tail -30 go-vet.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "GO_VET" \
+              0 \
+              "go vet failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "GO_VET" \
+            10 \
+            "go vet completed successfully."
+
+          echo "Installing staticcheck..."
+
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+
+          echo "Running staticcheck..."
+
+          if ! staticcheck ./... > staticcheck.log 2>&1; then
+
+            cat staticcheck.log
+
+            MESSAGE=$(tail -30 staticcheck.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "STATICCHECK" \
+              0 \
+              "staticcheck failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "STATICCHECK" \
+            10 \
+            "staticcheck completed successfully."
+
+      ###########################################################################
+      # Security Check
+      ###########################################################################
+
+      - name: Security Check
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          #######################################################################
+          # Vulnerability scanning
+          #######################################################################
+
+          echo "Installing govulncheck..."
+
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+
+          echo "Running govulncheck..."
+
+          if ! govulncheck ./... > govulncheck.log 2>&1; then
+
+            cat govulncheck.log
+
+            MESSAGE=$(tail -30 govulncheck.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "GO_VULNCHECK" \
+              0 \
+              "Go vulnerability check failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "GO_VULNCHECK" \
+            5 \
+            "Go vulnerability check completed successfully."
+
+          #######################################################################
+          # Source security analysis
+          #######################################################################
+
+          echo "Installing gosec..."
+
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+          echo "Running gosec..."
+
+          if ! gosec ./... > gosec.log 2>&1; then
+
+            cat gosec.log
+
+            MESSAGE=$(tail -30 gosec.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "GOSEC" \
+              0 \
+              "gosec security analysis failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "GOSEC" \
+            5 \
+            "gosec security analysis completed successfully."
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_prebuild false

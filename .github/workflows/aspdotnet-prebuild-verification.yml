@@ -1,0 +1,706 @@
+name: ASP.NET Pre-Build Verification
+
+on:
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageName:
+        description: The core language of the system
+        required: false
+        default: "ASP.NET"
+        type: string
+
+      languageVersion:
+        description: The .NET version
+        required: true
+        type: string
+
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+  HM_EXIT_WORKFLOW: "false"
+
+# Required for the COMMIT_FORMATTED_SOURCE step.
+permissions:
+  contents: write
+
+
+jobs:
+
+  pre-build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: true
+
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+
+          cp -f \
+            .hm-verification-overlay/.github/actions/common/report.sh \
+            .github/actions/common/report.sh
+
+          chmod +x .github/actions/common/report.sh
+
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checked out successfully."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "CHECKOUT_SOURCE" \
+              0 \
+              "Repository checkout failed."
+
+            post_terminate_prebuild
+
+          fi
+
+
+      ###########################################################################
+      # Determine ASP.NET Application Directory
+      ###########################################################################
+
+      - name: Determine ASP.NET Application Directory
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d "${APP_NAME}" ] && {
+              find "${APP_NAME}" -maxdepth 2 \
+                \( -name "*.csproj" -o -name "*.sln" -o -name "*.slnx" \) \
+                -print -quit | grep -q .;
+          }; then
+
+            APP_DIR="${APP_NAME}"
+
+          elif find . -maxdepth 2 \
+              \( -name "*.csproj" -o -name "*.sln" -o -name "*.slnx" \) \
+              -print -quit | grep -q .; then
+
+            APP_DIR="."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "ASP_NET_APPLICATION" \
+              0 \
+              "Could not locate ASP.NET application sources." \
+              "Expected ./${APP_NAME} or a .csproj/.sln/.slnx in the repository."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "APP_DIR=${APP_DIR}" >> "$GITHUB_ENV"
+
+          echo "Resolved APP_DIR=${APP_DIR}"
+
+
+      ###############################################################################
+      # Determine .NET SDK Version
+      ###############################################################################
+
+      - name: Determine .NET SDK Version
+
+        shell: bash
+
+        working-directory: ${{ inputs.appName }}
+
+        run: |
+          
+          # IMPORTANT:
+          #
+          # dotnetVersion = .NET SDK version
+          # languageVersion = C# language version
+          #
+          # C# 14 must NEVER be passed to actions/setup-dotnet.
+          #
+          # Example:
+          #
+          #   dotnetVersion   = 10.x
+          #   languageVersion = 14
+          
+          DOTNET_VERSION="${{ inputs.dotnetVersion }}"
+          
+          if [ -z "$DOTNET_VERSION" ]; then
+              DOTNET_VERSION="10.x"
+          fi
+          
+          echo "DOTNET_VERSION=${DOTNET_VERSION}" >> "$GITHUB_ENV"
+          
+          echo "Application: ${APP_NAME}"
+          echo "ASP.NET Core version: ${{ inputs.technologyVersion }}"
+          echo "Using .NET SDK: ${DOTNET_VERSION}"
+          echo "C# language version: ${{ inputs.languageVersion }}"
+          echo "Language: ${{ inputs.languageName }}"
+      
+
+      ###############################################################################
+      # Setup .NET
+      ###############################################################################
+
+      - name: Setup .NET
+
+        uses: actions/setup-dotnet@v4
+
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+
+      ###############################################################################
+      # Verify .NET SDK
+      ###############################################################################
+
+      - name: Verify .NET SDK
+
+        shell: bash
+
+        working-directory: ${{ inputs.appName }}
+
+        run: |
+          
+          echo "Installed .NET SDK:"
+          dotnet --version
+          
+          echo ""
+          echo ".NET information:"
+          dotnet --info
+      
+
+      ###########################################################################
+      # Locate Project
+      ###########################################################################
+
+      - name: Locate ASP.NET Project
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+          
+          PROJECT_FILE=$(
+            find . -type f -name "*.csproj" \
+              -not -path "*/bin/*" \
+              -not -path "*/obj/*" |
+            sort |
+            head -1
+          )
+          
+          if [ -z "${PROJECT_FILE}" ]; then
+            post_fail \
+              "PRE_BUILD" \
+              "LOCATE_PROJECT" \
+              0 \
+              "No ASP.NET project found." \
+              "No .csproj file was found."
+          
+            post_terminate_prebuild
+          fi
+          
+          echo "PROJECT_FILE=${PROJECT_FILE}" >> "$GITHUB_ENV"
+
+          echo "Using project: ${PROJECT_FILE}"
+
+      ###########################################################################
+      # Verify Files
+      ###########################################################################
+
+      - name: Verify Files
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          PROJECT_COUNT=$(
+            find . -type f -name "*.csproj" \
+              -not -path "*/bin/*" \
+              -not -path "*/obj/*" |
+            wc -l
+          )
+
+          if [ "${PROJECT_COUNT}" -eq 0 ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_FILES" \
+              0 \
+              "Required ASP.NET project file was not found."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "VERIFY_FILES" \
+            5 \
+            "ASP.NET project files verified." \
+            "Found ${PROJECT_COUNT} project file(s)."
+
+
+      ###########################################################################
+      # Verify Directories
+      ###########################################################################
+
+      - name: Verify Directories
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          if [ ! -d "." ]; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "VERIFY_DIRECTORIES" \
+              0 \
+              "Application directory does not exist."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "VERIFY_DIRECTORIES" \
+            5 \
+            "ASP.NET directory structure verified."
+
+
+      ###########################################################################
+      # Format Code
+      ###########################################################################
+
+      - name: Format Code
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Running dotnet format..."
+
+          if ! dotnet format "${PROJECT_FILE}" \
+              --verbosity minimal; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              0 \
+              "ASP.NET code formatting failed."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "Checking for remaining formatting violations..."
+
+          if ! dotnet format "${PROJECT_FILE}" \
+              --verify-no-changes \
+              --verbosity minimal; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "FORMAT_CODE" \
+              0 \
+              "ASP.NET source is not formatted." \
+              "dotnet format detected remaining formatting changes."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "FORMAT_CODE" \
+            15 \
+            "ASP.NET source formatting completed successfully." \
+            "dotnet format completed with no remaining formatting changes."
+
+
+      ###########################################################################
+      # Commit Formatted Source
+      ###########################################################################
+
+      - name: Commit Formatted Source
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Checking for formatted source changes..."
+
+          git status --short
+
+          #######################################################################
+          # Only source/configuration files affected by formatting are eligible.
+          #
+          # DO NOT use git add -A.
+          #
+          # This prevents verification artifacts such as:
+          #   bin/
+          #   obj/
+          #   test results
+          #   logs
+          #   temporary files
+          #
+          # from entering the source commit.
+          #######################################################################
+
+          git add -- '*.cs'
+
+          #######################################################################
+          # Show exactly what will be committed.
+          #######################################################################
+
+          echo "Files staged for commit:"
+
+          git diff --cached --name-status
+
+          if git diff --cached --quiet; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "No formatted source changes require committing." \
+              "No C# source changes were produced by formatting."
+
+            exit 0
+
+          fi
+
+          #######################################################################
+          # Configure commit identity
+          #######################################################################
+
+          git config user.name "HarborMaster Verification"
+          git config user.email "dev@harbormaster.net"
+
+          #######################################################################
+          # Determine target branch
+          #######################################################################
+
+          TARGET_BRANCH="${{ inputs.branch }}"
+
+          if [ -z "${TARGET_BRANCH}" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+
+          echo "Target branch: ${TARGET_BRANCH}"
+
+          #######################################################################
+          # Ensure the local branch corresponds to the source branch.
+          #######################################################################
+
+          git fetch origin "${TARGET_BRANCH}"
+
+          git checkout -B "${TARGET_BRANCH}" \
+            "origin/${TARGET_BRANCH}"
+
+          #######################################################################
+          # Re-stage only formatted C# source after checkout.
+          #######################################################################
+
+          git add -- '*.cs'
+
+          echo "Final staged files:"
+
+          git diff --cached --name-status
+
+          #######################################################################
+          # Commit
+          #######################################################################
+
+          if ! git commit -m "chore: format generated ASP.NET source"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to commit formatted ASP.NET source."
+
+            post_terminate_prebuild
+
+          fi
+
+          COMMIT_SHA=$(git rev-parse HEAD)
+
+          echo "Created commit: ${COMMIT_SHA}"
+
+          #######################################################################
+          # Push explicitly to the source branch.
+          #######################################################################
+
+          if git push origin \
+              "HEAD:${TARGET_BRANCH}"; then
+
+            post_pass \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              5 \
+              "Formatted ASP.NET source committed successfully." \
+              "Commit ${COMMIT_SHA} pushed to ${TARGET_BRANCH}."
+
+          else
+
+            post_fail \
+              "PRE_BUILD" \
+              "COMMIT_FORMATTED_SOURCE" \
+              0 \
+              "Failed to push formatted ASP.NET source." \
+              "GitHub rejected the push to ${TARGET_BRANCH}."
+
+            post_terminate_prebuild
+
+          fi
+
+      ###############################################################################
+      # Package and Upload formatted source
+      ###############################################################################
+
+      - name: Package Formatted Source
+        shell: bash
+        run: |
+          set -e
+          
+          echo "Packaging formatted source..."
+          
+          tar \
+            --exclude='.git' \
+            -czf /tmp/formatted-source.tar.gz \
+            .
+          
+          echo "Formatted source packaged:"
+          ls -lh /tmp/formatted-source.tar.gz
+
+      - name: Upload Formatted Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatted-source
+          path: /tmp/formatted-source.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+      ###########################################################################
+      # Static Analysis
+      ###########################################################################
+
+      - name: Static Analysis
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          echo "Restoring ASP.NET dependencies..."
+
+          if ! dotnet restore "${PROJECT_FILE}"; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "DOTNET_RESTORE" \
+              0 \
+              ".NET dependency restore failed."
+
+            post_terminate_prebuild
+
+          fi
+
+          echo "Running dotnet build analyzers..."
+
+          if ! dotnet build "${PROJECT_FILE}" \
+              --no-restore \
+              --configuration Release \
+              -warnaserror \
+              > dotnet-analyzers.log 2>&1; then
+
+            cat dotnet-analyzers.log
+
+            MESSAGE=$(tail -30 dotnet-analyzers.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "STATIC_ANALYSIS" \
+              0 \
+              "ASP.NET static analysis failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "STATIC_ANALYSIS" \
+            15 \
+            "ASP.NET static analysis completed successfully." \
+            "Compiler and analyzer warnings were treated as errors."
+
+
+      ###########################################################################
+      # Security Check
+      ###########################################################################
+
+      - name: Security Check
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+
+          #######################################################################
+          # NuGet vulnerability scan
+          #######################################################################
+
+          echo "Running NuGet vulnerability check..."
+
+          if ! dotnet list "${PROJECT_FILE}" package \
+              --vulnerable \
+              --include-transitive \
+              > dotnet-vulnerabilities.log 2>&1; then
+
+            cat dotnet-vulnerabilities.log
+
+            MESSAGE=$(tail -30 dotnet-vulnerabilities.log | tr '\n' ' ')
+
+            post_fail \
+              "PRE_BUILD" \
+              "NUGET_VULNERABILITY_CHECK" \
+              0 \
+              ".NET vulnerability check failed." \
+              "${MESSAGE}"
+
+            post_terminate_prebuild
+
+          fi
+
+          cat dotnet-vulnerabilities.log
+
+          if grep -Eiq \
+              "has the following vulnerable packages|Severity.*Critical|Severity.*High|Severity.*Moderate" \
+              dotnet-vulnerabilities.log; then
+
+            post_fail \
+              "PRE_BUILD" \
+              "NUGET_VULNERABILITY_CHECK" \
+              0 \
+              "Vulnerable NuGet packages were detected." \
+              "Review dotnet-vulnerabilities.log."
+
+            post_terminate_prebuild
+
+          fi
+
+          post_pass \
+            "PRE_BUILD" \
+            "NUGET_VULNERABILITY_CHECK" \
+            10 \
+            "NuGet vulnerability check completed successfully."
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_prebuild false

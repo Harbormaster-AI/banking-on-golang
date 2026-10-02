@@ -1,0 +1,811 @@
+name: Go Build Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageName:
+        description: The core language  of the system
+        required: false
+        default: ""
+        type: string
+
+      languageVersion:
+        description: The core language version of the system
+        required: true
+        type: string
+
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+jobs:
+
+  build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout Source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit (not app branch)
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f .hm-verification-overlay/.github/actions/common/report.sh .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+      ###########################################################################
+      # Verify Checkout
+      ###########################################################################
+
+      - name: Verify Checkout
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          if [ -d ".git" ]; then
+          
+              post_pass \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checked out successfully."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checkout failed."
+          
+              post_terminate_build
+          
+          fi
+
+      ###########################################################################
+      # Determine Go Module
+      ###########################################################################
+
+      - name: Determine Go Module
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "BUILD_DIRECTORY=bin" >> "$GITHUB_ENV"
+          echo "BINARY_NAME=${APP_NAME}" >> "$GITHUB_ENV"
+
+          # HarborMaster may place sources under ./${APP_NAME} or at repo root.
+          if [ -d "${APP_NAME}" ] && { [ -f "${APP_NAME}/main.go" ] || [ -f "${APP_NAME}/go.mod" ] || [ -d "${APP_NAME}/internal" ]; }; then
+              APP_DIR="${APP_NAME}"
+          elif [ -f "main.go" ] || [ -f "go.mod" ] || [ -d "internal" ]; then
+              APP_DIR="."
+          else
+              post_fail \
+                  "BUILD" \
+                  "GO_MODULE" \
+                  0 \
+                  "Could not locate Go application sources." \
+                  "Expected ./${APP_NAME} or Go sources at repository root."
+              post_terminate_build
+          fi
+
+          # Module path for go mod init. Root layouts often import "demo/..." etc.
+          MODULE_NAME="${APP_NAME}"
+          if [ "${APP_DIR}" = "." ]; then
+              INFERRED=$(grep -RhoE '"[a-zA-Z0-9._-]+/internal/' --include='*.go' . 2>/dev/null | head -1 | sed -E 's/^"([^/]+)\/.*/\1/' || true)
+              if [ -n "${INFERRED}" ]; then
+                  MODULE_NAME="${INFERRED}"
+              fi
+          fi
+
+          echo "APP_DIR=${APP_DIR}" >> "$GITHUB_ENV"
+          echo "MODULE_NAME=${MODULE_NAME}" >> "$GITHUB_ENV"
+          echo "Resolved APP_DIR=${APP_DIR}, MODULE_NAME=${MODULE_NAME}"
+
+          if [ -f "${APP_DIR}/go.mod" ]; then
+
+              echo "NEED_GO_MOD_INIT=false" >> "$GITHUB_ENV"
+
+              # Informative only — do not add to score (max build score is 100)
+              post_pass \
+                  "BUILD" \
+                  "GO_MODULE" \
+                  0 \
+                  "go.mod found." \
+                  "Using existing Go module file."
+
+          else
+
+              echo "NEED_GO_MOD_INIT=true" >> "$GITHUB_ENV"
+
+              # Informative only — do not add to score (max build score is 100)
+              post_pass \
+                  "BUILD" \
+                  "GO_MODULE" \
+                  0 \
+                  "go.mod not found. Will create during build." \
+                  "HarborMaster does not generate go.mod. Verification will run go mod init."
+
+          fi
+
+      ####################################################################
+      # Determine Go Version
+      ####################################################################
+
+      - name: Determine Go Version
+
+        shell: bash
+
+        run: |
+
+          ####################################################################
+          # Default Go Version
+          ####################################################################
+
+          GO_VERSION="${{ inputs.languageVersion }}"
+
+          ####################################################################
+          # Read version from go.mod (e.g. "go 1.22")
+          ####################################################################
+
+          if [ -f "go.mod" ]; then
+
+              PARSED_VERSION=$(grep -E '^go [0-9]+\.[0-9]+(\.[0-9]+)?' go.mod | head -1 | awk '{print $2}')
+
+              if [ -n "${PARSED_VERSION}" ]; then
+                  GO_VERSION="${PARSED_VERSION}"
+              fi
+
+          fi
+
+          echo "GO_VERSION=${GO_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Go ${GO_VERSION}"
+
+      ###############################################################################
+      # Set up Go
+      ###############################################################################
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
+      ###############################################################################
+      # Ensure Go Module (create go.mod if HarborMaster did not provide one)
+      ###############################################################################
+
+      - name: Ensure Go Module
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ "${NEED_GO_MOD_INIT}" = "true" ]; then
+
+              ls -la
+              echo "Using application directory ${APP_DIR} (module ${MODULE_NAME})"
+              cd "${APP_DIR}"
+          
+              echo "Creating go.mod with: go mod init ${MODULE_NAME}"
+
+              if ! go mod init "${MODULE_NAME}" > go-mod-init.log 2>&1; then
+
+                  MESSAGE=$(tail -20 go-mod-init.log | tr '\n' ' ')
+
+                  post_fail \
+                      "BUILD" \
+                      "GO_MOD_INIT" \
+                      0 \
+                      "Failed to create go.mod." \
+                      "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+
+              if ! go mod tidy > go-mod-tidy.log 2>&1; then
+
+                  MESSAGE=$(tail -20 go-mod-tidy.log | tr '\n' ' ')
+
+                  post_fail \
+                      "BUILD" \
+                      "GO_MOD_TIDY" \
+                      0 \
+                      "Failed to resolve Go module dependencies." \
+                      "${MESSAGE}"
+
+                  post_terminate_build
+
+              fi
+              
+              
+              echo "PWD=$(pwd)"
+              echo "Listing current directory:"
+              ls -la
+  
+              echo "Searching for go.mod..."
+              find . -name go.mod
+              
+              # Informative only - scoring for go.mod happens in Expected Files
+              post_pass \
+                  "BUILD" \
+                  "GO_MOD_INIT" \
+                  0 \
+                  "go.mod created successfully." \
+                  "Ran go mod init ${MODULE_NAME} and go mod tidy."
+
+          else
+
+              # Informative only - scoring for go.mod happens in Expected Files
+              post_pass \
+                  "BUILD" \
+                  "GO_MOD_INIT" \
+                  0 \
+                  "go.mod already present." \
+                  "Skipped go mod init."
+
+          fi
+
+      ###############################################################################
+      # Expected Files
+      ###############################################################################
+
+      - name: Expected Files
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          SCORE=0
+          
+          cd "${APP_DIR}"
+  
+          echo "Searching for go.mod..."
+          find . -name go.mod
+          
+          ###########################################################################
+          # Module File (go.mod)
+          ###########################################################################
+          
+          if [ -f go.mod ]; then
+          
+              SCORE=$((SCORE + 3))
+          
+              post_pass \
+                  "BUILD" \
+                  "BUILD_FILE" \
+                  3 \
+                  "go.mod located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "BUILD_FILE" \
+                  0 \
+                  "No go.mod found."
+          
+          fi
+          
+          ###########################################################################
+          # Dockerfile 
+          ###########################################################################
+          
+          if [[ -f Dockerfile ]]; then
+          
+              SCORE=$((SCORE + 2))
+          
+              post_pass \
+                  "BUILD" \
+                  "DOCKERFILE" \
+                  2 \
+                  "Dockerfile located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "DOCKERFILE" \
+                  0 \
+                  "Dockerfile not found."
+          
+          fi
+          
+          ###########################################################################
+          # Dependency Checksums (go.sum)
+          ###########################################################################
+          
+          if [ -f go.sum ]; then
+          
+              SCORE=$((SCORE + 2))
+          
+              post_pass \
+                  "BUILD" \
+                  "GO_SUM" \
+                  2 \
+                  "go.sum located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "GO_SUM" \
+                  0 \
+                  "No go.sum found."
+          
+          fi
+          
+          ###########################################################################
+          # Go Sources
+          ###########################################################################
+          
+          if find . -name "*.go" | grep -q .; then
+
+              SCORE=$((SCORE + 3))
+
+              post_pass \
+                  "BUILD" \
+                  "GO_SOURCE" \
+                  3 \
+                  "Go source files located."
+          
+          else
+          
+              post_fail \
+                  "BUILD" \
+                  "GO_SOURCE" \
+                  0 \
+                  "No Go source files found."
+          
+          fi
+          
+          ###########################################################################
+          # Summary
+          ###########################################################################
+          
+          post_result \
+              "BUILD" \
+              "EXPECTED_FILES" \
+              "PASSED" \
+              0 \
+              "Expected files validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Directory Structure
+      ###############################################################################
+
+      - name: Directory Structure
+
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+          cd "${APP_DIR}"
+  
+          ###########################################################################
+          # Main entry point (cmd/ or root main.go)
+          ###########################################################################
+
+          if [ -f main.go ] || find . -name "main.go" | grep -q .; then
+
+              SCORE=$((SCORE + 6))
+
+              post_pass \
+                  "BUILD" \
+                  "GO_MAIN" \
+                  6 \
+                  "Go main entry point located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "GO_MAIN" \
+                  0 \
+                  "Missing main.go."
+
+          fi
+
+          ###########################################################################
+          # Go source tree
+          ###########################################################################
+
+          if find . -name "*.go" | grep -q .; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "GO_SOURCE_TREE" \
+                  2 \
+                  "Go source tree exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "GO_SOURCE_TREE" \
+                  0 \
+                  "No Go source files found."
+
+          fi
+
+          ###########################################################################
+          # Go tests
+          ###########################################################################
+
+          if find . -name "*_test.go" | grep -q .; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "GO_TEST" \
+                  1 \
+                  "Go test files located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "GO_TEST" \
+                  0 \
+                  "No Go test files found."
+
+          fi
+
+          ###########################################################################
+          # internal/ or pkg/ (optional)
+          ###########################################################################
+
+          if [ -d internal ] || [ -d pkg ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "GO_PACKAGES" \
+                  1 \
+                  "internal/ or pkg/ directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "GO_PACKAGES" \
+                  0 \
+                  "Optional internal/ or pkg/ directory not found."
+
+          fi
+
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          if [ "$SCORE" -gt 7 ]; then
+
+              STATUS="PASSED"
+
+          else
+
+              STATUS="FAILED"
+
+          fi
+
+          post_result \
+              "BUILD" \
+              "DIRECTORY_STRUCTURE" \
+              "${STATUS}" \
+              0 \
+              "Directory structure validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Build Validation
+      ###############################################################################
+
+      - name: Build Validation
+        
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Detected Go module."
+
+          cd "${APP_DIR}"
+          
+          if go mod download > build-validation.log 2>&1; then
+
+              post_pass \
+                  "BUILD" \
+                  "GO_MOD_DOWNLOAD" \
+                  10 \
+                  "Go module download completed successfully."
+
+          else
+
+              tail -10 build-validation.log
+
+              MESSAGE=$(tail -10 build-validation.log | tr '\n' ' ')
+              post_fail \
+                  "BUILD" \
+                  "GO_MOD_DOWNLOAD" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Dependency Validation
+      ###############################################################################
+
+      - name: Dependency Validation
+        
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Verifying Go module dependencies."
+
+          cd "${APP_DIR}"
+          
+          if go mod verify > dependency-validation.log 2>&1; then
+
+              post_pass \
+                  "BUILD" \
+                  "GO_MOD_VERIFY" \
+                  10 \
+                  "Go module verification completed successfully."
+
+          else
+
+              MESSAGE=$(tail -20 dependency-validation.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "GO_MOD_VERIFY" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Execute Build
+      ###############################################################################
+
+      - name: Execute Build
+
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+          ls -la
+  
+          mkdir -p "${BUILD_DIRECTORY}"
+
+          BUILD_PACKAGE="."
+
+          if go build -o "${BUILD_DIRECTORY}/${BINARY_NAME}" "${BUILD_PACKAGE}" > build.log 2>&1; then
+
+              post_pass \
+                  "BUILD" \
+                  "GO_BUILD" \
+                  40 \
+                  "Application built successfully."
+
+          else
+
+              MESSAGE=$(tail -30 build.log | tr '\n' ' ')
+              echo ${MESSAGE}
+          
+              post_fail \
+                  "BUILD" \
+                  "GO_BUILD" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Validate Package
+      ###############################################################################
+
+      - name: Validate Package
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          cd "${APP_DIR}"
+          ls -la
+          
+          echo "PWD=$(pwd)"
+          echo "BUILD_DIRECTORY='${BUILD_DIRECTORY}'"
+          
+          ls -la
+          
+          if [ -d "${BUILD_DIRECTORY}" ]; then
+          echo "Contents of ${BUILD_DIRECTORY}:"
+          ls -la "${BUILD_DIRECTORY}"
+          else
+          echo "${BUILD_DIRECTORY} does not exist."
+          fi
+
+          PACKAGE="${BUILD_DIRECTORY}/${BINARY_NAME}"
+          
+          ###########################################################################
+          # declare as env var to use in later steps
+          ###########################################################################
+          
+          echo "PACKAGE=${PACKAGE}" >> "$GITHUB_ENV"
+
+          ###########################################################################
+          # Validate Package Exists
+          ###########################################################################
+
+          if [ ! -f "$PACKAGE" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "PACKAGE_VALIDATION" \
+                  0 \
+                  "No packaged artifact found." \
+                  "PACKAGE_VALIDATION: No executable exists in ${BUILD_DIRECTORY}/."
+          
+              post_terminate_build
+
+          fi
+
+          ###########################################################################
+          # Validate Package Size
+          ###########################################################################
+
+          if [ ! -s "$PACKAGE" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "PACKAGE_VALIDATION" \
+                  0 \
+                  "Packaged artifact is empty." \
+                  "PACKAGE_VALIDATION: ${PACKAGE} exists but has a size of zero bytes."
+
+              post_terminate_build
+
+          fi
+          
+          ###########################################################################
+          # Gather Information
+          ###########################################################################
+
+          FILE_NAME=$(basename "$PACKAGE")
+          FILE_SIZE=$(stat -c%s "$PACKAGE")
+
+          post_pass \
+              "BUILD" \
+              "PACKAGE_VALIDATION" \
+              20 \
+              "Packaged artifact successfully validated." \
+              "PACKAGE_VALIDATION: ${FILE_NAME} (${FILE_SIZE} bytes) was successfully created."
+
+      ###############################################################################
+      # Upload Packages - to be used by subsequent validation workflows
+      ###############################################################################
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: packaged-application
+          path: ${{ env.APP_DIR }}/bin/
+          if-no-files-found: error
+          retention-days: 1
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+          source .github/actions/common/report.sh
+          
+          post_terminate_build false
+          

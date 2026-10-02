@@ -1,0 +1,239 @@
+name: Publish Formatted Source Code
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      gitHubToken:
+        description: Token to securely access APIs and other capabilities on behalf of the caller
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+
+      dockerPassword:
+        description: Docker password
+        required: false
+        default: ""
+        type: string
+
+      dockerTag:
+        description: Docker image tag
+        required: false
+        default: latest
+        type: string
+
+      destinationRepoOwner:
+        description: The owner of the final commit of the formatted source code
+        required: false
+        default: ""
+        type: string
+
+      destinationRepository:
+        description: Where to finally commit the source code
+        required: false
+        default: ""
+        type: string
+
+env:
+  RESULT_URL:                   ${{ inputs.resultUrl }}
+  ACTION_TO_CALL:               ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER:     ${{ inputs.certificationIdentifier }}
+  APP_NAME:                     ${{ inputs.appName }}
+
+jobs:
+
+  publish-source-to-repo:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit (not app branch)
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f .hm-verification-overlay/.github/actions/common/report.sh .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+
+      ###########################################################################
+      #   Download tar artifact containing formated source code
+      ###########################################################################
+
+      - name: Download Formatted Source
+        uses: actions/download-artifact@v4
+        with:
+          name: formatted-source
+          path: .
+
+
+      ###########################################################################
+      #   Extract the formatted source
+      ###########################################################################
+
+      - name: Extract Formatted Source
+        shell: bash
+        run: |
+
+          source .github/actions/common/report.sh
+
+          set -e
+          
+          mkdir generated-system
+          
+          tar -xzf formatted-source.tar.gz \
+            -C generated-system
+
+          post_pass \
+              "PUBLISH" \
+              "EXTRACT_CODE" \
+              30 \
+              "Extracted code from formatted-source" \
+              ""        
+
+      ###############################################################################
+      # Commit Formatted Source
+      ###############################################################################
+
+      - name: Publish Generated System
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ inputs.gitHubToken }}
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          set -e
+          
+          cd generated-system
+          
+          if gh repo view \
+            "${{ inputs.destinationRepoOwner }}/${{ inputs.destinationRepository }}" \
+            >/dev/null 2>&1; then
+          
+            echo "Destination repository already exists."
+          
+          else
+          
+            echo "Creating destination repository..."
+          
+            gh repo create \
+              "${{ inputs.destinationRepoOwner }}/${{ inputs.destinationRepository }}" \
+            --private          
+          fi
+          
+          git init
+          
+          git config user.name "Harbormaster"
+          git config user.email "dev@harbormaster.net"
+          
+          git branch -M main
+          
+          git add .
+          
+          git commit -m "Initial generated system commit"
+          
+          git remote add origin \
+            "https://github.com/${{ inputs.destinationRepoOwner }}/${{ inputs.destinationRepository }}.git"
+          
+          echo "Destination: https://github.com/${{ inputs.destinationRepoOwner }}/${{ inputs.destinationRepository }}.git"
+          echo "Token present: ${GITHUB_TOKEN:+yes}"
+          
+          AUTH=$(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w 0)
+          
+          git -c http.extraheader="Authorization: Basic $AUTH" \
+            push --force origin main
+          
+          post_pass \
+              "PUBLISH" \
+              "COMMIT_CODE" \
+              60 \
+              "Successfully commit formatted source code" \
+              "COMMIT: Successfully commit formatted source code to ${{ inputs.destinationRepository }} for ${{ inputs.destinationRepoOwner }}"  
+
+      ###############################################################################
+      # Cleanup
+      ###############################################################################
+
+      - name: Cleanup
+
+        if: always()
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          ###########################################################################
+          # delete the artifact
+          ###########################################################################
+          rm -f formatted-source.tar.gz
+          
+          ###########################################################################
+          # delete the formatted source code
+          ###########################################################################
+          rm -rf generated-system
+
+          post_pass \
+              "PUBLISH" \
+              "CLEANUP" \
+              10 \
+              "Container stopped and removed locally." \
+              "CLEANUP: Docker resources cleaned up."
+
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+        shell: bash
+
+        run: |
+          source .github/actions/common/report.sh
+          
+          post_terminate_publish false

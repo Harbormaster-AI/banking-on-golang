@@ -1,0 +1,880 @@
+name: Angular 22 Build Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post certification progress
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: true
+        default: "updateSystemVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        description: Certification Identifier
+        required: true
+        type: string
+
+      appName:
+        description: Application Name
+        required: true
+        type: string
+
+      languageVersion:
+        description: Node.js version
+        required: false
+        default: "22.22.3"
+        type: string
+
+      languageName:
+        description: Core language of the system
+        required: false
+        default: "TypeScript"
+        type: string
+
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+
+  build-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###############################################################################
+      # Checkout Source
+      ###############################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+
+
+      ###############################################################################
+      # Load Reporting Library
+      ###############################################################################
+
+      - name: Make report.sh executable
+        run: chmod +x .github/actions/common/report.sh
+
+
+      ###############################################################################
+      # Verify Checkout
+      ###############################################################################
+
+      - name: Verify Checkout
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -d ".git" ]; then
+
+              post_pass \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checked out successfully."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "CHECKOUT_SOURCE" \
+                  0 \
+                  "Repository checkout failed."
+
+              post_terminate_build
+
+          fi
+
+
+      ###############################################################################
+      # Determine Node.js Version
+      ###############################################################################
+
+      - name: Determine Node.js Version
+
+        shell: bash
+
+        run: |
+
+          NODE_VERSION="${{ inputs.languageVersion }}"
+
+          if [ -z "$NODE_VERSION" ]; then
+              NODE_VERSION="22.22.3"
+          fi
+
+          echo "NODE_VERSION=${NODE_VERSION}" >> "$GITHUB_ENV"
+
+          echo "Using Node.js ${NODE_VERSION}"
+
+
+      ###############################################################################
+      # Setup Node.js
+      ###############################################################################
+
+      - name: Setup Node.js
+
+        uses: actions/setup-node@v4
+
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+
+      ###############################################################################
+      # Verify Node.js and npm
+      ###############################################################################
+
+      - name: Verify Node.js Version
+
+        shell: bash
+
+        run: |
+
+          node --version
+          npm --version
+
+
+      ###############################################################################
+      # Expected Files
+      ###############################################################################
+
+      - name: Expected Files
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+          ###########################################################################
+          # package.json
+          ###########################################################################
+
+          if [ -f "package.json" ]; then
+
+              SCORE=$((SCORE + 3))
+
+              post_pass \
+                  "BUILD" \
+                  "PACKAGE_JSON" \
+                  3 \
+                  "package.json located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "PACKAGE_JSON" \
+                  0 \
+                  "package.json not found."
+
+          fi
+
+
+          ###########################################################################
+          # angular.json
+          ###########################################################################
+
+          if [ -f "angular.json" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "ANGULAR_JSON" \
+                  2 \
+                  "angular.json located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "ANGULAR_JSON" \
+                  0 \
+                  "angular.json not found."
+
+          fi
+
+
+          ###########################################################################
+          # tsconfig.json
+          ###########################################################################
+
+          if [ -f "tsconfig.json" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "TSCONFIG" \
+                  1 \
+                  "tsconfig.json located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "TSCONFIG" \
+                  0 \
+                  "tsconfig.json not found."
+
+          fi
+
+
+          ###########################################################################
+          # main.ts
+          ###########################################################################
+
+          if [ -f "src/main.ts" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "MAIN_TS" \
+                  1 \
+                  "Angular bootstrap source located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "MAIN_TS" \
+                  0 \
+                  "src/main.ts not found."
+
+          fi
+
+
+          ###########################################################################
+          # index.html
+          ###########################################################################
+
+          if [ -f "src/index.html" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "INDEX_HTML" \
+                  1 \
+                  "Angular index.html located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "INDEX_HTML" \
+                  0 \
+                  "src/index.html not found."
+
+          fi
+
+
+          ###########################################################################
+          # app.config.ts / app.routes.ts
+          ###########################################################################
+
+          if [[ -f "src/app/app.config.ts" && -f "src/app/app.routes.ts" ]]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "APPLICATION_CONFIGURATION" \
+                  2 \
+                  "Angular application configuration located."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "APPLICATION_CONFIGURATION" \
+                  0 \
+                  "app.config.ts or app.routes.ts not found."
+
+          fi
+
+
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          post_result \
+              "BUILD" \
+              "EXPECTED_FILES" \
+              "PASSED" \
+              0 \
+              "Expected files validation complete (${SCORE}/10)."
+
+
+      ###############################################################################
+      # Directory Structure
+      ###############################################################################
+
+      - name: Directory Structure
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+
+          ###########################################################################
+          # src
+          ###########################################################################
+
+          if [ -d "src" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "SRC_DIRECTORY" \
+                  2 \
+                  "src directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "SRC_DIRECTORY" \
+                  0 \
+                  "Missing mandatory src directory."
+
+          fi
+
+
+          ###########################################################################
+          # src/app
+          ###########################################################################
+
+          if [ -d "src/app" ]; then
+
+              SCORE=$((SCORE + 3))
+
+              post_pass \
+                  "BUILD" \
+                  "APP_DIRECTORY" \
+                  3 \
+                  "src/app directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "APP_DIRECTORY" \
+                  0 \
+                  "Missing mandatory src/app directory."
+
+          fi
+
+
+          ###########################################################################
+          # Components
+          ###########################################################################
+
+          if [ -d "src/app/components" ]; then
+
+              SCORE=$((SCORE + 2))
+
+              post_pass \
+                  "BUILD" \
+                  "COMPONENTS_DIRECTORY" \
+                  2 \
+                  "Angular components directory exists."
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "COMPONENTS_DIRECTORY" \
+                  0 \
+                  "Missing components directory."
+
+          fi
+
+
+          ###########################################################################
+          # Models
+          ###########################################################################
+
+          if [ -d "src/app/models" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "MODELS_DIRECTORY" \
+                  1 \
+                  "Angular models directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "MODELS_DIRECTORY" \
+                  0 \
+                  "Models directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # Services
+          ###########################################################################
+
+          if [ -d "src/app/services" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "SERVICES_DIRECTORY" \
+                  1 \
+                  "Angular services directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "SERVICES_DIRECTORY" \
+                  0 \
+                  "Services directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # Environments
+          ###########################################################################
+
+          if [ -d "src/environments" ]; then
+
+              SCORE=$((SCORE + 1))
+
+              post_pass \
+                  "BUILD" \
+                  "ENVIRONMENTS_DIRECTORY" \
+                  1 \
+                  "Angular environments directory exists."
+
+          else
+
+              post_warning \
+                  "BUILD" \
+                  "ENVIRONMENTS_DIRECTORY" \
+                  0 \
+                  "Environments directory not found."
+
+          fi
+
+
+          ###########################################################################
+          # Summary
+          ###########################################################################
+
+          if [ "$SCORE" -ge 7 ]; then
+              STATUS="PASSED"
+          else
+              STATUS="FAILED"
+          fi
+
+          post_result \
+              "BUILD" \
+              "DIRECTORY_STRUCTURE" \
+              "${STATUS}" \
+              0 \
+              "Directory structure validation complete (${SCORE}/10)."
+
+      ###############################################################################
+      # Dependency Validation
+      ###############################################################################
+
+      - name: Dependency Validation
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+
+          ###########################################################################
+          # package-lock.json
+          ###########################################################################
+
+          if [ ! -f "package-lock.json" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "PACKAGE_LOCK" \
+                  0 \
+                  "package-lock.json not found."
+
+              post_terminate_build
+
+          fi
+
+
+          ###########################################################################
+          # Install dependencies exactly as locked
+          ###########################################################################
+
+          if npm ci > dependency-validation.log 2>&1; then
+
+              post_pass \
+                  "BUILD" \
+                  "NPM_DEPENDENCY_INSTALL" \
+                  10 \
+                  "npm dependency installation completed successfully."
+
+          else
+
+              MESSAGE=$(tail -20 dependency-validation.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "NPM_DEPENDENCY_INSTALL" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Angular Configuration Validation
+      ###############################################################################
+
+      - name: Angular Configuration Validation
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          SCORE=0
+
+
+          ###########################################################################
+          # Validate angular.json
+          ###########################################################################
+
+          if npx ng config > angular-config.log 2>&1; then
+
+              SCORE=$((SCORE + 5))
+
+              post_pass \
+                  "BUILD" \
+                  "ANGULAR_CONFIGURATION" \
+                  5 \
+                  "Angular configuration is valid."
+
+          else
+
+              MESSAGE=$(tail -20 angular-config.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "ANGULAR_CONFIGURATION" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+
+          ###########################################################################
+          # Verify Angular CLI
+          ###########################################################################
+
+          if npx ng version > angular-version.log 2>&1; then
+
+              SCORE=$((SCORE + 5))
+
+              post_pass \
+                  "BUILD" \
+                  "ANGULAR_CLI" \
+                  5 \
+                  "Angular CLI is available."
+
+          else
+
+              MESSAGE=$(tail -20 angular-version.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "ANGULAR_CLI" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+      ###############################################################################
+      # Execute Angular Production Build
+      ###############################################################################
+
+      - name: Execute Build
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+
+          ###########################################################################
+          # Angular Production Build
+          ###########################################################################
+
+          if npm run build > build.log 2>&1; then
+
+              cat build.log
+              
+              post_pass \
+                  "BUILD" \
+                  "ANGULAR_BUILD" \
+                  40 \
+                  "Angular production build completed successfully."
+
+          else
+
+              cat build.log
+  
+              MESSAGE=$(tail -30 build.log | tr '\n' ' ')
+
+              post_fail \
+                  "BUILD" \
+                  "ANGULAR_BUILD" \
+                  0 \
+                  "${MESSAGE}"
+
+              post_terminate_build
+
+          fi
+
+
+      ###############################################################################
+      # Determine Build Output
+      ###############################################################################
+
+      - name: Determine Build Output
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          BUILD_DIRECTORY="dist"
+
+          if [ -d "dist/${APP_NAME}/browser" ]; then
+              BUILD_DIRECTORY="dist/${APP_NAME}/browser"
+
+          elif [ -d "dist/${APP_NAME}" ]; then
+              BUILD_DIRECTORY="dist/${APP_NAME}"
+
+          elif [ -d "dist/browser" ]; then
+              BUILD_DIRECTORY="dist/browser"
+
+          elif [ -d "dist" ]; then
+              BUILD_DIRECTORY="dist"
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "BUILD_OUTPUT" \
+                  0 \
+                  "Unable to locate Angular build output."
+
+              post_terminate_build
+
+          fi
+
+          echo "BUILD_DIRECTORY=${BUILD_DIRECTORY}" >> "$GITHUB_ENV"
+
+          echo "Angular build directory: ${BUILD_DIRECTORY}"
+
+
+      ###############################################################################
+      # Validate Build Artifact
+      ###############################################################################
+
+      - name: Validate Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+
+          ###########################################################################
+          # Output Directory
+          ###########################################################################
+
+          if [ -d "${BUILD_DIRECTORY}" ]; then
+
+              echo "Contents of ${BUILD_DIRECTORY}:"
+              find "${BUILD_DIRECTORY}" -maxdepth 2 -type f | head -50
+
+          else
+
+              post_fail \
+                  "BUILD" \
+                  "BUILD_ARTIFACT" \
+                  0 \
+                  "Angular build directory does not exist."
+
+              post_terminate_build
+
+          fi
+
+
+          ###########################################################################
+          # index.html
+          ###########################################################################
+
+          INDEX_FILE=$(find "${BUILD_DIRECTORY}" \
+              -maxdepth 2 \
+              -type f \
+              -name "index.html" \
+              | head -1)
+
+          if [ -z "$INDEX_FILE" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "BUILD_ARTIFACT" \
+                  0 \
+                  "No index.html found in Angular build output."
+
+              post_terminate_build
+
+          fi
+
+
+          ###########################################################################
+          # JavaScript
+          ###########################################################################
+
+          JS_FILE=$(find "${BUILD_DIRECTORY}" \
+              -type f \
+              -name "*.js" \
+              | head -1)
+
+          if [ -z "$JS_FILE" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "BUILD_ARTIFACT" \
+                  0 \
+                  "No JavaScript bundle found in Angular build output."
+
+              post_terminate_build
+
+          fi
+
+
+          ###########################################################################
+          # Non-empty output
+          ###########################################################################
+
+          if [ -z "$(find "${BUILD_DIRECTORY}" -type f -size +0c -print -quit)" ]; then
+
+              post_fail \
+                  "BUILD" \
+                  "BUILD_ARTIFACT" \
+                  0 \
+                  "Angular build output is empty."
+
+              post_terminate_build
+
+          fi
+
+
+          ###########################################################################
+          # Gather Information
+          ###########################################################################
+
+          FILE_COUNT=$(find "${BUILD_DIRECTORY}" -type f | wc -l)
+          TOTAL_SIZE=$(du -sh "${BUILD_DIRECTORY}" | cut -f1)
+
+          post_pass \
+              "BUILD" \
+              "BUILD_ARTIFACT" \
+              20 \
+              "Angular build artifact successfully validated." \
+              "BUILD_ARTIFACT: ${FILE_COUNT} files (${TOTAL_SIZE})."
+
+
+      ###############################################################################
+      # Upload Angular Build Artifact
+      ###############################################################################
+
+      - name: Upload Build Artifact
+
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: packaged-application
+          path: ${{ env.BUILD_DIRECTORY }}
+          retention-days: 1
+
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_build false

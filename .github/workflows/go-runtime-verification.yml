@@ -1,0 +1,473 @@
+name: Go Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+      languageName:
+        description: The core language  of the system
+        required: false
+        default: ""
+        type: string
+
+      languageVersion:
+        description: The core language version of the system
+        required: true
+        type: string
+
+env:
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    services:
+
+      mysql:
+
+        image: mysql:8.4
+
+        env:
+
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: harbormaster
+
+        ports:
+
+          - 3307:3306
+
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+
+      ###########################################################################
+      #   Checkout source
+      ###########################################################################
+
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+      ###########################################################################
+      # Always use report.sh from the verification workflow commit (not app branch)
+      ###########################################################################
+
+      - name: Overlay verification report.sh
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          path: .hm-verification-overlay
+          sparse-checkout: |
+            .github/actions/common
+          sparse-checkout-cone-mode: false
+
+      - name: Install verification report.sh
+        shell: bash
+        run: |
+          mkdir -p .github/actions/common
+          cp -f .hm-verification-overlay/.github/actions/common/report.sh .github/actions/common/report.sh
+          chmod +x .github/actions/common/report.sh
+
+      ###########################################################################
+      #   Download pre-built artifact
+      ###########################################################################
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: packaged-application
+          path: bin
+
+      - name: Show Build Artifacts
+
+        shell: bash
+
+        run: |
+          
+          echo "Contents of bin/:"
+          ls -la bin
+
+      ###########################################################################
+      #   Announce start of runtime verification
+      ###########################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+          
+          post_pass \
+                        "RUNTIME" \
+                        "STARTING_RUNTIME" \
+                        0 \
+                        "Runtime verification starting..." \
+                        "" 
+
+      ###########################################################################
+      #   Locate the executable.
+      ###########################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          PACKAGE="bin/${APP_NAME}"
+          
+          if [ ! -f "$PACKAGE" ]; then
+          
+              post_fail \
+                  "RUNTIME" \
+                  "VERIFY_ARTIFACT" \
+                  0 \
+                  "No application artifact found." \
+                  "VERIFY_ARTIFACT: Unable to locate downloaded executable at ${PACKAGE}."
+          
+              post_terminate_runtime
+          
+          fi
+
+          echo "PACKAGE=${PACKAGE}" >> "$GITHUB_ENV"
+          
+          post_pass \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              10 \
+              "Artifact located." \
+              "VERIFY_ARTIFACT: $(basename "$PACKAGE")"    
+
+      ###########################################################################
+      #   Wait for MySQL service
+      ###########################################################################
+
+      - name: Install MySQL Client
+
+        if: runner.os == 'Linux'
+
+        run: |
+          
+          if ! command -v mysqladmin >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y default-mysql-client
+          fi
+
+      - name: Wait For MySQL
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          post_pass \
+              "RUNTIME" \
+              "WAITING_FOR_MYSQL" \
+              0 \
+              "Waiting for MySQL to start." \
+              ""
+
+          for i in {1..30}; do
+
+              if mysqladmin ping -h 127.0.0.1 -P 3307 -uroot -proot --silent 2>/dev/null; then
+
+                  # Informative setup step — do not add to score (max runtime score is 100)
+                  post_pass \
+                      "RUNTIME" \
+                      "MYSQL_READY" \
+                      0 \
+                      "MySQL is ready." \
+                      "MySQL service is accepting connections."
+
+                  exit 0
+
+              fi
+
+              sleep 2
+
+          done
+
+          post_fail \
+              "RUNTIME" \
+              "MYSQL_READY" \
+              0 \
+              "MySQL failed to start." \
+              "MySQL service did not respond to mysqladmin ping within 60 seconds."
+
+          post_terminate_runtime
+
+      ###########################################################################
+      #   Configure database connection for the application
+      #   (Workflow owns DB settings — same idea as Spring -D parameters.
+      #    Do not edit the project's .env file.)
+      ###########################################################################
+
+      - name: Configure Database Environment
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          {
+              echo "DB_USER_NAME=root"
+              echo "DB_PASSWORD=root"
+              echo "DB_NAME=harbormaster"
+              echo "DB_HOST=127.0.0.1"
+              echo "DB_PORT=3307"
+              echo "DB_TYPE=mysql"
+              echo "DB_ARGS=charset=utf8&parseTime=True&loc=Local"
+              echo "DB_DISABLE_FK_CONSTRAINTS=true"
+              echo "APP_PORT=8080"
+          } >> "$GITHUB_ENV"
+
+          # Generated Go apps call godotenv.Load() and fatal if .env is missing.
+          # Create a workflow-owned .env; existing process env still wins for overrides.
+          cat > .env <<'EOF'
+          APP_PORT=8080
+          DB_USER_NAME=root
+          DB_PASSWORD=root
+          DB_NAME=harbormaster
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_TYPE=mysql
+          DB_ARGS=charset=utf8&parseTime=True&loc=Local
+          DB_DISABLE_FK_CONSTRAINTS=true
+          EOF
+          # Remove leading spaces from heredoc lines
+          sed -i 's/^[[:space:]]*//' .env
+
+          # Informative setup step — do not add to score (max runtime score is 100)
+          post_pass \
+              "RUNTIME" \
+              "CONFIGURE_DATABASE" \
+              0 \
+              "Database environment configured." \
+              "Runtime workflow set DB connection via environment variables (not by editing project secrets)."
+
+      ###########################################################################
+      #   Launch Go application
+      ###########################################################################
+
+      - name: Start Application
+
+        shell: bash
+
+        env:
+          DB_PORT: 3307
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          PACKAGE="bin/${APP_NAME}"
+          
+          ###########################################################################
+          # declare as env var to use in later steps
+          ###########################################################################          
+          echo "PACKAGE=${PACKAGE}" >> "$GITHUB_ENV"
+          
+          echo "Starting $PACKAGE"
+
+          chmod +x "$PACKAGE"
+
+          ###########################################################################
+          # Pass DB settings to the process (godotenv does not override existing env)
+          ###########################################################################
+          export DB_USER_NAME="${DB_USER_NAME}"
+          export DB_PASSWORD="${DB_PASSWORD}"
+          export DB_NAME="${DB_NAME}"
+          export DB_HOST="${DB_HOST}"
+          export DB_PORT="${DB_PORT}"
+          export DB_TYPE="${DB_TYPE}"
+          export DB_ARGS="${DB_ARGS}"
+          export DB_DISABLE_FK_CONSTRAINTS="${DB_DISABLE_FK_CONSTRAINTS}"
+          export APP_PORT="${APP_PORT}"
+          
+          "$PACKAGE" > runtime.log 2>&1 &
+          APP_PID=$!
+          
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+          
+          sleep 5
+          
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+          
+              post_pass \
+                  "RUNTIME" \
+                  "START_APPLICATION" \
+                  30 \
+                  "Application started." \
+                  "START_APPLICATION: PID ${APP_PID}"
+          
+          else
+          
+              post_fail \
+                  "RUNTIME" \
+                  "START_APPLICATION" \
+                  0 \
+                  "Application failed to start." \
+                  "$(tail -20 runtime.log)"
+          
+              post_terminate_runtime
+          
+          fi
+
+      ###########################################################################
+      #   Wait until Go application starts
+      ###########################################################################
+
+      - name: Wait For Startup
+
+        shell: bash
+
+        run: |
+          
+          source .github/actions/common/report.sh
+
+          post_pass \
+              "RUNTIME" \
+              "WAITING_FOR_APP" \
+              0 \
+              "Waiting for system to start." \
+              ""
+          
+          for i in {1..60}; do
+          
+              if curl -fs http://localhost:8080/health >/dev/null; then
+          
+                  post_pass \
+                      "RUNTIME" \
+                      "APPLICATION_STARTED" \
+                      30 \
+                      "Application started successfully." \
+                      "Go application health endpoint is accepting requests."
+          
+                  exit 0
+          
+              fi
+          
+              sleep 2
+          
+          done
+          
+          MESSAGE=$(tail -20 runtime.log | tr '\n' ' ')
+          
+          post_fail \
+              "RUNTIME" \
+              "APPLICATION_STARTED" \
+              0 \
+              "Application failed to start." \
+              "${MESSAGE}"
+          
+          post_terminate_runtime "RUNTIME"
+
+
+      ###############################################################################
+      # Smoke Test
+      ###############################################################################
+
+      - name: Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          RESPONSE=$(curl \
+              --silent \
+              --write-out "%{http_code}" \
+              --output smoke.out \
+              http://localhost:8080/)
+
+          if [ "$RESPONSE" = "200" ]; then
+
+              post_pass \
+                  "RUNTIME" \
+                  "SMOKE_TEST" \
+                  30 \
+                  "Smoke test passed." \
+                  "$(cat smoke.out)"
+
+          else
+
+              DETAILS=$(cat smoke.out)
+
+              post_fail \
+                  "RUNTIME" \
+                  "SMOKE_TEST" \
+                  0 \
+                  "Smoke test failed." \
+                  "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+              post_terminate_runtime
+
+          fi
+
+      ###############################################################################
+      # Terminate Verification
+      ###############################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+          source .github/actions/common/report.sh
+          
+          post_terminate_runtime false
