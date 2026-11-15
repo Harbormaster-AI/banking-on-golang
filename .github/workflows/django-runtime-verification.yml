@@ -1,0 +1,517 @@
+name: Django Runtime Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+
+env:
+
+  RESULT_URL: ${{ inputs.resultUrl }}
+  ACTION_TO_CALL: ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER: ${{ inputs.certificationIdentifier }}
+  APP_NAME: ${{ inputs.appName }}
+
+
+jobs:
+
+  runtime-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout source
+      #
+      # We need the repository because the runtime verification uses the
+      # application's configuration and reporting infrastructure.
+      ###########################################################################
+
+      - name: Checkout Source
+
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+
+      ###########################################################################
+      # Download pre-built Django artifact
+      #
+      # IMPORTANT:
+      # Do NOT run npm install or npm run build here.
+      #
+      # The build verification workflow has already built and validated the
+      # application and uploaded APP_DIRECTORY as packaged-application.
+      ###########################################################################
+
+      - name: Download Build Artifact
+
+        uses: actions/download-artifact@v4
+
+        with:
+          name: packaged-application
+
+
+      ###########################################################################
+      # Show artifact
+      ###########################################################################
+
+      - name: Show Build Artifact
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          echo "Runtime artifact:"
+          find . -maxdepth 5 -type f | sort
+
+
+      ###########################################################################
+      # Announce runtime verification
+      ###########################################################################
+
+      - name: Runtime Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          post_pass \
+            "RUNTIME" \
+            "STARTING_RUNTIME" \
+            0 \
+            "Django runtime verification starting..." \
+            ""
+
+
+      ###########################################################################
+      # Locate Django application
+      ###########################################################################
+
+      - name: Verify Artifact
+
+        shell: bash
+
+        run: |
+          
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+          
+          echo "Verifying Django runtime artifact..."
+          
+          ###########################################################################
+          # Locate Django application entry point
+          ###########################################################################
+          
+          MANAGE_FILE=$(find . \
+            -type f \
+            -name "manage.py" \
+            | head -1)
+          
+          if [ -z "$MANAGE_FILE" ]; then
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "Django application artifact is invalid." \
+              "VERIFY_ARTIFACT: manage.py not found."
+          
+            post_terminate_runtime "RUNTIME"
+          fi
+          
+          APP_DIRECTORY=$(dirname "$MANAGE_FILE")
+          
+          echo "Django application directory:"
+          echo "$APP_DIRECTORY"
+          
+          echo "APP_DIRECTORY=${APP_DIRECTORY}" >> "$GITHUB_ENV"
+          
+          
+          ###########################################################################
+          # Verify requirements
+          ###########################################################################
+          
+          if [ ! -f "$APP_DIRECTORY/requirements.txt" ]; then
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "Django application artifact is incomplete." \
+              "VERIFY_ARTIFACT: requirements.txt not found."
+          
+            post_terminate_runtime "RUNTIME"
+          fi
+          
+          
+          ###########################################################################
+          # Verify packaged Python runtime
+          ###########################################################################
+          
+          if [ ! -x "$APP_DIRECTORY/.venv/bin/python" ]; then
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "Django application artifact is incomplete." \
+              "VERIFY_ARTIFACT: .venv/bin/python not found."
+          
+            post_terminate_runtime "RUNTIME"
+          fi
+          
+          
+          ###########################################################################
+          # Verify Python runtime
+          ###########################################################################
+          
+          if ! "$APP_DIRECTORY/.venv/bin/python" --version > /dev/null 2>&1; then
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "Packaged Python runtime is not executable." \
+              "VERIFY_ARTIFACT: .venv/bin/python could not execute."
+          
+            post_terminate_runtime "RUNTIME"
+          fi
+          
+          
+          ###########################################################################
+          # Verify Django can load the application
+          ###########################################################################
+          
+          cd "$APP_DIRECTORY"
+          
+          export PYTHONPATH="$(pwd)/..:${PYTHONPATH}"
+          
+          if "$APP_DIRECTORY/.venv/bin/python" manage.py check \
+              > artifact-check.log 2>&1; then
+          
+            post_pass \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              10 \
+              "Django application artifact verified." \
+              "VERIFY_ARTIFACT: manage.py, requirements.txt, packaged Python runtime, and Django application verified."
+          
+          else
+          
+            cat artifact-check.log
+          
+            MESSAGE=$(tail -30 artifact-check.log | tr '\n' ' ')
+          
+            post_fail \
+              "RUNTIME" \
+              "VERIFY_ARTIFACT" \
+              0 \
+              "Django application artifact failed verification." \
+              "VERIFY_ARTIFACT: ${MESSAGE}"
+          
+            post_terminate_runtime "RUNTIME"
+          fi
+          
+          if [ ! -x ".venv/bin/python" ]; then
+            post_fail \
+              "BUILD" \
+              "PACKAGE_ARTIFACT" \
+              0 \
+              "Django runtime artifact is not executable." \
+              "PACKAGE_ARTIFACT: .venv/bin/python is not executable."
+            post_terminate_build
+          fi
+
+
+      ###########################################################################
+      # Start static web server
+      #
+      # The Django build produces static files. There is no Django runtime
+      # process comparable to Spring Boot.
+      #
+      # Python's HTTP server is sufficient for runtime verification.
+      ###########################################################################
+
+      - name: Start Django Application
+        shell: bash
+        run: |
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+          
+          export PYTHONPATH="${GITHUB_WORKSPACE}:${PYTHONPATH}"
+          
+          chmod +x .venv/bin/python
+          
+          .venv/bin/python manage.py runserver 127.0.0.1:8000 \
+            > runtime.log 2>&1 &
+          
+          APP_PID=$!
+          
+          echo "APP_PID=${APP_PID}" >> "$GITHUB_ENV"
+          
+          sleep 3
+          
+          if ps -p "${APP_PID}" > /dev/null 2>&1; then
+          
+            post_pass \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              20 \
+              "Django application started." \
+              "START_APPLICATION: PID ${APP_PID}"
+          
+          else
+          
+            post_fail \
+              "RUNTIME" \
+              "START_APPLICATION" \
+              0 \
+              "Django application failed to start." \
+              "$(cat runtime.log)"
+          
+            post_terminate_runtime "RUNTIME"
+          
+          fi
+
+      ###########################################################################
+      # Wait for application
+      ###########################################################################
+
+      - name: Wait For Startup
+        shell: bash
+        run: |
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+          
+          post_pass \
+            "RUNTIME" \
+            "WAITING_FOR_APP" \
+            0 \
+            "Waiting for Django application to respond." \
+            ""
+          
+          RESPONSE="000"
+          
+          for i in {1..30}; do
+          
+            RESPONSE=$(curl \
+              --silent \
+              --show-error \
+              --write-out "%{http_code}" \
+              --output /dev/null \
+              http://127.0.0.1:8000/ \
+              2>/dev/null || true)
+          
+            if [[ "$RESPONSE" =~ ^[23][0-9][0-9]$ ]]; then
+          
+              post_pass \
+                "RUNTIME" \
+                "APPLICATION_STARTED" \
+                20 \
+                "Django application started successfully." \
+                "HTTP ${RESPONSE}"
+          
+              exit 0
+          
+            fi
+          
+            sleep 2
+          
+          done
+          
+          post_fail \
+            "RUNTIME" \
+            "APPLICATION_STARTED" \
+            0 \
+            "Django application failed to respond." \
+            "APPLICATION_STARTED: HTTP ${RESPONSE}"
+          
+          post_terminate_runtime "RUNTIME"
+
+      ###########################################################################
+      # Smoke Test
+      ###########################################################################
+
+      - name: Smoke Test
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          RESPONSE=$(curl \
+            --silent \
+            --write-out "%{http_code}" \
+            --output smoke.out \
+            http://127.0.0.1:8000/)
+
+          if [ "$RESPONSE" = "200" ]; then
+
+            post_pass \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              30 \
+              "Django smoke test passed." \
+              "$(cat smoke.out)"
+
+          else
+
+            DETAILS=$(cat smoke.out)
+
+            post_fail \
+              "RUNTIME" \
+              "SMOKE_TEST" \
+              0 \
+              "Django smoke test failed." \
+              "SMOKE_TEST: HTTP ${RESPONSE}. ${DETAILS}"
+
+            post_terminate_runtime "RUNTIME"
+
+          fi
+
+
+      ###########################################################################
+      # Verify Django application
+      ###########################################################################
+
+      - name: Verify Django Application
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          SCORE=0
+
+          if [ -f "${APP_DIRECTORY}/manage.py" ]; then
+            SCORE=$((SCORE + 3))
+            post_pass \
+              "RUNTIME" \
+              "MANAGE_PY" \
+              3 \
+              "manage.py found in Django application." \
+              ""
+          else
+            post_fail \
+              "RUNTIME" \
+              "MANAGE_PY" \
+              0 \
+              "manage.py not found in Django application." \
+              ""
+          fi
+
+          if [ -f "${APP_DIRECTORY}/mainsite/settings.py" ]; then
+            SCORE=$((SCORE + 3))
+            post_pass \
+              "RUNTIME" \
+              "DJANGO_SETTINGS" \
+              3 \
+              "Django settings.py found." \
+              ""
+          else
+            post_fail \
+              "RUNTIME" \
+              "DJANGO_SETTINGS" \
+              0 \
+              "Django settings.py not found." \
+              ""
+          fi
+
+          if [ -f "${APP_DIRECTORY}/mainsite/wsgi.py" ]; then
+            SCORE=$((SCORE + 2))
+            post_pass \
+              "RUNTIME" \
+              "DJANGO_WSGI" \
+              2 \
+              "Django WSGI configuration found." \
+              ""
+          else
+            post_fail \
+              "RUNTIME" \
+              "DJANGO_WSGI" \
+              0 \
+              "Django WSGI configuration not found." \
+              ""
+          fi
+
+          if [ -f "${APP_DIRECTORY}/requirements.txt" ]; then
+            SCORE=$((SCORE + 2))
+            post_pass \
+              "RUNTIME" \
+              "REQUIREMENTS_TXT" \
+              2 \
+              "requirements.txt found." \
+              ""
+          else
+            post_fail \
+              "RUNTIME" \
+              "REQUIREMENTS_TXT" \
+              0 \
+              "requirements.txt not found." \
+              ""
+          fi
+
+          post_result \
+            "RUNTIME" \
+            "DJANGO_APPLICATION" \
+            "PASSED" \
+            0 \
+            "Django application validation complete (${SCORE}/10)."
+
+
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+
+        shell: bash
+
+        run: |
+
+          source "${GITHUB_WORKSPACE}/.github/actions/common/report.sh"
+
+          if [ -n "${APP_PID:-}" ]; then
+            kill "${APP_PID}" 2>/dev/null || true
+          fi
+
+          post_terminate_runtime false

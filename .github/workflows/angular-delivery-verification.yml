@@ -1,0 +1,601 @@
+name: Angular Delivery Verification
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      runner:
+        description: GitHub runner label
+        required: false
+        default: self-hosted
+        type: string
+
+      resultUrl:
+        description: URL to post verification results
+        required: false
+        default: "http://localhost:3000"
+        type: string
+
+      actionToCall:
+        description: action to call when posting to URL
+        required: false
+        default: "updateVerificationProgress"
+        type: string
+
+      branch:
+        description: Branch to checkout
+        required: false
+        default: ""
+        type: string
+
+      gitHubToken:
+        description: Token to securely access APIs and other capabilities on behalf of the caller
+        required: true
+        default: ""
+        type: string
+
+      certificationIdentifier:
+        required: true
+        type: string
+
+      appName:
+        required: true
+        type: string
+
+      dockerHost:
+        description: Docker registry host
+        required: false
+        default: ""
+        type: string
+
+      dockerOrg:
+        description: Docker organization
+        required: false
+        default: ""
+        type: string
+
+      dockerRepository:
+        description: Docker repository
+        required: false
+        default: ""
+        type: string
+
+      dockerUsername:
+        description: Docker username
+        required: false
+        default: ""
+        type: string
+
+      dockerPassword:
+        description: Docker password
+        required: false
+        default: ""
+        type: string
+
+      dockerTag:
+        description: Docker image tag
+        required: false
+        default: latest
+        type: string
+
+      saveDockerImage:
+        description: Save Docker image as artifact
+        required: false
+        default: "FALSE"
+        type: string
+
+
+env:
+
+  RESULT_URL:                   ${{ inputs.resultUrl }}
+  ACTION_TO_CALL:               ${{ inputs.actionToCall }}
+  CERTIFICATION_IDENTIFIER:     ${{ inputs.certificationIdentifier }}
+  APP_NAME:                     ${{ inputs.appName }}
+
+  REGISTRY_HOST:                ${{ inputs.dockerHost }}
+  REGISTRY_ORG:                 ${{ inputs.dockerOrg }}
+  REGISTRY_REPOSITORY:          ${{ inputs.dockerRepository }}
+  REGISTRY_USERNAME:            ${{ inputs.dockerUsername }}
+  REGISTRY_PASSWORD:            ${{ inputs.dockerPassword }}
+  REGISTRY_TAG:                 ${{ inputs.dockerTag }}
+
+
+jobs:
+
+  delivery-verification:
+
+    runs-on: ${{ inputs.runner }}
+
+    steps:
+
+      ###########################################################################
+      # Checkout source
+      ###########################################################################
+
+      - name: Checkout Source
+
+        uses: actions/checkout@v4
+
+        with:
+          ref: ${{ inputs.branch }}
+
+
+      ###########################################################################
+      # Announce start of delivery verification
+      ###########################################################################
+
+      - name: Delivery Verification Starting
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "DELIVERY" \
+            "STARTING_DELIVERY" \
+            0 \
+            "Angular delivery verification starting..." \
+            ""
+
+
+      ###########################################################################
+      # Download Angular Build Artifact
+      #
+      # The Angular Build Verification workflow creates this artifact.
+      # Do NOT rebuild the Angular application here.
+      ###########################################################################
+
+      - name: Download Build Artifact
+
+        uses: actions/download-artifact@v4
+
+        with:
+          name: packaged-application
+
+
+      ###########################################################################
+      # Verify Dockerfile
+      ###########################################################################
+
+      - name: Verify Dockerfile
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ -f Dockerfile ]; then
+
+              post_pass \
+                "DELIVERY" \
+                "VERIFY_DOCKERFILE" \
+                5 \
+                "Dockerfile located." \
+                "VERIFY_DOCKERFILE: Dockerfile exists."
+
+          else
+
+              post_fail \
+                "DELIVERY" \
+                "VERIFY_DOCKERFILE" \
+                0 \
+                "Dockerfile not found." \
+                "VERIFY_DOCKERFILE: Unable to locate Dockerfile."
+
+              post_terminate_delivery
+
+          fi
+
+
+      ###########################################################################
+      # Set up Docker
+      ###########################################################################
+
+      - name: Setting up Docker
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "DELIVERY" \
+            "SETTING_UP_DOCKER" \
+            0 \
+            "Setting up Docker..." \
+            ""
+
+
+      - name: Set up Docker Buildx
+
+        uses: docker/setup-buildx-action@v3
+
+
+      ###########################################################################
+      # Docker Login
+      ###########################################################################
+
+      - name: Logging into Docker
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_pass \
+            "DELIVERY" \
+            "DOCKER_LOGIN" \
+            0 \
+            "Logging into Docker..." \
+            ""
+
+
+      - name: Log in to Docker Hub
+
+        id: docker_login
+
+        continue-on-error: true
+
+        uses: docker/login-action@v3
+
+        with:
+
+          username: ${{ inputs.dockerUsername }}
+          password: ${{ inputs.dockerPassword }}
+
+
+      ###########################################################################
+      # Report Docker Login
+      ###########################################################################
+
+      - name: Report Docker Login
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if [ "${{ steps.docker_login.outcome }}" = "success" ]; then
+
+              post_pass \
+                "DELIVERY" \
+                "DOCKER_LOGIN" \
+                10 \
+                "Successfully authenticated with Docker registry." \
+                ""
+
+          else
+
+              post_fail \
+                "DELIVERY" \
+                "DOCKER_LOGIN" \
+                0 \
+                "Unable to authenticate with Docker registry." \
+                "Verify the registry URL, username and password."
+
+              post_terminate_delivery
+
+          fi
+
+
+      ###########################################################################
+      # Build Angular Docker Image
+      ###########################################################################
+
+      - name: Build Docker Image
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          echo "Running Angular docker build..."
+
+          docker build \
+            --progress=plain \
+            -t "${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}" \
+            .
+
+          if [ $? -eq 0 ]; then
+
+              post_pass \
+                "DELIVERY" \
+                "DOCKER_BUILD" \
+                20 \
+                "Angular Docker image built successfully." \
+                "DOCKER_BUILD: ${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+          else
+
+              post_fail \
+                "DELIVERY" \
+                "DOCKER_BUILD" \
+                0 \
+                "Angular Docker build failed." \
+                "DOCKER_BUILD: Docker build failed."
+
+              post_terminate_delivery
+
+          fi
+
+
+      ###########################################################################
+      # Verify Docker Image
+      ###########################################################################
+
+      - name: Verify Docker Image
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          IMAGE=$(docker images -q \
+            "${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}")
+
+          if [ -n "$IMAGE" ]; then
+
+              post_pass \
+                "DELIVERY" \
+                "VERIFY_IMAGE" \
+                15 \
+                "Docker image verified." \
+                "VERIFY_IMAGE: ${IMAGE}"
+
+          else
+
+              post_fail \
+                "DELIVERY" \
+                "VERIFY_IMAGE" \
+                0 \
+                "Docker image missing." \
+                "VERIFY_IMAGE: Image not found."
+
+              post_terminate_delivery
+
+          fi
+
+
+      ###########################################################################
+      # Run Angular Container
+      #
+      # Angular is served by nginx on port 80 inside the container.
+      # Port 8080 is used on the GitHub runner.
+      ###########################################################################
+
+      - name: Run Docker Container
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          docker run -d \
+            --name ${APP_NAME} \
+            -p 8080:80 \
+            ${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}
+
+          if [ $? -eq 0 ]; then
+
+              post_pass \
+                "DELIVERY" \
+                "RUN_CONTAINER" \
+                20 \
+                "Angular container ${APP_NAME} started." \
+                "RUN_CONTAINER: ${APP_NAME}"
+
+          else
+
+              post_fail \
+                "DELIVERY" \
+                "RUN_CONTAINER" \
+                0 \
+                "Unable to start Angular container ${APP_NAME}." \
+                "RUN_CONTAINER: docker run failed."
+
+              post_terminate_delivery
+
+          fi
+
+
+      ###########################################################################
+      # Verify Angular Runtime
+      #
+      # Angular does not expose Spring Boot's /actuator/health endpoint.
+      # Verify that nginx is serving the Angular application at /.
+      ###########################################################################
+
+      - name: Verify Container Health
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          for i in {1..30}; do
+
+              if curl -fs http://localhost:8080/ >/dev/null; then
+
+                  post_pass \
+                    "DELIVERY" \
+                    "CONTAINER_HEALTH" \
+                    15 \
+                    "Angular container health check passed." \
+                    "CONTAINER_HEALTH: http://localhost:8080/ responded successfully."
+
+                  exit 0
+
+              fi
+
+              sleep 2
+
+          done
+
+          LOG=$(docker logs ${APP_NAME} 2>&1 | tail -20 | tr '\n' ' ')
+
+          post_fail \
+            "DELIVERY" \
+            "CONTAINER_HEALTH" \
+            0 \
+            "Angular container failed health check." \
+            "${LOG}"
+
+          post_terminate_delivery
+
+
+      ###########################################################################
+      # Push Angular Docker Image
+      ###########################################################################
+
+      - name: Push Image
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          if docker push \
+            ${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}; then
+
+              post_pass \
+                "DELIVERY" \
+                "PUBLISH_IMAGE" \
+                15 \
+                "Angular Docker image published successfully." \
+                "PUBLISH_IMAGE: ${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+          else
+
+              post_fail \
+                "DELIVERY" \
+                "PUBLISH_IMAGE" \
+                0 \
+                "Angular Docker image publication failed." \
+                "PUBLISH_IMAGE: Unable to push ${{ inputs.dockerRepository }}:${{ inputs.dockerTag }}"
+
+              post_terminate_delivery
+
+          fi
+
+
+      ###########################################################################
+      # Store Docker Image
+      ###########################################################################
+
+      - name: Store Docker Image
+
+        shell: bash
+
+        run: |
+
+          if [ "${{ inputs.saveDockerImage }}" = "TRUE" ]; then
+
+            docker save \
+              ${{ inputs.dockerOrg }}/${{ inputs.dockerRepository }}:${{ inputs.dockerTag }} \
+              -o ${APP_NAME}.tar
+
+          fi
+
+
+      - name: Upload Docker Image
+
+        if: ${{ inputs.saveDockerImage == 'TRUE' }}
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: docker-image
+
+          path: ${APP_NAME}.tar
+
+
+      ###########################################################################
+      # Cleanup
+      ###########################################################################
+
+      - name: Cleanup
+
+        if: always()
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          ###########################################################################
+          # Stop the Angular container
+          ###########################################################################
+
+          docker stop ${APP_NAME} >/dev/null 2>&1 || true
+
+          ###########################################################################
+          # Remove the Angular container
+          ###########################################################################
+
+          docker rm ${APP_NAME} >/dev/null 2>&1 || true
+
+          ###########################################################################
+          # Logout
+          ###########################################################################
+
+          docker logout ${{ inputs.dockerHost }} >/dev/null 2>&1 || true
+
+          post_pass \
+            "DELIVERY" \
+            "CLEANUP" \
+            0 \
+            "Angular container stopped and removed locally." \
+            "CLEANUP: Docker resources cleaned up."
+
+
+      ###########################################################################
+      # Delete Verification Branch
+      ###########################################################################
+
+      - name: Delete Verification Branch
+
+        if: always()
+
+        env:
+
+          GH_TOKEN: ${{ inputs.gitHubToken }}
+
+        run: |
+
+          curl -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ inputs.gitHubToken }}" \
+            https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ inputs.branch }}
+
+
+      ###########################################################################
+      # Terminate Verification
+      ###########################################################################
+
+      - name: Terminate Verification
+
+        if: always()
+
+        shell: bash
+
+        run: |
+
+          source .github/actions/common/report.sh
+
+          post_terminate_delivery false

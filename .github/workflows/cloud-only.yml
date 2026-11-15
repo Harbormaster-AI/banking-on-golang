@@ -1,0 +1,78 @@
+# =============================================================================
+# Cloud Only — manual runner for cloud-verification.yml (no build/runtime/delivery)
+# =============================================================================
+# Why this file exists on master:
+#   GitHub only lists workflow_dispatch workflows that exist on the default branch.
+#   Steven agreed we can keep this for future cloud/ROSA testing.
+#
+# What it does:
+#   Calls ./.github/workflows/cloud-verification.yml with an external app repo
+#   (e.g. Harbormaster-AI/banking-on-springboot) so terraform runs against that
+#   project's terraform/ and its published Docker image.
+#
+# How to run:
+#   Actions → "Cloud Only" → Run workflow
+#   Set repository / branch / appName / AWS region; AWS_* secrets must be set
+#   on Harbormaster-AI/system-verification.
+# =============================================================================
+name: Cloud Only
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: App repo owner/name (must contain terraform/)
+        required: true
+        default: Harbormaster-AI/banking-on-springboot
+        type: string
+      branch:
+        description: App branch
+        required: true
+        default: master
+        type: string
+      appName:
+        required: true
+        default: bankingOnSpringboot
+        type: string
+      gitHubToken:
+        description: Optional PAT (checkout of public repos uses GITHUB_TOKEN in cloud-verification)
+        required: true
+        type: string
+      certificationIdentifier:
+        required: true
+        default: test-banking-cloud-only
+        type: string
+      runner:
+        required: false
+        default: ubuntu-latest
+        type: string
+      awsRegion:
+        required: false
+        default: us-east-2
+        type: string
+      resultUrl:
+        required: false
+        default: http://localhost:3000
+        type: string
+      actionToCall:
+        required: false
+        default: updateSystemVerificationProgress
+        type: string
+
+jobs:
+  cloud:
+    uses: ./.github/workflows/cloud-verification.yml
+    secrets: inherit
+    with:
+      runner: ${{ inputs.runner }}
+      repository: ${{ inputs.repository }}
+      branch: ${{ inputs.branch }}
+      gitHubToken: ${{ inputs.gitHubToken }}
+      appName: ${{ inputs.appName }}
+      certificationIdentifier: ${{ inputs.certificationIdentifier }}
+      resultUrl: ${{ inputs.resultUrl }}
+      actionToCall: ${{ inputs.actionToCall }}
+      dockerOrg: theharbormaster
+      dockerRepository: banking-on-springboot
+      dockerTag: latest
+      awsRegion: ${{ inputs.awsRegion }}
